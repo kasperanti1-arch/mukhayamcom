@@ -1,10 +1,762 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخيم نت | الفلسطيني باللاذقية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-# Read the current file
-with open('/mnt/agents/output/makkom_net_spa.html', 'r', encoding='utf-8') as f:
-    content = f.read()
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
 
-# Find the footer section and add stats before it
-stats_section = '''
+        /* ===== HEADER ===== */
+        .header {
+            width: 100%;
+            height: 300px;
+            background: url('https://iili.io/CF1ieCF.jpg') center/cover no-repeat;
+            position: relative;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                height: 200px;
+            }
+        }
+
+        /* ===== MENU BAR ===== */
+        .menu-bar {
+            background: #006400;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .site-name {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* ===== SIDE MENU ===== */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100vh;
+            background: #1a1a1a;
+            z-index: 2000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            padding-top: 60px;
+        }
+
+        .side-menu.open {
+            right: 0;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #ce1126;
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .side-menu-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .side-menu-nav li {
+            border-bottom: 1px solid #333;
+        }
+
+        .side-menu-nav li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .side-menu-nav li a:hover,
+        .side-menu-nav li a.active {
+            background: #006400;
+            border-right: 4px solid #ce1126;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            transition: transform 0.3s ease;
+            min-height: calc(100vh - 200px);
+        }
+
+        .main-content.shift {
+            transform: translateX(-280px);
+        }
+
+        /* ===== PAGES (SECTIONS) ===== */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PAGE TITLE ===== */
+        .page-title {
+            background: linear-gradient(135deg, #006400, #004d00);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .page-title-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* ===== CONTENT STYLES ===== */
+        .content-section {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            min-height: 400px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            color: #006400;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #ce1126;
+            padding-bottom: 15px;
+        }
+
+        .info-text {
+            color: #444;
+            font-size: 16px;
+            line-height: 2;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .map-image {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            background: linear-gradient(135deg, #006400, #004d00);
+            margin: 20px auto;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+        }
+
+        .schools-list {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .schools-list h3 {
+            color: #006400;
+            margin-bottom: 15px;
+        }
+
+        .schools-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .schools-list ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+
+        .schools-list ul li:before {
+            content: "›";
+            color: #ce1126;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        /* ===== NAV BUTTONS ===== */
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 30px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #006400, #004d00);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,100,0,0.3);
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,100,0,0.4);
+            background: linear-gradient(135deg, #ce1126, #8b0000);
+        }
+
+        .nav-btn-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* ===== NEWS CARDS ===== */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            height: 150px;
+            background: linear-gradient(135deg, #006400, #004d00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 50px;
+        }
+
+        .news-content {
+            padding: 15px;
+        }
+
+        .news-date {
+            color: #ce1126;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .news-content h4 {
+            color: #006400;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .news-content p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .read-more {
+            display: inline-block;
+            color: #ce1126;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-creator {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #c9a227;
+        }
+
+        .footer-rights {
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .page-title {
+                font-size: 22px;
+                padding: 30px 15px;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header"></div>
+
+    <!-- MENU BAR -->
+    <div class="menu-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <div class="site-name">مخيم نت</div>
+    </div>
+
+    <!-- SIDE MENU -->
+    <div class="side-menu" id="sideMenu">
+        <button class="close-menu" onclick="toggleMenu()">×</button>
+        <ul class="side-menu-nav">
+            <li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
+            <li><a onclick="showPage('news')" id="nav-news">أخبار المخيم</a></li>
+            <li><a onclick="showPage('events')" id="nav-events">فعاليات المخيم</a></li>
+            <li><a onclick="showPage('local')" id="nav-local">أخبار محلية ودولية</a></li>
+            <li><a onclick="showPage('tech')" id="nav-tech">التكنولوجيا</a></li>
+            <li><a onclick="showPage('info')" id="nav-info">معلومات عامة</a></li>
+            <li><a onclick="showPage('kitchen')" id="nav-kitchen">المطبخ الفلسطيني</a></li>
+        </ul>
+    </div>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent">
+
+        <!-- ===== PAGE: HOME (الرئيسية) ===== -->
+        <div class="page active" id="page-home">
+            <div class="page-title">
+                <span class="page-title-icon">🏕️</span>
+                مخيم نت
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">معلومات عن مخيم العائدين باللاذقية</h2>
+
+                <div class="info-text">
+                    مخيم اللاذقية أحد مخيمات اللاجئين الفلسطينيين وهو مخيم غير رسمي يقع ضمن حدود مدينة اللاذقية، سوريا على ساحل البحر الأبيض المتوسط. يُسمى أيضًا مخيم الرمل أو مخيم القدس، وقد تم تأسيس المخيم بين عامي 1955-1956 فوق مساحة من الأرض تبلغ 0,22 كيلومتر مربع.
+                </div>
+
+                <div class="map-image">🗺️</div>
+
+                <div class="info-text">
+                    <h3 style="color:#006400; margin-bottom:15px;">التعليم بالمخيم</h3>
+                    يتوفر المخيم على عدد من المدارس التي تتبع وزارة التربية السورية ووكالة الأونروا، مما يساهم في توفير التعليم للسكان.
+                </div>
+
+                <div class="schools-list">
+                    <h3>أهم المؤسسات التعليمية</h3>
+                    <ul>
+                        <li>مدرسة الشهيد يوسف نداف (ثانوية)</li>
+                        <li>مدرسة الرمل الجنوبي المحدثة</li>
+                        <li>مدرسة جبع (الأونروا)</li>
+                        <li>مدرسة عتليت (الأونروا)</li>
+                        <li>مدرسة الخيرية</li>
+                        <li>مدرسة مجد الكروم</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- NAV BUTTONS -->
+            <div class="nav-buttons">
+                <div class="nav-btn" onclick="showPage('news')">
+                    <span class="nav-btn-icon">📰</span>
+                    أخبار المخيم
+                </div>
+                <div class="nav-btn" onclick="showPage('events')">
+                    <span class="nav-btn-icon">🎉</span>
+                    فعاليات المخيم
+                </div>
+                <div class="nav-btn" onclick="showPage('local')">
+                    <span class="nav-btn-icon">🌍</span>
+                    أخبار محلية ودولية
+                </div>
+                <div class="nav-btn" onclick="showPage('tech')">
+                    <span class="nav-btn-icon">💻</span>
+                    التكنولوجيا
+                </div>
+                <div class="nav-btn" onclick="showPage('info')">
+                    <span class="nav-btn-icon">📚</span>
+                    معلومات عامة
+                </div>
+                <div class="nav-btn" onclick="showPage('kitchen')">
+                    <span class="nav-btn-icon">🍽️</span>
+                    المطبخ الفلسطيني
+                </div>
+            </div>
+
+            <!-- NEWS THUMBNAILS -->
+            <div class="news-grid" style="padding: 40px 20px; background: #f0f0f0;">
+                <div class="news-card">
+                    <div class="news-image">📰</div>
+                    <div class="news-content">
+                        <div class="news-date">5 يونيو 2026</div>
+                        <h4>أخبار محلية</h4>
+                        <p>آخر الأخبار من المخيم والمنطقة...</p>
+                        <a href="#" class="read-more" onclick="showPage('local')">المزيد ←</a>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #ce1126, #8b0000);">🏕️</div>
+                    <div class="news-content">
+                        <div class="news-date">3 يونيو 2026</div>
+                        <h4>أخبار المخيم</h4>
+                        <p>مستجدات مخيم العائدين...</p>
+                        <a href="#" class="read-more" onclick="showPage('news')">المزيد ←</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: NEWS (أخبار المخيم) ===== -->
+        <div class="page" id="page-news">
+            <div class="page-title">
+                <span class="page-title-icon">📰</span>
+                أخبار المخيم
+            </div>
+
+            <div class="content-section">
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image">📰</div>
+                        <div class="news-content">
+                            <div class="news-date">5 يونيو 2026</div>
+                            <h4>افتتاح مركز صحي جديد</h4>
+                            <p>تم افتتاح مركز صحي مجاني في مخيم العائدين...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #ce1126, #8b0000);">🎓</div>
+                        <div class="news-content">
+                            <div class="news-date">3 يونيو 2026</div>
+                            <h4>تخرج دفعة جديدة</h4>
+                            <p>احتفل طلاب مدرسة الشهيد يوسف نداف بتخرجهم...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #c9a227, #8b6914);">🍞</div>
+                        <div class="news-content">
+                            <div class="news-date">1 يونيو 2026</div>
+                            <h4>حملة تبرعات غذائية</h4>
+                            <p>انطلقت حملة لجمع التبرعات الغذائية للأسر المحتاجة...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: EVENTS (فعاليات المخيم) ===== -->
+        <div class="page" id="page-events">
+            <div class="page-title">
+                <span class="page-title-icon">🎉</span>
+                فعاليات المخيم
+            </div>
+
+            <div class="content-section">
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);">🎊</div>
+                        <div class="news-content">
+                            <div class="news-date">15 يونيو 2026</div>
+                            <h4>يوم الأطفال الفلسطيني</h4>
+                            <p>فعالية ترفيهية للأطفال تشمل مسابقات وعروض...</p>
+                            <a href="#" class="read-more">التفاصيل ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #4ecdc4, #44a3aa);">⚽</div>
+                        <div class="news-content">
+                            <div class="news-date">20 يونيو 2026</div>
+                            <h4>بطولة كرة القدم</h4>
+                            <p>بطولة رياضية تجمع فرق الشباب من أحياء المخيم...</p>
+                            <a href="#" class="read-more">التفاصيل ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);">🎨</div>
+                        <div class="news-content">
+                            <div class="news-date">25 يونيو 2026</div>
+                            <h4>معرض الفنون التشكيلية</h4>
+                            <p>معرض يضم أعمال فنية لأطفال المخيم...</p>
+                            <a href="#" class="read-more">التفاصيل ←</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: LOCAL (أخبار محلية ودولية) ===== -->
+        <div class="page" id="page-local">
+            <div class="page-title">
+                <span class="page-title-icon">🌍</span>
+                أخبار محلية ودولية
+            </div>
+
+            <div class="content-section">
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #006400, #004d00);">🏛️</div>
+                        <div class="news-content">
+                            <div class="news-date">2 يونيو 2026</div>
+                            <h4>مؤتمر دولي للاجئين</h4>
+                            <p>عقد مؤتمر في الأمم المتحدة لبحث قضية اللاجئين...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #ce1126, #8b0000);">🕊️</div>
+                        <div class="news-content">
+                            <div class="news-date">30 مايو 2026</div>
+                            <h4>وقف إطلاق نار</h4>
+                            <p>إعلان وقف إطلاق نار في مناطق متفرقة...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #0984e3, #0769c0);">🚑</div>
+                        <div class="news-content">
+                            <div class="news-date">28 مايو 2026</div>
+                            <h4>قافلة إغاثية تصل</h4>
+                            <p>وصلت قافلة إغاثية تضم أدوية ومواد غذائية...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: TECH (التكنولوجيا) ===== -->
+        <div class="page" id="page-tech">
+            <div class="page-title">
+                <span class="page-title-icon">💻</span>
+                التكنولوجيا
+            </div>
+
+            <div class="content-section">
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #00b894, #00a383);">📱</div>
+                        <div class="news-content">
+                            <div class="news-date">1 يونيو 2026</div>
+                            <h4>تطبيق جديد للمخيم</h4>
+                            <p>إطلاق تطبيق جوال يسهل التواصل بين أهالي المخيم...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #e17055, #d35400);">💡</div>
+                        <div class="news-content">
+                            <div class="news-date">29 مايو 2026</div>
+                            <h4>مشروع الطاقة الشمسية</h4>
+                            <p>تنفيذ مشروع لتوفير الكهرباء بالطاقة الشمسية...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #fdcb6e, #f39c12);">🌐</div>
+                        <div class="news-content">
+                            <div class="news-date">25 مايو 2026</div>
+                            <h4>شبكة إنترنت مجانية</h4>
+                            <p>توفير نقاط واي فاي مجانية في مراكز المخيم...</p>
+                            <a href="#" class="read-more">اقرأ المزيد ←</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: INFO (معلومات عامة) ===== -->
+        <div class="page" id="page-info">
+            <div class="page-title">
+                <span class="page-title-icon">📚</span>
+                معلومات عامة
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">معلومات طبية</h2>
+
+                <div class="info-text">
+                    <h3 style="color:#006400; margin-bottom:15px;">نصائح صحية للأطفال</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ التطعيم ضد الأمراض المعدية</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ غسل اليدين باستمرار</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ تناول الخضروات والفواكه</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ النوم الكافي (8-10 ساعات)</li>
+                        <li style="padding: 8px 0;">✅ ممارسة الرياضة يومياً</li>
+                    </ul>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 40px;">نصائح غذائية</h2>
+
+                <div class="info-text">
+                    <h3 style="color:#006400; margin-bottom:15px;">التغذية السليمة</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">🥗 تناول وجبات متوازنة</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">💧 شرب 8 أكواب ماء يومياً</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">🍞 تقليل الخبز الأبيض</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">🥜 تناول المكسرات والبقوليات</li>
+                        <li style="padding: 8px 0;">🐟 تناول السمك مرتين أسبوعياً</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: KITCHEN (المطبخ الفلسطيني) ===== -->
+        <div class="page" id="page-kitchen">
+            <div class="page-title">
+                <span class="page-title-icon">🍽️</span>
+                المطبخ الفلسطيني
+            </div>
+
+            <div class="content-section">
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #e17055, #d35400);">🥘</div>
+                        <div class="news-content">
+                            <h4>المسخن الفلسطيني</h4>
+                            <p>طبق تقليدي يتكون من الدجاج المشوي مع البصل والسماق...</p>
+                            <a href="#" class="read-more">الوصفة ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #fdcb6e, #f39c12);">🥙</div>
+                        <div class="news-content">
+                            <h4>الكنافة النابلسية</h4>
+                            <p>حلوى تقليدية من فلسطين تتكون من الجبن والقطر...</p>
+                            <a href="#" class="read-more">الوصفة ←</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(135deg, #00b894, #00a383);">🥗</div>
+                        <div class="news-content">
+                            <h4>التبولة الفلسطينية</h4>
+                            <p>سلطة خفيفة تتكون من البقدونس والبرغل والطماطم...</p>
+                            <a href="#" class="read-more">الوصفة ←</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
         <!-- STATS SECTION -->
         <div class="stats-section" style="padding: 40px 20px; max-width: 900px; margin: 0 auto; background: #1a1a1a; color: white;">
             <h2 class="section-title" style="color: white; border-bottom-color: #c9a227;">المخيم بالأرقام</h2>
@@ -27,19 +779,46 @@ stats_section = '''
                 </div>
             </div>
         </div>
-'''
 
-# Insert stats before footer
-footer_start = '<!-- FOOTER -->'
-content = content.replace(footer_start, stats_section + '\n' + footer_start)
+<!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-creator">انشئ بواسطة KASPERSKY</div>
+        <div class="footer-rights">جميع الحقوق محفوظة © 2026</div>
+    </div>
 
-# Save the updated file
-with open('/mnt/agents/output/makkom_net_spa.html', 'w', encoding='utf-8') as f:
-    f.write(content)
+    <script>
+        // Toggle Side Menu
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+            document.getElementById('mainContent').classList.toggle('shift');
+        }
 
-print("✅ تم إضافة 'المخيم بالأرقام' قبل الفوتر!")
-print("\n📊 الإحصائيات:")
-print("   - 1955: سنة التأسيس")
-print("   - 500+: عدد العائلات")
-print("   - 71: سنة صمود")
-print("   - 0.22: كيلومتر مربع")
+        // Show Page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById('page-' + pageId).classList.add('active');
+
+            // Update active nav
+            document.querySelectorAll('.side-menu-nav li a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById('nav-' + pageId).classList.add('active');
+
+            // Close menu if open
+            if (document.getElementById('sideMenu').classList.contains('open')) {
+                toggleMenu();
+            }
+
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+
+</body>
+</html>
