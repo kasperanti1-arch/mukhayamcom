@@ -314,11 +314,163 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 <!-- PAGE: EVENTS -->
 <div class="page" id="page-events">
 <div class="page-title"><span class="page-title-icon">🎉</span>فعاليات المخيم</div>
-<div class="content-section coming-soon">
-<div class="coming-soon-icon">⏳</div>
-<h2>قريباً</h2>
-<p>سيتم إضافة المحتوى قريباً</p>
-<div style="margin-top:40px"><a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a></div>
+<div class="content-section">
+<h2 class="section-title">اختر القسم</h2>
+<div class="nav-buttons" style="margin-top:20px">
+<div class="nav-btn" onclick="showPage('pharmacy')"><span class="nav-btn-icon">💊</span>صيدليات</div>
+<div class="nav-btn" onclick="showPage('restaurants')"><span class="nav-btn-icon">🍽️</span>مطاعم</div>
+<div class="nav-btn" onclick="showPage('beauty')"><span class="nav-btn-icon">💇</span>مراكز تجميل وشعر</div>
+<div class="nav-btn" onclick="showPage('supermarket')"><span class="nav-btn-icon">🛒</span>سوبر ماركت</div>
+</div>
+<div style="margin-top:40px;text-align:center">
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
+</div>
+</div>
+</div>
+
+<!-- PAGE: PHARMACY - صيدليات -->
+<div class="page" id="page-pharmacy">
+<div class="page-title"><span class="page-title-icon">💊</span>صيدليات المخيم</div>
+<div class="content-section">
+<h2 class="section-title">الصيدليات المتوفرة</h2>
+<div class="news-grid">
+<div class="news-card" onclick="openDetail('pharmacy1')">
+<div class="news-image" style="background:linear-gradient(135deg,#00b894,#00a383)">💊</div>
+<div class="news-content">
+<div class="news-date">متاح الآن</div>
+<h4>صيدلية الرمل</h4>
+<p>صيدلية متكاملة تقدم جميع الأدوية والمستلزمات الطبية...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+<div class="news-card" onclick="openDetail('pharmacy2')">
+<div class="news-image" style="background:linear-gradient(135deg,#006400,#004d00)">💉</div>
+<div class="news-content">
+<div class="news-date">متاح الآن</div>
+<h4>صيدلية العائدين</h4>
+<p>صيدلية خدمية تقدم خدمات استشارية وتوصيل للمنازل...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+</div>
+<div style="margin-top:40px;text-align:center">
+<a href="javascript:void(0)" onclick="showPage('events')" class="read-more" style="font-size:16px;margin-left:20px">← العودة لفعاليات المخيم</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← الرئيسية</a>
+</div>
+</div>
+</div>
+
+<!-- PAGE: RESTAURANTS - مطاعم -->
+<div class="page" id="page-restaurants">
+<div class="page-title"><span class="page-title-icon">🍽️</span>مطاعم المخيم</div>
+<div class="content-section">
+<h2 class="section-title">المطاعم والمطابخ</h2>
+<div class="news-grid">
+<div class="news-card" onclick="openDetail('restaurant1')">
+<div class="news-image" style="background:linear-gradient(135deg,#e17055,#d35400)">🍗</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>مطعم الرمل الفلسطيني</h4>
+<p>أشهى المأكولات الفلسطينية التقليدية والمشويات...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+<div class="news-card" onclick="openDetail('restaurant2')">
+<div class="news-image" style="background:linear-gradient(135deg,#fdcb6e,#f39c12)">🥘</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>مطبخ أم محمد</h4>
+<p>أطباق منزلية شهية بأسعار مناسبة للعائلات...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+<div class="news-card" onclick="openDetail('restaurant3')">
+<div class="news-image" style="background:linear-gradient(135deg,#ce1126,#8b0000)">🍕</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>مطعم الشباب</h4>
+<p>وجبات سريعة وعصائر طبيعية ومشروبات ساخنة...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+</div>
+<div style="margin-top:40px;text-align:center">
+<a href="javascript:void(0)" onclick="showPage('events')" class="read-more" style="font-size:16px;margin-left:20px">← العودة لفعاليات المخيم</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← الرئيسية</a>
+</div>
+</div>
+</div>
+
+<!-- PAGE: BEAUTY - مراكز تجميل وشعر -->
+<div class="page" id="page-beauty">
+<div class="page-title"><span class="page-title-icon">💇</span>مراكز تجميل وشعر</div>
+<div class="content-section">
+<h2 class="section-title">مراكز التجميل والحلاقة</h2>
+<div class="news-grid">
+<div class="news-card" onclick="openDetail('beauty1')">
+<div class="news-image" style="background:linear-gradient(135deg,#e84393,#fd79a8)">💇‍♀️</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>صالون لولوة</h4>
+<p>تسريحات شعر، صبغات، مكياج، عناية بالبشرة...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+<div class="news-card" onclick="openDetail('beauty2')">
+<div class="news-image" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">✂️</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>حلاقة الرجل الذهبي</h4>
+<p>حلاقة رجالية، تنعيم، عناية بالذقن، تسريحات...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+</div>
+<div style="margin-top:40px;text-align:center">
+<a href="javascript:void(0)" onclick="showPage('events')" class="read-more" style="font-size:16px;margin-left:20px">← العودة لفعاليات المخيم</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← الرئيسية</a>
+</div>
+</div>
+</div>
+
+<!-- PAGE: SUPERMARKET - سوبر ماركت -->
+<div class="page" id="page-supermarket">
+<div class="page-title"><span class="page-title-icon">🛒</span>سوبر ماركت</div>
+<div class="content-section">
+<h2 class="section-title">المحلات التجارية</h2>
+<div class="news-grid">
+<div class="news-card" onclick="openDetail('market1')">
+<div class="news-image" style="background:linear-gradient(135deg,#00b894,#00a383)">🛒</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>سوبر ماركت الرمل</h4>
+<p>مواد غذائية، خضروات، فواكه، لحوم، منظفات...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+<div class="news-card" onclick="openDetail('market2')">
+<div class="news-image" style="background:linear-gradient(135deg,#fdcb6e,#f39c12)">🥖</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>مخبز وسوبر ماركت الأخوة</h4>
+<p>خبز fresh، معجنات، مواد غذائية بأسعار الجملة...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+<div class="news-card" onclick="openDetail('market3')">
+<div class="news-image" style="background:linear-gradient(135deg,#006400,#004d00)">🥩</div>
+<div class="news-content">
+<div class="news-date">مفتوح الآن</div>
+<h4>جزارة ومعلبات الشام</h4>
+<p>لحوم طازجة، دواجن، معلبات، بهارات...</p>
+<span class="read-more">التفاصيل ←</span>
+</div>
+</div>
+</div>
+<div style="margin-top:40px;text-align:center">
+<a href="javascript:void(0)" onclick="showPage('events')" class="read-more" style="font-size:16px;margin-left:20px">← العودة لفعاليات المخيم</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← الرئيسية</a>
+</div>
 </div>
 </div>
 
@@ -768,6 +920,66 @@ var detailData = {
     date: '7 يونيو 2026',
     icon: '🍞',
     text: 'مخبز في المخيم يبحث عن عامل خبز ذو خبرة.<br><br>المتطلبات:<br>- خبرة في الخبز العربي والمعجنات<br>- العمل من الساعة 4 صباحاً حتى 12 ظهراً<br>- الراتب يومي: 8,000 ل.س<br>- العمل 6 أيام في الأسبوع<br><br>يفضل من سكان المخيم أو المناطق المجاورة.<br><br>للتواصل: مراجعة المخبز مباشرة في شارع الرمل التجاري'
+  },
+  'pharmacy1': {
+    title: 'صيدلية الرمل',
+    date: 'متاح الآن',
+    icon: '💊',
+    text: 'صيدلية الرمل متكاملة تقدم جميع الأدوية والمستلزمات الطبية.<br><br>الخدمات:<br>- صرف الأدوية الوصفية<br>- أدوية بدون وصفة<br>- مستلزمات طبية<br>- فحص ضغط وسكر<br>- استشارات صيدلانية<br><br>الموقع: شارع الرمل الرئيسي - بجانب المسجد<br>الهاتف: 09XX XXX XXX<br>الأوقات: 8 صباحاً - 10 مساءً'
+  },
+  'pharmacy2': {
+    title: 'صيدلية العائدين',
+    date: 'متاح الآن',
+    icon: '💉',
+    text: 'صيدلية العائدين خدمية تقدم خدمات استشارية وتوصيل للمنازل.<br><br>الخدمات:<br>- توصيل أدوية للمنازل<br>- استشارات طبية مجانية<br>- فحوصات طبية بسيطة<br>- لقاحات الأطفال<br><br>الموقع: أول المخيم - جانب مؤسسة اللاجئين<br>الهاتف: 09XX XXX XXX<br>الأوقات: 24 ساعة'
+  },
+  'restaurant1': {
+    title: 'مطعم الرمل الفلسطيني',
+    date: 'مفتوح الآن',
+    icon: '🍗',
+    text: 'أشهى المأكولات الفلسطينية التقليدية والمشويات.<br><br>القائمة:<br>- مسخن فلسطيني<br>- مقلوبة<br>- كباب وشيش طاووق<br>- وجبات عائلية<br>- عصائر ومشروبات<br><br>الموقع: شارع الرمل التجاري<br>الهاتف: 09XX XXX XXX<br>الأوقات: 10 صباحاً - 11 مساءً'
+  },
+  'restaurant2': {
+    title: 'مطبخ أم محمد',
+    date: 'مفتوح الآن',
+    icon: '🥘',
+    text: 'أطباق منزلية شهية بأسعار مناسبة للعائلات.<br><br>القائمة:<br>- يبرق وكوسا محشي<br>- فاصوليا وعدس<br>- مقلوبة ومنسف<br>- وجبات يومية متنوعة<br>- حلويات منزلية<br><br>الموقع: حي الرمل الجنوبي<br>الهاتف: 09XX XXX XXX<br>الأوقات: 11 صباحاً - 8 مساءً'
+  },
+  'restaurant3': {
+    title: 'مطعم الشباب',
+    date: 'مفتوح الآن',
+    icon: '🍕',
+    text: 'وجبات سريعة وعصائر طبيعية ومشروبات ساخنة.<br><br>القائمة:<br>- سندويشات شاورما وفلافل<br>- بيتزا وبرجر<br>- عصائر طبيعية وميلك شيك<br>- قهوة وشاي<br>- حلويات سريعة<br><br>الموقع: شارع الرمل الرئيسي<br>الهاتف: 09XX XXX XXX<br>الأوقات: 8 صباحاً - 1 صباحاً'
+  },
+  'beauty1': {
+    title: 'صالون لولوة',
+    date: 'مفتوح الآن',
+    icon: '💇‍♀️',
+    text: 'صالون نسائي متكامل للتجميل والعناية.<br><br>الخدمات:<br>- تسريحات شعر (زفاف، سهرة، يومي)<br>- صبغات وهايلايت<br>- مكياج (عروس، سهرة، يومي)<br>- عناية بالبشرة و facial<br>- مانيكير وباديكير<br><br>الموقع: شارع الرمل التجاري - الطابق الأول<br>الهاتف: 09XX XXX XXX<br>الأوقات: 10 صباحاً - 8 مساءً'
+  },
+  'beauty2': {
+    title: 'حلاقة الرجل الذهبي',
+    date: 'مفتوح الآن',
+    icon: '✂️',
+    text: 'حلاقة رجالية متكاملة.<br><br>الخدمات:<br>- حلاقة شعر عادي وتنعيم<br>- حلاقة ذقن وتنعيم<br>- تسريحات عصرية<br>- عناية بالشعر (زيوت، كريمات)<br>- حمام مغربي<br><br>الموقع: أول المخيم - بجانب المسجد<br>الهاتف: 09XX XXX XXX<br>الأوقات: 8 صباحاً - 10 مساءً'
+  },
+  'market1': {
+    title: 'سوبر ماركت الرمل',
+    date: 'مفتوح الآن',
+    icon: '🛒',
+    text: 'سوبر ماركت متكامل يقدم جميع احتياجات المنزل.<br><br>المنتجات:<br>- مواد غذائية (أرز، سكر، زيت، معكرونة)<br>- خضروات وفواكه طازجة<br>- لحوم ودواجن مجمدة<br>- منظفات وصابون<br>- مستلزمات أطفال<br><br>الموقع: شارع الرمل الرئيسي<br>الهاتف: 09XX XXX XXX<br>الأوقات: 7 صباحاً - 11 مساءً'
+  },
+  'market2': {
+    title: 'مخبز وسوبر ماركت الأخوة',
+    date: 'مفتوح الآن',
+    icon: '🥖',
+    text: 'خبز fresh ومواد غذائية بأسعار الجملة.<br><br>المنتجات:<br>- خبز عربي وخبز فرنجي طازج<br>- معجنات (كعك، بسكويت، كيك)<br>- مواد غذائية أساسية<br>- مشروبات ومياه معدنية<br>- بسكويتات وحلويات<br><br>الموقع: شارع الرمل الجنوبي<br>الهاتف: 09XX XXX XXX<br>الأوقات: 5 صباحاً - 10 مساءً'
+  },
+  'market3': {
+    title: 'جزارة ومعلبات الشام',
+    date: 'مفتوح الآن',
+    icon: '🥩',
+    text: 'لحوم طازجة ومعلبات وبهارات.<br><br>المنتجات:<br>- لحوم حمراء طازجة (يومياً)<br>- دواجن طازجة ومجمدة<br>- معلبات (تونة، سردين، فول)<br>- بهارات وتوابل<br>- أجبان وألبان<br><br>الموقع: سوق الرمل المركزي<br>الهاتف: 09XX XXX XXX<br>الأوقات: 7 صباحاً - 9 مساءً'
   }
 };
 
