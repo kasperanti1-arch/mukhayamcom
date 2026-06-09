@@ -7,8 +7,9 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-height:1.8;overflow-x:hidden}
-.header{width:100%;height:300px;background:url('https://iili.io/CF1ieCF.jpg') center/cover no-repeat}
+.header{width:100%;height:300px;background:url('https://iili.io/CF1ieCF.jpg') center/cover no-repeat;position:relative}
 .menu-bar{background:#006400;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000}
+.menu-date{color:#c9a227;font-size:12px;font-weight:bold;margin-right:10px;white-space:nowrap}
 .menu-btn{background:none;border:none;color:white;font-size:24px;cursor:pointer}
 .site-name{color:white;font-size:20px;font-weight:bold}
 .side-menu{position:fixed;top:0;right:-280px;width:280px;height:100vh;background:#1a1a1a;z-index:2000;transition:right .3s ease;padding-top:60px}
@@ -33,7 +34,8 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 .schools-list ul{list-style:none;padding:0}
 .schools-list ul li{padding:8px 0;border-bottom:1px solid #eee;color:#555}
 .schools-list ul li:before{content:"›";color:#ce1126;margin-left:10px;font-weight:bold}
-.nav-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:30px 20px;max-width:900px;margin:0 auto}
+.nav-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding:30px 20px;max-width:900px;margin:0 auto}
+.nav-btn{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .nav-btn{background:linear-gradient(135deg,#006400,#004d00);color:white;padding:20px;border-radius:12px;text-align:center;font-size:16px;font-weight:bold;transition:all .3s;box-shadow:0 4px 15px rgba(0,100,0,.3);cursor:pointer}
 .nav-btn:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,100,0,.4);background:linear-gradient(135deg,#ce1126,#8b0000)}
 .nav-btn-icon{font-size:30px;margin-bottom:10px;display:block}
@@ -63,6 +65,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 /* HOME PREVIEW - ONE ITEM ONLY */
 .home-preview-section{padding:30px 20px;max-width:900px;margin:0 auto}
 .home-preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.home-preview-box{padding:20px}
 .home-preview-box{background:white;border-radius:12px;overflow:hidden;box-shadow:0 3px 15px rgba(0,0,0,.1);padding:25px}
 .home-preview-header{font-size:20px;font-weight:bold;color:#006400;margin-bottom:20px;text-align:center;border-bottom:2px solid #ce1126;padding-bottom:15px}
 .home-preview-header.red{color:#ce1126;border-bottom-color:#006400}
@@ -100,20 +103,40 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 .detail-modal-text{color:#444;font-size:15px;line-height:2;margin-bottom:20px}
 .detail-modal-image{width:100%;height:200px;background:linear-gradient(135deg,#006400,#004d00);border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:60px;margin-bottom:20px}
 
+/* NEWS TICKER - Bottom Sticky */
+.ticker-wrap{position:fixed;bottom:0;left:0;right:0;background:#ce1126;color:white;padding:10px 0;z-index:999;font-size:13px;font-weight:bold;overflow:hidden;white-space:nowrap;direction:ltr}
+.ticker{animation:ticker-ltr 35s linear infinite;display:inline-block;padding-left:100%}
+@keyframes ticker-ltr{0%{transform:translateX(-100%)}100%{transform:translateX(0)}}
+
+/* CLOCK IN TICKER */
+.ticker-clock{position:fixed;bottom:0;right:0;background:white;color:black;padding:10px 20px;z-index:1000;font-size:16px;font-weight:bold;border-left:3px solid #ce1126;direction:ltr;font-family:Arial,Helvetica,sans-serif}
+
+
 @media(max-width:768px){
-.home-preview-grid{grid-template-columns:1fr}
+.home-preview-grid{grid-template-columns:1fr 1fr;gap:12px}
+.home-preview-box{padding:15px}
+.home-preview-header{font-size:16px}
+.home-preview-title{font-size:14px}
+.home-preview-desc{font-size:12px}
 .header{height:200px}
 .page-title{font-size:22px;padding:30px 15px}
 .news-grid{grid-template-columns:1fr}
-.nav-buttons{grid-template-columns:1fr}
+.nav-buttons{grid-template-columns:repeat(2,1fr);gap:12px}
+.nav-btn{padding:15px;min-height:100px;font-size:14px}
+.nav-btn-icon{font-size:24px}
 .section-title{font-size:20px}
+.ticker-clock{font-size:14px;padding:8px 15px}
 }
-@media(max-width:600px){
-.header{height:200px}
-.page-title{font-size:22px;padding:30px 15px}
-.news-grid{grid-template-columns:1fr}
-.nav-buttons{grid-template-columns:1fr}
-.section-title{font-size:20px}
+@media(max-width:480px){
+.home-preview-grid{grid-template-columns:1fr 1fr;gap:10px}
+.home-preview-box{padding:12px}
+.home-preview-header{font-size:14px;padding-bottom:10px}
+.home-preview-title{font-size:13px}
+.home-preview-desc{font-size:11px}
+.home-preview-more{font-size:13px}
+.nav-buttons{grid-template-columns:repeat(2,1fr);gap:10px}
+.nav-btn{padding:12px;min-height:80px;font-size:13px}
+.nav-btn-icon{font-size:22px}
 }
 </style>
 </head>
@@ -121,24 +144,27 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 
 <div class="header"></div>
 
+
+
 <div class="menu-bar">
 <button class="menu-btn" onclick="toggleMenu()">☰</button>
 <div class="site-name">مخيم نت</div>
+<div class="menu-date" id="menuDate">📅 جاري التحميل...</div>
 </div>
 
 <div class="side-menu" id="sideMenu">
 <button class="close-menu" onclick="toggleMenu()">×</button>
 <ul class="side-menu-nav">
-<li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
-<li><a onclick="showPage('camp-info')" id="nav-camp-info">معلومات عن مخيم الرمل</a></li>
-<li><a onclick="showPage('news')" id="nav-news">أخبار المخيم</a></li>
-<li><a onclick="showPage('events')" id="nav-events">فعاليات المخيم</a></li>
-<li><a onclick="showPage('local')" id="nav-local">أخبار محلية ودولية</a></li>
-<li><a onclick="showPage('tech')" id="nav-tech">التكنولوجيا</a></li>
-<li><a onclick="showPage('info')" id="nav-info">معلومات عامة</a></li>
-<li><a onclick="showPage('kitchen')" id="nav-kitchen">المطبخ الفلسطيني</a></li>
-<li><a onclick="showPage('faq')" id="nav-faq">تساؤلات أهل المخيم</a></li>
-<li><a onclick="showPage('offers')" id="nav-offers">عروض - خدمات - وظائف <span class="new-badge">جديد</span></a></li>
+<li><a href="javascript:void(0)" onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('camp-info')" id="nav-camp-info">معلومات عن مخيم الرمل</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('news')" id="nav-news">أخبار المخيم</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('events')" id="nav-events">فعاليات المخيم</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('local')" id="nav-local">أخبار محلية ودولية</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('tech')" id="nav-tech">التكنولوجيا</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('info')" id="nav-info">معلومات عامة</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('kitchen')" id="nav-kitchen">المطبخ الفلسطيني</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('faq')" id="nav-faq">تساؤلات أهل المخيم</a></li>
+<li><a href="javascript:void(0)" onclick="showPage('offers')" id="nav-offers">عروض - خدمات - وظائف <span class="new-badge">جديد</span></a></li>
 </ul>
 </div>
 
@@ -148,7 +174,6 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 
 <!-- PAGE: HOME -->
 <div class="page active" id="page-home">
-<div class="page-title"><span class="page-title-icon">🏕️</span>مخيم نت</div>
 
 <div class="home-preview-section">
 <div class="home-preview-grid">
@@ -160,7 +185,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 <div class="home-preview-title">توزيع مساعدات غذائية على العائلات</div>
 <div class="home-preview-desc">تم اليوم توزيع طرود غذائية على 50 عائلة في المخيم بالتعاون مع جمعية الهلال الأحمر...</div>
 </div>
-<a href="#" class="home-preview-more" onclick="showPage('news')">المزيد ←</a>
+<a href="javascript:void(0)" class="home-preview-more" onclick="showPage('news')">المزيد ←</a>
 </div>
 <!-- الأخبار الدولية - خبر واحد بس -->
 <div class="home-preview-box">
@@ -170,7 +195,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 <div class="home-preview-title">اجتماع طارئ لجامعة الدول العربية</div>
 <div class="home-preview-desc">عقدت جامعة الدول العربية اجتماعاً طارئاً لمناقشة تطورات القضية الفلسطينية...</div>
 </div>
-<a href="#" class="home-preview-more" onclick="showPage('local')">المزيد ←</a>
+<a href="javascript:void(0)" class="home-preview-more" onclick="showPage('local')">المزيد ←</a>
 </div>
 </div>
 </div>
@@ -229,7 +254,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 </div>
 
 <div style="margin-top:40px;text-align:center">
-<a href="#" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
 </div>
 </div>
 </div>
@@ -277,7 +302,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 </div>
 </div>
 <div style="margin-top:40px;text-align:center">
-<a href="#" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
 </div>
 </div>
 </div>
@@ -289,7 +314,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 <div class="coming-soon-icon">⏳</div>
 <h2>قريباً</h2>
 <p>سيتم إضافة المحتوى قريباً</p>
-<div style="margin-top:40px"><a href="#" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a></div>
+<div style="margin-top:40px"><a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a></div>
 </div>
 </div>
 
@@ -336,7 +361,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 </div>
 </div>
 <div style="margin-top:40px;text-align:center">
-<a href="#" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
 </div>
 </div>
 </div>
@@ -408,7 +433,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 </div>
 
 <div style="margin-top:40px;text-align:center">
-<a href="#" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
 </div>
 </div>
 </div>
@@ -482,7 +507,7 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 </div>
 
 <div style="margin-top:40px;text-align:center">
-<a href="#" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
+<a href="javascript:void(0)" onclick="showPage('home')" class="read-more" style="font-size:16px">← العودة للرئيسية</a>
 </div>
 </div>
 </div>
@@ -521,13 +546,68 @@ body{font-family:Arial,Tahoma,sans-serif;background:#f5f5f5;color:#333;line-heig
 <div class="footer-rights">جميع الحقوق محفوظة © 2026</div>
 </div>
 
+<!-- NEWS TICKER -->
+<div class="ticker-wrap">
+<div class="ticker">
+<span class="ticker-text">📢 التطبيق الأول من نوعه لمخيم الرمل الفلسطيني باللاذقية والرمل الجنوبي | 🔔 هذا التطبيق بنسخته التجريبية لفترة محدودة | 📢 التطبيق الأول من نوعه لمخيم الرمل الفلسطيني باللاذقية والرمل الجنوبي | 🔔 هذا التطبيق بنسخته التجريبية لفترة محدودة | 📢 التطبيق الأول من نوعه لمخيم الرمل الفلسطيني باللاذقية والرمل الجنوبي | 🔔 هذا التطبيق بنسخته التجريبية لفترة محدودة | </span>
+</div>
+</div>
+
+<!-- CLOCK -->
+<div class="ticker-clock" id="tickerClock">--:--:--</div>
+
 <script>
+// Update Menu Date with Greeting
+function updateDate(){
+  var now = new Date();
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var dateStr = now.toLocaleDateString('ar-SY', options);
+
+  // Get Syria time (UTC+3) - explicit calculation
+  var userOffset = now.getTimezoneOffset(); // in minutes
+  var syriaOffset = -180; // Syria is UTC+3 = -180 minutes from UTC
+  var diffMinutes = syriaOffset - userOffset;
+  var syriaTime = new Date(now.getTime() + (diffMinutes * 60000));
+  var hour = syriaTime.getHours();
+
+  // Debug: console.log('Syria hour:', hour, 'User offset:', userOffset);
+
+  // Greeting based on Syria time
+  // 00:00 - 11:59 = صباح الخير
+  // 12:00 - 23:59 = مساء الخير
+  var greeting = '';
+  if(hour >= 0 && hour < 12){
+    greeting = '☀️ صباح الخير';
+  } else {
+    greeting = '🌙 مساء الخير';
+  }
+
+  var menuDate = document.getElementById('menuDate');
+  if(menuDate) menuDate.textContent = greeting + ' | 📅 ' + dateStr;
+}
+
+// Update Clock (Syria Time UTC+3)
+function updateClock(){
+  var now = new Date();
+  var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  var syriaTime = new Date(utc + (3 * 3600000));
+  var hours = syriaTime.getHours().toString().padStart(2, '0');
+  var minutes = syriaTime.getMinutes().toString().padStart(2, '0');
+  var seconds = syriaTime.getSeconds().toString().padStart(2, '0');
+  var clock = document.getElementById('tickerClock');
+  if(clock) clock.textContent = hours + ':' + minutes + ':' + seconds;
+}
+
+// Initialize
+updateDate();
+updateClock();
+setInterval(updateClock, 1000);
+
 // Toggle side menu
 function toggleMenu(){
   var sideMenu = document.getElementById('sideMenu');
   var overlay = document.getElementById('overlay');
   var mainContent = document.getElementById('mainContent');
-
   sideMenu.classList.toggle('open');
   overlay.classList.toggle('show');
   mainContent.classList.toggle('shift');
@@ -535,51 +615,31 @@ function toggleMenu(){
 
 // Show page
 function showPage(pageId){
-  // Hide all pages
   var allPages = document.querySelectorAll('.page');
   for(var i = 0; i < allPages.length; i++){
     allPages[i].classList.remove('active');
   }
-
-  // Show selected page
   var selectedPage = document.getElementById('page-' + pageId);
-  if(selectedPage){
-    selectedPage.classList.add('active');
-  }
-
-  // Update nav active state
+  if(selectedPage) selectedPage.classList.add('active');
   var allLinks = document.querySelectorAll('.side-menu-nav li a');
   for(var j = 0; j < allLinks.length; j++){
     allLinks[j].classList.remove('active');
   }
-
   var navEl = document.getElementById('nav-' + pageId);
-  if(navEl){
-    navEl.classList.add('active');
-  }
-
-  // Close menu if open
+  if(navEl) navEl.classList.add('active');
   var sideMenu = document.getElementById('sideMenu');
-  if(sideMenu.classList.contains('open')){
-    toggleMenu();
-  }
-
-  // Scroll to top
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  if(sideMenu.classList.contains('open')) toggleMenu();
+  window.scrollTo(0, 0);
 }
 
 // Toggle accordion
 function toggleAccordion(id){
   var item = document.getElementById(id);
   if(!item) return;
-
   var allItems = document.querySelectorAll('.accordion-item');
   for(var i = 0; i < allItems.length; i++){
-    if(allItems[i] !== item){
-      allItems[i].classList.remove('open');
-    }
+    if(allItems[i] !== item) allItems[i].classList.remove('open');
   }
-
   item.classList.toggle('open');
 }
 
@@ -710,12 +770,10 @@ var detailData = {
 function openDetail(id){
   var data = detailData[id];
   if(!data) return;
-
   document.getElementById('modalTitle').textContent = data.title;
   document.getElementById('modalDate').textContent = data.date;
   document.getElementById('modalImage').textContent = data.icon;
   document.getElementById('modalText').innerHTML = data.text;
-
   document.getElementById('detailModal').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
