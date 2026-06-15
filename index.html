@@ -1,4 +1,6 @@
-<html lang="ar" dir="rtl"><head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مخيم نت - الإدارة الذكية الكاملة</title>
@@ -19,11 +21,11 @@
 
         body {
             background-color: var(--bg-color);
-            padding-bottom: 65px; /* تم تكبير المسافة قليلاً لتناسب الفوتر الجديد */
+            padding-bottom: 65px;
             user-select: none;
         }
 
-        /* 🖼️ بنر الهيدر العلوي الجديد والمضمون برابط مباشر */
+        /* 🖼️ بنر الهيدر العلوي */
         .app-top-banner {
             max-width: 600px;
             margin: 0 auto;
@@ -97,7 +99,7 @@
         .nav-card:active { transform: scale(0.96); }
         .nav-card .icon-img { font-size: 2rem; }
 
-        /* 📋 واجهة عرض العناصر بجانب بعضها */
+        /* 📋 واجهة عرض العناصر */
         .sub-sections-view {
             display: none;
             margin-top: 5px;
@@ -213,7 +215,7 @@
         .export-btn { background: #10b981 !important; margin-top: 10px; }
         .close-admin { background: #64748b; margin-top: 10px; }
 
-        /* 📢 شريط التوقيت والأخبار السفلي مع الحقوق والمصمم */
+        /* 📢 شريط التوقيت والأخبار السفلي */
         .footer-ticker {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -221,7 +223,7 @@
             background: #c90808;
             color: white;
             display: flex;
-            flex-direction: column; /* جعل الترتيب عمودي لاحتواء الحقوق بشكل أنيق */
+            flex-direction: column;
             justify-content: center;
             z-index: 9999;
             max-width: 600px;
@@ -279,7 +281,6 @@
             box-shadow: -2px 0 5px rgba(0,0,0,0.15);
         }
 
-        /* ✍️ سطر الحقوق السفلي المضاف */
         .footer-rights-bar {
             background: #900404;
             color: #f1f5f9;
@@ -299,6 +300,7 @@
 </head>
 <body>
 
+    <!-- 🖼️ البنر العلوي -->
     <div class="app-top-banner">
         <img src="https://i.postimg.cc/RZkSCMc9/file-00000000deec71f5b16228d79c7647b1.png" alt="بنر مخيم نت">
     </div>
@@ -307,29 +309,31 @@
         <div class="right-side">
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
-        <div class="left-side" id="liveHeaderTime">صباح الخير | ١٦ حزيران ٢٠٢٦ | ٠١:٢٦</div>
+        <div class="left-side" id="liveHeaderTime">00:00 | جاري التحميل...</div>
     </div>
 
     <div class="container">
-        <div id="mainMenuGrid" class="main-menu-grid" style="display: none;"><div class="nav-card"><div class="icon-img">🩺</div><div>الخدمات الطبية</div></div><div class="nav-card"><div class="icon-img">📰</div><div>أخبار المخيم</div></div></div>
+        <div id="mainMenuGrid" class="main-menu-grid"></div>
 
-        <div id="subSectionsView" class="sub-sections-view" style="display: block;">
-            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">📌 الخدمات الطبية ⬅️ صيدليات المخيم</h3>
-            <div id="itemsGridContainer" class="items-flex-grid"><div class="pharmacy-card">صيدلية عمار</div><div class="pharmacy-card">صيدلية القدس</div><div class="pharmacy-card">صيدلية العودة</div><button class="nav-card" style="grid-column: 1 / -1; width: 100%; margin-top: 20px; padding: 10px; background: rgb(100, 116, 139);">⬅️ العودة للأقسام السابقة</button></div>
+        <div id="subSectionsView" class="sub-sections-view">
+            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">الأقسام</h3>
+            <div id="itemsGridContainer" class="items-flex-grid"></div>
             <button class="nav-card" style="width:100%; margin-top:25px; padding:12px; background:var(--dark-gray);" onclick="goBackToMain()">⬅️ العودة للقائمة الرئيسية</button>
         </div>
     </div>
 
-    <div class="popup-overlay" id="contentPopup" style="display: none;">
+    <!-- بوب أب عرض التفاصيل (المعلومات) -->
+    <div class="popup-overlay" id="contentPopup">
         <div class="popup-modal">
-            <h3 id="popupTitle">صيدلية عمار</h3>
-            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'" style="display: none;">
-            <div id="popupText" class="popup-text">عمار صلاح عمر</div>
+            <h3 id="popupTitle">اسم الصيدلية</h3>
+            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'">
+            <div id="popupText" class="popup-text">المعلومات الكاملة...</div>
             <button class="nav-card" style="width:100%; margin-top:15px; padding:10px; background:var(--primary-green);" onclick="closePopup()">إغلاق</button>
         </div>
     </div>
 
-    <div class="popup-overlay" id="adminOverlay" style="display: flex;">
+    <!-- لوحة التحكم (مخفية تلقائياً) -->
+    <div class="popup-overlay" id="adminOverlay" style="display: none;">
         <div class="admin-modal">
             <h3>⚙️ لوحة الإدارة والتحكم الشاملة الذكية</h3>
             
@@ -345,7 +349,7 @@
                 <h4>2️⃣ إضافة قسم فرعي جديد</h4>
                 <div class="form-group">
                     <label>اختر القسم الرئيسي التابع له:</label>
-                    <select id="mainCatSelectDropdown"><option value="m1">الخدمات الطبية</option><option value="m2">أخبار المخيم</option></select>
+                    <select id="mainCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subCatInput" placeholder="مثال: صيدليات المخيم، الأطباء...">
@@ -357,7 +361,7 @@
                 <h4>3️⃣ إضافة وإسناد محتوى (منشور) جديد</h4>
                 <div class="form-group">
                     <label>اختر مكان النشر المستهدف:</label>
-                    <select id="subCatSelectDropdown"><optgroup label="⭐ أقسام رئيسية مباشرة"></optgroup><option value="m1">مباشر داخل ⬅️ [ الخدمات الطبية ]</option><option value="m2">مباشر داخل ⬅️ [ أخبار المخيم ]</option><optgroup label="📂 أقسام فرعية"></optgroup><option value="s1">الخدمات الطبية ⬅️ صيدليات المخيم</option><option value="s2">الخدمات الطبية ⬅️ عيادات الأطباء</option></select>
+                    <select id="subCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة...">
@@ -375,7 +379,7 @@
                 <h4>✍️ تعديل المحتويات والمنشورات الحالية</h4>
                 <div class="form-group">
                     <label>اختر المنشور المراد تعديله:</label>
-                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشوراً للتعديل --</option><option value="pharmacy_demo1">صيدلية عمار</option><option value="pharmacy_demo2">صيدلية القدس</option><option value="pharmacy_demo3">صيدلية العودة</option></select>
+                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="editContentTitleInput" placeholder="العنوان الجديد...">
@@ -401,7 +405,7 @@
                 <h4>🗑️ إدارة وحذف العناصر المضافة</h4>
                 <div class="form-group">
                     <label>اختر القسم أو (الصيدلية/المنشور) للمسح النهائي:</label>
-                    <select id="deleteTargetSelectDropdown"><optgroup label="📁 الأقسام الرئيسية"></optgroup><option value="m:m1">[رئيسي] الخدمات الطبية</option><option value="m:m2">[رئيسي] أخبار المخيم</option><optgroup label="📂 الأقسام الفرعية"></optgroup><option value="s:s1">[فرعي] صيدليات المخيم</option><option value="s:s2">[فرعي] عيادات الأطباء</option><option value="c:pharmacy_demo1">[عنصر] صيدلية عمار</option><option value="c:pharmacy_demo2">[عنصر] صيدلية القدس</option><option value="c:pharmacy_demo3">[عنصر] صيدلية العودة</option></select>
+                    <select id="deleteTargetSelectDropdown"></select>
                 </div>
                 <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر المحدد فوراً</button>
             </div>
@@ -415,17 +419,13 @@
         </div>
     </div>
 
+    <!-- 📢 شريط التوقيت والأخبار السفلي -->
     <div class="footer-ticker">
         <div class="ticker-main-row">
             <div class="ticker-text-area">
-                <div class="ticker-track" id="tickerTrackContainer">
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
+                <div class="ticker-track" id="tickerTrackContainer"></div>
             </div>
-            </div>
-            <div class="ticker-clock-area" id="liveFooterClock">٠١:٢٦</div>
+            <div class="ticker-clock-area" id="liveFooterClock">00:00</div>
         </div>
         <div class="footer-rights-bar">
             تصميم محمد ابراهيم مقبل | جميع الحقوق محفوظة ©
@@ -450,14 +450,17 @@
             }
         };
 
-        let appData = {"ticker":"أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.","mainCategories":[{"id":"m1","name":"الخدمات الطبية","icon":"🩺"},{"id":"m2","name":"أخبار المخيم","icon":"📰"}],"subCategories":[{"id":"s1","mainId":"m1","name":"صيدليات المخيم"},{"id":"s2","mainId":"m1","name":"عيادات الأطباء"}],"contents":{"pharmacy_demo1":{"belongsTo":"s1","title":"صيدلية عمار","img":"","text":"عمار صلاح عمر"},"pharmacy_demo2":{"belongsTo":"s1","title":"صيدلية القدس","img":"","text":"📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"},"pharmacy_demo3":{"belongsTo":"s1","title":"صيدلية العودة","img":"","text":"📍 العنوان: أول مدخل المخيم - دوار العودة\n📞 هاتف: 0597222222\n⏰ الدوام: من 9 صباحاً حتى 10 مساءً"}}};
+        let appData = JSON.parse(localStorage.getItem('camp_net_premium_data')) || defaultAppData;
         let secretClickCount = 0;
+
+        // التأكد من إغلاق لوحة التحكم تماماً عند تحميل أو تحديث الصفحة
+        document.getElementById('adminOverlay').style.display = 'none';
 
         function handleSecretClicks() {
             secretClickCount++;
             if (secretClickCount >= 5) {
                 secretClickCount = 0;
-                let password = prompt("الرجاء إدخال كلمة سر لوحة التحكم:");
+                let password = prompt("الرجاء إدخل كلمة سر لوحة التحكم:");
                 if (password === "1234") {
                     populateAdminDropdowns();
                     document.getElementById('adminOverlay').style.display = 'flex';
@@ -595,6 +598,8 @@
             let deleteSelect = document.getElementById('deleteTargetSelectDropdown');
             let editSelect = document.getElementById('editContentSelectDropdown');
 
+            if(!mainSelect || !subSelect || !deleteSelect || !editSelect) return;
+
             mainSelect.innerHTML = subSelect.innerHTML = deleteSelect.innerHTML = editSelect.innerHTML = "";
 
             appData.mainCategories.forEach(m => { mainSelect.innerHTML += `<option value="${m.id}">${m.name}</option>`; });
@@ -713,10 +718,12 @@
             container.appendChild(backBtn);
         }
 
+        // دالة عرض تفاصيل الصيدلية المُصلحة والمثبتة لتعمل على بوب أب بشكل ديناميكي كامل
         function viewContentData(contentId) {
             let content = appData.contents[contentId];
             if (!content) return;
-            document.getElementById('popupTitle').innerText = content.title;
+            
+            document.getElementById('popupTitle').innerText = content.title || "بدون عنوان";
             let imgElement = document.getElementById('popupImage');
             if (content.img && content.img.trim() !== "") {
                 imgElement.src = content.img;
@@ -724,7 +731,7 @@
             } else {
                 imgElement.style.display = "none";
             }
-            document.getElementById('popupText').innerText = content.text;
+            document.getElementById('popupText').innerText = content.text || "لا توجد تفاصيل مضافة لهذا العنصر.";
             document.getElementById('contentPopup').style.display = 'flex';
         }
 
@@ -760,10 +767,11 @@
         }
 
         window.onload = function() {
+            // إخفاء فوري وتأكيد القفل للوحة التحكم
+            document.getElementById('adminOverlay').style.display = 'none';
             initLiveClock();
             renderMainMenu();
         };
     </script>
-
-
-</body></html>
+</body>
+</html>
