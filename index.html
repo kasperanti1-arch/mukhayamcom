@@ -1,4 +1,6 @@
-<html lang="ar" dir="rtl"><head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مخيم نت - الإدارة الذكية الكاملة</title>
@@ -298,7 +300,6 @@
 </head>
 <body>
 
-    <!-- 🖼️ البنر العلوي -->
     <div class="app-top-banner">
         <img src="https://i.postimg.cc/RZkSCMc9/file-00000000deec71f5b16228d79c7647b1.png" alt="بنر مخيم نت">
     </div>
@@ -307,31 +308,29 @@
         <div class="right-side">
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
-        <div class="left-side" id="liveHeaderTime">صباح الخير | ١٦ حزيران ٢٠٢٦ | ٠١:٤٨</div>
+        <div class="left-side" id="liveHeaderTime">00:00 | جاري التحميل...</div>
     </div>
 
     <div class="container">
-        <div id="mainMenuGrid" class="main-menu-grid" style="display: none;"><div class="nav-card"><div class="icon-img">🩺</div><div>الخدمات الطبية</div></div><div class="nav-card"><div class="icon-img">📰</div><div>أخبار المخيم</div></div><div class="nav-card"><div class="icon-img">📁</div><div>تكنولوجيا</div></div></div>
+        <div id="mainMenuGrid" class="main-menu-grid"></div>
 
-        <div id="subSectionsView" class="sub-sections-view" style="display: block;">
-            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">📌 الخدمات الطبية ⬅️ صيدليات المخيم</h3>
-            <div id="itemsGridContainer" class="items-flex-grid"><div class="pharmacy-card">صيدلية عمار</div><div class="pharmacy-card">صيدلية القدس</div><div class="pharmacy-card">صيدلية العودة</div><button class="nav-card" style="grid-column: 1 / -1; width: 100%; margin-top: 20px; padding: 10px; background: rgb(100, 116, 139);">⬅️ العودة للأقسام السابقة</button></div>
+        <div id="subSectionsView" class="sub-sections-view">
+            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">الأقسام</h3>
+            <div id="itemsGridContainer" class="items-flex-grid"></div>
             <button class="nav-card" style="width:100%; margin-top:25px; padding:12px; background:var(--dark-gray);" onclick="goBackToMain()">⬅️ العودة للقائمة الرئيسية</button>
         </div>
     </div>
 
-    <!-- بوب أب عرض التفاصيل (المعلومات) -->
     <div class="popup-overlay" id="contentPopup">
         <div class="popup-modal">
-            <h3 id="popupTitle">اسم الصيدلية</h3>
-            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'" style="display: none;">
+            <h3 id="popupTitle">العنوان</h3>
+            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'">
             <div id="popupText" class="popup-text">المعلومات الكاملة...</div>
             <button class="nav-card" style="width:100%; margin-top:15px; padding:10px; background:var(--primary-green);" onclick="closePopup()">إغلاق</button>
         </div>
     </div>
 
-    <!-- لوحة التحكم (مخفية تلقائياً) -->
-    <div class="popup-overlay" id="adminOverlay" style="display: flex;">
+    <div class="popup-overlay" id="adminOverlay" style="display: none;">
         <div class="admin-modal">
             <h3>⚙️ لوحة الإدارة والتحكم الشاملة الذكية</h3>
             
@@ -347,7 +346,7 @@
                 <h4>2️⃣ إضافة قسم فرعي جديد</h4>
                 <div class="form-group">
                     <label>اختر القسم الرئيسي التابع له:</label>
-                    <select id="mainCatSelectDropdown"><option value="m1">الخدمات الطبية</option><option value="m2">أخبار المخيم</option><option value="m_1781563653625">تكنولوجيا</option></select>
+                    <select id="mainCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subCatInput" placeholder="مثال: صيدليات المخيم، الأطباء...">
@@ -359,7 +358,7 @@
                 <h4>3️⃣ إضافة وإسناد محتوى (منشور) جديد</h4>
                 <div class="form-group">
                     <label>اختر مكان النشر المستهدف:</label>
-                    <select id="subCatSelectDropdown"><optgroup label="⭐ أقسام رئيسية مباشرة"></optgroup><option value="m1">مباشر داخل ⬅️ [ الخدمات الطبية ]</option><option value="m2">مباشر داخل ⬅️ [ أخبار المخيم ]</option><option value="m_1781563653625">مباشر داخل ⬅️ [ تكنولوجيا ]</option><optgroup label="📂 أقسام فرعية"></optgroup><option value="s1">الخدمات الطبية ⬅️ صيدليات المخيم</option><option value="s2">الخدمات الطبية ⬅️ عيادات الأطباء</option></select>
+                    <select id="subCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة...">
@@ -377,7 +376,7 @@
                 <h4>✍️ تعديل المحتويات والمنشورات الحالية</h4>
                 <div class="form-group">
                     <label>اختر المنشور المراد تعديله:</label>
-                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشوراً للتعديل --</option><option value="pharmacy_demo1">ابو مروان</option><option value="pharmacy_demo2">صيدلية القدس</option><option value="pharmacy_demo3">صيدلية العودة</option><option value="c_1781563682474">تجربة</option></select>
+                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="editContentTitleInput" placeholder="العنوان الجديد...">
@@ -403,7 +402,7 @@
                 <h4>🗑️ إدارة وحذف العناصر المضافة</h4>
                 <div class="form-group">
                     <label>اختر القسم أو (الصيدلية/المنشور) للمسح النهائي:</label>
-                    <select id="deleteTargetSelectDropdown"><optgroup label="📁 الأقسام الرئيسية"></optgroup><option value="m:m1">[رئيسي] الخدمات الطبية</option><option value="m:m2">[رئيسي] أخبار المخيم</option><option value="m:m_1781563653625">[رئيسي] تكنولوجيا</option><optgroup label="📂 الأقسام الفرعية"></optgroup><option value="s:s1">[فرعي] صيدليات المخيم</option><option value="s:s2">[فرعي] عيادات الأطباء</option><option value="c:pharmacy_demo1">[عنصر] ابو مروان</option><option value="c:pharmacy_demo2">[عنصر] صيدلية القدس</option><option value="c:pharmacy_demo3">[عنصر] صيدلية العودة</option><option value="c:c_1781563682474">[عنصر] تجربة</option></select>
+                    <select id="deleteTargetSelectDropdown"></select>
                 </div>
                 <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر المحدد فوراً</button>
             </div>
@@ -417,18 +416,12 @@
         </div>
     </div>
 
-    <!-- 📢 شريط التوقيت والأخبار السفلي -->
     <div class="footer-ticker">
         <div class="ticker-main-row">
             <div class="ticker-text-area">
-                <div class="ticker-track" id="tickerTrackContainer">
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
+                <div class="ticker-track" id="tickerTrackContainer"></div>
             </div>
-            </div>
-            <div class="ticker-clock-area" id="liveFooterClock">٠١:٤٨</div>
+            <div class="ticker-clock-area" id="liveFooterClock">00:00</div>
         </div>
         <div class="footer-rights-bar">
             تصميم محمد ابراهيم مقبل | جميع الحقوق محفوظة ©
@@ -453,17 +446,16 @@
             }
         };
 
-        let appData = {"ticker":"أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.","mainCategories":[{"id":"m1","name":"الخدمات الطبية","icon":"🩺"},{"id":"m2","name":"أخبار المخيم","icon":"📰"},{"id":"m_1781563653625","name":"تكنولوجيا","icon":"📁"}],"subCategories":[{"id":"s1","mainId":"m1","name":"صيدليات المخيم"},{"id":"s2","mainId":"m1","name":"عيادات الأطباء"}],"contents":{"pharmacy_demo1":{"belongsTo":"s1","title":"ابو مروان","img":"","text":"دمير"},"pharmacy_demo2":{"belongsTo":"s1","title":"صيدلية القدس","img":"","text":"📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"},"pharmacy_demo3":{"belongsTo":"s1","title":"صيدلية العودة","img":"","text":"📍 العنوان: أول مدخل المخيم - دوار العودة\n📞 هاتف: 0597222222\n⏰ الدوام: من 9 صباحاً حتى 10 مساءً"},"c_1781563682474":{"belongsTo":"m_1781563653625","title":"تجربة","img":"","text":"موضوع تكنولوجيا"}}};
+        let appData = JSON.parse(localStorage.getItem('camp_net_premium_data')) || defaultAppData;
         let secretClickCount = 0;
 
-        // التأكد من إغلاق لوحة التحكم تماماً عند تحميل أو تحديث الصفحة
         document.getElementById('adminOverlay').style.display = 'none';
 
         function handleSecretClicks() {
             secretClickCount++;
             if (secretClickCount >= 5) {
                 secretClickCount = 0;
-                let password = prompt("الرجاء إدخل كلمة سر لوحة التحكم:");
+                let password = prompt("الرجاء إدخال كلمة سر لوحة التحكم:");
                 if (password === "1234") {
                     populateAdminDropdowns();
                     document.getElementById('adminOverlay').style.display = 'flex';
@@ -652,47 +644,40 @@
             });
         }
 
+        // 🛠️ تم إصلاح الخلل المذكور هنا لمنع التحويل التلقائي للصيدليات عند الضغط على أي قسم
         function handleMainCardClick(mainId, mainName) {
-            let filteredSubs = appData.subCategories.filter(s => s.mainId === mainId);
-            let directContents = Object.keys(appData.contents).filter(k => appData.contents[k].belongsTo === mainId);
-            if (filteredSubs.length === 0 && directContents.length > 0) {
-                openSubSections(mainId, mainName, true); 
-            } else {
-                openSubSections(mainId, mainName, false);
-            }
+            openSubSections(mainId, mainName);
         }
 
-        function openSubSections(mainId, mainName, isDirectOnly) {
+        function openSubSections(mainId, mainName) {
             document.getElementById('mainMenuGrid').style.display = 'none';
             document.getElementById('subSectionsView').style.display = 'block';
             document.getElementById('currentMainTitle').innerText = `📌 تصفح: ${mainName}`;
+            
             let container = document.getElementById('itemsGridContainer');
             container.innerHTML = "";
-            if (isDirectOnly) {
-                let directContents = Object.keys(appData.contents).filter(k => appData.contents[k].belongsTo === mainId);
-                directContents.forEach(k => {
-                    let item = appData.contents[k];
-                    container.innerHTML += `<div class="pharmacy-card" style="background:#e0f2fe; border-color:#7dd3fc;" onclick="viewContentData('${k}')">⭐ ${item.title}</div>`;
-                });
-            } else {
-                let filteredSubs = appData.subCategories.filter(s => s.mainId === mainId);
-                let directContents = Object.keys(appData.contents).filter(k => appData.contents[k].belongsTo === mainId);
-                directContents.forEach(k => {
-                    let item = appData.contents[k];
-                    container.innerHTML += `<div class="pharmacy-card" style="background:#e0f2fe; border-color:#7dd3fc;" onclick="viewContentData('${k}')">⭐ ${item.title}</div>`;
-                });
-                filteredSubs.forEach(s => {
-                    let subCard = document.createElement('div');
-                    subCard.className = "pharmacy-card";
-                    subCard.style.backgroundColor = "var(--primary-green)";
-                    subCard.style.color = "white";
-                    subCard.innerText = `📂 ${s.name}`;
-                    subCard.onclick = () => openPharmacyList(s.id, s.name, mainId, mainName);
-                    container.appendChild(subCard);
-                });
-                if (filteredSubs.length === 0 && directContents.length === 0) {
-                    container.innerHTML = `<div style="grid-column: span 2; color:#666; text-align:center; padding:20px;">لا توجد محتويات مضافة.</div>`;
-                }
+            
+            // 1. جلب وعرض الأقسام الفرعية التابعة لهذا القسم
+            let filteredSubs = appData.subCategories.filter(s => s.mainId === mainId);
+            filteredSubs.forEach(s => {
+                let subCard = document.createElement('div');
+                subCard.className = "pharmacy-card";
+                subCard.style.backgroundColor = "var(--primary-green)";
+                subCard.style.color = "white";
+                subCard.innerText = `📂 ${s.name}`;
+                subCard.onclick = () => openPharmacyList(s.id, s.name, mainId, mainName);
+                container.appendChild(subCard);
+            });
+
+            // 2. جلب وعرض العناصر (المنشورات المباشرة) داخل هذا القسم إن وجدت
+            let directContents = Object.keys(appData.contents).filter(k => appData.contents[k].belongsTo === mainId);
+            directContents.forEach(k => {
+                let item = appData.contents[k];
+                container.innerHTML += `<div class="pharmacy-card" style="background:#e0f2fe; border-color:#7dd3fc;" onclick="viewContentData('${k}')">⭐ ${item.title}</div>`;
+            });
+            
+            if (filteredSubs.length === 0 && directContents.length === 0) {
+                container.innerHTML = `<div style="grid-column: span 2; color:#666; text-align:center; padding:20px;">لا توجد محتويات مضافة في هذا القسم حتى الآن.</div>`;
             }
         }
 
@@ -702,7 +687,7 @@
             container.innerHTML = "";
             let items = Object.keys(appData.contents).filter(k => appData.contents[k].belongsTo === subId);
             if (items.length === 0) {
-                container.innerHTML = `<div style="grid-column: span 3; color:#666; text-align:center; padding:20px;">لا توجد عناصر مضافة بعد.</div>`;
+                container.innerHTML = `<div style="grid-column: span 2; color:#666; text-align:center; padding:20px;">لا توجد عناصر مضافة في هذا القسم بعد.</div>`;
             } else {
                 items.forEach(k => {
                     let item = appData.contents[k];
@@ -717,11 +702,10 @@
             backBtn.className = "nav-card";
             backBtn.style.cssText = "grid-column: 1 / -1; width:100%; margin-top:20px; padding:10px; background:#64748b;";
             backBtn.innerText = "⬅️ العودة للأقسام السابقة";
-            backBtn.onclick = () => openSubSections(mainId, mainName, false);
+            backBtn.onclick = () => openSubSections(mainId, mainName);
             container.appendChild(backBtn);
         }
 
-        // دالة عرض تفاصيل الصيدلية المُصلحة والمثبتة لتعمل على بوب أب بشكل ديناميكي كامل
         function viewContentData(contentId) {
             let content = appData.contents[contentId];
             if (!content) return;
@@ -739,6 +723,7 @@
         }
 
         function closePopup() { document.getElementById('contentPopup').style.display = 'none'; }
+        
         function goBackToMain() {
             document.getElementById('subSectionsView').style.display = 'none';
             document.getElementById('mainMenuGrid').style.display = 'grid';
@@ -770,12 +755,10 @@
         }
 
         window.onload = function() {
-            // إخفاء فوري وتأكيد القفل للوحة التحكم
             document.getElementById('adminOverlay').style.display = 'none';
             initLiveClock();
             renderMainMenu();
         };
     </script>
-
-
-</body></html>
+</body>
+</html>
