@@ -3,50 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | الإدارة الحرة</title>
+    <title>مخيم نت | النظام المتكامل 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
-        body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 90px; user-select: none; overflow-x: hidden; }
+        body { font-family: 'Cairo', sans-serif; margin: 0; background: #f0f2f5; padding-bottom: 100px; user-select: none; overflow-x: hidden; }
         
-        header { 
-            background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; 
-            height: 160px; border-bottom: 4px solid var(--p-green); position: relative;
-        }
-        
-        .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 5px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; -webkit-tap-highlight-color: transparent; }
-        .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 5px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
+        /* الهيدر والبار الشفاف */
+        header { background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; height: 160px; border-bottom: 4px solid var(--p-green); position: relative; }
+        .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; border: 1px solid rgba(255,255,255,0.2); -webkit-tap-highlight-color: transparent; }
+        .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
 
-        .urgent-news-area { margin: 15px; background: #fff; border-right: 5px solid var(--p-red); border-radius: 8px; padding: 12px; display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
+        /* الخبر الهام (يختفي ويظهر تلقائياً) */
+        #urgentArea { margin: 15px; background: white; border-right: 5px solid var(--p-red); border-radius: 8px; padding: 12px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(206, 17, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0); } }
-        .urgent-label { color: var(--p-red); font-weight: bold; margin-bottom: 5px; display: block; font-size: 0.9rem; }
-        .urgent-text { font-size: 1.1rem; color: var(--p-black); font-weight: bold; }
 
-        .container { padding: 0 15px 15px 15px; min-height: 30vh; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
+        .container { padding: 15px; }
 
+        /* عرض المحتوى المباشر وعرض المجلدات */
+        .content-block { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-right: 6px solid var(--p-green); }
+        .content-img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
+        .content-title { background: var(--p-black); color: white; padding: 10px 15px; font-weight: bold; }
+        .content-text { padding: 15px; line-height: 1.8; color: #333; white-space: pre-wrap; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
+        .card { background: white; border-radius: 12px; height: 90px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700; padding: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); border: 1px solid #ddd; cursor: pointer; border-right: 5px solid var(--p-blue); }
+
+        /* لوحة التحكم المحصنة */
         #adminPanel { display: none !important; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
-        .admin-item { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; border-right: 6px solid var(--p-green); }
-        .sub-admin-box { margin-right: 15px; border-right: 2px solid #ddd; padding-right: 10px; margin-top: 10px; }
-        
-        input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 15px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        .admin-header { position: sticky; top: -20px; background: #fff; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; z-index: 100; }
+        .admin-item { background: #f8f9fa; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; border-right: 5px solid var(--p-green); }
+
+        input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; border: 10px solid #eee; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 14px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 8px; }
         .btn-green { background: var(--p-green); color: white; }
         .btn-blue { background: var(--p-blue); color: white; }
         .btn-red { background: var(--p-red); color: white; }
 
+        /* النافذة المنبثقة للاختيار (Picker) */
+        .picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
+        .picker-box { background: white; width: 100%; max-width: 400px; padding: 25px; border-radius: 15px; }
+
+        /* الفوتر وشريط الأخبار المستمر */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
-        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1005; font-size: 0.9rem; order: -1; }
+        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; font-size: 0.9rem; z-index: 1001; order: -1; }
         .ticker-wrapper { flex: 1; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; }
         .ticker-move { display: flex; position: absolute; white-space: nowrap; right: 0; flex-direction: row-reverse; }
         .ticker-item { padding-left: 100px; font-size: 0.9rem; direction: rtl; }
         .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-box { background: white; width: 100%; max-width: 400px; border-radius: 15px; max-height: 80vh; overflow-y: auto; }
-        .path-nav { background: #fff; padding: 8px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee; display: none; align-items: center; }
+        .path-nav { background: #fff; padding: 10px; border-radius: 10px; margin-bottom: 12px; display: none; align-items: center; border: 1px solid #eee; }
+        .back-btn { background: #000; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; margin-left: 12px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -56,239 +63,216 @@
     <div class="header-tag-left" id="headerDate">-- : --</div>
 </header>
 
-<div class="urgent-news-area" id="urgentArea">
-    <span class="urgent-label">🔴 خبر هام:</span>
-    <div class="urgent-text" id="urgentText"></div>
+<div id="urgentArea">
+    <span style="color:red; font-weight:bold;">🔴 خبر هام:</span>
+    <div id="urgentText" style="font-weight:bold; font-size:1.1rem; color:black;"></div>
 </div>
 
 <div id="adminPanel">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2 style="margin:0">لوحة التحكم</h2>
-        <button onclick="closeAdminNow()" class="btn-red" style="width:auto; padding:5px 15px; margin:0;">إغلاق X</button>
+    <div class="admin-header">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+             <h3 style="margin:0;">تحرير الموقع</h3>
+             <button onclick="closeAdmin()" class="btn-red" style="width:auto; padding:5px 15px; margin:0;">إغلاق X</button>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+            <button class="btn btn-blue" onclick="showPicker('folder')">➕ إضافة قسم</button>
+            <button class="btn btn-green" onclick="showPicker('direct')">✍️ إضافة محتوى</button>
+        </div>
     </div>
 
+    <!-- إعدادات الشريط والخبر الهام -->
     <div class="admin-item" style="border-right-color: var(--p-red);">
-        <h4>🔴 الخبر الهام</h4>
-        <input type="text" id="urgentInput" placeholder="اكتب الخبر الهام هنا">
-        <button class="btn" style="background:var(--p-black); color:white;" onclick="updateUrgent()">تحديث الخبر الهام</button>
-    </div>
-
-    <div class="admin-item">
-        <h4>⚙️ إعدادات الموقع</h4>
-        <input type="text" id="newsInput" placeholder="نص الشريط السفلي">
-        <label>سرعة الشريط: <input type="range" id="speedSlider" min="1" max="10" step="0.5"></label>
-        <input type="text" id="headerImgInput" placeholder="رابط صورة الهيدر">
-        <button class="btn btn-green" onclick="publishMeta()">حفظ الإعدادات</button>
+        <h4>🔴 التحكم بالأخبار السريعة</h4>
+        <input type="text" id="urgentInp" placeholder="الخبر الهام العلوي (اتركه فارغاً للإخفاء)">
+        <hr>
+        <input type="text" id="newsInp" placeholder="نص شريط الأخبار السفلي">
+        <label>سرعة الشريط: <input type="range" id="speedSld" min="1" max="10" step="0.5"></label>
+        <button class="btn btn-green" onclick="saveMeta()">حفظ الإعدادات</button>
     </div>
 
     <div id="adminTree"></div>
-    <button class="btn btn-green" onclick="addNode(tree)">+ إضافة بطاقة رئيسية (بالواجهة)</button>
     <hr>
-    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullSite()">📥 تصدير الكود المحدث بالبيانات</button>
+    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportSite()">📥 تصدير الكود المحدث</button>
+</div>
+
+<!-- اختيار مكان النشر -->
+<div id="targetPicker" class="picker-overlay">
+    <div class="picker-box">
+        <h3 id="pickTitle" style="margin-top:0">مكان النشر</h3>
+        <select id="folderSelect"><option value="root">الواجهة الرئيسية</option></select>
+        <button onclick="confirmAdd()" class="btn btn-green">تأكيد الإضافة</button>
+        <button onclick="document.getElementById('targetPicker').style.display='none'" class="btn btn-red">إلغاء</button>
+    </div>
 </div>
 
 <div class="container">
     <div class="path-nav" id="pathNav">
-        <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 10px; border-radius:4px; margin-left:10px;">← عودة</button>
-        <span id="currentPath">الرئيسية</span>
+        <button onclick="goBack()" class="back-btn">← عودة</button>
+        <span id="currentPath" style="font-weight:bold;">الرئيسية</span>
     </div>
-    <div id="mainGrid" class="grid"></div>
+    <div id="directArea"></div>
+    <div id="gridArea" class="grid"></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
         <div class="clock" id="liveClock">00:00</div>
         <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox">
-                <div id="tickerContent" style="display: flex;"></div>
-            </div>
+            <div class="ticker-move" id="tickerBox"><div id="tickerContent" style="display: flex;"></div></div>
         </div>
     </div>
     <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
 </div>
 
-<div id="modal" class="modal">
-    <div class="modal-box">
-        <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
-            <span id="modalTitle"></span>
-            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">&times;</span>
-        </div>
-        <img id="modalImg" style="width:100%; display:none; border-bottom:4px solid var(--p-green);">
-        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.6;"></div>
-    </div>
-</div>
-
 <script id="siteData">
-    var INITIAL_TREE = [{"id":1781648247989,"title":"فعاليات المخيم ","type":"folder","content":"","image":"","children":[{"id":1781648267383,"title":"صيدليات","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648298419,"title":"سوبر ماركت ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648320121,"title":"اتصالات","type":"content","content":"قريبا","image":"","children":[]}]},{"id":1781648376753,"title":"عن المخيم","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648410688,"title":"منظمات و مؤسسات","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648435350,"title":"عروض وخدمات ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648744654,"title":"اخبار المخيم ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648769009,"title":"اخبار دولية","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648790982,"title":"المطبخ الفلسطيني ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648846379,"title":"معلومات عامة ","type":"folder","content":"","image":"","children":[{"id":1781648867062,"title":"تكنولوجيا ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648880296,"title":"صحة","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648905936,"title":"علوم","type":"content","content":"قريبا","image":"","children":[]}]}];
-    var INITIAL_NEWS = "يمكنكم اضافة اعلاناتكم هنا عبر الاتصال بنا على الواتساب 0982578016 او التواصل على بريد الصفحة أهلاً بكم في مخيم نت التطبيق الرائد لمنطقة الرمل الجنوبي و مخيم العائدين باللاذقية ستبقى القدس عاصمة فلسطين الابدية ";
-    var INITIAL_HEADER = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
-    var INITIAL_SPEED = 1.5;
-    var INITIAL_URGENT = "مرحباً بكم في النسخة الجديدة";
+    var INITIAL_TREE = [];
+    var INITIAL_NEWS = "مرحباً بكم في مخيم نت";
+    var INITIAL_SPEED = 2;
+    var INITIAL_URGENT = "";
 </script>
 
 <script>
-    window.onload = () => { document.getElementById("adminPanel").style.setProperty('display', 'none', 'important'); };
+    // الحماية المطلقة من الفتح التلقائي
+    window.onload = () => { document.getElementById("adminPanel").style.setProperty('display', 'none', 'important'); tick(); renderUI(); };
 
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_v_final_tree')) || [];
-    let newsStr = localStorage.getItem('mn_v_final_news') || INITIAL_NEWS;
-    let headUrl = localStorage.getItem('mn_v_final_head') || INITIAL_HEADER;
-    let tickerSpeed = parseFloat(localStorage.getItem('mn_v_final_speed')) || INITIAL_SPEED;
-    let urgentStr = localStorage.getItem('mn_v_final_urgent') || INITIAL_URGENT;
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_final_tree_v13')) || [];
+    let newsStr = localStorage.getItem('mn_news_v13') || INITIAL_NEWS;
+    let tickerSpeed = parseFloat(localStorage.getItem('mn_speed_v13')) || INITIAL_SPEED;
+    let urgentStr = localStorage.getItem('mn_urgent_v13') || INITIAL_URGENT;
     let currentStack = [];
+    let pendingType = '';
 
-    // --- الحركة ---
+    function tick() {
+        const now = new Date();
+        document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
+        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        setTimeout(tick, 1000);
+    }
+
     let pos = 0;
     function startTicker() {
-        const box = document.getElementById('tickerBox');
         const content = document.getElementById('tickerContent');
         content.innerHTML = `<span class="ticker-item">${newsStr}</span><span class="ticker-item">${newsStr}</span>`;
         function animate() {
             pos += tickerSpeed;
             if (content.children[0] && pos >= content.children[0].offsetWidth) pos = 0;
-            box.style.transform = `translateX(${pos}px)`;
+            document.getElementById('tickerBox').style.transform = `translateX(${pos}px)`;
             requestAnimationFrame(animate);
         }
         animate();
     }
 
-    function updateDateTime() {
-        const now = new Date();
-        document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    }
-
-    // --- الإدارة ---
+    // الدخول بـ 5 نقرات على مخيم نت
     let clicks = 0;
     document.getElementById('adminTrigger').onclick = () => {
         clicks++;
-        if (clicks === 5) {
-            if (prompt("كلمة السر:") === "1234") {
+        if(clicks === 5) {
+            if(prompt("الباسوورد:") === "1234") {
                 document.getElementById('adminPanel').style.setProperty('display', 'block', 'important');
-                document.getElementById('newsInput').value = newsStr;
-                document.getElementById('headerImgInput').value = headUrl;
-                document.getElementById('speedSlider').value = tickerSpeed;
-                document.getElementById('urgentInput').value = urgentStr;
+                document.getElementById('newsInp').value = newsStr;
+                document.getElementById('speedSld').value = tickerSpeed;
+                document.getElementById('urgentInp').value = urgentStr;
                 renderAdmin();
-            } else { alert("خطأ!"); }
+            }
             clicks = 0;
         }
         setTimeout(() => clicks = 0, 3000);
     };
 
-    function closeAdminNow() { document.getElementById('adminPanel').style.setProperty('display', 'none', 'important'); }
+    function closeAdmin() { document.getElementById('adminPanel').style.setProperty('display', 'none', 'important'); }
+
+    function showPicker(type) {
+        pendingType = type;
+        const sel = document.getElementById('folderSelect');
+        sel.innerHTML = '<option value="root">الواجهة الرئيسية</option>';
+        function fill(arr, depth=0) {
+            arr.forEach(i => { if(i.type==='folder'){ sel.innerHTML += `<option value="${i.id}">${"—".repeat(depth)} ${i.title}</option>`; fill(i.children, depth+1); }});
+        }
+        fill(tree);
+        document.getElementById('targetPicker').style.display='flex';
+    }
+
+    function confirmAdd() {
+        const targetId = document.getElementById('folderSelect').value;
+        const newItem = { id: Date.now(), title: "عنصر جديد", type: pendingType, content: "", image: "", children: [] };
+        if(targetId === 'root') tree.unshift(newItem);
+        else {
+            function walk(arr) { for(let i of arr){ if(i.id == targetId){ i.children.unshift(newItem); return true; } if(i.children.length>0 && walk(i.children)) return true; } }
+            walk(tree);
+        }
+        save(); document.getElementById('targetPicker').style.display='none'; renderAdmin(); renderUI();
+    }
 
     function renderAdmin() {
         const container = document.getElementById('adminTree');
-        container.innerHTML = '<h4>هيكلية المحتوى الحالية:</h4>';
+        container.innerHTML = '<h4>ترتيب وتنسيق المحتوى:</h4>';
         function draw(arr) {
-            let html = `<div class="sub-admin-box">`;
-            arr.forEach((item) => {
-                html += `
-                    <div class="admin-item" style="border-right: 6px solid ${item.type==='folder'?'#2196F3':'#007A3D'}">
-                        <input type="text" value="${item.title}" oninput="updateVal('${item.id}', 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateVal('${item.id}', 'type', this.value); renderAdmin();">
-                            <option value="content" ${item.type==='content'?'selected':''}>محتوى مباشر</option>
-                            <option value="folder" ${item.type==='folder'?'selected':''}>قسم يحتوي فروع</option>
-                        </select>
-                        ${item.type === 'content' ? 
-                            `<input type="text" value="${item.image||''}" oninput="updateVal('${item.id}', 'image', this.value)" placeholder="رابط صورة لتظهر بوب اب">
-                             <textarea oninput="updateVal('${item.id}', 'content', this.value)" placeholder="نص المحتوى...">${item.content}</textarea>` : 
-                            `<button class="btn btn-blue" style="font-size:0.75rem;" onclick="addNodeByID('${item.id}')">+ إضافة (فرع / محتوى) جديد داخل "${item.title}"</button>`}
-                        <button onclick="deleteNode('${item.id}')" style="color:red; background:none; border:none; cursor:pointer; font-size:0.75rem;">إزالة 🗑️</button>
-                    </div>`;
-                if (item.children.length > 0) html += draw(item.children);
+            let h = `<div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">`;
+            arr.forEach(i => {
+                h += `<div class="admin-item" style="border-right-color:${i.type==='folder'?'var(--p-blue)':'var(--p-green)'}">
+                        <input type="text" value="${i.title}" oninput="updateVal('${i.id}','title',this.value)">
+                        ${i.type==='direct' ? `<input type="text" value="${i.image}" oninput="updateVal('${i.id}','image',this.value)" placeholder="رابط الصورة"><textarea oninput="updateVal('${i.id}','content',this.value)">${i.content}</textarea>` : ''}
+                        <button class="btn-red" style="padding:2px 8px; width:auto; font-size:0.7rem;" onclick="deleteNode('${i.id}')">حذف</button>
+                      </div>`;
+                if(i.children.length>0) h += draw(i.children);
             });
-            return html + '</div>';
+            return h + '</div>';
         }
         container.innerHTML += draw(tree);
     }
 
-    function addNode(target) {
-        target.push({ id: Date.now(), title: "جديد", type: "content", content: "", image: "", children: [] });
-        save(); renderAdmin(); renderUI();
-    }
+    function updateVal(id, f, v) { function walk(arr){ for(let i of arr){ if(i.id==id){i[f]=v; return true;} if(i.children.length>0 && walk(i.children)) return true; }} walk(tree); save(); renderUI(); }
+    function deleteNode(id) { if(confirm("حذف؟")){ function walk(arr){ for(let i=0; i<arr.length; i++){ if(arr[i].id==id){arr.splice(i,1); return true;} if(arr[i].children.length>0 && walk(arr[i].children)) return true; }} walk(tree); save(); renderAdmin(); renderUI(); }}
 
-    function addNodeByID(id) {
-        findNode(tree, id, 'add');
-        save(); renderAdmin();
+    function saveMeta() {
+        newsStr = document.getElementById('newsInp').value;
+        tickerSpeed = parseFloat(document.getElementById('speedSld').value);
+        localStorage.setItem('mn_news_v13', newsStr);
+        localStorage.setItem('mn_speed_v13', tickerSpeed);
+        location.reload();
     }
-
-    function findNode(arr, id, action, field, val) {
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i].id == id) {
-                if(action === 'update') arr[i][field] = val;
-                if(action === 'add') arr[i].children.push({ id: Date.now() + Math.random(), title: "عنصر جديد", type: "content", content: "", image: "", children: [] });
-                if(action === 'delete') arr.splice(i, 1);
-                return true;
-            }
-            if (arr[i].children && findNode(arr[i].children, id, action, field, val)) return true;
-        }
-    }
-
-    function updateVal(id, f, v) { findNode(tree, id, 'update', f, v); save(); renderUI(); }
-    function deleteNode(id) { if(confirm("حذف؟")) { findNode(tree, id, 'delete'); save(); renderAdmin(); renderUI(); } }
 
     function updateUrgent() {
-        urgentStr = document.getElementById('urgentInput').value;
-        localStorage.setItem('mn_v_final_urgent', urgentStr);
-        checkUrgent();
-        alert("تم التحديث");
+        urgentStr = document.getElementById('urgentInp').value;
+        localStorage.setItem('mn_urgent_v13', urgentStr);
+        applyUrgent(); alert("تم حفظ الخبر الهام");
     }
 
-    function checkUrgent() {
-        if(urgentStr && urgentStr.trim() !== "") {
-            document.getElementById('urgentArea').style.display = 'block';
-            document.getElementById('urgentText').innerText = urgentStr;
-        } else { document.getElementById('urgentArea').style.display = 'none'; }
+    function applyUrgent() {
+        const area = document.getElementById('urgentArea');
+        if(urgentStr && urgentStr.trim() !== "") { area.style.display='block'; document.getElementById('urgentText').innerText = urgentStr; }
+        else area.style.display='none';
     }
 
     function renderUI() {
-        const grid = document.getElementById('mainGrid'); grid.innerHTML = '';
-        let current = currentStack.length > 0 ? currentStack[currentStack.length - 1].children : tree;
-        document.getElementById('pathNav').style.display = currentStack.length > 0 ? 'flex' : 'none';
-        if (currentStack.length > 0) document.getElementById('currentPath').innerText = currentStack[currentStack.length - 1].title;
-        current.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            if(item.type === 'folder') card.style.borderRight = "6px solid var(--p-blue)";
-            card.innerText = item.title;
-            card.onclick = () => {
-                if (item.type === 'folder') { currentStack.push(item); renderUI(); }
-                else {
-                    document.getElementById('modalTitle').innerText = item.title;
-                    document.getElementById('modalBody').innerHTML = item.content.replace(/\n/g, '<br>');
-                    const img = document.getElementById('modalImg');
-                    if(item.image) { img.src = item.image; img.style.display='block'; } else img.style.display='none';
-                    document.getElementById('modal').style.display='flex';
-                }
-            };
-            grid.appendChild(card);
+        const grid = document.getElementById('gridArea'); grid.innerHTML = '';
+        const dc = document.getElementById('directArea'); dc.innerHTML = '';
+        const nav = document.getElementById('pathNav');
+        let currentItems = currentStack.length > 0 ? currentStack[currentStack.length - 1].children : tree;
+        nav.style.display = currentStack.length > 0 ? 'flex' : 'none';
+        if(currentStack.length>0) document.getElementById('currentPath').innerText = currentStack[currentStack.length-1].title;
+        currentItems.forEach(i => {
+            if(i.type==='folder'){
+                const c = document.createElement('div'); c.className = 'card'; c.innerText = i.title;
+                c.onclick = () => { currentStack.push(i); renderUI(); window.scrollTo(0,0); }; grid.appendChild(c);
+            } else {
+                const b = document.createElement('div'); b.className = 'content-block';
+                b.innerHTML = `<div class="content-title">${i.title}</div>${i.image?`<img src="${i.image}" class="content-img">`:''}<div class="content-text">${i.content.replace(/\n/g,'<br>')}</div>`;
+                dc.appendChild(b);
+            }
         });
     }
 
     function goBack() { currentStack.pop(); renderUI(); }
+    const save = () => localStorage.setItem('mn_final_tree_v13', JSON.stringify(tree));
 
-    function publishMeta() {
-        newsStr = document.getElementById('newsInput').value;
-        tickerSpeed = parseFloat(document.getElementById('speedSlider').value);
-        headUrl = document.getElementById('headerImgInput').value;
-        localStorage.setItem('mn_v_final_news', newsStr);
-        localStorage.setItem('mn_v_final_speed', tickerSpeed);
-        localStorage.setItem('mn_v_final_head', headUrl);
-        location.reload();
-    }
-
-    function save() { localStorage.setItem('mn_v_final_tree', JSON.stringify(tree)); }
-    function exportFullSite() {
-        let h = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsStr)};\n    var INITIAL_HEADER = ${JSON.stringify(headUrl)};\n    var INITIAL_SPEED = ${tickerSpeed};\n    var INITIAL_URGENT = ${JSON.stringify(urgentStr)};`);
+    function exportSite() {
+        let h = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsStr)};\n    var INITIAL_SPEED = ${tickerSpeed};\n    var INITIAL_URGENT = ${JSON.stringify(urgentStr)};`);
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + h], {type:'text/html'}));
-        a.download = 'MukhayamNet.html'; a.click();
+        a.download = 'MukhayamNet_Final.html'; a.click();
     }
 
-    setInterval(updateDateTime, 1000);
-    updateDateTime(); startTicker(); checkUrgent();
-    document.getElementById('siteHeader').style.backgroundImage = `url('${headUrl}')`;
-    renderUI();
+    startTicker(); applyUrgent();
 </script>
 </body>
 </html>
