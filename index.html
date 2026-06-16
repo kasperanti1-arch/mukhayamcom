@@ -306,7 +306,7 @@
         <div class="right-side">
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
-        <div class="left-side" id="liveHeaderTime">صباح الخير | ١٦ حزيران ٢٠٢٦ | ٠١:٥٩</div>
+        <div class="left-side" id="liveHeaderTime">صباح الخير | ١٦ حزيران ٢٠٢٦ | ٠٣:٤٠</div>
     </div>
 
     <div class="container">
@@ -321,9 +321,9 @@
 
     <div class="popup-overlay" id="contentPopup" style="display: none;">
         <div class="popup-modal">
-            <h3 id="popupTitle">تجربة</h3>
+            <h3 id="popupTitle">ابو مروان</h3>
             <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'" style="display: none;">
-            <div id="popupText" class="popup-text">موضوع تكنولوجيا</div>
+            <div id="popupText" class="popup-text">دمير</div>
             <button class="nav-card" style="width:100%; margin-top:15px; padding:10px; background:var(--primary-green);" onclick="closePopup()">إغلاق</button>
         </div>
     </div>
@@ -374,7 +374,7 @@
                 <h4>✍️ تعديل المحتويات والمنشورات الحالية</h4>
                 <div class="form-group">
                     <label>اختر المنشور المراد تعديله:</label>
-                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشوراً للتعديل --</option><option value="pharmacy_demo1">ابو مروان</option><option value="pharmacy_demo2">صيدلية القدس</option><option value="pharmacy_demo3">صيدلية العودة</option><option value="c_1781563682474">تجربة</option></select>
+                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشوراً للتعديل --</option><option value="pharmacy_demo1">صيدلية عمار</option><option value="pharmacy_demo2">صيدلية القدس</option><option value="pharmacy_demo3">صيدلية العودة</option><option value="c_1781563682474">تجربة</option></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="editContentTitleInput" placeholder="العنوان الجديد...">
@@ -400,7 +400,7 @@
                 <h4>🗑️ إدارة وحذف العناصر المضافة</h4>
                 <div class="form-group">
                     <label>اختر القسم أو (الصيدلية/المنشور) للمسح النهائي:</label>
-                    <select id="deleteTargetSelectDropdown"><optgroup label="📁 الأقسام الرئيسية"></optgroup><option value="m:m1">[رئيسي] الخدمات الطبية</option><option value="m:m2">[رئيسي] أخبار المخيم</option><option value="m:m_1781563653625">[رئيسي] تكنولوجيا</option><optgroup label="📂 الأقسام الفرعية"></optgroup><option value="s:s1">[فرعي] صيدليات المخيم</option><option value="s:s2">[فرعي] عيادات الأطباء</option><option value="c:pharmacy_demo1">[عنصر] ابو مروان</option><option value="c:pharmacy_demo2">[عنصر] صيدلية القدس</option><option value="c:pharmacy_demo3">[عنصر] صيدلية العودة</option><option value="c:c_1781563682474">[عنصر] تجربة</option></select>
+                    <select id="deleteTargetSelectDropdown"><optgroup label="📁 الأقسام الرئيسية"></optgroup><option value="m:m1">[رئيسي] الخدمات الطبية</option><option value="m:m2">[رئيسي] أخبار المخيم</option><option value="m:m_1781563653625">[رئيسي] تكنولوجيا</option><optgroup label="📂 الأقسام الفرعية"></optgroup><option value="s:s1">[فرعي] صيدليات المخيم</option><option value="s:s2">[فرعي] عيادات الأطباء</option><option value="c:pharmacy_demo1">[عنصر] صيدلية عمار</option><option value="c:pharmacy_demo2">[عنصر] صيدلية القدس</option><option value="c:pharmacy_demo3">[عنصر] صيدلية العودة</option><option value="c:c_1781563682474">[عنصر] تجربة</option></select>
                 </div>
                 <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر المحدد فوراً</button>
             </div>
@@ -424,7 +424,7 @@
                 <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
             </div>
             </div>
-            <div class="ticker-clock-area" id="liveFooterClock">٠١:٥٩</div>
+            <div class="ticker-clock-area" id="liveFooterClock">٠٣:٤٠</div>
         </div>
         <div class="footer-rights-bar">
             تصميم محمد ابراهيم مقبل | جميع الحقوق محفوظة ©
@@ -747,7 +747,7 @@
         function exportFullCodeHTML() {
             let dataString = JSON.stringify(appData);
             let fullHtmlContent = document.documentElement.outerHTML;
-            let scriptToReplace = `let appData = JSON.parse(localStorage.getItem('camp_net_premium_data')) || defaultAppData;`;
+            let scriptToReplace = `let appData = {"ticker":"أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.","mainCategories":[{"id":"m1","name":"الخدمات الطبية","icon":"🩺"},{"id":"m2","name":"أخبار المخيم","icon":"📰"},{"id":"m_1781563653625","name":"تكنولوجيا","icon":"📁"}],"subCategories":[{"id":"s1","mainId":"m1","name":"صيدليات المخيم"},{"id":"s2","mainId":"m1","name":"عيادات الأطباء"}],"contents":{"pharmacy_demo1":{"belongsTo":"s1","title":"صيدلية عمار","img":"","text":"عمارررىججججج"},"pharmacy_demo2":{"belongsTo":"s1","title":"صيدلية القدس","img":"","text":"📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"},"pharmacy_demo3":{"belongsTo":"s1","title":"صيدلية العودة","img":"","text":"📍 العنوان: أول مدخل المخيم - دوار العودة\n📞 هاتف: 0597222222\n⏰ الدوام: من 9 صباحاً حتى 10 مساءً"},"c_1781563682474":{"belongsTo":"m_1781563653625","title":"تجربة","img":"","text":"موضوع تكنولوجيا"}}};`;
             let injectedScript = `let appData = ${dataString};`;
             let finalCodeOutput = fullHtmlContent.replace(scriptToReplace, injectedScript);
             let blob = new Blob([finalCodeOutput], { type: "text/html;charset=utf-8" });
@@ -763,6 +763,7 @@
             renderMainMenu();
         };
     </script>
+
 
 
 </body></html>
