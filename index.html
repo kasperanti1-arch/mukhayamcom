@@ -130,7 +130,6 @@
             background-color: #e2e8f0;
         }
 
-        /* تم تعديل الـ CSS هنا لضمان إغلاق اللوحة نهائياً عند التحميل */
         .popup-overlay {
             display: none !important; 
             position: fixed;
@@ -142,7 +141,6 @@
             padding: 10px;
         }
 
-        /* كلاس مخصص لإظهار اللوحات برمجياً فقط */
         .popup-overlay.is-active {
             display: flex !important;
         }
@@ -307,7 +305,6 @@
 
     <div class="app-header">
         <div class="right-side">
-            <!-- الكلمة المستهدفة للنقر السري -->
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
         <div class="left-side" id="liveHeaderTime"></div>
@@ -323,7 +320,6 @@
         </div>
     </div>
 
-    <!-- نافذة عرض المحتوى -->
     <div class="popup-overlay" id="contentPopup">
         <div class="popup-modal">
             <h3 id="popupTitle"></h3>
@@ -333,7 +329,7 @@
         </div>
     </div>
 
-    <!-- لوحة التحكم الاحترافية المغلقة تماماً -->
+    <!-- لوحة التحكم الذكية والمحسنة للنشر الحر -->
     <div class="popup-overlay" id="adminOverlay">
         <div class="admin-modal">
             <h3>⚙️ لوحة الإدارة والتحكم الشاملة الذكية</h3>
@@ -373,14 +369,14 @@
                 <button class="admin-btn" style="background: var(--primary-green);" onclick="addSubLevel3Category()">إنشاء القسم الفرعي الثالث</button>
             </div>
 
-            <div class="admin-section-box">
-                <h4>4️⃣ إضافة محتوى جديد داخل الأقسام الفرعية الثالثة</h4>
+            <div class="admin-section-box" style="border: 2px solid #0284c7; background: #f0f9ff;">
+                <h4>4️⃣ إضافة ونشر محتوى جديد (في أي قسم تفتحه) 📢</h4>
                 <div class="form-group">
-                    <label>اختر القسم الفرعي الثالث لنشر المحتوى:</label>
+                    <label>اختر القسم المستهدف للنشر (رئيسي، فرعي 1، فرعي 3):</label>
                     <select id="subCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة...">
+                    <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة، خبر عاجل...">
                 </div>
                 <div class="form-group">
                     <input type="url" id="contentImageInput" placeholder="رابط صورة (إن وجد)...">
@@ -388,7 +384,7 @@
                 <div class="form-group">
                     <textarea id="contentTextarea" rows="4" placeholder="اكتب هنا المعلومات كاملة..."></textarea>
                 </div>
-                <button class="admin-btn" onclick="addFinalContent()">نشر المعلومات</button>
+                <button class="admin-btn" onclick="addFinalContent()">نشر المعلومات فوراً</button>
             </div>
 
             <div class="admin-section-box" style="border: 2px solid #f59e0b; background: #fffbeb;">
@@ -469,12 +465,12 @@
             }
         };
 
-        // متغيرات التحكم بنظام الأمان والنقرات
         let secretClickCount = 0;
         let lastClickTime = 0;
         let currentViewStage = "main"; 
         let currentMainId = null;
         let currentSubId = null;
+        let currentTargetId = null; // يتبع المعرّف المفتوح حالياً لعرض المحتويات المباشرة
 
         // ===== INIT =====
         window.onload = function() {
@@ -482,7 +478,6 @@
         };
 
         function init() {
-            // للتأكيد البرمجي الحاسم على إغلاق النوافذ عند تحميل الصفحة
             document.getElementById('adminOverlay').classList.remove('is-active');
             document.getElementById('contentPopup').classList.remove('is-active');
             
@@ -505,9 +500,20 @@
                 const card = document.createElement('div');
                 card.className = 'nav-card';
                 card.innerHTML = `<div class="icon-img">${cat.icon || '📌'}</div><div>${cat.name}</div>`;
-                card.onclick = () => showSubSectionsStage2(cat.id);
+                card.onclick = () => {
+                    // فحص ذكي: إذا كان للقسم الرئيسي منشورات مباشرة، نتوجه فوراً لعرض محتوياته بدلاً من التنقل العادي
+                    if (hasDirectContents(cat.id)) {
+                        showContents(cat.id, "main", cat.name, cat.icon);
+                    } else {
+                        showSubSectionsStage2(cat.id);
+                    }
+                };
                 grid.appendChild(card);
             });
+        }
+
+        function hasDirectContents(id) {
+            return Object.values(appData.contents).some(c => c.belongsTo === id);
         }
 
         // ===== SHOW SUB SECTIONS (STAGE 2) =====
@@ -521,17 +527,24 @@
             grid.innerHTML = '';
 
             const subs = appData.subCategories.filter(s => s.mainId === mainId);
-            if(subs.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد أقسام فرعية مضافة هنا بعد.</div>';
-            }
-
+            
             subs.forEach(sub => {
                 const card = document.createElement('div');
                 card.className = 'pharmacy-card';
                 card.innerText = sub.name;
-                card.onclick = () => showSubSectionsStage3(sub.id);
+                card.onclick = () => {
+                    if (hasDirectContents(sub.id)) {
+                        showContents(sub.id, "stage2", `${mainCat.name} ➔ ${sub.name}`, mainCat.icon);
+                    } else {
+                        showSubSectionsStage3(sub.id);
+                    }
+                };
                 grid.appendChild(card);
             });
+
+            if(subs.length === 0 && !hasDirectContents(mainId)) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد أقسام فرعية مضافة هنا بعد.</div>';
+            }
 
             document.getElementById('mainMenuGrid').style.display = 'none';
             document.getElementById('subSectionsView').style.display = 'block';
@@ -549,47 +562,72 @@
             grid.innerHTML = '';
 
             const level3Items = appData.subLevels3.filter(l => l.subId === subId);
-            if(level3Items.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد تصنيفات فرعية ثالثة مضافة هنا بعد.</div>';
-            }
-
+            
             level3Items.forEach(lvl3 => {
                 const card = document.createElement('div');
                 card.className = 'pharmacy-card';
                 card.style.backgroundColor = '#e0f2fe';
                 card.style.borderColor = '#7dd3fc';
                 card.innerText = `📂 ${lvl3.name}`;
-                card.onclick = () => showContents(lvl3.id);
+                card.onclick = () => showContents(lvl3.id, "stage3", `${mainCat.name} ➔ ${sub.name} ➔ ${lvl3.name}`, mainCat.icon);
                 grid.appendChild(card);
             });
+
+            if(level3Items.length === 0 && !hasDirectContents(subId)) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد تصنيفات فرعية ثالثة مضافة هنا بعد.</div>';
+            }
         }
 
-        // ===== SHOW CONTENTS =====
-        function showContents(level3Id) {
+        // ===== SHOW CONTENTS (تم تعديلها لتدعم العرض الشامل من أي مستوى) =====
+        function showContents(targetId, fromStage, titleText, icon) {
             currentViewStage = "contents";
-            const lvl3 = appData.subLevels3.find(l => l.id === level3Id);
-            const sub = appData.subCategories.find(s => s.id === lvl3.subId);
-            const mainCat = appData.mainCategories.find(c => c.id === sub.mainId);
-            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat.icon || ''} ${sub.name} ➔ ${lvl3.name}`;
+            currentTargetId = targetId;
+            // حفظ المرحلة التي جئنا منها لنتمكن من الرجوع للخلف بشكل سليم وبدون ضياع
+            if (fromStage) window.lastStageFallback = fromStage; 
+
+            document.getElementById('currentMainTitle').innerText = `📌 ${icon || ''} ${titleText}`;
 
             const grid = document.getElementById('itemsGridContainer');
             grid.innerHTML = '';
 
+            // جلب الأقسام التابعة إذا كنا في قسم رئيسي أو فرعي 1 لعرضها جنباً إلى جنب مع المنشورات المباشرة إن وجدت
+            if (window.lastStageFallback === "main") {
+                const subs = appData.subCategories.filter(s => s.mainId === targetId);
+                subs.forEach(sub => {
+                    const card = document.createElement('div');
+                    card.className = 'pharmacy-card';
+                    card.style.fontWeight = 'normal';
+                    card.innerText = `📁 القسم: ${sub.name}`;
+                    card.onclick = () => showSubSectionsStage2(targetId);
+                    grid.appendChild(card);
+                });
+            } else if (window.lastStageFallback === "stage2") {
+                const level3Items = appData.subLevels3.filter(l => l.subId === targetId);
+                level3Items.forEach(lvl3 => {
+                    const card = document.createElement('div');
+                    card.className = 'pharmacy-card';
+                    card.style.backgroundColor = '#e0f2fe';
+                    card.innerText = `📂 تصنيف: ${lvl3.name}`;
+                    card.onclick = () => showSubSectionsStage3(targetId);
+                    grid.appendChild(card);
+                });
+            }
+
             let hasContent = false;
             Object.entries(appData.contents).forEach(([id, content]) => {
-                if (content.belongsTo === level3Id) {
+                if (content.belongsTo === targetId) {
                     hasContent = true;
                     const card = document.createElement('div');
                     card.className = 'pharmacy-card';
+                    card.style.borderLeft = '4px solid var(--primary-green)';
                     card.innerText = content.title;
                     card.onclick = () => openContentPopup(id);
                     grid.appendChild(card);
                 }
             });
 
-            if(!hasContent) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد منشورات هنا بعد.</div>';
-            }
+            document.getElementById('mainMenuGrid').style.display = 'none';
+            document.getElementById('subSectionsView').style.display = 'block';
         }
 
         // ===== POPUP =====
@@ -616,7 +654,13 @@
             } else if (currentViewStage === "stage3") {
                 showSubSectionsStage2(currentMainId);
             } else if (currentViewStage === "contents") {
-                showSubSectionsStage3(currentSubId);
+                if (window.lastStageFallback === "main") {
+                    renderMainMenu();
+                } else if (window.lastStageFallback === "stage2") {
+                    showSubSectionsStage2(currentMainId);
+                } else {
+                    showSubSectionsStage3(currentSubId);
+                }
             }
         }
 
@@ -641,21 +685,18 @@
             document.getElementById('liveHeaderTime').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ` | ${hours}:${minutes}:${seconds}`;
         }
 
-        // ===== نظام التفعيل السري الآمن بالنقرات والوقت =====
+        // ===== نظام التفعيل السري بالنقرات والوقت والمحفوظة بالكامل =====
         function handleSecretClicks() {
             const currentTime = new Date().getTime();
-            
-            // إذا مر أكثر من ثانيتين بين النقرة والأخرى، يتم تصفير العداد لضمان الجدية والأمان
             if (currentTime - lastClickTime > 2000) {
                 secretClickCount = 0;
             }
-            
             lastClickTime = currentTime;
             secretClickCount++;
 
             if (secretClickCount === 5) {
-                secretClickCount = 0; // تصفير العداد فوراً
-                const passwordInput = prompt("🔒 الرجاء إدخال كلمة السر لفتح لوحة التحكم الاستراتيجية:");
+                secretClickCount = 0; 
+                const passwordInput = prompt("🔒 الرجاء إدخل كلمة السر لفتح لوحة التحكم الاستراتيجية:");
                 if (passwordInput === "1234") {
                     document.getElementById('adminOverlay').classList.add('is-active');
                 } else {
@@ -668,34 +709,41 @@
             document.getElementById('adminOverlay').classList.remove('is-active');
         }
 
+        // بناء وتحديث القوائم المنسدلة لتدعم النشر في أي مستوى
         function populateAdminDropdowns() {
             const mainSelect = document.getElementById('mainCatSelectDropdown');
             const subL3Select = document.getElementById('subCatSelectDropdownForLevel3');
-            const finalContentSelect = document.getElementById('subCatSelectDropdown');
+            const universalContentSelect = document.getElementById('subCatSelectDropdown');
             const editSelect = document.getElementById('editContentSelectDropdown');
             const deleteSelect = document.getElementById('deleteTargetSelectDropdown');
 
             mainSelect.innerHTML = '';
             subL3Select.innerHTML = '';
-            finalContentSelect.innerHTML = '';
+            universalContentSelect.innerHTML = ''; 
             editSelect.innerHTML = '<option value="">-- اختر منشراً للتعديل --</option>';
             deleteSelect.innerHTML = '<option value="">-- اختر عنصراً لحذفه نهائياً --</option>';
 
+            // إضافة وتعبئة المستويات المتاحة للنشر الذكي المباشر المفتوح
+            universalContentSelect.innerHTML += `<optgroup label="المستوى 1: الأقسام الرئيسية"></optgroup>`;
             appData.mainCategories.forEach(c => {
                 mainSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                universalContentSelect.innerHTML += `<option value="${c.id}"> رئيسي ➔ ${c.name}</option>`;
                 deleteSelect.innerHTML += `<option value="main_${c.id}">[رئيسي] ➔ ${c.name}</option>`;
             });
 
+            universalContentSelect.innerHTML += `<optgroup label="المستوى 2: الأقسام الفرعية الأولى"></optgroup>`;
             appData.subCategories.forEach(s => {
                 const pName = appData.mainCategories.find(m => m.id === s.mainId)?.name || '';
                 subL3Select.innerHTML += `<option value="${s.id}">${pName} ➔ ${s.name}</option>`;
+                universalContentSelect.innerHTML += `<option value="${s.id}"> فرعي أول ➔ ${s.name}</option>`;
                 deleteSelect.innerHTML += `<option value="sub_${s.id}">[فرعي أول] ➔ ${s.name}</option>`;
             });
 
+            universalContentSelect.innerHTML += `<optgroup label="المستوى 3: الأقسام الفرعية الثالثة"></optgroup>`;
             if(!appData.subLevels3) appData.subLevels3 = [];
             appData.subLevels3.forEach(l3 => {
                 const subName = appData.subCategories.find(s => s.id === l3.subId)?.name || '';
-                finalContentSelect.innerHTML += `<option value="${l3.id}">${subName} ➔ ${l3.name}</option>`;
+                universalContentSelect.innerHTML += `<option value="${l3.id}"> فرعي ثالث ➔ ${l3.name}</option>`;
                 deleteSelect.innerHTML += `<option value="l3_${l3.id}">[فرعي ثالث] ➔ ${l3.name}</option>`;
             });
 
@@ -752,7 +800,7 @@
             const img = document.getElementById('contentImageInput').value.trim();
             const text = document.getElementById('contentTextarea').value.trim();
 
-            if(!belongsTo || !title || !text) return alert('الرجاء اختيار القسم الفرعي الثالث وملء البيانات الأساسية');
+            if(!belongsTo || !title || !text) return alert('الرجاء اختيار القسم المستهدف وملء البيانات الأساسية للمنشور');
 
             const id = 'c_' + Date.now();
             appData.contents[id] = { belongsTo, title, img, text };
@@ -762,8 +810,10 @@
             document.getElementById('contentTextarea').value = '';
 
             populateAdminDropdowns();
-            showContents(belongsTo);
-            alert('تم نشر المحتوى والمعلومات الجديدة بنجاح!');
+            
+            // تحديث العرض فوراً حسب نوع القسم المنشور بداخله
+            showContents(belongsTo, "main", title, "📢");
+            alert('تم بنجاح نشر المحتوى داخل القسم المحدد بنجاح وحرية تامة!');
         }
 
         function loadContentToEdit() {
