@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<html lang="ar" dir="rtl"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مخيم نت | تصدير وإدارة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #007bff; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 70px; user-select: none; }
@@ -39,10 +38,10 @@
 <header></header>
 <div class="title-bar">
     <span class="admin-trigger-area" id="adminTrigger">مخيم نت</span>
-    <span class="date-display" id="todayDate">...</span>
+    <span class="date-display" id="todayDate">الثلاثاء، ١٦ يونيو ٢٠٢٦</span>
 </div>
 
-<div id="adminPanel">
+<div id="adminPanel" style="display: none;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
         <h2>لوحة إدارة الخدمات</h2>
         <button onclick="document.getElementById('adminPanel').style.display='none'" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق</button>
@@ -54,7 +53,97 @@
         <button class="btn btn-black" onclick="updateNews()">حفظ الخبر</button>
     </div>
 
-    <div id="adminTreeContainer"></div>
+    <div id="adminTreeContainer"><div style="margin-right:0px; border-right:2px solid #ddd; padding-right:10px;">
+                    <div class="admin-item">
+                        <input type="text" value="فعاليات المخيم " oninput="updateDraft(1781626124216, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626124216, 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى</option>
+                            <option value="folder" selected="">قسم</option>
+                        </select>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781626124216)">+ فرع</button>
+                        <button onclick="deleteItem(1781626124216)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                <div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">
+                    <div class="admin-item">
+                        <input type="text" value="سوبر ماركت " oninput="updateDraft(1781626136428, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626136428, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781626136428, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626136428, 'content', this.value)"></textarea>
+                        <button onclick="deleteItem(1781626136428)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                
+                    <div class="admin-item">
+                        <input type="text" value="صيدليات" oninput="updateDraft(1781626187982, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626187982, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781626187982, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626187982, 'content', this.value)"></textarea>
+                        <button onclick="deleteItem(1781626187982)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                
+                    <div class="admin-item">
+                        <input type="text" value="قهوة" oninput="updateDraft(1781626189338, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626189338, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781626189338, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626189338, 'content', this.value)"></textarea>
+                        <button onclick="deleteItem(1781626189338)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                </div>
+                    <div class="admin-item">
+                        <input type="text" value="عن المخيم" oninput="updateDraft(1781626257594, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626257594, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781626257594, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626257594, 'content', this.value)"></textarea>
+                        <button onclick="deleteItem(1781626257594)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                
+                    <div class="admin-item">
+                        <input type="text" value="اعلانات" oninput="updateDraft(1781626267808, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626267808, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781626267808, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626267808, 'content', this.value)"></textarea>
+                        <button onclick="deleteItem(1781626267808)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                
+                    <div class="admin-item">
+                        <input type="text" value="منظمات و مؤسسات " oninput="updateDraft(1781626330614, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626330614, 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى</option>
+                            <option value="folder" selected="">قسم</option>
+                        </select>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781626330614)">+ فرع</button>
+                        <button onclick="deleteItem(1781626330614)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                <div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">
+                    <div class="admin-item">
+                        <input type="text" value="دولية" oninput="updateDraft(1781626393669, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626393669, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781626393669, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626393669, 'content', this.value)"></textarea>
+                        <button onclick="deleteItem(1781626393669)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                
+                    <div class="admin-item">
+                        <input type="text" value="محلية " oninput="updateDraft(1781626403929, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781626403929, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781626403929, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626403929, 'content', this.value)"></textarea>
+                        <button onclick="deleteItem(1781626403929)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                </div></div></div>
     
     <div class="admin-item" style="text-align:center;">
         <button class="btn btn-green" onclick="addItemToTree()">+ إضافة بطاقة رئيسية</button>
@@ -67,18 +156,18 @@
 </div>
 
 <div class="container">
-    <div class="path-nav" id="pathNav">
+    <div class="path-nav" id="pathNav" style="display: none;">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 12px; border-radius:8px; cursor:pointer;">عودة</button>
         <span id="currentPathLabel" style="margin-right:10px; font-weight:bold;">الرئيسية</span>
     </div>
-    <div class="grid" id="mainGrid"></div>
+    <div class="grid" id="mainGrid"><div class="card" style="border-right: 6px solid var(--p-blue);">فعاليات المخيم </div><div class="card">عن المخيم</div><div class="card">اعلانات</div><div class="card" style="border-right: 6px solid var(--p-blue);">منظمات و مؤسسات </div></div>
 </div>
 
 <div id="modal" class="modal">
     <div class="modal-box">
         <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
             <span id="modalTitle"></span>
-            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.8rem;">&times;</span>
+            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.8rem;">×</span>
         </div>
         <img id="modalImg" class="modal-img" src="">
         <div id="modalBody" style="padding:20px; text-align:right; line-height:1.7;"></div>
@@ -86,9 +175,9 @@
 </div>
 
 <div class="footer">
-    <div class="clock" id="liveClock">00:00:00</div>
+    <div class="clock" id="liveClock">١٩:٤٠:٢٦</div>
     <div class="ticker-wrapper">
-        <div class="ticker-text" id="newsTicker">أهلاً بكم في مخيم نت</div>
+        <div class="ticker-text" id="newsTicker">مخيم نت - صوت القضية واللاجئ</div>
     </div>
 </div>
 
@@ -236,5 +325,6 @@
     renderUI();
 </script>
 
-</body>
-</html>
+
+
+</body></html>
