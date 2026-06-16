@@ -1,26 +1,38 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مخيم نت | 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 90px; user-select: none; overflow-x: hidden; }
         
+        /* الهيدر */
         header { 
             background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; 
             height: 160px; border-bottom: 4px solid var(--p-green); position: relative;
         }
         
-        .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 5px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; }
+        .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 5px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; -webkit-tap-highlight-color: transparent; }
         .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 5px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
 
         .container { padding: 15px; min-height: 40vh; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
 
-        #adminPanel { display: none; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
+        /* لوحة التحكم - مخفية إجبارياً */
+        #adminPanel { 
+            display: none !important; 
+            position: fixed; 
+            inset: 0; 
+            background: #fff; 
+            z-index: 9999; 
+            padding: 20px; 
+            overflow-y: auto; 
+        }
+
         .admin-item { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; border-right: 6px solid var(--p-green); }
         .sub-admin-box { margin-right: 15px; border-right: 2px solid #ddd; padding-right: 10px; margin-top: 10px; }
         
@@ -29,6 +41,7 @@
         .btn-green { background: var(--p-green); color: white; }
         .btn-red { background: var(--p-red); color: white; }
 
+        /* شريط الأخبار */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
         .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1005; font-size: 0.9rem; order: -1; }
@@ -38,6 +51,7 @@
 
         .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
 
+        /* نافذة العرض */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 400px; border-radius: 15px; max-height: 80vh; overflow-y: auto; }
         .path-nav { background: #fff; padding: 8px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee; display: none; align-items: center; }
@@ -45,98 +59,79 @@
 </head>
 <body>
 
-<header id="siteHeader" style="background-image: url(&quot;https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png&quot;);">
+<header id="siteHeader">
     <div class="header-tag-right" id="adminTrigger">مخيم نت</div>
-    <div class="header-tag-left" id="headerDate">الأربعاء، ١٧ يونيو ٢٠٢٦</div>
+    <div class="header-tag-left" id="headerDate">-- : --</div>
 </header>
 
-<div id="adminPanel" style="display: block;">
+<div id="adminPanel">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2>لوحة التحكم</h2>
-        <button onclick="document.getElementById('adminPanel').style.display='none'" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق X</button>
+        <h2 style="margin:0">لوحة التحكم</h2>
+        <button onclick="closeAdminNow()" class="btn-red" style="width:auto; padding:5px 15px; margin:0;">إغلاق X</button>
     </div>
 
     <div class="admin-item">
-        <h4>⚙️ إعدادات الشريط والصورة</h4>
+        <h4>⚙️ إعدادات الموقع</h4>
         <input type="text" id="newsInput" placeholder="نص الشريط الإخباري">
-        <label>السرعة: <input type="range" id="speedSlider" min="1" max="10" step="0.5"></label>
+        <label>سرعة الشريط: <input type="range" id="speedSlider" min="1" max="10" step="0.5"></label>
         <input type="text" id="headerImgInput" placeholder="رابط صورة الهيدر">
-        <button class="btn btn-green" onclick="publishMeta()">حفظ الإعدادات</button>
+        <button class="btn btn-green" onclick="publishMeta()">حفظ الإعدادات الفنية</button>
     </div>
 
-    <div id="adminTree"><h4>هيكلية المحتوى:</h4><div class="sub-admin-box">
-                    <div class="admin-item" style="border-right: 6px solid #2196F3">
-                        <input type="text" value="فعاليات" oninput="updateVal('1781645172965', 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateVal('1781645172965', 'type', this.value); renderAdmin();">
-                            <option value="content">محتوى مباشر</option>
-                            <option value="folder" selected="">قسم يحتوي فروع</option>
-                        </select>
-                        <button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('1781645172965')">+ إضافة فرع داخل "فعاليات"</button>
-                        <button onclick="deleteNode('1781645172965')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
-                    </div><div class="sub-admin-box">
-                    <div class="admin-item" style="border-right: 6px solid #2196F3">
-                        <input type="text" value="صيدليات" oninput="updateVal('1781645183237', 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateVal('1781645183237', 'type', this.value); renderAdmin();">
-                            <option value="content">محتوى مباشر</option>
-                            <option value="folder" selected="">قسم يحتوي فروع</option>
-                        </select>
-                        <button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('1781645183237')">+ إضافة فرع داخل "صيدليات"</button>
-                        <button onclick="deleteNode('1781645183237')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
-                    </div><div class="sub-admin-box">
-                    <div class="admin-item" style="border-right: 6px solid #007A3D">
-                        <input type="text" value="عمار" oninput="updateVal('1781645199149', 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateVal('1781645199149', 'type', this.value); renderAdmin();">
-                            <option value="content" selected="">محتوى مباشر</option>
-                            <option value="folder">قسم يحتوي فروع</option>
-                        </select>
-                        <input type="text" value="" oninput="updateVal('1781645199149', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781645199149', 'content', this.value)" placeholder="النص">يرربيبيي</textarea>
-                        <button onclick="deleteNode('1781645199149')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
-                    </div></div></div></div></div>
+    <div id="adminTree"></div>
     <button class="btn btn-green" onclick="addNode(tree)">+ إضافة بطاقة رئيسية</button>
-    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullSite()">📥 تصدير الكود المحدث</button>
+    <hr>
+    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullSite()">📥 تصدير الكود المحدث بالبيانات</button>
 </div>
 
 <div class="container">
-    <div class="path-nav" id="pathNav" style="display: none;">
+    <div class="path-nav" id="pathNav">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 10px; border-radius:4px; margin-left:10px;">← عودة</button>
-        <span id="currentPath">فعاليات</span>
+        <span id="currentPath">الرئيسية</span>
     </div>
-    <div id="mainGrid" class="grid"><div class="card" style="border-right: 6px solid var(--p-blue);">فعاليات</div></div>
+    <div id="mainGrid" class="grid"></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
-        <div class="clock" id="liveClock">٠٠:٢٧</div>
+        <div class="clock" id="liveClock">00:00</div>
         <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox" style="transform: translateX(134px);">
-                <div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت</span><span class="ticker-item">أهلاً بكم في مخيم نت</span></div>
+            <div class="ticker-move" id="tickerBox">
+                <div id="tickerContent" style="display: flex;"></div>
             </div>
         </div>
     </div>
     <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
 </div>
 
-<div id="modal" class="modal" style="display: none;">
+<div id="modal" class="modal">
     <div class="modal-box">
         <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
-            <span id="modalTitle">عمار</span>
-            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">×</span>
+            <span id="modalTitle"></span>
+            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">&times;</span>
         </div>
         <img id="modalImg" style="width:100%; display:none; border-bottom:4px solid var(--p-green);">
-        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.6;">يرربيبيي</div>
+        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.6;"></div>
     </div>
 </div>
 
-<script id="siteData">var INITIAL_TREE = [{"id":1781645172965,"title":"فعاليات","type":"folder","content":"","image":"","children":[{"id":1781645183237,"title":"صيدليات","type":"folder","content":"ءر","image":"","children":[{"id":1781645199149,"title":"عمار","type":"content","content":"يرربيبيي","image":"","children":[]}]}]}];
+<script id="siteData">
+    var INITIAL_TREE = [];
     var INITIAL_NEWS = "أهلاً بكم في مخيم نت";
     var INITIAL_HEADER = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
-    var INITIAL_SPEED = 2;</script>
+    var INITIAL_SPEED = 2;
+</script>
 
 <script>
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_tree_v10')) || [];
-    let newsStr = localStorage.getItem('mn_news_v10') || INITIAL_NEWS;
-    let headUrl = localStorage.getItem('mn_head_v10') || INITIAL_HEADER;
-    let tickerSpeed = parseFloat(localStorage.getItem('mn_speed_v10')) || INITIAL_SPEED;
+    // فرض الإغلاق عند كل تحميل
+    window.addEventListener('load', () => {
+        document.getElementById("adminPanel").style.setProperty('display', 'none', 'important');
+    });
+
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_secure_tree')) || [];
+    let newsStr = localStorage.getItem('mn_secure_news') || INITIAL_NEWS;
+    let headUrl = localStorage.getItem('mn_secure_head') || INITIAL_HEADER;
+    let tickerSpeed = parseFloat(localStorage.getItem('mn_secure_speed')) || INITIAL_SPEED;
     let currentStack = [];
 
     // --- الحركة اللانهائية ---
@@ -157,26 +152,36 @@
     function updateDateTime() {
         const now = new Date();
         document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', options);
     }
 
-    // --- الإدارة ---
-    let entryClicks = 0;
+    // --- آلية الدخول (5 نقرات + باسوورد) ---
+    let clicks = 0;
     document.getElementById('adminTrigger').onclick = () => {
-        if (++entryClicks === 5) {
-            if (prompt("كلمة السر:") === "1234") {
-                document.getElementById('adminPanel').style.display='block';
+        clicks++;
+        if (clicks === 5) {
+            if (prompt("أدخل كلمة المرور لدخول الإدارة:") === "1234") {
+                document.getElementById('adminPanel').style.setProperty('display', 'block', 'important');
                 document.getElementById('newsInput').value = newsStr;
                 document.getElementById('headerImgInput').value = headUrl;
                 document.getElementById('speedSlider').value = tickerSpeed;
                 renderAdmin();
+            } else {
+                alert("كلمة سر خاطئة!");
             }
-            entryClicks = 0;
+            clicks = 0;
         }
+        setTimeout(() => { clicks = 0; }, 3000);
     };
 
-    function addNode(targetArr) {
-        targetArr.push({ id: Date.now(), title: "عنصر جديد", type: "content", content: "", image: "", children: [] });
+    function closeAdminNow() {
+        document.getElementById('adminPanel').style.setProperty('display', 'none', 'important');
+    }
+
+    // --- إدارة البيانات ---
+    function addNode(target) {
+        target.push({ id: Date.now(), title: "عنصر جديد", type: "content", content: "", image: "", children: [] });
         save(); renderAdmin(); renderUI();
     }
 
@@ -185,18 +190,18 @@
         container.innerHTML = '<h4>هيكلية المحتوى:</h4>';
         function draw(arr, depth = 0) {
             let html = `<div class="sub-admin-box">`;
-            arr.forEach((item, idx) => {
+            arr.forEach((item) => {
                 html += `
                     <div class="admin-item" style="border-right: 6px solid ${item.type==='folder'?'#2196F3':'#007A3D'}">
                         <input type="text" value="${item.title}" oninput="updateVal('${item.id}', 'title', this.value)" placeholder="العنوان">
                         <select onchange="updateVal('${item.id}', 'type', this.value); renderAdmin();">
                             <option value="content" ${item.type==='content'?'selected':''}>محتوى مباشر</option>
-                            <option value="folder" ${item.type==='folder'?'selected':''}>قسم يحتوي فروع</option>
+                            <option value="folder" ${item.type==='folder'?'selected':''}>قسم فروع</option>
                         </select>
                         ${item.type === 'content' ? 
-                            `<input type="text" value="${item.image||''}" oninput="updateVal('${item.id}', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('${item.id}', 'content', this.value)" placeholder="النص">${item.content}</textarea>` : 
-                            `<button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('${item.id}')">+ إضافة فرع داخل "${item.title}"</button>`}
-                        <button onclick="deleteNode('${item.id}')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
+                            `<input type="text" value="${item.image||''}" oninput="updateVal('${item.id}', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('${item.id}', 'content', this.value)">${item.content}</textarea>` : 
+                            `<button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('${item.id}')">+ فرع داخل "${item.title}"</button>`}
+                        <button onclick="deleteNode('${item.id}')" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر</button>
                     </div>`;
                 if (item.children.length > 0) html += draw(item.children, depth + 1);
             });
@@ -252,17 +257,20 @@
         newsStr = document.getElementById('newsInput').value;
         tickerSpeed = parseFloat(document.getElementById('speedSlider').value);
         headUrl = document.getElementById('headerImgInput').value;
-        localStorage.setItem('mn_news_v10', newsStr);
-        localStorage.setItem('mn_speed_v10', tickerSpeed);
-        localStorage.setItem('mn_head_v10', headUrl);
+        localStorage.setItem('mn_secure_news', newsStr);
+        localStorage.setItem('mn_secure_speed', tickerSpeed);
+        localStorage.setItem('mn_secure_head', headUrl);
         location.reload();
     }
 
-    function save() { localStorage.setItem('mn_tree_v10', JSON.stringify(tree)); }
+    function save() { localStorage.setItem('mn_secure_tree', JSON.stringify(tree)); }
 
     function exportFullSite() {
-        const data = `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsStr)};\n    var INITIAL_HEADER = ${JSON.stringify(headUrl)};\n    var INITIAL_SPEED = ${tickerSpeed};`;
-        let snippet = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, data);
+        // تنظيف الكود قبل التصدير للتأكد من إغلاق اللوحة في الملف الجديد
+        treeData = JSON.stringify(tree);
+        newsData = JSON.stringify(newsStr);
+        headData = JSON.stringify(headUrl);
+        let snippet = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${treeData};\n    var INITIAL_NEWS = ${newsData};\n    var INITIAL_HEADER = ${headData};\n    var INITIAL_SPEED = ${tickerSpeed};`);
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + snippet], {type:'text/html'}));
         a.download = 'MukhayamNet_Final.html'; a.click();
     }
@@ -272,5 +280,5 @@
     document.getElementById('siteHeader').style.backgroundImage = `url('${headUrl}')`;
     renderUI();
 </script>
-
-</body></html>
+</body>
+</html>
