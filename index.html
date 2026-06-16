@@ -9,23 +9,30 @@
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 70px; user-select: none; }
         header { background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover; height: 130px; border-bottom: 4px solid var(--p-green); }
         .title-bar { background: var(--p-green); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--p-red); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
         .admin-trigger-area { cursor: pointer; font-weight: bold; font-size: 1.3rem; padding: 2px 10px; }
         .date-display { font-size: 0.85rem; background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 20px; }
+        
         .container { padding: 15px; min-height: 60vh; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
-        #adminPanel { display: none; position: fixed; inset: 0; background: #fff; z-index: 2000; padding: 20px; overflow-y: auto; }
+        
+        /* لوحة التحكم مخفية افتراضياً بشكل قاطع */
+        #adminPanel { display: none !important; position: fixed; inset: 0; background: #fff; z-index: 2000; padding: 20px; overflow-y: auto; }
+        
         .admin-item { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; border-right: 6px solid var(--p-green); }
         input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 16px; box-sizing: border-box; }
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; font-size: 1rem; }
         .btn-green { background: var(--p-green); color: white; }
         .btn-black { background: var(--p-black); color: white; }
         .btn-red { background: var(--p-red); color: white; }
+        
         .footer { position: fixed; bottom: 0; width: 100%; background: var(--p-black); color: white; height: 50px; display: flex; align-items: center; z-index: 1000; overflow: hidden; }
         .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1001; }
         .ticker-wrapper { flex: 1; overflow: hidden; position: relative; height: 100%; }
         .ticker-text { position: absolute; white-space: nowrap; padding-left: 100%; animation: ticker-move 20s linear infinite; line-height: 50px; }
         @keyframes ticker-move { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 450px; border-radius: 15px; max-height: 85vh; overflow-y: auto; }
         .modal-img { width: 100%; border-bottom: 4px solid var(--p-green); display: none; }
@@ -40,10 +47,11 @@
     <span class="date-display" id="todayDate">الثلاثاء، ١٦ يونيو ٢٠٢٦</span>
 </div>
 
-<div id="adminPanel" style="display: block;">
+<!-- لوحة التحكم -->
+<div id="adminPanel" style="display: block !important;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2>إدارة المحتوى</h2>
-        <button onclick="document.getElementById('adminPanel').style.display='none'" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق</button>
+        <h2 style="margin:0;">إدارة المحتوى</h2>
+        <button onclick="hideAdminPanel()" class="btn-red" style="width:auto; padding:5px 15px; margin:0;">إغلاق X</button>
     </div>
     <div class="admin-item">
         <h4>⚙️ الشريط الإخباري</h4>
@@ -52,79 +60,122 @@
     </div>
     <div id="adminTreeContainer"><div style="margin-right:0px; border-right:2px solid #ddd; padding-right:10px;">
                     <div class="admin-item">
-                        <input type="text" value="فعاليات" oninput="updateDraft(1781633556744, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781633556744, 'type', this.value); renderAdmin();">
+                        <input type="text" value="فعاليات المخيم" oninput="updateDraft(1781634258576, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781634258576, 'type', this.value); renderAdmin();">
                             <option value="content">محتوى</option>
                             <option value="folder" selected="">قسم</option>
                         </select>
-                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781633556744)">+ فرع</button>
-                        <button onclick="deleteItem(1781633556744)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781634258576)">+ فرع</button>
+                        <button onclick="deleteItem(1781634258576)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
                 <div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">
                     <div class="admin-item">
-                        <input type="text" value="صيدليات" oninput="updateDraft(1781633573313, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781633573313, 'type', this.value); renderAdmin();">
+                        <input type="text" value="صيدليات" oninput="updateDraft(1781634267968, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781634267968, 'type', this.value); renderAdmin();">
                             <option value="content">محتوى</option>
                             <option value="folder" selected="">قسم</option>
                         </select>
-                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781633573313)">+ فرع</button>
-                        <button onclick="deleteItem(1781633573313)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781634267968)">+ فرع</button>
+                        <button onclick="deleteItem(1781634267968)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
                 <div style="margin-right:30px; border-right:2px solid #ddd; padding-right:10px;">
                     <div class="admin-item">
-                        <input type="text" value="عمار" oninput="updateDraft(1781633581289, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781633581289, 'type', this.value); renderAdmin();">
+                        <input type="text" value="صيدلية عمار" oninput="updateDraft(1781634278233, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781634278233, 'type', this.value); renderAdmin();">
                             <option value="content" selected="">محتوى</option>
                             <option value="folder">قسم</option>
                         </select>
-                        <input type="text" value="" oninput="updateDraft(1781633581289, 'image', this.value)" placeholder="رابط الصورة"><textarea oninput="updateDraft(1781633581289, 'content', this.value)">لبلبلبلبلببلبلبل</textarea>
-                        <button onclick="deleteItem(1781633581289)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                        <input type="text" value="" oninput="updateDraft(1781634278233, 'image', this.value)" placeholder="رابط الصورة"><textarea oninput="updateDraft(1781634278233, 'content', this.value)">عمار صلاح عمر</textarea>
+                        <button onclick="deleteItem(1781634278233)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                </div>
+                    <div class="admin-item">
+                        <input type="text" value="سوبر ماركت" oninput="updateDraft(1781634304584, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781634304584, 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى</option>
+                            <option value="folder" selected="">قسم</option>
+                        </select>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781634304584)">+ فرع</button>
+                        <button onclick="deleteItem(1781634304584)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                <div style="margin-right:30px; border-right:2px solid #ddd; padding-right:10px;">
+                    <div class="admin-item">
+                        <input type="text" value="القدس" oninput="updateDraft(1781634320360, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781634320360, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781634320360, 'image', this.value)" placeholder="رابط الصورة"><textarea oninput="updateDraft(1781634320360, 'content', this.value)">القدددس</textarea>
+                        <button onclick="deleteItem(1781634320360)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                </div>
+                    <div class="admin-item">
+                        <input type="text" value="قهوة" oninput="updateDraft(1781634305889, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781634305889, 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى</option>
+                            <option value="folder" selected="">قسم</option>
+                        </select>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781634305889)">+ فرع</button>
+                        <button onclick="deleteItem(1781634305889)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                    </div>
+                <div style="margin-right:30px; border-right:2px solid #ddd; padding-right:10px;">
+                    <div class="admin-item">
+                        <input type="text" value="الشاويش" oninput="updateDraft(1781634345144, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781634345144, 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى</option>
+                            <option value="folder">قسم</option>
+                        </select>
+                        <input type="text" value="" oninput="updateDraft(1781634345144, 'image', this.value)" placeholder="رابط الصورة"><textarea oninput="updateDraft(1781634345144, 'content', this.value)">الشاوييييش</textarea>
+                        <button onclick="deleteItem(1781634345144)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
                 </div></div></div></div>
     <button class="btn btn-green" onclick="addItemToTree()">+ إضافة بطاقة رئيسية</button>
     <button class="btn btn-green" style="background:#005a2d;" onclick="publishContent()">🚀 نشر التعديلات</button>
     <hr>
-    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullCode()">📥 تصدير الكود المحدث بالبيانات الحالية</button>
+    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullCode()">📥 تصدير الكود بالبيانات الحالية</button>
 </div>
 
+<!-- محتوى الموقع -->
 <div class="container">
-    <div class="path-nav" id="pathNav" style="display: flex;">
+    <div class="path-nav" id="pathNav" style="display: none;">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 12px; border-radius:8px; cursor:pointer;">عودة</button>
-        <span id="currentPathLabel" style="margin-right:10px; font-weight:bold;">صيدليات</span>
+        <span id="currentPathLabel" style="margin-right:10px; font-weight:bold;">فعاليات المخيم</span>
     </div>
-    <div class="grid" id="mainGrid"><div class="card">عمار</div></div>
+    <div class="grid" id="mainGrid"><div class="card" style="border-right: 6px solid var(--p-blue);">فعاليات المخيم</div></div>
 </div>
 
+<!-- مودال العرض -->
 <div id="modal" class="modal" style="display: none;">
     <div class="modal-box">
         <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
-            <span id="modalTitle">عمار</span>
+            <span id="modalTitle">الشاويش</span>
             <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.8rem;">×</span>
         </div>
         <img id="modalImg" class="modal-img" src="" style="display: none;">
-        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.7;">لبلبلبلبلببلبلبل</div>
+        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.7;">الشاوييييش</div>
     </div>
 </div>
 
 <div class="footer">
-    <div class="clock" id="liveClock">٢١:١٣:٣٥</div>
+    <div class="clock" id="liveClock">٢١:٢٧:٠٥</div>
     <div class="ticker-wrapper">
-        <div class="ticker-text" id="newsTicker">مخيم نت - صوت القضية واللاجئ</div>
+        <div class="ticker-text" id="newsTicker">مخيم نت - صوت القضية واللاجئ    التطبيق الاول لمنطقة الرمل الجنوبي و المخيم باللا&gt;قية</div>
     </div>
 </div>
 
-<script id="dataScript">var INITIAL_TREE = [{"id":1781633556744,"title":"فعاليات","type":"folder","content":"","image":"","children":[{"id":1781633573313,"title":"صيدليات","type":"folder","content":"","image":"","children":[{"id":1781633581289,"title":"عمار","type":"content","content":"لبلبلبلبلببلبلبل","image":"","children":[]}]}]}];
-    var INITIAL_NEWS = "مخيم نت - صوت القضية واللاجئ";</script>
+<script id="dataScript">var INITIAL_TREE = [{"id":1781634258576,"title":"فعاليات المخيم","type":"folder","content":"","image":"","children":[{"id":1781634267968,"title":"صيدليات","type":"folder","content":"","image":"","children":[{"id":1781634278233,"title":"صيدلية عمار","type":"content","content":"عمار صلاح عمر","image":"","children":[]}]},{"id":1781634304584,"title":"سوبر ماركت","type":"folder","content":"","image":"","children":[{"id":1781634320360,"title":"القدس","type":"content","content":"القدددس","image":"","children":[]}]},{"id":1781634305889,"title":"قهوة","type":"folder","content":"","image":"","children":[{"id":1781634345144,"title":"الشاويش","type":"content","content":"الشاوييييش","image":"","children":[]}]}]}];
+    var INITIAL_NEWS = "مخيم نت - صوت القضية واللاجئ    التطبيق الاول لمنطقة الرمل الجنوبي و المخيم باللا>قية";</script>
 
 <script>
-    // تهيئة البيانات: إذا كانت هناك بيانات في INITIAL_TREE (من النسخة المصدّرة) نستخدمها، وإلا نستخدم الذاكرة المحلية
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_exported_data') || '[]');
+    // تهيئة البيانات
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_stable_data') || '[]');
     let draftTree = JSON.parse(JSON.stringify(tree));
-    let newsLine = INITIAL_NEWS !== "مخيم نت - صوت القضية واللاجئ" ? INITIAL_NEWS : localStorage.getItem('mn_exported_news') || INITIAL_NEWS;
+    let newsLine = INITIAL_NEWS !== "مخيم نت - صوت القضية واللاجئ" ? INITIAL_NEWS : localStorage.getItem('mn_stable_news') || INITIAL_NEWS;
 
     let currentStack = [];
     let clickCount = 0;
 
+    // تحديث الوقت والتاريخ
     function updateDateTime() {
         const now = new Date();
         document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour12: false });
@@ -133,18 +184,31 @@
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
-    document.getElementById('adminTrigger').onclick = () => {
+    // تشغيل لوحة التحكم بـ 5 نقرات حصراً
+    document.getElementById('adminTrigger').addEventListener('click', () => {
         clickCount++;
         if (clickCount === 5) {
-            if (prompt("كلمة السر الإدارية:") === "1234") {
-                document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('newsInput').value = newsLine;
-                renderAdmin();
+            let pass = prompt("أدخل كلمة المرور لفتح الإدارة:");
+            if (pass === "1234") {
+                showAdminPanel();
+            } else {
+                alert("كلمة سر خاطئة");
             }
             clickCount = 0;
         }
         setTimeout(() => clickCount = 0, 3000);
-    };
+    });
+
+    function showAdminPanel() {
+        const panel = document.getElementById('adminPanel');
+        panel.style.setProperty('display', 'block', 'important');
+        document.getElementById('newsInput').value = newsLine;
+        renderAdmin();
+    }
+
+    function hideAdminPanel() {
+        document.getElementById('adminPanel').style.setProperty('display', 'none', 'important');
+    }
 
     function updateDraft(id, field, val) {
         function edit(arr) {
@@ -173,16 +237,16 @@
 
     function publishContent() {
         tree = JSON.parse(JSON.stringify(draftTree));
-        localStorage.setItem('mn_exported_data', JSON.stringify(tree));
-        localStorage.setItem('mn_exported_news', newsLine);
+        localStorage.setItem('mn_stable_data', JSON.stringify(tree));
+        localStorage.setItem('mn_stable_news', newsLine);
         renderUI();
-        alert("🚀 تم النشر بنجاح وحفظ البيانات في الذاكرة!");
+        alert("🚀 تم النشر بنجاح!");
     }
 
     function updateNews() {
         newsLine = document.getElementById('newsInput').value;
         document.getElementById('newsTicker').innerText = newsLine;
-        alert("تم الحفظ في المسودة! اضغط نشر لتحديث الشريط علنياً.");
+        alert("تم تحديث المسودة بشرط الضغط على نشر لاعتمادها!");
     }
 
     function renderAdmin() {
@@ -210,6 +274,7 @@
     }
 
     function deleteItem(id) {
+        if (!confirm("هل تريد الحذف؟")) return;
         function del(arr) {
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].id == id) { arr.splice(i, 1); return true; }
@@ -248,23 +313,16 @@
     function goBack() { currentStack.pop(); renderUI(); }
 
     function exportFullCode() {
-        // إنشاء نسخة من البيانات الحالية للحقن الفوري
         const treeData = JSON.stringify(tree);
         const newsData = JSON.stringify(newsLine);
-        
-        // جلب كود الملف الحالي بالكامل
         let currentHtml = document.documentElement.outerHTML;
-        
-        // استبدال كود البيانات الافتراضية بالبيانات الحقيقية التي أدخلتها
         const newDataScript = `var INITIAL_TREE = ${treeData};\n    var INITIAL_NEWS = ${newsData};`;
         const oldDataScript = document.getElementById('dataScript').innerHTML;
-        
         currentHtml = currentHtml.replace(oldDataScript, newDataScript);
-        
         const blob = new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + currentHtml + "</html>"], {type: 'text/html'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'MukhayamNet_Updated.html';
+        a.download = 'MukhayamNet_Final.html';
         a.click();
     }
 
