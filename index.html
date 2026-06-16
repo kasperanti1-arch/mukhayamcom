@@ -103,45 +103,171 @@
         <button class="btn btn-green" onclick="publishMeta()">حفظ الإعدادات</button>
     </div>
 
-    <div id="adminTree"><h4>هيكلية المحتوى:</h4><div class="sub-admin-box"></div></div>
+    <div id="adminTree"><h4>هيكلية المحتوى:</h4><div class="sub-admin-box">
+                    <div class="admin-item" style="border-right: 6px solid #2196F3">
+                        <input type="text" value="فعاليات المخيم " oninput="updateVal('1781648247989', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648247989', 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى مباشر</option>
+                            <option value="folder" selected="">قسم فروع</option>
+                        </select>
+                        <button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('1781648247989')">+ فرع داخلي</button>
+                        <button onclick="deleteNode('1781648247989')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div><div class="sub-admin-box">
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="صيدليات" oninput="updateVal('1781648267383', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648267383', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648267383', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648267383', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648267383')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="سوبر ماركت " oninput="updateVal('1781648298419', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648298419', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648298419', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648298419', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648298419')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="اتصالات" oninput="updateVal('1781648320121', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648320121', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648320121', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648320121', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648320121')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div></div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="عن المخيم" oninput="updateVal('1781648376753', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648376753', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648376753', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648376753', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648376753')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="منظمات و مؤسسات" oninput="updateVal('1781648410688', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648410688', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648410688', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648410688', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648410688')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="عروض وخدمات " oninput="updateVal('1781648435350', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648435350', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648435350', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648435350', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648435350')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="اخبار المخيم " oninput="updateVal('1781648744654', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648744654', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648744654', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648744654', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648744654')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="اخبار دولية" oninput="updateVal('1781648769009', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648769009', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648769009', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648769009', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648769009')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="المطبخ الفلسطيني " oninput="updateVal('1781648790982', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648790982', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648790982', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648790982', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648790982')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #2196F3">
+                        <input type="text" value="معلومات عامة " oninput="updateVal('1781648846379', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648846379', 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى مباشر</option>
+                            <option value="folder" selected="">قسم فروع</option>
+                        </select>
+                        <button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('1781648846379')">+ فرع داخلي</button>
+                        <button onclick="deleteNode('1781648846379')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div><div class="sub-admin-box">
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="تكنولوجيا " oninput="updateVal('1781648867062', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648867062', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648867062', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648867062', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648867062')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="صحة" oninput="updateVal('1781648880296', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648880296', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648880296', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648880296', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648880296')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div>
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="علوم" oninput="updateVal('1781648905936', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781648905936', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781648905936', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781648905936', 'content', this.value)">قريبا</textarea>
+                        <button onclick="deleteNode('1781648905936')" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    </div></div></div></div>
     <button class="btn btn-green" onclick="addNode(tree)">+ إضافة بطاقة رئيسية</button>
     <hr>
     <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullSite()">📥 تصدير الكود المحدث بالبيانات</button>
 </div>
 
 <div class="container">
-    <div class="path-nav" id="pathNav" style="display: none;">
+    <div class="path-nav" id="pathNav" style="display: flex;">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 10px; border-radius:4px; margin-left:10px;">← عودة</button>
-        <span id="currentPath">الرئيسية</span>
+        <span id="currentPath">معلومات عامة </span>
     </div>
-    <div id="mainGrid" class="grid"></div>
+    <div id="mainGrid" class="grid"><div class="card">تكنولوجيا </div><div class="card">صحة</div><div class="card">علوم</div></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
-        <div class="clock" id="liveClock">٠٠:٤٥</div>
+        <div class="clock" id="liveClock">٠١:٣٢</div>
         <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox" style="transform: translateX(549px);">
-                <div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت التطبيق الرائد لمنطقة الرمل الجنوبيو مخيم العائدين باللا&gt;قية</span><span class="ticker-item">أهلاً بكم في مخيم نت التطبيق الرائد لمنطقة الرمل الجنوبيو مخيم العائدين باللا&gt;قية</span></div>
+            <div class="ticker-move" id="tickerBox" style="transform: translateX(779px);">
+                <div id="tickerContent" style="display: flex;"><span class="ticker-item">يمكنكم اضافة اعلاناتكم هنا عبر الاتصال بنا على الواتساب 0982578016 او التواصل على بريد الصفحة       أهلاً بكم في مخيم نت التطبيق الرائد لمنطقة الرمل الجنوبي و مخيم العائدين باللاذقية    ستبقى القدس عاصمة فلسطين الابدية </span><span class="ticker-item">يمكنكم اضافة اعلاناتكم هنا عبر الاتصال بنا على الواتساب 0982578016 او التواصل على بريد الصفحة       أهلاً بكم في مخيم نت التطبيق الرائد لمنطقة الرمل الجنوبي و مخيم العائدين باللاذقية    ستبقى القدس عاصمة فلسطين الابدية </span></div>
             </div>
         </div>
     </div>
     <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
 </div>
 
-<div id="modal" class="modal">
+<div id="modal" class="modal" style="display: none;">
     <div class="modal-box">
         <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between; align-items:center;">
-            <span id="modalTitle"></span>
+            <span id="modalTitle">تكنولوجيا </span>
             <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">×</span>
         </div>
         <img id="modalImg" style="width:100%; display:none; border-bottom:4px solid var(--p-green);">
-        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.6;"></div>
+        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.6;">قريبا</div>
     </div>
 </div>
 
-<script id="siteData">var INITIAL_TREE = [];
-    var INITIAL_NEWS = "أهلاً بكم في مخيم نت التطبيق الرائد لمنطقة الرمل الجنوبيو مخيم العائدين باللا>قية";
+<script id="siteData">var INITIAL_TREE = [{"id":1781648247989,"title":"فعاليات المخيم ","type":"folder","content":"","image":"","children":[{"id":1781648267383,"title":"صيدليات","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648298419,"title":"سوبر ماركت ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648320121,"title":"اتصالات","type":"content","content":"قريبا","image":"","children":[]}]},{"id":1781648376753,"title":"عن المخيم","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648410688,"title":"منظمات و مؤسسات","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648435350,"title":"عروض وخدمات ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648744654,"title":"اخبار المخيم ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648769009,"title":"اخبار دولية","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648790982,"title":"المطبخ الفلسطيني ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648846379,"title":"معلومات عامة ","type":"folder","content":"","image":"","children":[{"id":1781648867062,"title":"تكنولوجيا ","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648880296,"title":"صحة","type":"content","content":"قريبا","image":"","children":[]},{"id":1781648905936,"title":"علوم","type":"content","content":"قريبا","image":"","children":[]}]}];
+    var INITIAL_NEWS = "يمكنكم اضافة اعلاناتكم هنا عبر الاتصال بنا على الواتساب 0982578016 او التواصل على بريد الصفحة       أهلاً بكم في مخيم نت التطبيق الرائد لمنطقة الرمل الجنوبي و مخيم العائدين باللاذقية    ستبقى القدس عاصمة فلسطين الابدية ";
     var INITIAL_HEADER = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
     var INITIAL_SPEED = 1;
     var INITIAL_URGENT = "نسخة تجريبية";</script>
@@ -307,5 +433,6 @@
     document.getElementById('siteHeader').style.backgroundImage = `url('${headUrl}')`;
     renderUI();
 </script>
+
 
 </body></html>
