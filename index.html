@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head>
+<html lang='ar' dir='rtl'><html lang="ar" dir="rtl"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | تصدير وإدارة</title>
+    <title>مخيم نت | النظام المتكامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #007bff; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 70px; user-select: none; }
         header { background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover; height: 130px; border-bottom: 4px solid var(--p-green); }
         .title-bar { background: var(--p-green); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--p-red); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .admin-trigger-area { cursor: pointer; font-weight: bold; font-size: 1.3rem; }
+        .admin-trigger-area { cursor: pointer; font-weight: bold; font-size: 1.3rem; padding: 2px 10px; }
         .date-display { font-size: 0.85rem; background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 20px; }
         .container { padding: 15px; min-height: 60vh; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -21,7 +21,6 @@
         .btn-green { background: var(--p-green); color: white; }
         .btn-black { background: var(--p-black); color: white; }
         .btn-red { background: var(--p-red); color: white; }
-        .btn-export { background: #2c3e50; color: white; margin-top: 20px; border: 2px solid #000; }
         .footer { position: fixed; bottom: 0; width: 100%; background: var(--p-black); color: white; height: 50px; display: flex; align-items: center; z-index: 1000; overflow: hidden; }
         .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1001; }
         .ticker-wrapper { flex: 1; overflow: hidden; position: relative; height: 100%; }
@@ -41,164 +40,102 @@
     <span class="date-display" id="todayDate">الثلاثاء، ١٦ يونيو ٢٠٢٦</span>
 </div>
 
-<div id="adminPanel" style="display: none;">
+<div id="adminPanel" style="display: block;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2>لوحة إدارة الخدمات</h2>
+        <h2>إدارة المحتوى</h2>
         <button onclick="document.getElementById('adminPanel').style.display='none'" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق</button>
     </div>
-    
     <div class="admin-item">
-        <h4>⚙️ التحكم بالشريط الإخباري</h4>
+        <h4>⚙️ الشريط الإخباري</h4>
         <input type="text" id="newsInput" placeholder="اكتب الخبر العاجل هنا...">
         <button class="btn btn-black" onclick="updateNews()">حفظ الخبر</button>
     </div>
-
     <div id="adminTreeContainer"><div style="margin-right:0px; border-right:2px solid #ddd; padding-right:10px;">
                     <div class="admin-item">
-                        <input type="text" value="فعاليات المخيم " oninput="updateDraft(1781626124216, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626124216, 'type', this.value); renderAdmin();">
+                        <input type="text" value="فعاليات" oninput="updateDraft(1781633556744, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781633556744, 'type', this.value); renderAdmin();">
                             <option value="content">محتوى</option>
                             <option value="folder" selected="">قسم</option>
                         </select>
-                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781626124216)">+ فرع</button>
-                        <button onclick="deleteItem(1781626124216)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781633556744)">+ فرع</button>
+                        <button onclick="deleteItem(1781633556744)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
                 <div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">
                     <div class="admin-item">
-                        <input type="text" value="سوبر ماركت " oninput="updateDraft(1781626136428, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626136428, 'type', this.value); renderAdmin();">
-                            <option value="content" selected="">محتوى</option>
-                            <option value="folder">قسم</option>
-                        </select>
-                        <input type="text" value="" oninput="updateDraft(1781626136428, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626136428, 'content', this.value)"></textarea>
-                        <button onclick="deleteItem(1781626136428)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
-                    </div>
-                
-                    <div class="admin-item">
-                        <input type="text" value="صيدليات" oninput="updateDraft(1781626187982, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626187982, 'type', this.value); renderAdmin();">
-                            <option value="content" selected="">محتوى</option>
-                            <option value="folder">قسم</option>
-                        </select>
-                        <input type="text" value="" oninput="updateDraft(1781626187982, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626187982, 'content', this.value)"></textarea>
-                        <button onclick="deleteItem(1781626187982)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
-                    </div>
-                
-                    <div class="admin-item">
-                        <input type="text" value="قهوة" oninput="updateDraft(1781626189338, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626189338, 'type', this.value); renderAdmin();">
-                            <option value="content" selected="">محتوى</option>
-                            <option value="folder">قسم</option>
-                        </select>
-                        <input type="text" value="" oninput="updateDraft(1781626189338, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626189338, 'content', this.value)"></textarea>
-                        <button onclick="deleteItem(1781626189338)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
-                    </div>
-                </div>
-                    <div class="admin-item">
-                        <input type="text" value="عن المخيم" oninput="updateDraft(1781626257594, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626257594, 'type', this.value); renderAdmin();">
-                            <option value="content" selected="">محتوى</option>
-                            <option value="folder">قسم</option>
-                        </select>
-                        <input type="text" value="" oninput="updateDraft(1781626257594, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626257594, 'content', this.value)"></textarea>
-                        <button onclick="deleteItem(1781626257594)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
-                    </div>
-                
-                    <div class="admin-item">
-                        <input type="text" value="اعلانات" oninput="updateDraft(1781626267808, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626267808, 'type', this.value); renderAdmin();">
-                            <option value="content" selected="">محتوى</option>
-                            <option value="folder">قسم</option>
-                        </select>
-                        <input type="text" value="" oninput="updateDraft(1781626267808, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626267808, 'content', this.value)"></textarea>
-                        <button onclick="deleteItem(1781626267808)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
-                    </div>
-                
-                    <div class="admin-item">
-                        <input type="text" value="منظمات و مؤسسات " oninput="updateDraft(1781626330614, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626330614, 'type', this.value); renderAdmin();">
+                        <input type="text" value="صيدليات" oninput="updateDraft(1781633573313, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781633573313, 'type', this.value); renderAdmin();">
                             <option value="content">محتوى</option>
                             <option value="folder" selected="">قسم</option>
                         </select>
-                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781626330614)">+ فرع</button>
-                        <button onclick="deleteItem(1781626330614)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                        <button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(1781633573313)">+ فرع</button>
+                        <button onclick="deleteItem(1781633573313)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
-                <div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">
+                <div style="margin-right:30px; border-right:2px solid #ddd; padding-right:10px;">
                     <div class="admin-item">
-                        <input type="text" value="دولية" oninput="updateDraft(1781626393669, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626393669, 'type', this.value); renderAdmin();">
+                        <input type="text" value="عمار" oninput="updateDraft(1781633581289, 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateDraft(1781633581289, 'type', this.value); renderAdmin();">
                             <option value="content" selected="">محتوى</option>
                             <option value="folder">قسم</option>
                         </select>
-                        <input type="text" value="" oninput="updateDraft(1781626393669, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626393669, 'content', this.value)"></textarea>
-                        <button onclick="deleteItem(1781626393669)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
+                        <input type="text" value="" oninput="updateDraft(1781633581289, 'image', this.value)" placeholder="رابط الصورة"><textarea oninput="updateDraft(1781633581289, 'content', this.value)">لبلبلبلبلببلبلبل</textarea>
+                        <button onclick="deleteItem(1781633581289)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
-                
-                    <div class="admin-item">
-                        <input type="text" value="محلية " oninput="updateDraft(1781626403929, 'title', this.value)" placeholder="العنوان">
-                        <select onchange="updateDraft(1781626403929, 'type', this.value); renderAdmin();">
-                            <option value="content" selected="">محتوى</option>
-                            <option value="folder">قسم</option>
-                        </select>
-                        <input type="text" value="" oninput="updateDraft(1781626403929, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(1781626403929, 'content', this.value)"></textarea>
-                        <button onclick="deleteItem(1781626403929)" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
-                    </div>
-                </div></div></div>
-    
-    <div class="admin-item" style="text-align:center;">
-        <button class="btn btn-green" onclick="addItemToTree()">+ إضافة بطاقة رئيسية</button>
-        <button class="btn btn-green" style="background:#005a2d; margin-top:20px;" onclick="publishContent()">🚀 نشر جميع التعديلات</button>
-        
-        <hr style="margin: 20px 0;">
-        <button class="btn btn-export" onclick="exportFullCode()">📥 تصدير الكود المصدري (Backup)</button>
-        <p style="font-size: 0.7rem; color: #666;">يستخدم التصدير لحفظ نسخة كاملة من الموقع ببياناتك الحالية كملف HTML.</p>
-    </div>
+                </div></div></div></div>
+    <button class="btn btn-green" onclick="addItemToTree()">+ إضافة بطاقة رئيسية</button>
+    <button class="btn btn-green" style="background:#005a2d;" onclick="publishContent()">🚀 نشر التعديلات</button>
+    <hr>
+    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullCode()">📥 تصدير الكود المحدث بالبيانات الحالية</button>
 </div>
 
 <div class="container">
-    <div class="path-nav" id="pathNav" style="display: none;">
+    <div class="path-nav" id="pathNav" style="display: flex;">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 12px; border-radius:8px; cursor:pointer;">عودة</button>
-        <span id="currentPathLabel" style="margin-right:10px; font-weight:bold;">الرئيسية</span>
+        <span id="currentPathLabel" style="margin-right:10px; font-weight:bold;">صيدليات</span>
     </div>
-    <div class="grid" id="mainGrid"><div class="card" style="border-right: 6px solid var(--p-blue);">فعاليات المخيم </div><div class="card">عن المخيم</div><div class="card">اعلانات</div><div class="card" style="border-right: 6px solid var(--p-blue);">منظمات و مؤسسات </div></div>
+    <div class="grid" id="mainGrid"><div class="card">عمار</div></div>
 </div>
 
-<div id="modal" class="modal">
+<div id="modal" class="modal" style="display: none;">
     <div class="modal-box">
         <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
-            <span id="modalTitle"></span>
+            <span id="modalTitle">عمار</span>
             <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.8rem;">×</span>
         </div>
-        <img id="modalImg" class="modal-img" src="">
-        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.7;"></div>
+        <img id="modalImg" class="modal-img" src="" style="display: none;">
+        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.7;">لبلبلبلبلببلبلبل</div>
     </div>
 </div>
 
 <div class="footer">
-    <div class="clock" id="liveClock">١٩:٤٥:٢٠</div>
+    <div class="clock" id="liveClock">٢١:١٣:٣٥</div>
     <div class="ticker-wrapper">
         <div class="ticker-text" id="newsTicker">مخيم نت - صوت القضية واللاجئ</div>
     </div>
 </div>
 
+<script id="dataScript">var INITIAL_TREE = [{"id":1781633556744,"title":"فعاليات","type":"folder","content":"","image":"","children":[{"id":1781633573313,"title":"صيدليات","type":"folder","content":"","image":"","children":[{"id":1781633581289,"title":"عمار","type":"content","content":"لبلبلبلبلببلبلبل","image":"","children":[]}]}]}];
+    var INITIAL_NEWS = "مخيم نت - صوت القضية واللاجئ";</script>
+
 <script>
-    let tree = JSON.parse(localStorage.getItem('mn_final_tree')) || [];
+    // تهيئة البيانات: إذا كانت هناك بيانات في INITIAL_TREE (من النسخة المصدّرة) نستخدمها، وإلا نستخدم الذاكرة المحلية
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_exported_data') || '[]');
     let draftTree = JSON.parse(JSON.stringify(tree));
-    let newsLine = localStorage.getItem('mn_final_news') || "مخيم نت - صوت القضية واللاجئ";
+    let newsLine = INITIAL_NEWS !== "مخيم نت - صوت القضية واللاجئ" ? INITIAL_NEWS : localStorage.getItem('mn_exported_news') || INITIAL_NEWS;
+
     let currentStack = [];
     let clickCount = 0;
 
     function updateDateTime() {
         const now = new Date();
         document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour12: false });
-        const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('todayDate').innerText = now.toLocaleDateString('ar-EG', dateOptions);
+        document.getElementById('todayDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     }
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
     document.getElementById('adminTrigger').onclick = () => {
-        if (++clickCount === 5) {
+        clickCount++;
+        if (clickCount === 5) {
             if (prompt("كلمة السر الإدارية:") === "1234") {
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('newsInput').value = newsLine;
@@ -206,6 +143,7 @@
             }
             clickCount = 0;
         }
+        setTimeout(() => clickCount = 0, 3000);
     };
 
     function updateDraft(id, field, val) {
@@ -235,16 +173,16 @@
 
     function publishContent() {
         tree = JSON.parse(JSON.stringify(draftTree));
-        localStorage.setItem('mn_final_tree', JSON.stringify(tree));
+        localStorage.setItem('mn_exported_data', JSON.stringify(tree));
+        localStorage.setItem('mn_exported_news', newsLine);
         renderUI();
-        alert("🚀 تم النشر بنجاح!");
+        alert("🚀 تم النشر بنجاح وحفظ البيانات في الذاكرة!");
     }
 
     function updateNews() {
         newsLine = document.getElementById('newsInput').value;
-        localStorage.setItem('mn_final_news', newsLine);
         document.getElementById('newsTicker').innerText = newsLine;
-        alert("تم تحديث الشريط!");
+        alert("تم الحفظ في المسودة! اضغط نشر لتحديث الشريط علنياً.");
     }
 
     function renderAdmin() {
@@ -260,7 +198,7 @@
                             <option value="content" ${item.type==='content'?'selected':''}>محتوى</option>
                             <option value="folder" ${item.type==='folder'?'selected':''}>قسم</option>
                         </select>
-                        ${item.type === 'content' ? `<input type="text" value="${item.image || ''}" oninput="updateDraft(${item.id}, 'image', this.value)" placeholder="رابط الصورة (URL)"><textarea oninput="updateDraft(${item.id}, 'content', this.value)">${item.content}</textarea>` : `<button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(${item.id})">+ فرع</button>`}
+                        ${item.type === 'content' ? `<input type="text" value="${item.image || ''}" oninput="updateDraft(${item.id}, 'image', this.value)" placeholder="رابط الصورة"><textarea oninput="updateDraft(${item.id}, 'content', this.value)">${item.content}</textarea>` : `<button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(${item.id})">+ فرع</button>`}
                         <button onclick="deleteItem(${item.id})" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
                 `;
@@ -272,7 +210,6 @@
     }
 
     function deleteItem(id) {
-        if (!confirm("هل تريد الحذف؟")) return;
         function del(arr) {
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].id == id) { arr.splice(i, 1); return true; }
@@ -311,13 +248,23 @@
     function goBack() { currentStack.pop(); renderUI(); }
 
     function exportFullCode() {
-        // تنظيف الواجهات قبل التصدير للتأكد من نظافة الملف المصدر
-        document.getElementById('adminPanel').style.display = 'none';
-        const fullHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-        const blob = new Blob([fullHtml], {type: 'text/html'});
+        // إنشاء نسخة من البيانات الحالية للحقن الفوري
+        const treeData = JSON.stringify(tree);
+        const newsData = JSON.stringify(newsLine);
+        
+        // جلب كود الملف الحالي بالكامل
+        let currentHtml = document.documentElement.outerHTML;
+        
+        // استبدال كود البيانات الافتراضية بالبيانات الحقيقية التي أدخلتها
+        const newDataScript = `var INITIAL_TREE = ${treeData};\n    var INITIAL_NEWS = ${newsData};`;
+        const oldDataScript = document.getElementById('dataScript').innerHTML;
+        
+        currentHtml = currentHtml.replace(oldDataScript, newDataScript);
+        
+        const blob = new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + currentHtml + "</html>"], {type: 'text/html'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'MukhayamNet_Backup_' + new Date().toLocaleDateString().replace(/\//g, '-') + '.html';
+        a.download = 'MukhayamNet_Updated.html';
         a.click();
     }
 
@@ -325,6 +272,4 @@
     renderUI();
 </script>
 
-
-
-</body></html>
+</body></html></html>
