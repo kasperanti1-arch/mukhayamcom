@@ -3,58 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | 2026</title>
+    <title>مخيم نت | سرعة ثابتة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #007bff; }
+        :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 95px; user-select: none; }
         
         header { 
             background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; 
-            height: 160px; 
-            border-bottom: 4px solid var(--p-green);
-            position: relative;
+            height: 160px; border-bottom: 4px solid var(--p-green); position: relative;
         }
         
         .header-glass {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
-            color: white;
-            padding: 8px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            z-index: 10;
+            position: absolute; top: 0; left: 0; right: 0;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px);
+            color: white; padding: 8px 15px; display: flex; justify-content: space-between;
+            align-items: center; font-size: 0.85rem; z-index: 10;
         }
-
-        .admin-trigger-area { cursor: pointer; font-weight: bold; font-size: 1.2rem; }
 
         .container { padding: 15px; min-height: 50vh; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
         
-        /* لوحة التحكم */
         #adminPanel { display: none; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
         .admin-item { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; border-right: 6px solid var(--p-green); }
         
-        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 16px; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 16px; box-sizing: border-box; }
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
         .btn-green { background: var(--p-green); color: white; }
         .btn-red { background: var(--p-red); color: white; }
 
-        /* الفوتر وشريط الأخبار المستمر */
+        /* الفوتر وشريط الأخبار بالسرعة الثابتة */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
         .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1005; font-size: 0.9rem; }
         
-        /* تأثير التكرار اللانهائي */
         .ticker-wrapper { flex: 1; overflow: hidden; position: relative; height: 100%; display: flex; align-items: center; }
-        .ticker-move { display: flex; position: absolute; white-space: nowrap; animation: ticker-infinite 25s linear infinite; }
-        .ticker-content { display: flex; align-items: center; }
-        .ticker-item { padding-right: 50px; } /* المسافة بين النص المكرر */
+        
+        /* الأنيميشن يتم التحكم به عبر JS */
+        .ticker-move { 
+            display: flex; 
+            position: absolute; 
+            white-space: nowrap; 
+            will-change: transform;
+        }
+        .ticker-item { padding-right: 80px; display: inline-block; } 
 
         @keyframes ticker-infinite {
             0% { transform: translateX(-50%); }
@@ -71,32 +64,32 @@
 
 <header id="siteHeader">
     <div class="header-glass">
-        <span class="admin-trigger-area" id="adminTrigger">مخيم نت</span>
+        <span class="admin-trigger-area" id="adminTrigger" style="cursor:pointer; font-weight:bold;">مخيم نت</span>
         <span id="headerDate">التاريخ..</span>
     </div>
 </header>
 
 <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2>لوحة التحكم الإدارية</h2>
+        <h2>إدارة المحتوى</h2>
         <button onclick="closeAdminNow()" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق X</button>
     </div>
 
     <div class="admin-item">
-        <h4>🖼️ إعدادات الهوية البصرية</h4>
-        <input type="text" id="headerImgInput" placeholder="رابط صورة الهيدر الجديد...">
-        <button class="btn btn-green" onclick="updateHeader()">تحديث الهيدر</button>
+        <h4>⚙️ الشريط الإخباري (سرعة ثابتة)</h4>
+        <input type="text" id="newsInput" placeholder="اكتب الخبر هنا...">
+        <button class="btn btn-green" onclick="saveNewsDraft()">تحديث الشريط</button>
     </div>
 
     <div class="admin-item">
-        <h4>⚙️ الشريط الإخباري العاجل</h4>
-        <input type="text" id="newsInput" placeholder="اكتب الخبر الجديد هنا...">
-        <button class="btn btn-green" onclick="saveNewsDraft()">تحديث النص</button>
+        <h4>🖼️ صورة الهيدر</h4>
+        <input type="text" id="headerImgInput" placeholder="رابط الصورة...">
+        <button class="btn btn-green" onclick="updateHeader()">تحديث الهيدر</button>
     </div>
 
     <div id="adminTreeContainer"></div>
-    <button class="btn btn-green" onclick="addItemToTree()">+ بطاقة رئيسية</button>
-    <button class="btn btn-green" style="background:#005a2d;" onclick="publishChanges()">🚀 نشر التعديلات</button>
+    <button class="btn btn-green" onclick="addItemToTree()">+ إضافة بطاقة</button>
+    <button class="btn btn-green" style="background:#005a2d;" onclick="publishChanges()">🚀 نشر النهائي</button>
     <hr>
     <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullCode()">📥 تصدير الكود</button>
 </div>
@@ -105,23 +98,11 @@
     <div id="mainGrid" class="grid"></div>
 </div>
 
-<div id="modal" class="modal">
-    <div class="modal-box">
-        <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
-            <span id="modalTitle"></span>
-            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.8rem;">&times;</span>
-        </div>
-        <img id="modalImg" style="width:100%; display:none;">
-        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.7;"></div>
-    </div>
-</div>
-
 <div class="footer">
     <div class="news-bar">
         <div class="clock" id="liveClock">00:00</div>
         <div class="ticker-wrapper">
             <div class="ticker-move" id="tickerMove">
-                <!-- النص سيظهر مرتين لضمان التتابع اللانهائي -->
                 <div class="ticker-content" id="tickerC1"></div>
                 <div class="ticker-content" id="tickerC2"></div>
             </div>
@@ -132,129 +113,123 @@
     </div>
 </div>
 
+<div id="modal" class="modal">
+    <div class="modal-box">
+        <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
+            <span id="modalTitle"></span>
+            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.8rem;">&times;</span>
+        </div>
+        <img id="modalImg" style="width:100%; display:none;">
+        <div id="modalBody" style="padding:20px; text-align:right;"></div>
+    </div>
+</div>
+
 <script id="dataInjection">
     var INITIAL_TREE = [];
-    var INITIAL_NEWS = "أهلاً بكم في موقع مخيم نت الإخباري - صوت القضية واللاجئ";
+    var INITIAL_NEWS = "مخيم نت الإخباري - صوت القضية واللاجئ الفلسطيني";
     var INITIAL_HEADER = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
 </script>
 
 <script>
     window.onload = () => { document.getElementById('adminPanel').style.display = 'none'; };
 
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_v2026_data') || '[]');
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_stable_v3')) || [];
+    let newsLine = localStorage.getItem('mn_stable_news') || INITIAL_NEWS;
+    let headerUrl = localStorage.getItem('mn_stable_head') || INITIAL_HEADER;
     let draftTree = JSON.parse(JSON.stringify(tree));
-    let newsLine = localStorage.getItem('mn_v2026_news') || INITIAL_NEWS;
-    let headerUrl = localStorage.getItem('mn_v2026_header') || INITIAL_HEADER;
 
-    function applyNewsTexts() {
-        const textArea1 = document.getElementById('tickerC1');
-        const textArea2 = document.getElementById('tickerC2');
-        const content = `<span class="ticker-item">${newsLine}</span>`;
-        // نكرر النص عدة مرات إذا كان قصيراً لملء الفراغ
-        textArea1.innerHTML = content + content + content;
-        textArea2.innerHTML = content + content + content;
+    // وظيفة حساب السرعة الثابتة
+    function adjustTickerSpeed() {
+        const tickerMove = document.getElementById('tickerMove');
+        const contentWidth = document.getElementById('tickerC1').offsetWidth;
+        
+        // السرعة المطلوبة: (مثلاً 100 بكسل في الثانية)
+        const pixelsPerSecond = 80; 
+        const duration = contentWidth / pixelsPerSecond;
+        
+        tickerMove.style.animation = `ticker-infinite ${duration}s linear infinite`;
     }
 
-    function updateHeaderDisplay() {
-        document.getElementById('siteHeader').style.backgroundImage = `url('${headerUrl}')`;
+    function applyNewsTexts() {
+        const c1 = document.getElementById('tickerC1');
+        const c2 = document.getElementById('tickerC2');
+        const text = `<span class="ticker-item">${newsLine}</span>`;
+        // نكرر النص لضمان ملء العرض ومنع الفراغات
+        c1.innerHTML = text.repeat(3);
+        c2.innerHTML = text.repeat(3);
+        
+        // إعادة حساب السرعة بعد تحديث النص
+        setTimeout(adjustTickerSpeed, 100);
     }
 
     function updateDateTime() {
         const now = new Date();
         document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', options);
+        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     setInterval(updateDateTime, 1000);
     updateDateTime();
-    updateHeaderDisplay();
     applyNewsTexts();
+    document.getElementById('siteHeader').style.backgroundImage = `url('${headerUrl}')`;
 
-    let clickCount = 0;
+    let clicks = 0;
     document.getElementById('adminTrigger').onclick = () => {
-        clickCount++;
-        if (clickCount === 5) {
+        if (++clicks === 5) {
             if (prompt("كلمة السر:") === "1234") {
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('newsInput').value = newsLine;
                 document.getElementById('headerImgInput').value = headerUrl;
                 renderAdmin();
             }
-            clickCount = 0;
+            clicks = 0;
         }
-        setTimeout(() => clickCount = 0, 3000);
+        setTimeout(() => clicks = 0, 3000);
     };
-
-    function closeAdminNow() { document.getElementById('adminPanel').style.display = 'none'; }
-
-    function updateHeader() {
-        headerUrl = document.getElementById('headerImgInput').value;
-        updateHeaderDisplay();
-    }
 
     function saveNewsDraft() {
         newsLine = document.getElementById('newsInput').value;
         applyNewsTexts();
     }
 
+    function updateHeader() {
+        headerUrl = document.getElementById('headerImgInput').value;
+        document.getElementById('siteHeader').style.backgroundImage = `url('${headerUrl}')`;
+    }
+
     function publishChanges() {
         tree = JSON.parse(JSON.stringify(draftTree));
-        localStorage.setItem('mn_v2026_data', JSON.stringify(tree));
-        localStorage.setItem('mn_v2026_news', newsLine);
-        localStorage.setItem('mn_v2026_header', headerUrl);
+        localStorage.setItem('mn_stable_v3', JSON.stringify(tree));
+        localStorage.setItem('mn_stable_news', newsLine);
+        localStorage.setItem('mn_stable_head', headerUrl);
         renderUI();
-        alert("🎉 تم النشر بنجاح!");
+        alert("تـم النشر!");
     }
 
     function addItemToTree() {
-        draftTree.push({ id: Date.now(), title: "عنصر جديد", type: "content", content: "", image: "", children: [] });
+        draftTree.push({ id: Date.now(), title: "عنصر جديد", type: "content", content: "", image: "" });
         renderAdmin();
     }
 
     function renderAdmin() {
         const container = document.getElementById('adminTreeContainer');
-        container.innerHTML = '<h4>تعديل الأقسام:</h4>';
-        function draw(arr, depth = 0) {
-            let html = `<div style="margin-right:${depth*15}px; border-right:2px solid #ddd; padding-right:10px;">`;
-            arr.forEach(item => {
-                html += `
-                    <div class="admin-item">
-                        <input type="text" value="${item.title}" oninput="updateField(${item.id}, 'title', this.value)">
-                        <select onchange="updateField(${item.id}, 'type', this.value); renderAdmin();">
-                            <option value="content" ${item.type==='content'?'selected':''}>صفحة محتوى</option>
-                            <option value="folder" ${item.type==='folder'?'selected':''}>مجلد أقسام</option>
-                        </select>
-                        ${item.type === 'content' ? `<input type="text" value="${item.image||''}" oninput="updateField(${item.id},'image',this.value)" placeholder="رابط صورة"><textarea oninput="updateField(${item.id},'content',this.value)">${item.content}</textarea>` : `<button onclick="addBranch(${item.id})" class="btn" style="background:#007bff; color:white; font-size:0.7rem;">+ فرع</button>`}
-                        <button onclick="deleteItem(${item.id})" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
-                    </div>`;
-                if (item.children && item.children.length > 0) html += draw(item.children, depth + 1);
-            });
-            return html + '</div>';
-        }
-        container.innerHTML += draw(draftTree);
-    }
-    
-    function updateField(id, f, v) { 
-        function walk(arr){ for(let i of arr){ if(i.id==id){i[f]=v; return;} if(i.children) walk(i.children); }}
-        walk(draftTree);
-    }
-    function addBranch(id){
-        function walk(arr){ for(let i of arr){ if(i.id==id){i.children.push({id:Date.now(), title:"فرع جديد", type:"content", content:"", children:[]}); break;} if(i.children) walk(i.children); }}
-        walk(draftTree); renderAdmin();
-    }
-    function deleteItem(id){
-        if(!confirm("تأكيد الحذف؟")) return;
-        function walk(arr){ for(let i=0; i<arr.length; i++){ if(arr[i].id==id){arr.splice(i,1); return true;} if(arr[i].children && walk(arr[i].children)) return true; }}
-        walk(draftTree); renderAdmin();
+        container.innerHTML = '<h4>الأقسام:</h4>';
+        draftTree.forEach((item, idx) => {
+            container.innerHTML += `
+                <div class="admin-item">
+                    <input type="text" value="${item.title}" oninput="draftTree[${idx}].title=this.value">
+                    <input type="text" value="${item.image||''}" oninput="draftTree[${idx}].image=this.value" placeholder="رابط صورة">
+                    <textarea oninput="draftTree[${idx}].content=this.value">${item.content}</textarea>
+                    <button onclick="draftTree.splice(${idx},1); renderAdmin();" style="color:red; background:none; border:none;">حذف</button>
+                </div>`;
+        });
     }
 
     function renderUI() {
         const grid = document.getElementById('mainGrid'); grid.innerHTML = '';
         tree.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'card';
-            card.innerText = item.title;
+            card.className = 'card'; card.innerText = item.title;
             card.onclick = () => {
                 document.getElementById('modalTitle').innerText = item.title;
                 document.getElementById('modalBody').innerHTML = item.content.replace(/\n/g, '<br>');
@@ -267,16 +242,15 @@
     }
 
     function exportFullCode() {
-        const treeData = JSON.stringify(tree);
-        const newsData = JSON.stringify(newsLine);
-        const headData = JSON.stringify(headerUrl);
+        const newData = `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsLine)};\n    var INITIAL_HEADER = ${JSON.stringify(headerUrl)};`;
         let hContent = document.documentElement.outerHTML;
-        const newData = `var INITIAL_TREE = ${treeData};\n    var INITIAL_NEWS = ${newsData};\n    var INITIAL_HEADER = ${headData};`;
         hContent = hContent.replace(document.getElementById('dataInjection').innerHTML, newData);
-        const blob = new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + hContent + "</html>"], {type: 'text/html'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-        a.download = 'MukhayamNet_2026.html'; a.click();
+        const a = document.createElement('a'); 
+        a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + hContent + "</html>"], {type: 'text/html'}));
+        a.download = 'MukhayamNet_Pro.html'; a.click();
     }
+
+    function closeAdminNow() { document.getElementById('adminPanel').style.display = 'none'; }
 
     renderUI();
 </script>
