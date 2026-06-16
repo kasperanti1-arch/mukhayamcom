@@ -3,37 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | النظام المتكامل</title>
+    <title>مخيم نت | النظام المؤمن</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #007bff; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 70px; user-select: none; }
+        
         header { background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover; height: 130px; border-bottom: 4px solid var(--p-green); }
         .title-bar { background: var(--p-green); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--p-red); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         
-        .admin-trigger-area { cursor: pointer; font-weight: bold; font-size: 1.3rem; padding: 2px 10px; }
+        #adminTrigger { cursor: pointer; font-weight: bold; font-size: 1.3rem; padding: 5px; -webkit-tap-highlight-color: transparent; }
         .date-display { font-size: 0.85rem; background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 20px; }
         
         .container { padding: 15px; min-height: 60vh; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
         
-        /* لوحة التحكم مخفية افتراضياً بشكل قاطع */
-        #adminPanel { display: none !important; position: fixed; inset: 0; background: #fff; z-index: 2000; padding: 20px; overflow-y: auto; }
+        /* لوحة التحكم مخفية تماماً بالـ CSS والـ Inline */
+        #adminPanel { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: #fff; 
+            z-index: 9999; 
+            padding: 20px; 
+            overflow-y: auto; 
+        }
         
         .admin-item { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; border-right: 6px solid var(--p-green); }
         input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 16px; box-sizing: border-box; }
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; font-size: 1rem; }
         .btn-green { background: var(--p-green); color: white; }
-        .btn-black { background: var(--p-black); color: white; }
         .btn-red { background: var(--p-red); color: white; }
         
+        /* شريط الأخبار والساعة */
         .footer { position: fixed; bottom: 0; width: 100%; background: var(--p-black); color: white; height: 50px; display: flex; align-items: center; z-index: 1000; overflow: hidden; }
         .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1001; }
         .ticker-wrapper { flex: 1; overflow: hidden; position: relative; height: 100%; }
         .ticker-text { position: absolute; white-space: nowrap; padding-left: 100%; animation: ticker-move 20s linear infinite; line-height: 50px; }
         @keyframes ticker-move { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
         
+        /* النوافذ العارضة */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 450px; border-radius: 15px; max-height: 85vh; overflow-y: auto; }
         .modal-img { width: 100%; border-bottom: 4px solid var(--p-green); display: none; }
@@ -44,29 +54,29 @@
 
 <header></header>
 <div class="title-bar">
-    <span class="admin-trigger-area" id="adminTrigger">مخيم نت</span>
-    <span class="date-display" id="todayDate">تاريخ اليوم</span>
+    <span id="adminTrigger">مخيم نت</span>
+    <span class="date-display" id="todayDate">تحميل التاريخ...</span>
 </div>
 
-<!-- لوحة التحكم -->
-<div id="adminPanel">
+<!-- لوحة التحكم - لا تظهر إلا عند الحاجة -->
+<div id="adminPanel" style="display: none;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2 style="margin:0;">إدارة المحتوى</h2>
-        <button onclick="hideAdminPanel()" class="btn-red" style="width:auto; padding:5px 15px; margin:0;">إغلاق X</button>
+        <h2 style="margin:0;">تحرير الموقع</h2>
+        <button onclick="closeAdminNow()" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق X</button>
     </div>
     <div class="admin-item">
-        <h4>⚙️ الشريط الإخباري</h4>
-        <input type="text" id="newsInput" placeholder="اكتب الخبر العاجل هنا...">
-        <button class="btn btn-black" onclick="updateNews()">حفظ الخبر</button>
+        <h4>⚙️ إعدادات الشريط الإخباري</h4>
+        <input type="text" id="newsInput" placeholder="اكتب الخبر العاجل...">
+        <button class="btn btn-green" onclick="saveNewsDraft()">تخزين الخبر</button>
     </div>
     <div id="adminTreeContainer"></div>
     <button class="btn btn-green" onclick="addItemToTree()">+ إضافة بطاقة رئيسية</button>
-    <button class="btn btn-green" style="background:#005a2d;" onclick="publishContent()">🚀 نشر التعديلات</button>
+    <button class="btn btn-green" style="background:#005a2d;" onclick="publishChanges()">🚀 نشر التعديلات المحدثة</button>
     <hr>
-    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullCode()">📥 تصدير الكود بالبيانات الحالية</button>
+    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullCode()">📥 تصدير الكود الكامل</button>
 </div>
 
-<!-- محتوى الموقع -->
+<!-- الواجهة الرئيسية للمستخدم -->
 <div class="container">
     <div class="path-nav" id="pathNav">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 12px; border-radius:8px; cursor:pointer;">عودة</button>
@@ -75,7 +85,6 @@
     <div class="grid" id="mainGrid"></div>
 </div>
 
-<!-- مودال العرض -->
 <div id="modal" class="modal">
     <div class="modal-box">
         <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
@@ -90,59 +99,57 @@
 <div class="footer">
     <div class="clock" id="liveClock">00:00:00</div>
     <div class="ticker-wrapper">
-        <div class="ticker-text" id="newsTicker">أهلاً بكم في مخيم نت</div>
+        <div class="ticker-text" id="newsTicker">مخيم نت - نبض فلسطين الحر</div>
     </div>
 </div>
 
-<script id="dataScript">
-    // البيانات المدمجة عند التصدير
+<!-- منطقة البيانات المحقونة -->
+<script id="dataInjection">
     var INITIAL_TREE = [];
     var INITIAL_NEWS = "مخيم نت - صوت القضية واللاجئ";
 </script>
 
 <script>
-    // تهيئة البيانات
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_stable_data') || '[]');
+    // الحماية: إغلاق لوحة التحكم قسرياً عند كل تحميل للصفحة
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('adminPanel').style.display = 'none';
+    });
+
+    // استرداد البيانات
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_stable_v10') || '[]');
     let draftTree = JSON.parse(JSON.stringify(tree));
-    let newsLine = INITIAL_NEWS !== "مخيم نت - صوت القضية واللاجئ" ? INITIAL_NEWS : localStorage.getItem('mn_stable_news') || INITIAL_NEWS;
+    let newsLine = INITIAL_NEWS !== "مخيم نت - صوت القضية واللاجئ" ? INITIAL_NEWS : localStorage.getItem('mn_news_v10') || INITIAL_NEWS;
 
     let currentStack = [];
     let clickCount = 0;
 
-    // تحديث الوقت والتاريخ
-    function updateDateTime() {
+    // التاريخ والساعة (توقيت جهاز المستخدم)
+    function updateClock() {
         const now = new Date();
         document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour12: false });
         document.getElementById('todayDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    // تشغيل لوحة التحكم بـ 5 نقرات حصراً
-    document.getElementById('adminTrigger').addEventListener('click', () => {
+    // آلية الدخول السري (5 ضغطات على مخيم نت)
+    document.getElementById('adminTrigger').onclick = function() {
         clickCount++;
         if (clickCount === 5) {
             let pass = prompt("أدخل كلمة المرور لفتح الإدارة:");
             if (pass === "1234") {
-                showAdminPanel();
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('newsInput').value = newsLine;
+                renderAdmin();
             } else {
-                alert("كلمة سر خاطئة");
+                alert("كلمة سر غير صحيحة");
             }
             clickCount = 0;
         }
         setTimeout(() => clickCount = 0, 3000);
-    });
+    };
 
-    function showAdminPanel() {
-        const panel = document.getElementById('adminPanel');
-        panel.style.setProperty('display', 'block', 'important');
-        document.getElementById('newsInput').value = newsLine;
-        renderAdmin();
-    }
-
-    function hideAdminPanel() {
-        document.getElementById('adminPanel').style.setProperty('display', 'none', 'important');
-    }
+    function closeAdminNow() { document.getElementById('adminPanel').style.display = 'none'; }
 
     function updateDraft(id, field, val) {
         function edit(arr) {
@@ -169,18 +176,18 @@
         renderAdmin();
     }
 
-    function publishContent() {
+    function publishChanges() {
         tree = JSON.parse(JSON.stringify(draftTree));
-        localStorage.setItem('mn_stable_data', JSON.stringify(tree));
-        localStorage.setItem('mn_stable_news', newsLine);
+        localStorage.setItem('mn_stable_v10', JSON.stringify(tree));
+        localStorage.setItem('mn_news_v10', newsLine);
         renderUI();
         alert("🚀 تم النشر بنجاح!");
     }
 
-    function updateNews() {
+    function saveNewsDraft() {
         newsLine = document.getElementById('newsInput').value;
         document.getElementById('newsTicker').innerText = newsLine;
-        alert("تم تحديث المسودة بشرط الضغط على نشر لاعتمادها!");
+        alert("تم الحفظ في المسودة مؤقتاً");
     }
 
     function renderAdmin() {
@@ -191,12 +198,12 @@
             arr.forEach(item => {
                 html += `
                     <div class="admin-item">
-                        <input type="text" value="${item.title}" oninput="updateDraft(${item.id}, 'title', this.value)" placeholder="العنوان">
+                        <input type="text" value="${item.title}" oninput="updateDraft(${item.id}, 'title', this.value)">
                         <select onchange="updateDraft(${item.id}, 'type', this.value); renderAdmin();">
                             <option value="content" ${item.type==='content'?'selected':''}>محتوى</option>
                             <option value="folder" ${item.type==='folder'?'selected':''}>قسم</option>
                         </select>
-                        ${item.type === 'content' ? `<input type="text" value="${item.image || ''}" oninput="updateDraft(${item.id}, 'image', this.value)" placeholder="رابط الصورة"><textarea oninput="updateDraft(${item.id}, 'content', this.value)">${item.content}</textarea>` : `<button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(${item.id})">+ فرع</button>`}
+                        ${item.type === 'content' ? `<input type="text" value="${item.image || ''}" oninput="updateDraft(${item.id}, 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateDraft(${item.id}, 'content', this.value)">${item.content}</textarea>` : `<button class="btn" style="background:#007bff; color:#fff;" onclick="addItemToTree(${item.id})">+ إضافة فرع</button>`}
                         <button onclick="deleteItem(${item.id})" style="color:red; background:none; border:none; cursor:pointer;">حذف عنصر 🗑️</button>
                     </div>
                 `;
@@ -208,7 +215,7 @@
     }
 
     function deleteItem(id) {
-        if (!confirm("هل تريد الحذف؟")) return;
+        if (!confirm("حذف؟")) return;
         function del(arr) {
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].id == id) { arr.splice(i, 1); return true; }
@@ -249,11 +256,11 @@
     function exportFullCode() {
         const treeData = JSON.stringify(tree);
         const newsData = JSON.stringify(newsLine);
-        let currentHtml = document.documentElement.outerHTML;
-        const newDataScript = `var INITIAL_TREE = ${treeData};\n    var INITIAL_NEWS = ${newsData};`;
-        const oldDataScript = document.getElementById('dataScript').innerHTML;
-        currentHtml = currentHtml.replace(oldDataScript, newDataScript);
-        const blob = new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + currentHtml + "</html>"], {type: 'text/html'});
+        let htmlSource = document.documentElement.outerHTML;
+        const newDataBlock = `var INITIAL_TREE = ${treeData};\n    var INITIAL_NEWS = ${newsData};`;
+        const oldDataBlock = document.getElementById('dataInjection').innerHTML;
+        htmlSource = htmlSource.replace(oldDataBlock, newDataBlock);
+        const blob = new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + htmlSource + "</html>"], {type: 'text/html'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = 'MukhayamNet_Final.html';
