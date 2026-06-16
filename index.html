@@ -1,7 +1,9 @@
-<html lang="ar" dir="rtl"><head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مخيم نت - الإدارة الذكية الكاملة</title>
+    <title>مخيم نت - الإدارة الذكية الكاملة المستديمة</title>
     <style>
         :root {
             --primary-green: #056113;
@@ -305,30 +307,30 @@
         <div class="right-side">
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
-        <div class="left-side" id="liveHeaderTime">الثلاثاء، ١٦ يونيو ٢٠٢٦ | 14:53:14</div>
+        <div class="left-side" id="liveHeaderTime"></div>
     </div>
 
     <div class="container">
-        <div id="mainMenuGrid" class="main-menu-grid" style="display: grid;"><div class="nav-card"><div class="icon-img">🩺</div><div>الخدمات الطبية</div></div><div class="nav-card"><div class="icon-img">📰</div><div>أخبار المخيم</div></div><div class="nav-card"><div class="icon-img">📌</div><div>واحد</div></div></div>
+        <div id="mainMenuGrid" class="main-menu-grid"></div>
 
-        <div id="subSectionsView" class="sub-sections-view" style="display: none;">
-            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">📌 📌 واحد</h3>
-            <div id="itemsGridContainer" class="items-flex-grid"><div class="pharmacy-card">تنين</div></div>
+        <div id="subSectionsView" class="sub-sections-view">
+            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;"></h3>
+            <div id="itemsGridContainer" class="items-flex-grid"></div>
             <button id="backNavButton" class="nav-card" style="width:100%; margin-top:25px; padding:12px; background:var(--dark-gray);" onclick="goBackLogic()">⬅️ العودة للخلف</button>
         </div>
     </div>
 
     <div class="popup-overlay" id="contentPopup">
         <div class="popup-modal">
-            <h3 id="popupTitle">اسماء</h3>
-            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'" style="display: none;">
-            <div id="popupText" class="popup-text">الحسين</div>
+            <h3 id="popupTitle"></h3>
+            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'">
+            <div id="popupText" class="popup-text"></div>
             <button class="nav-card" style="width:100%; margin-top:15px; padding:10px; background:var(--primary-green);" onclick="closePopup()">إغلاق</button>
         </div>
     </div>
 
-    <!-- لوحة التحكم الذكية والمحسنة للنشر الحر -->
-    <div class="popup-overlay is-active" id="adminOverlay">
+    <!-- لوحة التحكم الاستراتيجية -->
+    <div class="popup-overlay" id="adminOverlay">
         <div class="admin-modal">
             <h3>⚙️ لوحة الإدارة والتحكم الشاملة الذكية</h3>
 
@@ -347,7 +349,7 @@
                 <h4>2️⃣ إضافة قسم فرعي أول (المستوى 2)</h4>
                 <div class="form-group">
                     <label>اختر القسم الرئيسي التابع له:</label>
-                    <select id="mainCatSelectDropdown"><option value="m1">الخدمات الطبية</option><option value="m2">أخبار المخيم</option><option value="m_1781610687967">واحد</option></select>
+                    <select id="mainCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subCatInput" placeholder="مثال: صيدليات المخيم، الأطباء...">
@@ -359,7 +361,7 @@
                 <h4>3️⃣ إضافة قسم فرعي ثانٍ / ثالث (المستوى 3) 🌟</h4>
                 <div class="form-group">
                     <label>اختر القسم الفرعي الأول التابع له:</label>
-                    <select id="subCatSelectDropdownForLevel3"><option value="s1">الخدمات الطبية ➔ صيدليات المخيم</option><option value="s2">الخدمات الطبية ➔ عيادات الأطباء</option><option value="s_1781610695728">واحد ➔ تنين</option></select>
+                    <select id="subCatSelectDropdownForLevel3"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subLevel3Input" placeholder="مثال: صيدليات مناوبة، صيدليات الوسط...">
@@ -371,7 +373,7 @@
                 <h4>4️⃣ إضافة ونشر محتوى جديد (في أي قسم تفتحه) 📢</h4>
                 <div class="form-group">
                     <label>اختر القسم المستهدف للنشر (رئيسي، فرعي 1، فرعي 3):</label>
-                    <select id="subCatSelectDropdown"><optgroup label="المستوى 1: الأقسام الرئيسية"></optgroup><option value="m1"> رئيسي ➔ الخدمات الطبية</option><option value="m2"> رئيسي ➔ أخبار المخيم</option><option value="m_1781610687967"> رئيسي ➔ واحد</option><optgroup label="المستوى 2: الأقسام الفرعية الأولى"></optgroup><option value="s1"> فرعي أول ➔ صيدليات المخيم</option><option value="s2"> فرعي أول ➔ عيادات الأطباء</option><option value="s_1781610695728"> فرعي أول ➔ تنين</option><optgroup label="المستوى 3: الأقسام الفرعية الثالثة"></optgroup><option value="l3_1"> فرعي ثالث ➔ صيدليات مناوبة عاجلة</option><option value="l3_2"> فرعي ثالث ➔ صيدليات وسط المخيم</option><option value="l3_1781610706311"> فرعي ثالث ➔ تلاتة</option></select>
+                    <select id="subCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة، خبر عاجل...">
@@ -389,7 +391,7 @@
                 <h4>✍️ تعديل المحتويات الحالية</h4>
                 <div class="form-group">
                     <label>اختر المنشور المراد تعديله:</label>
-                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشراً للتعديل --</option><option value="c1">صيدلية الشفاء</option><option value="c2">صيدلية القدس</option><option value="c_1781610729123">اسماء</option></select>
+                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="editContentTitleInput" placeholder="العنوان الجديد...">
@@ -415,14 +417,14 @@
                 <h4>🗑️ إدارة وحذف العناصر</h4>
                 <div class="form-group">
                     <label>اختر العنصر للحذف:</label>
-                    <select id="deleteTargetSelectDropdown"><option value="">-- اختر عنصراً لحذفه نهائياً --</option><option value="main_m1">[رئيسي] ➔ الخدمات الطبية</option><option value="main_m2">[رئيسي] ➔ أخبار المخيم</option><option value="main_m_1781610687967">[رئيسي] ➔ واحد</option><option value="sub_s1">[فرعي أول] ➔ صيدليات المخيم</option><option value="sub_s2">[فرعي أول] ➔ عيادات الأطباء</option><option value="sub_s_1781610695728">[فرعي أول] ➔ تنين</option><option value="l3_l3_1">[فرعي ثالث] ➔ صيدليات مناوبة عاجلة</option><option value="l3_l3_2">[فرعي ثالث] ➔ صيدليات وسط المخيم</option><option value="l3_l3_1781610706311">[فرعي ثالث] ➔ تلاتة</option><option value="content_c1">[منشور] ➔ صيدلية الشفاء</option><option value="content_c2">[منشور] ➔ صيدلية القدس</option><option value="content_c_1781610729123">[منشور] ➔ اسماء</option></select>
+                    <select id="deleteTargetSelectDropdown"></select>
                 </div>
                 <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر</button>
             </div>
 
             <div class="admin-section-box" style="border: 2px solid #10b981; background: #f0fdf4;">
-                <h4>📥 تصدير الكود البرمجي</h4>
-                <button class="admin-btn export-btn" onclick="exportFullCodeHTML()">تصدير ملف HTML المحدث</button>
+                <h4>📥 حفر التعديلات داخل الملف وتصديره</h4>
+                <button class="admin-btn export-btn" onclick="exportFullCodeHTML()">تصدير كود ملف HTML النهائي 💾</button>
             </div>
 
             <button class="admin-btn close-admin" onclick="closeAdminPanel()">❌ إغلاق لوحة التحكم</button>
@@ -432,9 +434,9 @@
     <div class="footer-ticker">
         <div class="ticker-main-row">
             <div class="ticker-text-area">
-                <div class="ticker-track" id="tickerTrackContainer"><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span></div>
+                <div class="ticker-track" id="tickerTrackContainer"></div>
             </div>
-            <div class="ticker-clock-area" id="liveFooterClock">14:53</div>
+            <div class="ticker-clock-area" id="liveFooterClock"></div>
         </div>
         <div class="footer-rights-bar">
             تصميم محمد ابراهيم مقبل | جميع الحقوق محفوظة ©
@@ -442,7 +444,8 @@
     </div>
 
     <script>
-        // ===== DATA STRUCTURE =====
+        // دمج التخزين داخل قاعدة البيانات البرمجية مباشرة لتلافي مشاكل المتصفح المحلي
+        // START_DATA_SECTION
         let appData = {
     "ticker": "أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.",
     "mainCategories": [
@@ -455,11 +458,6 @@
             "id": "m2",
             "name": "أخبار المخيم",
             "icon": "📰"
-        },
-        {
-            "id": "m_1781610687967",
-            "name": "واحد",
-            "icon": "📌"
         }
     ],
     "subCategories": [
@@ -472,11 +470,6 @@
             "id": "s2",
             "mainId": "m1",
             "name": "عيادات الأطباء"
-        },
-        {
-            "id": "s_1781610695728",
-            "mainId": "m_1781610687967",
-            "name": "تنين"
         }
     ],
     "subLevels3": [
@@ -489,11 +482,6 @@
             "id": "l3_2",
             "subId": "s1",
             "name": "صيدليات وسط المخيم"
-        },
-        {
-            "id": "l3_1781610706311",
-            "subId": "s_1781610695728",
-            "name": "تلاتة"
         }
     ],
     "contents": {
@@ -508,24 +496,29 @@
             "title": "صيدلية القدس",
             "img": "",
             "text": "📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"
-        },
-        "c_1781610729123": {
-            "belongsTo": "l3_1781610706311",
-            "title": "اسماء",
-            "img": "",
-            "text": "الحسين"
         }
     }
 };
+        // END_DATA_SECTION
+
+        // فحص وجود نسخة مخزنة مؤقتاً بالمتصفح، وإلا الاعتماد الكامل على الكود الداخلي
+        if (localStorage.getItem('camp_net_data')) {
+            try {
+                appData = JSON.parse(localStorage.getItem('camp_net_data'));
+            } catch(e) {}
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('camp_net_data', JSON.stringify(appData));
+        }
 
         let secretClickCount = 0;
         let lastClickTime = 0;
         let currentViewStage = "main"; 
         let currentMainId = null;
         let currentSubId = null;
-        let currentTargetId = null; // يتبع المعرّف المفتوح حالياً لعرض المحتويات المباشرة
+        let currentTargetId = null;
 
-        // ===== INIT =====
         window.onload = function() {
             init();
         };
@@ -541,7 +534,6 @@
             populateAdminDropdowns();
         }
 
-        // ===== RENDER MAIN MENU =====
         function renderMainMenu() {
             currentViewStage = "main";
             document.getElementById('mainMenuGrid').style.display = 'grid';
@@ -554,7 +546,6 @@
                 card.className = 'nav-card';
                 card.innerHTML = `<div class="icon-img">${cat.icon || '📌'}</div><div>${cat.name}</div>`;
                 card.onclick = () => {
-                    // فحص ذكي: إذا كان للقسم الرئيسي منشورات مباشرة، نتوجه فوراً لعرض محتوياته بدلاً من التنقل العادي
                     if (hasDirectContents(cat.id)) {
                         showContents(cat.id, "main", cat.name, cat.icon);
                     } else {
@@ -569,12 +560,11 @@
             return Object.values(appData.contents).some(c => c.belongsTo === id);
         }
 
-        // ===== SHOW SUB SECTIONS (STAGE 2) =====
         function showSubSectionsStage2(mainId) {
             currentViewStage = "stage2";
             currentMainId = mainId;
             const mainCat = appData.mainCategories.find(c => c.id === mainId);
-            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat.icon || ''} ${mainCat.name}`;
+            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat ? (mainCat.icon || '') + ' ' + mainCat.name : ''}`;
 
             const grid = document.getElementById('itemsGridContainer');
             grid.innerHTML = '';
@@ -587,7 +577,7 @@
                 card.innerText = sub.name;
                 card.onclick = () => {
                     if (hasDirectContents(sub.id)) {
-                        showContents(sub.id, "stage2", `${mainCat.name} ➔ ${sub.name}`, mainCat.icon);
+                        showContents(sub.id, "stage2", `${mainCat ? mainCat.name : ''} ➔ ${sub.name}`, mainCat ? mainCat.icon : '');
                     } else {
                         showSubSectionsStage3(sub.id);
                     }
@@ -603,13 +593,12 @@
             document.getElementById('subSectionsView').style.display = 'block';
         }
 
-        // ===== SHOW LEVEL 3 SECTIONS (STAGE 3) =====
         function showSubSectionsStage3(subId) {
             currentViewStage = "stage3";
             currentSubId = subId;
             const sub = appData.subCategories.find(s => s.id === subId);
-            const mainCat = appData.mainCategories.find(c => c.id === sub.mainId);
-            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat.icon || ''} ${mainCat.name} ➔ ${sub.name}`;
+            const mainCat = sub ? appData.mainCategories.find(c => c.id === sub.mainId) : null;
+            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat ? (mainCat.icon || '') + ' ' + mainCat.name : ''} ➔ ${sub ? sub.name : ''}`;
 
             const grid = document.getElementById('itemsGridContainer');
             grid.innerHTML = '';
@@ -622,7 +611,7 @@
                 card.style.backgroundColor = '#e0f2fe';
                 card.style.borderColor = '#7dd3fc';
                 card.innerText = `📂 ${lvl3.name}`;
-                card.onclick = () => showContents(lvl3.id, "stage3", `${mainCat.name} ➔ ${sub.name} ➔ ${lvl3.name}`, mainCat.icon);
+                card.onclick = () => showContents(lvl3.id, "stage3", `${mainCat ? mainCat.name : ''} ➔ ${sub ? sub.name : ''} ➔ ${lvl3.name}`, mainCat ? mainCat.icon : '');
                 grid.appendChild(card);
             });
 
@@ -631,11 +620,9 @@
             }
         }
 
-        // ===== SHOW CONTENTS (تم تعديلها لتدعم العرض الشامل من أي مستوى) =====
         function showContents(targetId, fromStage, titleText, icon) {
             currentViewStage = "contents";
             currentTargetId = targetId;
-            // حفظ المرحلة التي جئنا منها لنتمكن من الرجوع للخلف بشكل سليم وبدون ضياع
             if (fromStage) window.lastStageFallback = fromStage; 
 
             document.getElementById('currentMainTitle').innerText = `📌 ${icon || ''} ${titleText}`;
@@ -643,7 +630,6 @@
             const grid = document.getElementById('itemsGridContainer');
             grid.innerHTML = '';
 
-            // جلب الأقسام التابعة إذا كنا في قسم رئيسي أو فرعي 1 لعرضها جنباً إلى جنب مع المنشورات المباشرة إن وجدت
             if (window.lastStageFallback === "main") {
                 const subs = appData.subCategories.filter(s => s.mainId === targetId);
                 subs.forEach(sub => {
@@ -683,9 +669,9 @@
             document.getElementById('subSectionsView').style.display = 'block';
         }
 
-        // ===== POPUP =====
         function openContentPopup(contentId) {
             const content = appData.contents[contentId];
+            if(!content) return;
             document.getElementById('popupTitle').innerText = content.title;
             document.getElementById('popupText').innerText = content.text;
             if (content.img) {
@@ -717,7 +703,6 @@
             }
         }
 
-        // ===== TICKER & CLOCKS =====
         function updateTicker() {
             const track = document.getElementById('tickerTrackContainer');
             track.innerHTML = '';
@@ -738,7 +723,6 @@
             document.getElementById('liveHeaderTime').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ` | ${hours}:${minutes}:${seconds}`;
         }
 
-        // ===== نظام التفعيل السري بالنقرات والوقت والمحفوظة بالكامل =====
         function handleSecretClicks() {
             const currentTime = new Date().getTime();
             if (currentTime - lastClickTime > 2000) {
@@ -751,6 +735,7 @@
                 secretClickCount = 0; 
                 const passwordInput = prompt("🔒 الرجاء إدخل كلمة السر لفتح لوحة التحكم الاستراتيجية:");
                 if (passwordInput === "1234") {
+                    populateAdminDropdowns();
                     document.getElementById('adminOverlay').classList.add('is-active');
                 } else {
                     alert("❌ كلمة السر خاطئة! تم رفض تصريح الدخول لحماية النظام.");
@@ -762,7 +747,6 @@
             document.getElementById('adminOverlay').classList.remove('is-active');
         }
 
-        // بناء وتحديث القوائم المنسدلة لتدعم النشر في أي مستوى
         function populateAdminDropdowns() {
             const mainSelect = document.getElementById('mainCatSelectDropdown');
             const subL3Select = document.getElementById('subCatSelectDropdownForLevel3');
@@ -776,7 +760,6 @@
             editSelect.innerHTML = '<option value="">-- اختر منشراً للتعديل --</option>';
             deleteSelect.innerHTML = '<option value="">-- اختر عنصراً لحذفه نهائياً --</option>';
 
-            // إضافة وتعبئة المستويات المتاحة للنشر الذكي المباشر المفتوح
             universalContentSelect.innerHTML += `<optgroup label="المستوى 1: الأقسام الرئيسية"></optgroup>`;
             appData.mainCategories.forEach(c => {
                 mainSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
@@ -806,6 +789,20 @@
             });
         }
 
+        function loadContentToEdit() {
+            const id = document.getElementById('editContentSelectDropdown').value;
+            if(!id) {
+                document.getElementById('editContentTitleInput').value = '';
+                document.getElementById('editContentImageInput').value = '';
+                document.getElementById('editContentTextarea').value = '';
+                return;
+            }
+            const c = appData.contents[id];
+            document.getElementById('editContentTitleInput').value = c.title;
+            document.getElementById('editContentImageInput').value = c.img;
+            document.getElementById('editContentTextarea').value = c.text;
+        }
+
         function addMainCategory() {
             const name = document.getElementById('mainCatInput').value.trim();
             const icon = document.getElementById('mainCatIconInput').value.trim() || '📌';
@@ -815,9 +812,10 @@
             appData.mainCategories.push({ id, name, icon });
             document.getElementById('mainCatInput').value = '';
             
+            saveToStorage();
             populateAdminDropdowns();
             renderMainMenu();
-            alert(`تم إنشاء القسم الرئيسي بنجاح!`);
+            alert(`تم إضافة القسم بنجاح! تذكر الضغط على زر التصدير بالأسفل لحفظه بشكل نهائي بالملف.`);
         }
 
         function addSubCategory() {
@@ -829,8 +827,9 @@
             appData.subCategories.push({ id, mainId, name });
             document.getElementById('subCatInput').value = '';
 
+            saveToStorage();
             populateAdminDropdowns();
-            alert(`تم إنشاء القسم الفرعي الأول بنجاح!`);
+            alert(`تم إضافة القسم بنجاح! اضغط على زر التصدير بالأسفل للحفظ الدائم بالملف.`);
         }
 
         function addSubLevel3Category() {
@@ -843,8 +842,9 @@
             appData.subLevels3.push({ id, subId, name });
             document.getElementById('subLevel3Input').value = '';
 
+            saveToStorage();
             populateAdminDropdowns();
-            alert(`تم إنشاء وتثبيت القسم الفرعي الثالث [${name}] بنجاح!`);
+            alert(`تم إضافة القسم بنجاح! اضغط على زر التصدير بالأسفل للحفظ الدائم بالملف.`);
         }
 
         function addFinalContent() {
@@ -862,38 +862,34 @@
             document.getElementById('contentImageInput').value = '';
             document.getElementById('contentTextarea').value = '';
 
+            saveToStorage();
             populateAdminDropdowns();
-            
-            // تحديث العرض فوراً حسب نوع القسم المنشور بداخله
-            showContents(belongsTo, "main", title, "📢");
-            alert('تم بنجاح نشر المحتوى داخل القسم المحدد بنجاح وحرية تامة!');
-        }
-
-        function loadContentToEdit() {
-            const id = document.getElementById('editContentSelectDropdown').value;
-            if(!id) return;
-            const c = appData.contents[id];
-            document.getElementById('editContentTitleInput').value = c.title;
-            document.getElementById('editContentImageInput').value = c.img;
-            document.getElementById('editContentTextarea').value = c.text;
+            renderMainMenu();
+            alert('تم نشر المحتوى! الرجاء الضغط على زر التصدير بالأسفل ليتم حفظ المنشور داخل ملف الـ HTML للكومبيوتر بشكل دائم.');
         }
 
         function submitContentEdit() {
             const id = document.getElementById('editContentSelectDropdown').value;
             if(!id) return alert('اختر منشراً أولاً');
+            
             appData.contents[id].title = document.getElementById('editContentTitleInput').value.trim();
             appData.contents[id].img = document.getElementById('editContentImageInput').value.trim();
             appData.contents[id].text = document.getElementById('editContentTextarea').value.trim();
-            alert('تم التعديل بنجاح!');
+            
+            saveToStorage();
+            alert('تم التعديل بنجاح! اضغط على زر التصدير في الأسفل لتثبيت التعديل بالملف.');
             populateAdminDropdowns();
+            renderMainMenu();
         }
 
         function updateTickerText() {
             const txt = document.getElementById('tickerTextInput').value.trim();
             if(!txt) return alert('ادخل نص الشريط الإخباري');
             appData.ticker = txt;
+            
+            saveToStorage();
             updateTicker();
-            alert('تم التحديث!');
+            alert('تم التحديث! اضغط على تصدير لحفظ الشريط.');
         }
 
         function deleteTargetItem() {
@@ -907,27 +903,34 @@
                 else if(type === 'l3') appData.subLevels3 = appData.subLevels3.filter(l => l.id !== id);
                 else if(type === 'content') delete appData.contents[id];
                 
+                saveToStorage();
                 populateAdminDropdowns();
                 renderMainMenu();
-                alert('تم الحذف بنجاح.');
+                alert('تم الحذف من القائمة المؤقتة! اضغط على زر التصدير بالأسفل فوراً ليعتمد الحذف بشكل نهائي في ملف الـ HTML الجديد.');
             }
         }
 
+        // دالة تصدير متطورة للغاية تبدل الداتا الأصلية المحفورة بداخل الملف بدقة كاملة
         function exportFullCodeHTML() {
-            const scriptDataStr = `let appData = ${JSON.stringify(appData, null, 4)};`;
+            localStorage.removeItem('camp_net_data'); // تنظيف التخزين المؤقت لتجنب تضارب الداتا العشوائية
+            
+            const cleanDataStr = JSON.stringify(appData, null, 4);
             let currentHTML = document.documentElement.outerHTML;
-            const regex = /let appData = \{[\s\S]*?\};/;
-            currentHTML = currentHTML.replace(regex, scriptDataStr);
+            
+            // استبدال النص البرمجي القديم بالجديد بشكل دقيق
+            const regex = /(\/\/ START_DATA_SECTION\s+let appData = )[\s\S]*?(\;\s+\/\/ END_DATA_SECTION)/;
+            currentHTML = currentHTML.replace(regex, `$1${cleanDataStr}$2`);
 
             const blob = new Blob([currentHTML], { type: 'text/html;charset=utf-8' });
             const tempAnchor = document.createElement('a');
             tempAnchor.href = URL.createObjectURL(blob);
-            tempAnchor.download = 'camp_net_secured.html';
+            tempAnchor.download = 'camp_net_final.html';
             document.body.appendChild(tempAnchor);
             tempAnchor.click();
             document.body.removeChild(tempAnchor);
+            
+            alert("📥 تم تحميل الملف الجديد بنجاح!\nقم باستبدال الملف القديم بالملف الجديد (camp_net_final.html)، وستبقى جميع بياناتك، حذوفاتك وتعديلاتك ثابتة ولن تضيع عند التحديث أبداً.");
         }
     </script>
-
-
-</body></html>
+</body>
+</html>
