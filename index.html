@@ -456,7 +456,7 @@
             ],
             contents: {
                 "c1": { belongsTo: "l3_1", title: "صيدلية الشفاء", img: "", text: "📍 العنوان: الشارع الرئيسي - مقابل المسجد الكبير\n📞 هاتف: 0599000000\n⏰ الدوام: من 8 صباحاً حتى 11 مساءً" },
-                "c2": { belongsTo: "l3_2", title: "صيدلية القدس", img: "", text: "📍 العنوان: حارة الوسط - بجانب Mخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع" }
+                "c2": { belongsTo: "l3_2", title: "صيدلية القدس", img: "", text: "📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع" }
             }
         };
 
@@ -630,8 +630,13 @@
         function handleSecretClicks() {
             secretClickCount++;
             if (secretClickCount >= 5) {
-                document.getElementById('adminOverlay').style.display = 'flex';
-                secretClickCount = 0;
+                secretClickCount = 0; // تصفير العداد لإعادة المحاولة لاحقاً
+                const passwordInput = prompt("🔒 الرجاء إدخال كلمة السر لفتح لوحة التحكم الاستراتيجية:");
+                if (passwordInput === "1234") {
+                    document.getElementById('adminOverlay').style.display = 'flex';
+                } else {
+                    alert("❌ كلمة السر خاطئة! تم رفض تصريح الدخول لحماية النظام.");
+                }
             }
         }
 
@@ -750,7 +755,6 @@
             document.getElementById('editContentTextarea').value = c.text;
         }
 
-        // باقي دوال التحكم الأساسية للحفظ والتصدير التلقائي
         function submitContentEdit() {
             const id = document.getElementById('editContentSelectDropdown').value;
             if(!id) return alert('اختر منشراً أولاً');
@@ -795,7 +799,7 @@
             const blob = new Blob([currentHTML], { type: 'text/html;charset=utf-8' });
             const tempAnchor = document.createElement('a');
             tempAnchor.href = URL.createObjectURL(blob);
-            tempAnchor.download = 'camp_net_level3_updated.html';
+            tempAnchor.download = 'camp_net_secured.html';
             document.body.appendChild(tempAnchor);
             tempAnchor.click();
             document.body.removeChild(tempAnchor);
