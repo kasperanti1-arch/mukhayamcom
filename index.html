@@ -1,4 +1,6 @@
-<html lang="ar" dir="rtl"><head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مخيم نت - الإدارة الذكية الكاملة</title>
@@ -128,8 +130,9 @@
             background-color: #e2e8f0;
         }
 
+        /* تم تعديل الـ CSS هنا لضمان إغلاق اللوحة نهائياً عند التحميل */
         .popup-overlay {
-            display: none;
+            display: none !important; 
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.85);
@@ -137,6 +140,11 @@
             justify-content: center;
             align-items: center;
             padding: 10px;
+        }
+
+        /* كلاس مخصص لإظهار اللوحات برمجياً فقط */
+        .popup-overlay.is-active {
+            display: flex !important;
         }
 
         .admin-modal {
@@ -299,31 +307,34 @@
 
     <div class="app-header">
         <div class="right-side">
+            <!-- الكلمة المستهدفة للنقر السري -->
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
-        <div class="left-side" id="liveHeaderTime">الثلاثاء، ١٦ يونيو ٢٠٢٦ | 07:36:35</div>
+        <div class="left-side" id="liveHeaderTime"></div>
     </div>
 
     <div class="container">
-        <div id="mainMenuGrid" class="main-menu-grid" style="display: grid;"><div class="nav-card"><div class="icon-img">🩺</div><div>الخدمات الطبية</div></div><div class="nav-card"><div class="icon-img">📰</div><div>أخبار المخيم</div></div><div class="nav-card"><div class="icon-img">📌</div><div>فعاليات</div></div></div>
+        <div id="mainMenuGrid" class="main-menu-grid"></div>
 
-        <div id="subSectionsView" class="sub-sections-view" style="display: none;">
-            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">📌 🩺 صيدليات المخيم ➔ صيدليات مناوبة عاجلة</h3>
-            <div id="itemsGridContainer" class="items-flex-grid"><div class="pharmacy-card">صيدلية الشفاء</div><div class="pharmacy-card">صيدلية عمار</div></div>
+        <div id="subSectionsView" class="sub-sections-view">
+            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;"></h3>
+            <div id="itemsGridContainer" class="items-flex-grid"></div>
             <button id="backNavButton" class="nav-card" style="width:100%; margin-top:25px; padding:12px; background:var(--dark-gray);" onclick="goBackLogic()">⬅️ العودة للخلف</button>
         </div>
     </div>
 
-    <div class="popup-overlay" id="contentPopup" style="display: none;">
+    <!-- نافذة عرض المحتوى -->
+    <div class="popup-overlay" id="contentPopup">
         <div class="popup-modal">
             <h3 id="popupTitle"></h3>
-            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'" style="display: none;">
+            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'">
             <div id="popupText" class="popup-text"></div>
             <button class="nav-card" style="width:100%; margin-top:15px; padding:10px; background:var(--primary-green);" onclick="closePopup()">إغلاق</button>
         </div>
     </div>
 
-    <div class="popup-overlay" id="adminOverlay" style="display: flex;">
+    <!-- لوحة التحكم الاحترافية المغلقة تماماً -->
+    <div class="popup-overlay" id="adminOverlay">
         <div class="admin-modal">
             <h3>⚙️ لوحة الإدارة والتحكم الشاملة الذكية</h3>
 
@@ -342,7 +353,7 @@
                 <h4>2️⃣ إضافة قسم فرعي أول (المستوى 2)</h4>
                 <div class="form-group">
                     <label>اختر القسم الرئيسي التابع له:</label>
-                    <select id="mainCatSelectDropdown"><option value="m1">الخدمات الطبية</option><option value="m2">أخبار المخيم</option><option value="m_1781584544256">فعاليات</option></select>
+                    <select id="mainCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subCatInput" placeholder="مثال: صيدليات المخيم، الأطباء...">
@@ -354,7 +365,7 @@
                 <h4>3️⃣ إضافة قسم فرعي ثانٍ / ثالث (المستوى 3) 🌟</h4>
                 <div class="form-group">
                     <label>اختر القسم الفرعي الأول التابع له:</label>
-                    <select id="subCatSelectDropdownForLevel3"><option value="s1">الخدمات الطبية ➔ صيدليات المخيم</option><option value="s2">الخدمات الطبية ➔ عيادات الأطباء</option><option value="s_1781584554437">فعاليات ➔ صيدليات</option></select>
+                    <select id="subCatSelectDropdownForLevel3"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subLevel3Input" placeholder="مثال: صيدليات مناوبة، صيدليات الوسط...">
@@ -366,7 +377,7 @@
                 <h4>4️⃣ إضافة محتوى جديد داخل الأقسام الفرعية الثالثة</h4>
                 <div class="form-group">
                     <label>اختر القسم الفرعي الثالث لنشر المحتوى:</label>
-                    <select id="subCatSelectDropdown"><option value="l3_1">صيدليات المخيم ➔ صيدليات مناوبة عاجلة</option><option value="l3_2">صيدليات المخيم ➔ صيدليات وسط المخيم</option><option value="l3_1781584566655">صيدليات ➔ صيدلية عمار</option></select>
+                    <select id="subCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة...">
@@ -384,7 +395,7 @@
                 <h4>✍️ تعديل المحتويات الحالية</h4>
                 <div class="form-group">
                     <label>اختر المنشور المراد تعديله:</label>
-                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشراً للتعديل --</option><option value="c1">صيدلية الشفاء</option><option value="c2">صيدلية القدس</option><option value="c_1781584588105">صيدلية عمار</option></select>
+                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="editContentTitleInput" placeholder="العنوان الجديد...">
@@ -410,7 +421,7 @@
                 <h4>🗑️ إدارة وحذف العناصر</h4>
                 <div class="form-group">
                     <label>اختر العنصر للحذف:</label>
-                    <select id="deleteTargetSelectDropdown"><option value="">-- اختر عنصراً لحذفه نهائياً --</option><option value="main_m1">[رئيسي] ➔ الخدمات الطبية</option><option value="main_m2">[رئيسي] ➔ أخبار المخيم</option><option value="main_m_1781584544256">[رئيسي] ➔ فعاليات</option><option value="sub_s1">[فرعي أول] ➔ صيدليات المخيم</option><option value="sub_s2">[فرعي أول] ➔ عيادات الأطباء</option><option value="sub_s_1781584554437">[فرعي أول] ➔ صيدليات</option><option value="l3_l3_1">[فرعي ثالث] ➔ صيدليات مناوبة عاجلة</option><option value="l3_l3_2">[فرعي ثالث] ➔ صيدليات وسط المخيم</option><option value="l3_l3_1781584566655">[فرعي ثالث] ➔ صيدلية عمار</option><option value="content_c1">[منشور] ➔ صيدلية الشفاء</option><option value="content_c2">[منشور] ➔ صيدلية القدس</option><option value="content_c_1781584588105">[منشور] ➔ صيدلية عمار</option></select>
+                    <select id="deleteTargetSelectDropdown"></select>
                 </div>
                 <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر</button>
             </div>
@@ -427,9 +438,9 @@
     <div class="footer-ticker">
         <div class="ticker-main-row">
             <div class="ticker-text-area">
-                <div class="ticker-track" id="tickerTrackContainer"><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span></div>
+                <div class="ticker-track" id="tickerTrackContainer"></div>
             </div>
-            <div class="ticker-clock-area" id="liveFooterClock">07:36</div>
+            <div class="ticker-clock-area" id="liveFooterClock"></div>
         </div>
         <div class="footer-rights-bar">
             تصميم محمد ابراهيم مقبل | جميع الحقوق محفوظة ©
@@ -439,82 +450,29 @@
     <script>
         // ===== DATA STRUCTURE =====
         let appData = {
-    "ticker": "أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.",
-    "mainCategories": [
-        {
-            "id": "m1",
-            "name": "الخدمات الطبية",
-            "icon": "🩺"
-        },
-        {
-            "id": "m2",
-            "name": "أخبار المخيم",
-            "icon": "📰"
-        },
-        {
-            "id": "m_1781584544256",
-            "name": "فعاليات",
-            "icon": "📌"
-        }
-    ],
-    "subCategories": [
-        {
-            "id": "s1",
-            "mainId": "m1",
-            "name": "صيدليات المخيم"
-        },
-        {
-            "id": "s2",
-            "mainId": "m1",
-            "name": "عيادات الأطباء"
-        },
-        {
-            "id": "s_1781584554437",
-            "mainId": "m_1781584544256",
-            "name": "صيدليات"
-        }
-    ],
-    "subLevels3": [
-        {
-            "id": "l3_1",
-            "subId": "s1",
-            "name": "صيدليات مناوبة عاجلة"
-        },
-        {
-            "id": "l3_2",
-            "subId": "s1",
-            "name": "صيدليات وسط المخيم"
-        },
-        {
-            "id": "l3_1781584566655",
-            "subId": "s_1781584554437",
-            "name": "صيدلية عمار"
-        }
-    ],
-    "contents": {
-        "c1": {
-            "belongsTo": "l3_1",
-            "title": "صيدلية الشفاء",
-            "img": "",
-            "text": "📍 العنوان: الشارع الرئيسي - مقابل المسجد الكبير\n📞 هاتف: 0599000000\n⏰ الدوام: من 8 صباحاً حتى 11 مساءً"
-        },
-        "c2": {
-            "belongsTo": "l3_2",
-            "title": "صيدلية القدس",
-            "img": "",
-            "text": "📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"
-        },
-        "c_1781584588105": {
-            "belongsTo": "l3_1",
-            "title": "صيدلية عمار",
-            "img": "",
-            "text": "نالتظزوة\nنوللتن\nنتلةو"
-        }
-    }
-};
+            ticker: "أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.",
+            mainCategories: [
+                { id: "m1", name: "الخدمات الطبية", icon: "🩺" },
+                { id: "m2", name: "أخبار المخيم", icon: "📰" }
+            ],
+            subCategories: [
+                { id: "s1", mainId: "m1", name: "صيدليات المخيم" },
+                { id: "s2", mainId: "m1", name: "عيادات الأطباء" }
+            ],
+            subLevels3: [
+                { id: "l3_1", subId: "s1", name: "صيدليات مناوبة عاجلة" },
+                { id: "l3_2", subId: "s1", name: "صيدليات وسط المخيم" }
+            ],
+            contents: {
+                "c1": { belongsTo: "l3_1", title: "صيدلية الشفاء", img: "", text: "📍 العنوان: الشارع الرئيسي - مقابل المسجد الكبير\n📞 هاتف: 0599000000\n⏰ الدوام: من 8 صباحاً حتى 11 مساءً" },
+                "c2": { belongsTo: "l3_2", title: "صيدلية القدس", img: "", text: "📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع" }
+            }
+        };
 
+        // متغيرات التحكم بنظام الأمان والنقرات
         let secretClickCount = 0;
-        let currentViewStage = "main"; // Stages: main, stage2, stage3
+        let lastClickTime = 0;
+        let currentViewStage = "main"; 
         let currentMainId = null;
         let currentSubId = null;
 
@@ -524,6 +482,10 @@
         };
 
         function init() {
+            // للتأكيد البرمجي الحاسم على إغلاق النوافذ عند تحميل الصفحة
+            document.getElementById('adminOverlay').classList.remove('is-active');
+            document.getElementById('contentPopup').classList.remove('is-active');
+            
             renderMainMenu();
             updateTicker();
             updateClocks();
@@ -641,11 +603,11 @@
             } else {
                 document.getElementById('popupImage').style.display = 'none';
             }
-            document.getElementById('contentPopup').style.display = 'flex';
+            document.getElementById('contentPopup').classList.add('is-active');
         }
 
         function closePopup() {
-            document.getElementById('contentPopup').style.display = 'none';
+            document.getElementById('contentPopup').classList.remove('is-active');
         }
 
         function goBackLogic() {
@@ -679,14 +641,23 @@
             document.getElementById('liveHeaderTime').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ` | ${hours}:${minutes}:${seconds}`;
         }
 
-        // ===== ADMIN CORE FUNCTIONS =====
+        // ===== نظام التفعيل السري الآمن بالنقرات والوقت =====
         function handleSecretClicks() {
+            const currentTime = new Date().getTime();
+            
+            // إذا مر أكثر من ثانيتين بين النقرة والأخرى، يتم تصفير العداد لضمان الجدية والأمان
+            if (currentTime - lastClickTime > 2000) {
+                secretClickCount = 0;
+            }
+            
+            lastClickTime = currentTime;
             secretClickCount++;
-            if (secretClickCount >= 5) {
-                secretClickCount = 0; // تصفير العداد لإعادة المحاولة لاحقاً
+
+            if (secretClickCount === 5) {
+                secretClickCount = 0; // تصفير العداد فوراً
                 const passwordInput = prompt("🔒 الرجاء إدخال كلمة السر لفتح لوحة التحكم الاستراتيجية:");
                 if (passwordInput === "1234") {
-                    document.getElementById('adminOverlay').style.display = 'flex';
+                    document.getElementById('adminOverlay').classList.add('is-active');
                 } else {
                     alert("❌ كلمة السر خاطئة! تم رفض تصريح الدخول لحماية النظام.");
                 }
@@ -694,7 +665,7 @@
         }
 
         function closeAdminPanel() {
-            document.getElementById('adminOverlay').style.display = 'none';
+            document.getElementById('adminOverlay').classList.remove('is-active');
         }
 
         function populateAdminDropdowns() {
@@ -710,20 +681,17 @@
             editSelect.innerHTML = '<option value="">-- اختر منشراً للتعديل --</option>';
             deleteSelect.innerHTML = '<option value="">-- اختر عنصراً لحذفه نهائياً --</option>';
 
-            // المستوى الاول
             appData.mainCategories.forEach(c => {
                 mainSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
                 deleteSelect.innerHTML += `<option value="main_${c.id}">[رئيسي] ➔ ${c.name}</option>`;
             });
 
-            // المستوى الثاني
             appData.subCategories.forEach(s => {
                 const pName = appData.mainCategories.find(m => m.id === s.mainId)?.name || '';
                 subL3Select.innerHTML += `<option value="${s.id}">${pName} ➔ ${s.name}</option>`;
                 deleteSelect.innerHTML += `<option value="sub_${s.id}">[فرعي أول] ➔ ${s.name}</option>`;
             });
 
-            // المستوى الثالث الجديد
             if(!appData.subLevels3) appData.subLevels3 = [];
             appData.subLevels3.forEach(l3 => {
                 const subName = appData.subCategories.find(s => s.id === l3.subId)?.name || '';
@@ -731,7 +699,6 @@
                 deleteSelect.innerHTML += `<option value="l3_${l3.id}">[فرعي ثالث] ➔ ${l3.name}</option>`;
             });
 
-            // المحتويات والمنشورات
             Object.entries(appData.contents).forEach(([id, c]) => {
                 editSelect.innerHTML += `<option value="${id}">${c.title}</option>`;
                 deleteSelect.innerHTML += `<option value="content_${id}">[منشور] ➔ ${c.title}</option>`;
@@ -858,6 +825,5 @@
             document.body.removeChild(tempAnchor);
         }
     </script>
-
-
-</body></html>
+</body>
+</html>
