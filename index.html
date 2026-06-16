@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | شريط مستمر</title>
+    <title>مخيم نت | تحكم كامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; }
@@ -21,7 +21,7 @@
             align-items: center; font-size: 0.85rem; z-index: 10;
         }
 
-        .container { padding: 15px; min-height: 50vh; }
+        .container { padding: 15px; min-height: 48vh; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
         
@@ -33,25 +33,20 @@
         .btn-green { background: var(--p-green); color: white; }
         .btn-red { background: var(--p-red); color: white; }
 
-        /* شريط الأخبار اللانهائي الحقيقي */
+        /* شريط السرعة (Slider) */
+        .speed-control { margin: 15px 0; background: #eee; padding: 10px; border-radius: 8px; }
+        .speed-control input { cursor: pointer; }
+
+        /* الفوتر وشريط الأخبار */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
         .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1005; font-size: 0.9rem; }
         
         .ticker-wrapper { flex: 1; overflow: hidden; position: relative; display: flex; }
-        .ticker-move { 
-            display: flex; 
-            white-space: nowrap; 
-            will-change: transform;
-            /* الأنيميشن يتم تعريفه هنا وسرعته عبر JS */
-            animation: ticker-loop linear infinite; 
-        }
+        .ticker-move { display: flex; white-space: nowrap; will-change: transform; animation: ticker-loop linear infinite; }
         .ticker-item { padding-right: 100px; display: inline-block; font-size: 0.9rem; }
 
-        @keyframes ticker-loop {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(0%); }
-        }
+        @keyframes ticker-loop { 0% { transform: translateX(-100%); } 100% { transform: translateX(0%); } }
 
         .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; border-top: 1px solid #333; }
 
@@ -63,32 +58,42 @@
 
 <header id="siteHeader">
     <div class="header-glass">
-        <span class="admin-trigger-area" id="adminTrigger" style="cursor:pointer; font-weight:bold; font-size:1.1rem;">مخيم نت</span>
+        <span id="adminTrigger" style="cursor:pointer; font-weight:bold; font-size:1.1rem;">مخيم نت</span>
         <span id="headerDate">-- : --</span>
     </div>
 </header>
 
 <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2>لوحة التحكم</h2>
+        <h2>إدارة مخيم نت</h2>
         <button onclick="closeAdminNow()" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق X</button>
     </div>
 
+    <!-- التحكم في الشريط والسرعة -->
     <div class="admin-item">
-        <h4>⚙️ الشريط الإخباري (مستمر)</h4>
-        <input type="text" id="newsInput" placeholder="أدخل الخبر هنا...">
-        <button class="btn btn-green" onclick="saveNewsDraft()">تحدبث الشريط</button>
+        <h4>⚙️ إعدادات الشريط الإخباري</h4>
+        <input type="text" id="newsInput" placeholder="أدخل الخبر العاجل هنا...">
+        
+        <div class="speed-control">
+            <label>سرعة الشريط: <b id="speedVal">45</b></label>
+            <input type="range" id="speedSlider" min="10" max="150" value="45" oninput="updateSpeedDisplay(this.value)">
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #666;">
+                <span>بطيء</span><span>سريع جداً</span>
+            </div>
+        </div>
+        
+        <button class="btn btn-green" onclick="previewNewsChanges()">تطبيق ومعاينة الشريط</button>
     </div>
 
     <div class="admin-item">
         <h4>🖼️ خلفية الهيدر</h4>
-        <input type="text" id="headerImgInput" placeholder="رابط الصورة...">
-        <button class="btn btn-green" onclick="updateHeader()">تحديث الخلفية</button>
+        <input type="text" id="headerImgInput" placeholder="رابط مباشر للصورة...">
+        <button class="btn btn-green" onclick="updateHeader()">تحديث الهيدر</button>
     </div>
 
     <div id="adminTreeContainer"></div>
-    <button class="btn btn-green" onclick="addItemToTree()">+ إضافة بطاقة</button>
-    <button class="btn btn-green" style="background:#005a2d;" onclick="publishChanges()">🚀 نشر التعديلات</button>
+    <button class="btn btn-green" onclick="addItemToTree()">+ بطاقة جديدة</button>
+    <button class="btn btn-green" style="background:#005a2d;" onclick="publishChanges()">🚀 نشر وحفظ نهائي</button>
     <hr>
     <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullCode()">📥 تصدير الكود</button>
 </div>
@@ -101,7 +106,6 @@
     <div class="news-bar">
         <div class="clock" id="liveClock">00:00</div>
         <div class="ticker-wrapper">
-            <!-- نكرر النص مرتين فقط داخل ticker-move -->
             <div class="ticker-move" id="tickerMove">
                 <div id="tickerContent" style="display: flex;"></div>
                 <div id="tickerContentMirror" style="display: flex;"></div>
@@ -115,30 +119,37 @@
 
 <div id="modal" class="modal">
     <div class="modal-box">
-        <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
+        <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between; align-items: center;">
             <span id="modalTitle"></span>
             <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.8rem;">&times;</span>
         </div>
         <img id="modalImg" style="width:100%; display:none;">
-        <div id="modalBody" style="padding:20px; text-align:right;"></div>
+        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.7;"></div>
     </div>
 </div>
 
 <script id="dataInjection">
     var INITIAL_TREE = [];
-    var INITIAL_NEWS = "مرحباً بكم في مخيم نت - نبض المخيم الفلسطيني الحر.. صوت اللاجئ في كل مكان";
+    var INITIAL_NEWS = "مرحباً بكم في مخيم نت - نبض المخيم الفلسطيني الحر";
     var INITIAL_HEADER = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
+    var INITIAL_SPEED = 45;
 </script>
 
 <script>
     window.onload = () => { document.getElementById('adminPanel').style.display = 'none'; };
 
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_stable_v5')) || [];
-    let newsLine = localStorage.getItem('mn_stable_news') || INITIAL_NEWS;
-    let headerUrl = localStorage.getItem('mn_stable_head') || INITIAL_HEADER;
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_v6_data')) || [];
+    let newsLine = localStorage.getItem('mn_v6_news') || INITIAL_NEWS;
+    let headerUrl = localStorage.getItem('mn_v6_head') || INITIAL_HEADER;
+    let currentSpeed = localStorage.getItem('mn_v6_speed') || INITIAL_SPEED;
     let draftTree = JSON.parse(JSON.stringify(tree));
 
-    function applyNewsTexts() {
+    function updateSpeedDisplay(v) {
+        document.getElementById('speedVal').innerText = v;
+        currentSpeed = v;
+    }
+
+    function applyNewsTicker() {
         const content = document.getElementById('tickerContent');
         const mirror = document.getElementById('tickerContentMirror');
         const textHtml = `<span class="ticker-item">${newsLine}</span>`;
@@ -146,12 +157,10 @@
         content.innerHTML = textHtml;
         mirror.innerHTML = textHtml;
 
-        // ضبط السرعة بناءً على طول النص لضمان ثباتها
         setTimeout(() => {
             const tickerMove = document.getElementById('tickerMove');
             const totalWidth = content.offsetWidth;
-            const pixelsPerSecond = 45; // سرعة ثابتة هادئة
-            const duration = totalWidth / pixelsPerSecond;
+            const duration = totalWidth / currentSpeed;
             tickerMove.style.animationDuration = `${duration}s`;
         }, 50);
     }
@@ -164,13 +173,16 @@
 
     setInterval(updateDateTime, 1000);
     updateDateTime();
-    applyNewsTexts();
+    applyNewsTicker();
+    
     document.getElementById('siteHeader').style.backgroundImage = `url('${headerUrl}')`;
+    document.getElementById('speedSlider').value = currentSpeed;
+    document.getElementById('speedVal').innerText = currentSpeed;
 
     let clicks = 0;
     document.getElementById('adminTrigger').onclick = () => {
         if (++clicks === 5) {
-            if (prompt("كلمة السر:") === "1234") {
+            if (prompt("كلمة السر الشخصية:") === "1234") {
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('newsInput').value = newsLine;
                 document.getElementById('headerImgInput').value = headerUrl;
@@ -181,9 +193,10 @@
         setTimeout(() => clicks = 0, 3000);
     };
 
-    function saveNewsDraft() {
+    function previewNewsChanges() {
         newsLine = document.getElementById('newsInput').value;
-        applyNewsTexts();
+        currentSpeed = document.getElementById('speedSlider').value;
+        applyNewsTicker();
     }
 
     function updateHeader() {
@@ -193,15 +206,16 @@
 
     function publishChanges() {
         tree = JSON.parse(JSON.stringify(draftTree));
-        localStorage.setItem('mn_stable_v5', JSON.stringify(tree));
-        localStorage.setItem('mn_stable_news', newsLine);
-        localStorage.setItem('mn_stable_head', headerUrl);
+        localStorage.setItem('mn_v6_data', JSON.stringify(tree));
+        localStorage.setItem('mn_v6_news', newsLine);
+        localStorage.setItem('mn_v6_head', headerUrl);
+        localStorage.setItem('mn_v6_speed', currentSpeed);
         renderUI();
-        alert("تـم النشر بنجاح!");
+        alert("🚀 تـم الحفظ والنشر بنجاح!");
     }
 
     function addItemToTree() {
-        draftTree.push({ id: Date.now(), title: "البطاقة الجديدة", type: "content", content: "", image: "" });
+        draftTree.push({ id: Date.now(), title: "عنوان البطاقة", type: "content", content: "", image: "" });
         renderAdmin();
     }
 
@@ -212,9 +226,9 @@
             container.innerHTML += `
                 <div class="admin-item">
                     <input type="text" value="${item.title}" oninput="draftTree[${idx}].title=this.value">
-                    <input type="text" value="${item.image||''}" oninput="draftTree[${idx}].image=this.value" placeholder="رابط صورة">
-                    <textarea oninput="draftTree[${idx}].content=this.value">${item.content}</textarea>
-                    <button onclick="draftTree.splice(${idx},1); renderAdmin();" style="color:red; background:none; border:none; cursor:pointer;">حذف</button>
+                    <input type="text" value="${item.image||''}" oninput="draftTree[${idx}].image=this.value" placeholder="رابط صورة البطاقة">
+                    <textarea oninput="draftTree[${idx}].content=this.value" placeholder="محتوى البوب اب...">${item.content}</textarea>
+                    <button onclick="draftTree.splice(${idx},1); renderAdmin();" style="color:red; background:none; border:none; cursor:pointer;">حذف البطاقة 🗑️</button>
                 </div>`;
         });
     }
@@ -236,11 +250,12 @@
     }
 
     function exportFullCode() {
-        const newData = `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsLine)};\n    var INITIAL_HEADER = ${JSON.stringify(headerUrl)};`;
+        const newData = `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsLine)};\n    var INITIAL_HEADER = ${JSON.stringify(headerUrl)};\n    var INITIAL_SPEED = ${currentSpeed};`;
         let hSource = document.documentElement.outerHTML;
         hSource = hSource.replace(document.getElementById('dataInjection').innerHTML, newData);
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + hSource + "</html>"], {type: 'text/html'}));
-        a.download = 'MukhayamNet_Final.html'; a.click();
+        const a = document.createElement('a'); 
+        a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n<html lang='ar' dir='rtl'>" + hSource + "</html>"], {type: 'text/html'}));
+        a.download = 'MukhayamNet_Final_Pro.html'; a.click();
     }
 
     function closeAdminNow() { document.getElementById('adminPanel').style.display = 'none'; }
