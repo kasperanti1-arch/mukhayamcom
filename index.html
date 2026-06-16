@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<html lang="ar" dir="rtl"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مخيم نت - الإدارة الذكية الكاملة المستديمة</title>
@@ -307,30 +305,30 @@
         <div class="right-side">
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
-        <div class="left-side" id="liveHeaderTime"></div>
+        <div class="left-side" id="liveHeaderTime">الثلاثاء، ١٦ يونيو ٢٠٢٦ | 15:28:37</div>
     </div>
 
     <div class="container">
-        <div id="mainMenuGrid" class="main-menu-grid"></div>
+        <div id="mainMenuGrid" class="main-menu-grid" style="display: grid;"><div class="nav-card"><div class="icon-img">🩺</div><div>الخدمات الطبية</div></div><div class="nav-card"><div class="icon-img">📰</div><div>أخبار المخيم</div></div><div class="nav-card"><div class="icon-img">📌</div><div>فعاليات</div></div><div class="nav-card"><div class="icon-img">📌</div><div>خرية</div></div></div>
 
-        <div id="subSectionsView" class="sub-sections-view">
-            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;"></h3>
-            <div id="itemsGridContainer" class="items-flex-grid"></div>
+        <div id="subSectionsView" class="sub-sections-view" style="display: none;">
+            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">📌 📌 خرية</h3>
+            <div id="itemsGridContainer" class="items-flex-grid"><div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد أقسام فرعية مضافة هنا بعد.</div></div>
             <button id="backNavButton" class="nav-card" style="width:100%; margin-top:25px; padding:12px; background:var(--dark-gray);" onclick="goBackLogic()">⬅️ العودة للخلف</button>
         </div>
     </div>
 
     <div class="popup-overlay" id="contentPopup">
         <div class="popup-modal">
-            <h3 id="popupTitle"></h3>
-            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'">
-            <div id="popupText" class="popup-text"></div>
+            <h3 id="popupTitle">تيسير</h3>
+            <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'" style="display: none;">
+            <div id="popupText" class="popup-text">يبيبييبيب<br>لالاات</div>
             <button class="nav-card" style="width:100%; margin-top:15px; padding:10px; background:var(--primary-green);" onclick="closePopup()">إغلاق</button>
         </div>
     </div>
 
     <!-- لوحة التحكم الاستراتيجية -->
-    <div class="popup-overlay" id="adminOverlay">
+    <div class="popup-overlay is-active" id="adminOverlay">
         <div class="admin-modal">
             <h3>⚙️ لوحة الإدارة والتحكم الشاملة الذكية</h3>
 
@@ -349,7 +347,7 @@
                 <h4>2️⃣ إضافة قسم فرعي أول (المستوى 2)</h4>
                 <div class="form-group">
                     <label>اختر القسم الرئيسي التابع له:</label>
-                    <select id="mainCatSelectDropdown"></select>
+                    <select id="mainCatSelectDropdown"><option value="m1">الخدمات الطبية</option><option value="m2">أخبار المخيم</option><option value="m_1781612627376">فعاليات</option><option value="m_1781612903046">خرية</option></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subCatInput" placeholder="مثال: صيدليات المخيم، الأطباء...">
@@ -361,7 +359,7 @@
                 <h4>3️⃣ إضافة قسم فرعي ثانٍ / ثالث (المستوى 3) 🌟</h4>
                 <div class="form-group">
                     <label>اختر القسم الفرعي الأول التابع له:</label>
-                    <select id="subCatSelectDropdownForLevel3"></select>
+                    <select id="subCatSelectDropdownForLevel3"><option value="s1">الخدمات الطبية ➔ صيدليات المخيم</option><option value="s2">الخدمات الطبية ➔ عيادات الأطباء</option><option value="s_1781612635416">فعاليات ➔ صيدليات</option></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subLevel3Input" placeholder="مثال: صيدليات مناوبة، صيدليات الوسط...">
@@ -373,7 +371,7 @@
                 <h4>4️⃣ إضافة ونشر محتوى جديد (في أي قسم تفتحه) 📢</h4>
                 <div class="form-group">
                     <label>اختر القسم المستهدف للنشر (رئيسي، فرعي 1، فرعي 3):</label>
-                    <select id="subCatSelectDropdown"></select>
+                    <select id="subCatSelectDropdown"><optgroup label="المستوى 1: الأقسام الرئيسية"></optgroup><option value="m1"> رئيسي ➔ الخدمات الطبية</option><option value="m2"> رئيسي ➔ أخبار المخيم</option><option value="m_1781612627376"> رئيسي ➔ فعاليات</option><option value="m_1781612903046"> رئيسي ➔ خرية</option><optgroup label="المستوى 2: الأقسام الفرعية الأولى"></optgroup><option value="s1"> فرعي أول ➔ صيدليات المخيم</option><option value="s2"> فرعي أول ➔ عيادات الأطباء</option><option value="s_1781612635416"> فرعي أول ➔ صيدليات</option><optgroup label="المستوى 3: الأقسام الفرعية الثالثة"></optgroup><option value="l3_1"> فرعي ثالث ➔ صيدليات مناوبة عاجلة</option><option value="l3_2"> فرعي ثالث ➔ صيدليات وسط المخيم</option></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة، خبر عاجل...">
@@ -391,7 +389,7 @@
                 <h4>✍️ تعديل المحتويات الحالية</h4>
                 <div class="form-group">
                     <label>اختر المنشور المراد تعديله:</label>
-                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"></select>
+                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشراً للتعديل --</option><option value="c1">صيدلية تيسير</option><option value="c_1781612663303">تيسير</option></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="editContentTitleInput" placeholder="العنوان الجديد...">
@@ -417,7 +415,7 @@
                 <h4>🗑️ إدارة وحذف العناصر</h4>
                 <div class="form-group">
                     <label>اختر العنصر للحذف:</label>
-                    <select id="deleteTargetSelectDropdown"></select>
+                    <select id="deleteTargetSelectDropdown"><option value="">-- اختر عنصراً لحذفه نهائياً --</option><option value="main_m1">[رئيسي] ➔ الخدمات الطبية</option><option value="main_m2">[رئيسي] ➔ أخبار المخيم</option><option value="main_m_1781612627376">[رئيسي] ➔ فعاليات</option><option value="main_m_1781612903046">[رئيسي] ➔ خرية</option><option value="sub_s1">[فرعي أول] ➔ صيدليات المخيم</option><option value="sub_s2">[فرعي أول] ➔ عيادات الأطباء</option><option value="sub_s_1781612635416">[فرعي أول] ➔ صيدليات</option><option value="l3_l3_1">[فرعي ثالث] ➔ صيدليات مناوبة عاجلة</option><option value="l3_l3_2">[فرعي ثالث] ➔ صيدليات وسط المخيم</option><option value="content_c1">[منشور] ➔ صيدلية تيسير</option><option value="content_c_1781612663303">[منشور] ➔ تيسير</option></select>
                 </div>
                 <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر</button>
             </div>
@@ -434,9 +432,9 @@
     <div class="footer-ticker">
         <div class="ticker-main-row">
             <div class="ticker-text-area">
-                <div class="ticker-track" id="tickerTrackContainer"></div>
+                <div class="ticker-track" id="tickerTrackContainer"><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span><span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span></div>
             </div>
-            <div class="ticker-clock-area" id="liveFooterClock"></div>
+            <div class="ticker-clock-area" id="liveFooterClock">15:28</div>
         </div>
         <div class="footer-rights-bar">
             تصميم محمد ابراهيم مقبل | جميع الحقوق محفوظة ©
@@ -458,6 +456,16 @@
             "id": "m2",
             "name": "أخبار المخيم",
             "icon": "📰"
+        },
+        {
+            "id": "m_1781612627376",
+            "name": "فعاليات",
+            "icon": "📌"
+        },
+        {
+            "id": "m_1781612903046",
+            "name": "خرية",
+            "icon": "📌"
         }
     ],
     "subCategories": [
@@ -470,6 +478,11 @@
             "id": "s2",
             "mainId": "m1",
             "name": "عيادات الأطباء"
+        },
+        {
+            "id": "s_1781612635416",
+            "mainId": "m_1781612627376",
+            "name": "صيدليات"
         }
     ],
     "subLevels3": [
@@ -487,15 +500,15 @@
     "contents": {
         "c1": {
             "belongsTo": "l3_1",
-            "title": "صيدلية الشفاء",
+            "title": "صيدلية تيسير",
             "img": "",
             "text": "📍 العنوان: الشارع الرئيسي - مقابل المسجد الكبير\n📞 هاتف: 0599000000\n⏰ الدوام: من 8 صباحاً حتى 11 مساءً"
         },
-        "c2": {
-            "belongsTo": "l3_2",
-            "title": "صيدلية القدس",
+        "c_1781612663303": {
+            "belongsTo": "s_1781612635416",
+            "title": "تيسير",
             "img": "",
-            "text": "📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"
+            "text": "يبيبييبيب\nلالاات"
         }
     }
 };
@@ -932,5 +945,5 @@
             alert("📥 تم تحميل الملف الجديد بنجاح!\nقم باستبدال الملف القديم بالملف الجديد (camp_net_final.html)، وستبقى جميع بياناتك، حذوفاتك وتعديلاتك ثابتة ولن تضيع عند التحديث أبداً.");
         }
     </script>
-</body>
-</html>
+
+</body></html>
