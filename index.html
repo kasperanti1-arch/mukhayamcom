@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<html lang="ar" dir="rtl"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مخيم نت | 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
     <style>
-        :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; }
-        body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 85px; user-select: none; overflow-x: hidden; }
+        :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
+        body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 90px; user-select: none; overflow-x: hidden; }
         
-        /* الهيدر */
         header { 
             background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; 
             height: 160px; border-bottom: 4px solid var(--p-green); position: relative;
@@ -18,138 +16,138 @@
         .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 5px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; }
         .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 5px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
 
-        /* الشبكة */
         .container { padding: 15px; min-height: 40vh; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
-        
-        /* لوحة التحكم */
+
         #adminPanel { display: none; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
         .admin-item { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; border-right: 6px solid var(--p-green); }
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 16px; box-sizing: border-box; }
+        .sub-admin-box { margin-right: 15px; border-right: 2px solid #ddd; padding-right: 10px; margin-top: 10px; }
+        
+        input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 15px; box-sizing: border-box; }
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
         .btn-green { background: var(--p-green); color: white; }
         .btn-red { background: var(--p-red); color: white; }
 
-        /* شريط الأخبار اللانهائي المطور */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
-        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1005; font-size: 0.9rem; position: relative; order: -1; }
-        
-        .ticker-wrapper { 
-            flex: 1; 
-            height: 100%; 
-            overflow: hidden; 
-            position: relative; 
-            display: flex; 
-            align-items: center;
-        }
-
-        .ticker-move {
-            display: flex;
-            position: absolute;
-            white-space: nowrap;
-            right: 0; /* يبدأ من اليمين لليسار بانسجام */
-            flex-direction: row-reverse; /* لضمان قراءة اللغة العربية بشكل متصل */
-        }
-
-        .ticker-item { 
-            padding-left: 100px; /* المسافة بين نهاية النص وبدايته */
-            font-size: 0.95rem; 
-            display: inline-block;
-            direction: rtl; /* النص داخله عربي */
-        }
+        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1005; font-size: 0.9rem; order: -1; }
+        .ticker-wrapper { flex: 1; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; }
+        .ticker-move { display: flex; position: absolute; white-space: nowrap; right: 0; flex-direction: row-reverse; }
+        .ticker-item { padding-left: 100px; font-size: 0.9rem; direction: rtl; }
 
         .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
 
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 400px; border-radius: 15px; max-height: 80vh; overflow-y: auto; }
+        .path-nav { background: #fff; padding: 8px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee; display: none; align-items: center; }
     </style>
 </head>
 <body>
 
-<header id="siteHeader">
+<header id="siteHeader" style="background-image: url(&quot;https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png&quot;);">
     <div class="header-tag-right" id="adminTrigger">مخيم نت</div>
-    <div class="header-tag-left" id="headerDate">-- : --</div>
+    <div class="header-tag-left" id="headerDate">الأربعاء، ١٧ يونيو ٢٠٢٦</div>
 </header>
 
-<div id="adminPanel">
+<div id="adminPanel" style="display: block;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2>إدارة مخيم نت</h2>
+        <h2>لوحة التحكم</h2>
         <button onclick="document.getElementById('adminPanel').style.display='none'" class="btn-red" style="width:auto; padding:5px 15px;">إغلاق X</button>
     </div>
+
     <div class="admin-item">
-        <h4>⚙️ الشريط الإخباري والسرعة</h4>
-        <input type="text" id="newsInput" placeholder="أدخل الخبر العاجل هنا...">
-        <label>السرعة: <b id="speedVal">2</b></label>
-        <input type="range" id="speedSlider" min="1" max="10" value="2" step="0.5" oninput="document.getElementById('speedVal').innerText=this.value">
-        <button class="btn btn-green" onclick="publishNews()">تحديث الخبر والسرعة</button>
+        <h4>⚙️ إعدادات الشريط والصورة</h4>
+        <input type="text" id="newsInput" placeholder="نص الشريط الإخباري">
+        <label>السرعة: <input type="range" id="speedSlider" min="1" max="10" step="0.5"></label>
+        <input type="text" id="headerImgInput" placeholder="رابط صورة الهيدر">
+        <button class="btn btn-green" onclick="publishMeta()">حفظ الإعدادات</button>
     </div>
-    <div class="admin-item">
-        <h4>🖼️ صورة الهيدر</h4>
-        <input type="text" id="headerImgInput" placeholder="رابط الصورة المباشر...">
-        <button class="btn btn-green" onclick="publishHeader()">تحديث الهيدر</button>
-    </div>
-    <div id="adminTree"></div>
-    <button class="btn btn-green" onclick="addCard()">+ إضافة بطاقة</button>
-    <hr>
-    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportCode()">📥 تصدير الموقع كاملاً</button>
+
+    <div id="adminTree"><h4>هيكلية المحتوى:</h4><div class="sub-admin-box">
+                    <div class="admin-item" style="border-right: 6px solid #2196F3">
+                        <input type="text" value="فعاليات" oninput="updateVal('1781645172965', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781645172965', 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى مباشر</option>
+                            <option value="folder" selected="">قسم يحتوي فروع</option>
+                        </select>
+                        <button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('1781645172965')">+ إضافة فرع داخل "فعاليات"</button>
+                        <button onclick="deleteNode('1781645172965')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
+                    </div><div class="sub-admin-box">
+                    <div class="admin-item" style="border-right: 6px solid #2196F3">
+                        <input type="text" value="صيدليات" oninput="updateVal('1781645183237', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781645183237', 'type', this.value); renderAdmin();">
+                            <option value="content">محتوى مباشر</option>
+                            <option value="folder" selected="">قسم يحتوي فروع</option>
+                        </select>
+                        <button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('1781645183237')">+ إضافة فرع داخل "صيدليات"</button>
+                        <button onclick="deleteNode('1781645183237')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
+                    </div><div class="sub-admin-box">
+                    <div class="admin-item" style="border-right: 6px solid #007A3D">
+                        <input type="text" value="عمار" oninput="updateVal('1781645199149', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('1781645199149', 'type', this.value); renderAdmin();">
+                            <option value="content" selected="">محتوى مباشر</option>
+                            <option value="folder">قسم يحتوي فروع</option>
+                        </select>
+                        <input type="text" value="" oninput="updateVal('1781645199149', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('1781645199149', 'content', this.value)" placeholder="النص">يرربيبيي</textarea>
+                        <button onclick="deleteNode('1781645199149')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
+                    </div></div></div></div></div>
+    <button class="btn btn-green" onclick="addNode(tree)">+ إضافة بطاقة رئيسية</button>
+    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportFullSite()">📥 تصدير الكود المحدث</button>
 </div>
 
 <div class="container">
-    <div id="mainGrid" class="grid"></div>
+    <div class="path-nav" id="pathNav" style="display: none;">
+        <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:5px 10px; border-radius:4px; margin-left:10px;">← عودة</button>
+        <span id="currentPath">فعاليات</span>
+    </div>
+    <div id="mainGrid" class="grid"><div class="card" style="border-right: 6px solid var(--p-blue);">فعاليات</div></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
-        <div class="clock" id="liveClock">00:00</div>
+        <div class="clock" id="liveClock">٠٠:٢٧</div>
         <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox">
-                <!-- سيتم توليد المحتوى مرتين لضمان التكرار اللانهائي -->
-                <div id="tickerContent" style="display: flex;"></div>
+            <div class="ticker-move" id="tickerBox" style="transform: translateX(134px);">
+                <div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت</span><span class="ticker-item">أهلاً بكم في مخيم نت</span></div>
             </div>
         </div>
     </div>
     <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
 </div>
 
-<div id="modal" class="modal">
+<div id="modal" class="modal" style="display: none;">
     <div class="modal-box">
         <div style="background:#000; color:#fff; padding:12px; display:flex; justify-content:space-between;">
-            <span id="modalTitle"></span>
-            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">&times;</span>
+            <span id="modalTitle">عمار</span>
+            <span onclick="document.getElementById('modal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">×</span>
         </div>
         <img id="modalImg" style="width:100%; display:none; border-bottom:4px solid var(--p-green);">
-        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.6;"></div>
+        <div id="modalBody" style="padding:20px; text-align:right; line-height:1.6;">يرربيبيي</div>
     </div>
 </div>
 
-<script id="siteData">
-    var INITIAL_TREE = [];
-    var INITIAL_NEWS = "مرحباً بكم في مخيم نت - صوت اللاجئ الفلسطيني الحر.. فلسطين دائماً في القلب";
+<script id="siteData">var INITIAL_TREE = [{"id":1781645172965,"title":"فعاليات","type":"folder","content":"","image":"","children":[{"id":1781645183237,"title":"صيدليات","type":"folder","content":"ءر","image":"","children":[{"id":1781645199149,"title":"عمار","type":"content","content":"يرربيبيي","image":"","children":[]}]}]}];
+    var INITIAL_NEWS = "أهلاً بكم في مخيم نت";
     var INITIAL_HEADER = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
-    var INITIAL_SPEED = 2;
-</script>
+    var INITIAL_SPEED = 2;</script>
 
 <script>
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_tree_v8')) || [];
-    let newsStr = localStorage.getItem('mn_news_v8') || INITIAL_NEWS;
-    let headUrl = localStorage.getItem('mn_head_v8') || INITIAL_HEADER;
-    let tickerSpeed = parseFloat(localStorage.getItem('mn_speed_v8')) || INITIAL_SPEED;
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_tree_v10')) || [];
+    let newsStr = localStorage.getItem('mn_news_v10') || INITIAL_NEWS;
+    let headUrl = localStorage.getItem('mn_head_v10') || INITIAL_HEADER;
+    let tickerSpeed = parseFloat(localStorage.getItem('mn_speed_v10')) || INITIAL_SPEED;
+    let currentStack = [];
 
-    // --- نظام الحركة اللانهائي المطور ---
+    // --- الحركة اللانهائية ---
     let pos = 0;
     function startTicker() {
         const box = document.getElementById('tickerBox');
         const content = document.getElementById('tickerContent');
-        const itemHtml = `<span class="ticker-item">${newsStr}</span>`;
-        // نضع النص مرتين متتاليتين
-        content.innerHTML = itemHtml + itemHtml;
-
+        content.innerHTML = `<span class="ticker-item">${newsStr}</span><span class="ticker-item">${newsStr}</span>`;
         function animate() {
-            const firstItemWidth = content.children[0].offsetWidth;
             pos += tickerSpeed;
-            if (pos >= firstItemWidth) pos = 0; // العودة للبداية بذكاء
+            if (pos >= content.children[0].offsetWidth) pos = 0;
             box.style.transform = `translateX(${pos}px)`;
             requestAnimationFrame(animate);
         }
@@ -159,15 +157,14 @@
     function updateDateTime() {
         const now = new Date();
         document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', options);
+        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
-    // إدارة لوحة التحكم
+    // --- الإدارة ---
     let entryClicks = 0;
     document.getElementById('adminTrigger').onclick = () => {
         if (++entryClicks === 5) {
-            if (prompt("الباسورد:") === "1234") {
+            if (prompt("كلمة السر:") === "1234") {
                 document.getElementById('adminPanel').style.display='block';
                 document.getElementById('newsInput').value = newsStr;
                 document.getElementById('headerImgInput').value = headUrl;
@@ -178,71 +175,102 @@
         }
     };
 
-    function publishNews() {
-        newsStr = document.getElementById('newsInput').value;
-        tickerSpeed = parseFloat(document.getElementById('speedSlider').value);
-        localStorage.setItem('mn_news_v8', newsStr);
-        localStorage.setItem('mn_speed_v8', tickerSpeed);
-        location.reload();
-    }
-
-    function publishHeader() {
-        headUrl = document.getElementById('headerImgInput').value;
-        localStorage.setItem('mn_head_v8', headUrl);
-        document.getElementById('siteHeader').style.backgroundImage = `url('${headUrl}')`;
-    }
-
-    function addCard() {
-        tree.push({id: Date.now(), title: "عنوان جديد", content: "", image: ""});
-        saveTree(); renderAdmin(); renderUI();
+    function addNode(targetArr) {
+        targetArr.push({ id: Date.now(), title: "عنصر جديد", type: "content", content: "", image: "", children: [] });
+        save(); renderAdmin(); renderUI();
     }
 
     function renderAdmin() {
         const container = document.getElementById('adminTree');
-        container.innerHTML = '';
-        tree.forEach((item, idx) => {
-            container.innerHTML += `<div class="admin-item">
-                <input type="text" value="${item.title}" oninput="tree[${idx}].title=this.value; saveTree(); renderUI();">
-                <input type="text" value="${item.image||''}" oninput="tree[${idx}].image=this.value; saveTree();" placeholder="رابط صورة">
-                <textarea oninput="tree[${idx}].content=this.value; saveTree();">${item.content}</textarea>
-                <button onclick="tree.splice(${idx},1); saveTree(); renderAdmin(); renderUI();" style="color:red; background:none; border:none;">حذف</button>
-            </div>`;
-        });
+        container.innerHTML = '<h4>هيكلية المحتوى:</h4>';
+        function draw(arr, depth = 0) {
+            let html = `<div class="sub-admin-box">`;
+            arr.forEach((item, idx) => {
+                html += `
+                    <div class="admin-item" style="border-right: 6px solid ${item.type==='folder'?'#2196F3':'#007A3D'}">
+                        <input type="text" value="${item.title}" oninput="updateVal('${item.id}', 'title', this.value)" placeholder="العنوان">
+                        <select onchange="updateVal('${item.id}', 'type', this.value); renderAdmin();">
+                            <option value="content" ${item.type==='content'?'selected':''}>محتوى مباشر</option>
+                            <option value="folder" ${item.type==='folder'?'selected':''}>قسم يحتوي فروع</option>
+                        </select>
+                        ${item.type === 'content' ? 
+                            `<input type="text" value="${item.image||''}" oninput="updateVal('${item.id}', 'image', this.value)" placeholder="رابط صورة"><textarea oninput="updateVal('${item.id}', 'content', this.value)" placeholder="النص">${item.content}</textarea>` : 
+                            `<button class="btn btn-green" style="font-size:0.7rem;" onclick="addNodeByID('${item.id}')">+ إضافة فرع داخل "${item.title}"</button>`}
+                        <button onclick="deleteNode('${item.id}')" style="color:red; background:none; border:none; cursor:pointer;">حذف 🗑️</button>
+                    </div>`;
+                if (item.children.length > 0) html += draw(item.children, depth + 1);
+            });
+            return html + '</div>';
+        }
+        container.innerHTML += draw(tree);
     }
+
+    function findNode(arr, id, action, field, val) {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id == id) {
+                if(action === 'update') arr[i][field] = val;
+                if(action === 'add') arr[i].children.push({ id: Date.now(), title: "فرع جديد", type: "content", content: "", image: "", children: [] });
+                if(action === 'delete') arr.splice(i, 1);
+                return true;
+            }
+            if (arr[i].children && findNode(arr[i].children, id, action, field, val)) return true;
+        }
+    }
+
+    function updateVal(id, f, v) { findNode(tree, id, 'update', f, v); save(); renderUI(); }
+    function addNodeByID(id) { findNode(tree, id, 'add'); save(); renderAdmin(); }
+    function deleteNode(id) { if(confirm("حذف؟")) { findNode(tree, id, 'delete'); save(); renderAdmin(); renderUI(); } }
 
     function renderUI() {
         const grid = document.getElementById('mainGrid'); grid.innerHTML = '';
-        tree.forEach(item => {
+        let current = currentStack.length > 0 ? currentStack[currentStack.length - 1].children : tree;
+        document.getElementById('pathNav').style.display = currentStack.length > 0 ? 'flex' : 'none';
+        if (currentStack.length > 0) document.getElementById('currentPath').innerText = currentStack[currentStack.length - 1].title;
+
+        current.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'card'; card.innerText = item.title;
+            card.className = 'card';
+            if(item.type === 'folder') card.style.borderRight = "6px solid var(--p-blue)";
+            card.innerText = item.title;
             card.onclick = () => {
-                document.getElementById('modalTitle').innerText = item.title;
-                document.getElementById('modalBody').innerHTML = item.content.replace(/\n/g, '<br>');
-                const img = document.getElementById('modalImg');
-                if(item.image){ img.src = item.image; img.style.display='block'; } else img.style.display='none';
-                document.getElementById('modal').style.display='flex';
+                if (item.type === 'folder') { currentStack.push(item); renderUI(); }
+                else {
+                    document.getElementById('modalTitle').innerText = item.title;
+                    document.getElementById('modalBody').innerHTML = item.content.replace(/\n/g, '<br>');
+                    const img = document.getElementById('modalImg');
+                    if(item.image) { img.src = item.image; img.style.display='block'; } else img.style.display='none';
+                    document.getElementById('modal').style.display='flex';
+                }
             };
             grid.appendChild(card);
         });
     }
 
-    function saveTree() { localStorage.setItem('mn_tree_v8', JSON.stringify(tree)); }
+    function goBack() { currentStack.pop(); renderUI(); }
 
-    function exportCode() {
-        const data = `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsStr)};\n    var INITIAL_HEADER = ${JSON.stringify(headUrl)};\n    var INITIAL_SPEED = ${tickerSpeed};`;
-        let snippet = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, data);
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + snippet], {type: 'text/html'}));
-        a.download = 'MukhayamNet_Pro.html'; a.click();
+    function publishMeta() {
+        newsStr = document.getElementById('newsInput').value;
+        tickerSpeed = parseFloat(document.getElementById('speedSlider').value);
+        headUrl = document.getElementById('headerImgInput').value;
+        localStorage.setItem('mn_news_v10', newsStr);
+        localStorage.setItem('mn_speed_v10', tickerSpeed);
+        localStorage.setItem('mn_head_v10', headUrl);
+        location.reload();
     }
 
-    // البدء
+    function save() { localStorage.setItem('mn_tree_v10', JSON.stringify(tree)); }
+
+    function exportFullSite() {
+        const data = `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsStr)};\n    var INITIAL_HEADER = ${JSON.stringify(headUrl)};\n    var INITIAL_SPEED = ${tickerSpeed};`;
+        let snippet = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, data);
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + snippet], {type:'text/html'}));
+        a.download = 'MukhayamNet_Final.html'; a.click();
+    }
+
     setInterval(updateDateTime, 1000);
-    updateDateTime();
-    renderUI();
-    startTicker();
+    updateDateTime(); startTicker();
     document.getElementById('siteHeader').style.backgroundImage = `url('${headUrl}')`;
-    document.getElementById('adminPanel').style.display='none';
+    renderUI();
 </script>
-</body>
-</html>
+
+</body></html>
