@@ -5,350 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مخيم نت - الإدارة الذكية</title>
     <style>
-        :root { 
-            --primary-green: #056113; 
-            --accent-red: #d62828; 
-            --bg-color: #ffffff; 
-            --dark-gray: #475569; 
-        }
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', Tahoma, sans-serif; 
-        }
-        body { 
-            background-color: var(--bg-color); 
-            padding-bottom: 70px; 
-            user-select: none; 
-        }
-        .app-top-banner { 
-            max-width: 600px; 
-            margin: 0 auto; 
-        }
-        .app-top-banner img { 
-            width: 100%; 
-            height: auto; 
-            display: block; 
-        }
-        .app-header { 
-            background-color: var(--primary-green); 
-            color: white; 
-            padding: 15px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            max-width: 600px; 
-            margin: 0 auto; 
-        }
-        .app-title { 
-            font-size: 1.4rem; 
-            font-weight: bold; 
-            cursor: pointer; 
-        }
-        .live-datetime { 
-            font-size: 0.8rem; 
-            text-align: left; 
-            direction: ltr; 
-        }
-        .container { 
-            max-width: 600px; 
-            margin: 0 auto; 
-            padding: 12px; 
-        }
-        .main-menu-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-        }
-        .nav-card { 
-            background-color: var(--primary-green); 
-            color: white; 
-            border-radius: 15px; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            cursor: pointer; 
-            text-align: center; 
-            font-weight: bold; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-            transition: transform 0.2s;
-        }
-        .nav-card:hover { 
-            transform: scale(1.02); 
-        }
-        .nav-card .icon { 
-            font-size: 2rem; 
-            margin-bottom: 8px; 
-        }
-        .sub-card { 
-            background-color: #f1f5f9; 
-            border: 2px solid #cbd5e1; 
-            padding: 15px; 
-            border-radius: 10px; 
-            text-align: center; 
-            cursor: pointer; 
-            font-weight: bold; 
-            margin-bottom: 10px; 
-            transition: all 0.2s;
-        }
-        .sub-card:hover { 
-            background-color: #e2e8f0; 
-        }
-        .content-card { 
-            background-color: #fff; 
-            border: 1px solid #ddd; 
-            padding: 15px; 
-            border-radius: 10px; 
-            margin-bottom: 10px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .content-card:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-        .content-card h4 { 
-            color: var(--primary-green); 
-            margin-bottom: 8px; 
-        }
-        .content-card p { 
-            color: #333; 
-            line-height: 1.6; 
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .content-card .content-images {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        .content-card .content-images img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-        .back-btn { 
-            margin-bottom: 15px; 
-            padding: 10px 15px; 
-            background: var(--primary-green); 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .back-btn:hover { 
-            opacity: 0.9; 
-        }
-        .popup-overlay { 
-            display: none; 
-            position: fixed; 
-            top:0; 
-            left:0; 
-            right:0; 
-            bottom:0; 
-            background: rgba(0,0,0,0.8); 
-            z-index: 9999; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px; 
-        }
-        .modal { 
-            background: #fff; 
-            padding: 20px; 
-            border-radius: 15px; 
-            width: 100%; 
-            max-width: 450px; 
-            max-height: 90vh; 
-            overflow-y: auto; 
-        }
-        .modal h3 { 
-            color: var(--primary-green); 
-            margin-bottom: 15px; 
-            text-align: center; 
-        }
-        .admin-section { 
-            border: 1px solid #ddd; 
-            padding: 15px; 
-            margin-bottom: 15px; 
-            border-radius: 8px; 
-            background: #fafafa;
-        }
-        .admin-section h4 { 
-            color: var(--dark-gray); 
-            margin-bottom: 10px; 
-            font-size: 0.95rem; 
-        }
-        .admin-input { 
-            width: 100%; 
-            padding: 10px; 
-            margin-bottom: 8px; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
-            font-size: 1rem; 
-        }
-        .admin-select { 
-            width: 100%; 
-            padding: 10px; 
-            margin-bottom: 8px; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
-            font-size: 1rem; 
-            background: white;
-        }
-        .admin-btn { 
-            width: 100%; 
-            padding: 10px; 
-            margin-top: 5px; 
-            cursor: pointer; 
-            border: none; 
-            border-radius: 5px; 
-            background: #0284c7; 
-            color: white; 
-            font-size: 1rem;
-            transition: opacity 0.2s;
-        }
-        .admin-btn:hover { 
-            opacity: 0.9; 
-        }
-        .admin-btn.success { 
-            background: #059669; 
-        }
-        .admin-btn.danger { 
-            background: var(--accent-red); 
-        }
-        .admin-btn.warning { 
-            background: #d97706; 
-        }
-        .item-list { 
-            max-height: 200px; 
-            overflow-y: auto; 
-            border: 1px solid #eee; 
-            border-radius: 5px; 
-            padding: 5px; 
-            margin-bottom: 10px; 
-            background: white;
-        }
-        .item-row { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 8px; 
-            border-bottom: 1px solid #f0f0f0; 
-        }
-        .item-row:last-child { 
-            border-bottom: none; 
-        }
-        .item-name { 
-            flex: 1; 
-            font-size: 0.95rem; 
-        }
-        .item-actions { 
-            display: flex; 
-            gap: 5px; 
-        }
-        .icon-btn { 
-            padding: 4px 8px; 
-            border: none; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            font-size: 0.8rem; 
-        }
-        .edit-btn { 
-            background: #f59e0b; 
-            color: white; 
-        }
-        .delete-btn { 
-            background: var(--accent-red); 
-            color: white; 
-        }
-        .textarea-content { 
-            width: 100%; 
-            min-height: 100px; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
-            font-size: 1rem; 
-            resize: vertical; 
-        }
-        .empty-msg { 
-            text-align: center; 
-            color: #999; 
-            padding: 20px; 
-        }
-        .tabs { 
-            display: flex; 
-            gap: 5px; 
-            margin-bottom: 15px; 
-            flex-wrap: wrap; 
-        }
-        .tab-btn { 
-            padding: 8px 12px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            background: #e2e8f0; 
-            color: #475569; 
-            font-size: 0.9rem; 
-        }
-        .tab-btn.active { 
-            background: var(--primary-green); 
-            color: white; 
-        }
-        .hidden { 
-            display: none !important; 
-        }
-        .content-popup-body {
-            line-height: 1.8;
-            font-size: 1.1rem;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .popup-images {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .popup-images img {
-            max-width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-        }
-        .badge {
-            background: var(--primary-green);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            margin-right: 5px;
-        }
-        .optional-label {
-            color: #999;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-        }
+        :root { --primary-green: #056113; --accent-red: #d62828; --bg-color: #ffffff; --dark-gray: #475569; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--bg-color); padding-bottom: 120px; user-select: none; }
+        .app-top-banner { max-width: 600px; margin: 0 auto; }
+        .app-top-banner img { width: 100%; height: auto; display: block; }
+        .app-header { background-color: var(--primary-green); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto; }
+        .app-title { font-size: 1.4rem; font-weight: bold; cursor: pointer; padding: 5px 10px; border-radius: 5px; }
+        .app-title:active { background: rgba(255,255,255,0.2); }
+        .live-datetime { font-size: 0.8rem; text-align: left; direction: ltr; }
+        .container { max-width: 600px; margin: 0 auto; padding: 12px; }
+        .view-navigation-path { background: #f8fafc; border-right: 4px solid var(--primary-green); padding: 10px; margin-bottom: 15px; border-radius: 0 8px 8px 0; font-size: 0.9rem; color: #334155; font-weight: 500; }
+        .main-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .nav-card { background-color: var(--primary-green); color: white; border-radius: 15px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .nav-card:hover { transform: scale(1.02); }
+        .nav-card .icon { font-size: 2rem; margin-bottom: 8px; }
+        .sub-card { background-color: #f1f5f9; border: 2px solid #cbd5e1; padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: bold; margin-bottom: 10px; transition: all 0.2s; }
+        .sub-card:hover { background-color: #e2e8f0; }
+        .content-card { background-color: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s; }
+        .content-card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); transform: translateY(-2px); }
+        .content-card h4 { color: var(--primary-green); margin-bottom: 8px; }
+        .content-card p { color: #333; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .content-card .content-images { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .content-card .content-images img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+        .back-btn { margin-bottom: 15px; padding: 10px 15px; background: var(--primary-green); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 5px; }
+        .back-btn:hover { opacity: 0.9; }
+        .popup-overlay { display: none; position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .modal { background: #fff; padding: 20px; border-radius: 15px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto; }
+        .modal h3 { color: var(--primary-green); margin-bottom: 15px; text-align: center; }
+        .admin-section { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #fafafa; }
+        .admin-section h4 { color: var(--dark-gray); margin-bottom: 10px; font-size: 0.95rem; }
+        .admin-input, .admin-select, .textarea-content { width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; background: white; }
+        .textarea-content { resize: vertical; min-height: 80px; }
+        .admin-btn { width: 100%; padding: 10px; margin-top: 5px; cursor: pointer; border: none; border-radius: 5px; background: #0284c7; color: white; font-size: 1rem; transition: opacity 0.2s; }
+        .admin-btn:hover { opacity: 0.9; }
+        .admin-btn.success { background: #059669; }
+        .admin-btn.danger { background: var(--accent-red); }
+        .admin-btn.warning { background: #d97706; }
+        .admin-btn.purple { background: #7c3aed; }
+        .item-list { max-height: 180px; overflow-y: auto; border: 1px solid #eee; border-radius: 5px; padding: 5px; margin-bottom: 10px; background: white; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #f0f0f0; }
+        .item-row:last-child { border-bottom: none; }
+        .item-name { flex: 1; font-size: 0.95rem; text-align: right; color: #1e293b; }
+        .item-actions { display: flex; gap: 5px; }
+        .icon-btn { padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; color: white; }
+        .edit-btn { background: #f59e0b; }
+        .delete-btn { background: var(--accent-red); }
+        .tabs { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; }
+        .tab-btn { padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; background: #e2e8f0; color: #475569; font-size: 0.9rem; flex: 1; text-align: center; }
+        .tab-btn.active { background: var(--primary-green); color: white; }
+        .hidden { display: none !important; }
+        .content-popup-body { line-height: 1.8; font-size: 1.1rem; white-space: pre-wrap; word-wrap: break-word; text-align: right; }
+        .popup-images { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+        .popup-images img { max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; border: 1px solid #ddd; }
+        .export-section { border: 2px dashed var(--primary-green); padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #f0fdf4; text-align: center; }
+        .export-section h4 { color: var(--primary-green); margin-bottom: 10px; }
+
+        /* News Ticker - Fixed seamless loop */
+        .news-ticker-wrapper { position: fixed; bottom: 35px; left: 0; right: 0; background: var(--primary-green); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; z-index: 1000; max-width: 600px; margin: 0 auto; }
+        .news-ticker-label { background: var(--accent-red); color: white; padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; font-size: 0.85rem; white-space: nowrap; z-index: 2; flex-shrink: 0; }
+        .news-ticker-content { flex: 1; overflow: hidden; position: relative; height: 100%; }
+        .news-ticker-track { display: flex; align-items: center; height: 100%; white-space: nowrap; will-change: transform; animation: tickerScroll 20s linear infinite; }
+        .news-ticker-track:hover { animation-play-state: paused; }
+        .news-ticker-text { padding: 0 40px; font-size: 0.95rem; flex-shrink: 0; }
+        @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-clock { background: rgba(0,0,0,0.3); padding: 0 12px; height: 100%; display: flex; align-items: center; font-size: 0.85rem; font-weight: bold; white-space: nowrap; flex-shrink: 0; direction: ltr; }
+        .site-footer { position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #94a3b8; text-align: center; padding: 8px; font-size: 0.75rem; z-index: 1000; max-width: 600px; margin: 0 auto; }
+        .site-footer strong { color: #e2e8f0; }
     </style>
 </head>
 <body>
 
-<div class="app-top-banner">
-    <img src="https://i.postimg.cc/RZkSCMc9/file-00000000deec71f5b16228d79c7647b1.png" alt="Banner">
-</div>
+<div class="app-top-banner"><img src="https://i.postimg.cc/RZkSCMc9/file-00000000deec71f5b16228d79c7647b1.png" alt="Banner"></div>
 
 <div class="app-header">
     <div class="app-title" id="appTitle">مخيم نت</div>
@@ -356,128 +84,118 @@
 </div>
 
 <div class="container">
-    <!-- Main Menu View -->
-    <div id="mainMenu" class="main-menu-grid"></div>
-
-    <!-- Sub Categories View -->
+    <div id="mainView" class="main-menu-grid"></div>
     <div id="subView" style="display:none;">
-        <button class="back-btn" onclick="backToMain()">⬅️ العودة للرئيسية</button>
+        <button class="back-btn" onclick="showMainView()">⬅️ العودة للرئيسية</button>
+        <div id="subPath" class="view-navigation-path"></div>
         <div id="subItemsList"></div>
     </div>
-
-    <!-- Other Categories View (Level 3) -->
     <div id="otherView" style="display:none;">
-        <button class="back-btn" onclick="backToSubs()">⬅️ العودة للأقسام الفرعية</button>
+        <button class="back-btn" onclick="showSubView(currentMainId)">⬅️ العودة للأقسام الفرعية</button>
+        <div id="otherPath" class="view-navigation-path"></div>
         <div id="otherItemsList"></div>
     </div>
-
-    <!-- Content View -->
     <div id="contentView" style="display:none;">
-        <button class="back-btn" onclick="backToOthers()">⬅️ العودة</button>
+        <button class="back-btn" onclick="showOtherView(currentSubId)">⬅️ العودة</button>
+        <div id="contentPath" class="view-navigation-path"></div>
         <div id="contentItemsList"></div>
     </div>
 </div>
 
-<!-- Password Modal -->
+<div class="news-ticker-wrapper">
+    <div class="news-ticker-label">📢 أخبار</div>
+    <div class="news-ticker-content">
+        <div class="news-ticker-track" id="newsTickerTrack">
+            <span class="news-ticker-text" id="newsText1"></span>
+            <span class="news-ticker-text" id="newsText2"></span>
+        </div>
+    </div>
+    <div class="ticker-clock" id="tickerClock">00:00:00</div>
+</div>
+
+<div class="site-footer"><strong>تصميم محمد إبراهيم مقبل</strong> — جميع الحقوق محفوظة © ٢٠٢٦</div>
+
 <div id="passwordModal" class="popup-overlay">
     <div class="modal">
         <h3>🔒 لوحة الإدارة</h3>
         <p style="text-align:center; margin-bottom:15px; color:#666;">أدخل كلمة المرور للدخول</p>
         <input id="passwordInput" class="admin-input" type="password" placeholder="كلمة المرور" style="text-align:center; font-size:1.2rem;">
         <p id="passwordError" style="color:var(--accent-red); text-align:center; font-size:0.9rem; margin-top:5px; display:none;">كلمة المرور غير صحيحة!</p>
-        <button class="admin-btn success" style="margin-top:10px;" onclick="checkPassword()">🔓 دخول</button>
-        <button class="admin-btn" style="margin-top:5px; background:#64748b;" onclick="closePasswordModal()">❌ إلغاء</button>
+        <button class="admin-btn success" onclick="checkPassword()">🔓 دخول</button>
+        <button class="admin-btn" style="background:#64748b;" onclick="closePasswordModal()">❌ إلغاء</button>
     </div>
 </div>
 
-<!-- Content Popup -->
 <div id="contentPopup" class="popup-overlay">
     <div class="modal">
         <h3 id="popupTitle">📄 المحتوى</h3>
         <div id="popupBody" class="content-popup-body"></div>
         <div id="popupImages" class="popup-images"></div>
-        <button class="admin-btn danger" style="margin-top:15px;" onclick="closeContentPopup()">❌ إغلاق</button>
+        <button class="admin-btn danger" onclick="closeContentPopup()">❌ إغلاق</button>
     </div>
 </div>
 
-<!-- Admin Panel -->
 <div id="adminPanel" class="popup-overlay">
     <div class="modal">
         <h3>⚙️ لوحة الإدارة</h3>
-
+        <div class="export-section">
+            <h4>📤 تصدير البيانات</h4>
+            <button class="admin-btn purple" onclick="exportData()">📥 تصدير JSON</button>
+        </div>
+        <div class="admin-section" style="border: 2px solid #f59e0b; background: #fffbeb;">
+            <h4>📢 تعديل شريط الأخبار</h4>
+            <textarea id="newsTickerEdit" class="textarea-content" placeholder="اكتب نص شريط الأخبار هنا..."></textarea>
+            <button class="admin-btn warning" onclick="saveNewsTicker()">💾 حفظ</button>
+        </div>
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('main')">الأقسام الرئيسية</button>
-            <button class="tab-btn" onclick="switchTab('sub')">الأقسام الفرعية</button>
-            <button class="tab-btn" onclick="switchTab('other')">أقسام أخرى</button>
+            <button class="tab-btn active" onclick="switchTab('main')">الرئيسية</button>
+            <button class="tab-btn" onclick="switchTab('sub')">الفرعية</button>
+            <button class="tab-btn" onclick="switchTab('other')">المستوى 3</button>
             <button class="tab-btn" onclick="switchTab('content')">المحتوى</button>
         </div>
-
-        <!-- Main Categories Tab -->
         <div id="tab-main" class="admin-section">
             <h4>إضافة قسم رئيسي</h4>
             <input id="newCatName" class="admin-input" placeholder="اسم القسم الرئيسي">
-            <input id="newCatIcon" class="admin-input" placeholder="الأيقونة (مثال: 🩺 📁 🏥)" value="📁">
-            <button class="admin-btn success" onclick="addMainCat()">➕ إضافة قسم</button>
-
+            <input id="newCatIcon" class="admin-input" placeholder="الأيقونة (مثال: 🩺)" value="📁">
+            <button class="admin-btn success" onclick="addMainCat()">➕ إضافة</button>
             <h4 style="margin-top:15px;">الأقسام الحالية</h4>
             <div id="mainCatList" class="item-list"></div>
         </div>
-
-        <!-- Sub Categories Tab -->
         <div id="tab-sub" class="admin-section hidden">
             <h4>إضافة قسم فرعي</h4>
             <select id="selMainForSub" class="admin-select"></select>
             <input id="newSubName" class="admin-input" placeholder="اسم القسم الفرعي">
-            <button class="admin-btn success" onclick="addSubCat()">➕ إضافة فرعي</button>
-
-            <h4 style="margin-top:15px;">الأقسام الفرعية</h4>
+            <button class="admin-btn success" onclick="addSubCat()">➕ إضافة</button>
+            <h4 style="margin-top:15px;">الأقسام الفرعية الحالية</h4>
             <div id="subCatList" class="item-list"></div>
         </div>
-
-        <!-- Other Categories Tab (Level 3) -->
         <div id="tab-other" class="admin-section hidden">
-            <h4>إضافة قسم آخر</h4>
+            <h4>إضافة قسم مستوى 3</h4>
             <select id="selMainForOther" class="admin-select" onchange="updateSubForOther()"></select>
             <select id="selSubForOther" class="admin-select"></select>
-            <input id="newOtherName" class="admin-input" placeholder="اسم القسم الآخر">
-            <button class="admin-btn success" onclick="addOtherCat()">➕ إضافة قسم آخر</button>
-
-            <h4 style="margin-top:15px;">الأقسام الأخرى</h4>
+            <input id="newOtherName" class="admin-input" placeholder="اسم القسم">
+            <button class="admin-btn success" onclick="addOtherCat()">➕ إضافة</button>
+            <h4 style="margin-top:15px;">الأقسام الحالية</h4>
             <div id="otherCatList" class="item-list"></div>
         </div>
-
-        <!-- Content Tab -->
         <div id="tab-content" class="admin-section hidden">
             <h4>إضافة محتوى</h4>
             <select id="selMainForContent" class="admin-select" onchange="updateSubForContent()"></select>
             <select id="selSubForContent" class="admin-select" onchange="updateOtherForContent()"></select>
             <select id="selOtherForContent" class="admin-select"></select>
-            <input id="newContentTitle" class="admin-input" placeholder="عنوان المحتوى *">
-            <textarea id="newContentBody" class="textarea-content" placeholder="نص المحتوى... *"></textarea>
-            <div class="optional-label">📎 روابط الصور (اختياري)</div>
-            <input id="newContentImg1" class="admin-input" placeholder="رابط الصورة الأولى">
-            <input id="newContentImg2" class="admin-input" placeholder="رابط الصورة الثانية">
-            <button class="admin-btn success" onclick="addContent()">➕ إضافة محتوى</button>
-
-            <h4 style="margin-top:15px;">المحتويات</h4>
+            <input id="newContentTitle" class="admin-input" placeholder="عنوان المحتوى">
+            <textarea id="newContentBody" class="textarea-content" placeholder="نص المحتوى..."></textarea>
+            <input id="newContentImg1" class="admin-input" placeholder="رابط صورة 1 (اختياري)">
+            <input id="newContentImg2" class="admin-input" placeholder="رابط صورة 2 (اختياري)">
+            <button class="admin-btn success" onclick="addContent()">➕ إضافة</button>
+            <h4 style="margin-top:15px;">المحتويات الحالية</h4>
             <div id="contentList" class="item-list"></div>
         </div>
-
-        <button class="admin-btn danger" style="margin-top:10px;" onclick="closeAdmin()">❌ إغلاق</button>
-    </div>
-</div>
-
-<!-- Edit Modal -->
-<div id="editModal" class="popup-overlay">
-    <div class="modal">
-        <h3>✏️ تعديل</h3>
-        <div id="editForm"></div>
-        <button class="admin-btn" onclick="closeEdit()">إلغاء</button>
+        <button class="admin-btn danger" onclick="closeAdmin()">❌ إغلاق</button>
     </div>
 </div>
 
 <script>
-    // Initialize data
     let appData = JSON.parse(localStorage.getItem('camp_data')) || {
         mainCategories: [
             {id:'m1', name:'الخدمات الطبية', icon:'🩺'},
@@ -502,222 +220,149 @@
             'o2': [
                 {id:'c3', title:'مسكنات الألم', body:'البروفين: 400 مجم\nبعد الطعام مباشرة', img1:'', img2:''}
             ]
-        }
+        },
+        newsTicker: 'مرحباً بكم في مخيم نت - منصة الإدارة الذكية للمخيمات | تابعونا للمزيد من الأخبار والتحديثات'
     };
 
-    let currentMainId = null;
-    let currentSubId = null;
-    let currentOtherId = null;
-    let editingId = null;
-    let editingType = null;
-    let editingSubId = null;
-
-    // Click counter for admin access (no visible hint)
-    let clickCount = 0;
-    let clickTimer = null;
+    let currentMainId = null, currentSubId = null, currentOtherId = null;
+    let clickCount = 0, clickTimer = null;
     const ADMIN_PASSWORD = '1234';
-    const REQUIRED_CLICKS = 5;
 
-    // Save to localStorage
-    function save() { 
-        localStorage.setItem('camp_data', JSON.stringify(appData)); 
-        render(); 
-    }
+    function save() { localStorage.setItem('camp_data', JSON.stringify(appData)); render(); }
 
-    // Render main menu
+    // ===== VIEWS =====
     function render() {
-        let menu = document.getElementById('mainMenu');
+        let menu = document.getElementById('mainView');
         menu.innerHTML = '';
-
-        if (appData.mainCategories.length === 0) {
-            menu.innerHTML = '<div class="empty-msg">لا توجد أقسام رئيسية</div>';
-            return;
-        }
-
+        if (appData.mainCategories.length === 0) { menu.innerHTML = '<div class="empty-msg">لا توجد أقسام</div>'; return; }
         appData.mainCategories.forEach(m => {
             let div = document.createElement('div');
             div.className = 'nav-card';
             div.innerHTML = `<div class="icon">${m.icon}</div><div>${m.name}</div>`;
-            div.onclick = () => showSubs(m.id);
+            div.onclick = () => showSubView(m.id);
             menu.appendChild(div);
         });
     }
 
-    // Show sub categories
-    function showSubs(mid) {
+    function showMainView() {
+        document.getElementById('mainView').style.display = 'grid';
+        document.getElementById('subView').style.display = 'none';
+        document.getElementById('otherView').style.display = 'none';
+        document.getElementById('contentView').style.display = 'none';
+        currentMainId = null; currentSubId = null; currentOtherId = null;
+    }
+
+    function showSubView(mid) {
         currentMainId = mid;
-        document.getElementById('mainMenu').style.display = 'none';
+        document.getElementById('mainView').style.display = 'none';
         document.getElementById('subView').style.display = 'block';
         document.getElementById('otherView').style.display = 'none';
         document.getElementById('contentView').style.display = 'none';
-
+        let mainCat = appData.mainCategories.find(m => m.id === mid);
+        document.getElementById('subPath').innerText = `${mainCat.icon} ${mainCat.name}`;
         let list = document.getElementById('subItemsList');
         list.innerHTML = '';
-
-        let mainCat = appData.mainCategories.find(m => m.id === mid);
-        let title = document.createElement('h2');
-        title.style.cssText = 'color: var(--primary-green); margin-bottom: 15px; text-align: center;';
-        title.innerText = `${mainCat.icon} ${mainCat.name}`;
-        list.appendChild(title);
-
         let subs = appData.subCategories.filter(s => s.mainId === mid);
-
-        if (subs.length === 0) {
-            list.innerHTML += '<div class="empty-msg">لا توجد أقسام فرعية</div>';
-            return;
-        }
-
+        if (subs.length === 0) { list.innerHTML = '<div class="empty-msg">لا توجد أقسام فرعية</div>'; return; }
         subs.forEach(s => {
             let div = document.createElement('div');
             div.className = 'sub-card';
             div.innerText = s.name;
-            div.onclick = () => showOthers(s.id);
+            div.onclick = () => showOtherView(s.id);
             list.appendChild(div);
         });
     }
 
-    // Show other categories (Level 3)
-    function showOthers(sid) {
+    function showOtherView(sid) {
         currentSubId = sid;
+        document.getElementById('mainView').style.display = 'none';
         document.getElementById('subView').style.display = 'none';
         document.getElementById('otherView').style.display = 'block';
         document.getElementById('contentView').style.display = 'none';
-
-        let list = document.getElementById('otherItemsList');
-        list.innerHTML = '';
-
         let subCat = appData.subCategories.find(s => s.id === sid);
         let mainCat = appData.mainCategories.find(m => m.id === subCat.mainId);
-
-        let title = document.createElement('h2');
-        title.style.cssText = 'color: var(--primary-green); margin-bottom: 15px; text-align: center;';
-        title.innerText = `${mainCat.icon} ${mainCat.name} → ${subCat.name}`;
-        list.appendChild(title);
-
+        document.getElementById('otherPath').innerText = `${mainCat.icon} ${mainCat.name} → ${subCat.name}`;
+        let list = document.getElementById('otherItemsList');
+        list.innerHTML = '';
         let others = appData.otherCategories.filter(o => o.subId === sid);
-
-        if (others.length === 0) {
-            list.innerHTML += '<div class="empty-msg">لا توجد أقسام أخرى</div>';
-            return;
-        }
-
+        if (others.length === 0) { list.innerHTML = '<div class="empty-msg">لا توجد أقسام</div>'; return; }
         others.forEach(o => {
             let div = document.createElement('div');
             div.className = 'sub-card';
             div.innerText = o.name;
-            div.onclick = () => showContent(o.id);
+            div.onclick = () => showContentView(o.id);
             list.appendChild(div);
         });
     }
 
-    // Show content list
-    function showContent(oid) {
+    function showContentView(oid) {
         currentOtherId = oid;
+        document.getElementById('mainView').style.display = 'none';
+        document.getElementById('subView').style.display = 'none';
         document.getElementById('otherView').style.display = 'none';
         document.getElementById('contentView').style.display = 'block';
-
-        let list = document.getElementById('contentItemsList');
-        list.innerHTML = '';
-
         let otherCat = appData.otherCategories.find(o => o.id === oid);
         let subCat = appData.subCategories.find(s => s.id === otherCat.subId);
         let mainCat = appData.mainCategories.find(m => m.id === subCat.mainId);
-
-        let title = document.createElement('h2');
-        title.style.cssText = 'color: var(--primary-green); margin-bottom: 15px; text-align: center;';
-        title.innerText = `${mainCat.name} → ${subCat.name} → ${otherCat.name}`;
-        list.appendChild(title);
-
+        document.getElementById('contentPath').innerText = `${mainCat.name} → ${subCat.name} → ${otherCat.name}`;
+        let list = document.getElementById('contentItemsList');
+        list.innerHTML = '';
         let contents = appData.contents[oid] || [];
-
-        if (contents.length === 0) {
-            list.innerHTML += '<div class="empty-msg">لا يوجد محتوى</div>';
-            return;
-        }
-
+        if (contents.length === 0) { list.innerHTML = '<div class="empty-msg">لا يوجد محتوى</div>'; return; }
         contents.forEach(c => {
             let div = document.createElement('div');
             div.className = 'content-card';
-            let imagesHtml = '';
+            let imgHtml = '';
             if (c.img1 || c.img2) {
-                imagesHtml = '<div class="content-images">';
-                if (c.img1) imagesHtml += `<img src="${c.img1}" alt="صورة 1" onerror="this.style.display='none'">`;
-                if (c.img2) imagesHtml += `<img src="${c.img2}" alt="صورة 2" onerror="this.style.display='none'">`;
-                imagesHtml += '</div>';
+                imgHtml = '<div class="content-images">';
+                if (c.img1) imgHtml += `<img src="${c.img1}" onerror="this.style.display='none'">`;
+                if (c.img2) imgHtml += `<img src="${c.img2}" onerror="this.style.display='none'">`;
+                imgHtml += '</div>';
             }
-            div.innerHTML = `
-                <h4>${c.title}</h4>
-                <p>${c.body}</p>
-                ${imagesHtml}
-            `;
+            div.innerHTML = `<h4>${c.title}</h4><p>${c.body}</p>${imgHtml}`;
             div.onclick = () => openContentPopup(c);
             list.appendChild(div);
         });
     }
 
-    // Open content popup
-    function openContentPopup(content) {
-        document.getElementById('popupTitle').innerText = content.title;
-        document.getElementById('popupBody').innerText = content.body;
-
-        let imagesHtml = '';
-        if (content.img1 || content.img2) {
-            if (content.img1) imagesHtml += `<img src="${content.img1}" alt="صورة 1" onerror="this.style.display='none'">`;
-            if (content.img2) imagesHtml += `<img src="${content.img2}" alt="صورة 2" onerror="this.style.display='none'">`;
-        }
-        document.getElementById('popupImages').innerHTML = imagesHtml;
-
+    function openContentPopup(c) {
+        document.getElementById('popupTitle').innerText = c.title;
+        document.getElementById('popupBody').innerText = c.body;
+        let imgHtml = '';
+        if (c.img1) imgHtml += `<img src="${c.img1}" onerror="this.style.display='none'">`;
+        if (c.img2) imgHtml += `<img src="${c.img2}" onerror="this.style.display='none'">`;
+        document.getElementById('popupImages').innerHTML = imgHtml;
         document.getElementById('contentPopup').style.display = 'flex';
     }
+    function closeContentPopup() { document.getElementById('contentPopup').style.display = 'none'; }
 
-    // Close content popup
-    function closeContentPopup() {
-        document.getElementById('contentPopup').style.display = 'none';
+    // ===== NEWS TICKER =====
+    function updateNewsTicker() {
+        let text = appData.newsTicker || 'مرحباً بكم في مخيم نت';
+        document.getElementById('newsText1').innerText = text + '  •  ';
+        document.getElementById('newsText2').innerText = text + '  •  ';
+    }
+    function updateTickerClock() {
+        let now = new Date();
+        document.getElementById('tickerClock').innerText = now.toLocaleTimeString('en-US', {hour12:false});
+    }
+    function saveNewsTicker() {
+        let text = document.getElementById('newsTickerEdit').value.trim();
+        if (text) { appData.newsTicker = text; save(); updateNewsTicker(); alert('✅ تم الحفظ!'); }
     }
 
-    // Navigation
-    function backToMain() { 
-        document.getElementById('subView').style.display = 'none'; 
-        document.getElementById('otherView').style.display = 'none';
-        document.getElementById('contentView').style.display = 'none';
-        document.getElementById('mainMenu').style.display = 'grid'; 
-    }
-
-    function backToSubs() {
-        document.getElementById('otherView').style.display = 'none';
-        document.getElementById('contentView').style.display = 'none';
-        document.getElementById('subView').style.display = 'block';
-    }
-
-    function backToOthers() {
-        document.getElementById('contentView').style.display = 'none';
-        document.getElementById('otherView').style.display = 'block';
-    }
-
-    // ===== PASSWORD PROTECTION (SILENT) =====
-    // Handle title clicks for admin access - no visible hint
-    document.getElementById('appTitle').addEventListener('click', function() {
-        clickCount++;
-
-        if (clickCount >= REQUIRED_CLICKS) {
-            clickCount = 0;
-            clearTimeout(clickTimer);
-            document.getElementById('passwordModal').style.display = 'flex';
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordError').style.display = 'none';
-            setTimeout(() => document.getElementById('passwordInput').focus(), 100);
-        } else {
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
-            }, 2000);
-        }
+    // ===== PASSWORD =====
+    document.getElementById('appTitle').addEventListener('click', function(e) {
+        e.stopPropagation(); clickCount++;
+        clearTimeout(clickTimer);
+        if (clickCount === 5) { clickCount = 0; document.getElementById('passwordModal').style.display = 'flex'; document.getElementById('passwordInput').focus(); }
+        else { clickTimer = setTimeout(() => clickCount = 0, 1500); }
     });
-
     function checkPassword() {
-        let input = document.getElementById('passwordInput').value;
-        if (input === ADMIN_PASSWORD) {
+        if (document.getElementById('passwordInput').value === ADMIN_PASSWORD) {
             document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('newsTickerEdit').value = appData.newsTicker || '';
             openAdmin();
         } else {
             document.getElementById('passwordError').style.display = 'block';
@@ -725,30 +370,26 @@
             document.getElementById('passwordInput').focus();
         }
     }
+    function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; document.getElementById('passwordInput').value = ''; document.getElementById('passwordError').style.display = 'none'; }
+    document.getElementById('passwordInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkPassword(); });
 
-    function closePasswordModal() {
-        document.getElementById('passwordModal').style.display = 'none';
-        document.getElementById('passwordInput').value = '';
-        document.getElementById('passwordError').style.display = 'none';
+    // ===== EXPORT =====
+    function exportData() {
+        let exportObj = { exportDate: new Date().toISOString(), appName: 'مخيم نت', ...appData };
+        let blob = new Blob([JSON.stringify(exportObj, null, 2)], {type: 'application/json'});
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a'); a.href = url; a.download = 'camp_net_data_' + new Date().toISOString().slice(0,10) + '.json';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+        alert('✅ تم التصدير!');
     }
 
-    // Allow Enter key in password input
-    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') checkPassword();
-    });
-
-    // Admin Panel Functions
-    function openAdmin() { 
-        document.getElementById('adminPanel').style.display = 'flex'; 
+    // ===== ADMIN PANEL =====
+    function openAdmin() {
+        document.getElementById('adminPanel').style.display = 'flex';
         refreshAdminLists();
-        updateSelects();
+        updateAllSelects();
     }
-
-    function closeAdmin() { 
-        document.getElementById('adminPanel').style.display = 'none'; 
-    }
-
-    // Tab switching
+    function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         event.target.classList.add('active');
@@ -756,256 +397,128 @@
         document.getElementById('tab-' + tab).classList.remove('hidden');
     }
 
-    // Add Main Category
+    // ===== ADD FUNCTIONS =====
     function addMainCat() {
         let name = document.getElementById('newCatName').value.trim();
         let icon = document.getElementById('newCatIcon').value.trim() || '📁';
-        if(name) { 
-            appData.mainCategories.push({id:'m'+Date.now(), name:name, icon:icon}); 
-            save(); 
-            document.getElementById('newCatName').value = '';
-            refreshAdminLists();
-            updateSelects();
-        }
+        if (!name) return;
+        appData.mainCategories.push({id:'m'+Date.now(), name, icon});
+        save(); document.getElementById('newCatName').value = ''; refreshAdminLists(); updateAllSelects();
     }
-
-    // Add Sub Category
     function addSubCat() {
         let mainId = document.getElementById('selMainForSub').value;
         let name = document.getElementById('newSubName').value.trim();
-        if(mainId && name) { 
-            appData.subCategories.push({id:'s'+Date.now(), mainId:mainId, name:name}); 
-            save(); 
-            document.getElementById('newSubName').value = '';
-            refreshAdminLists();
-            updateSelects();
-        }
+        if (!mainId || !name) return;
+        appData.subCategories.push({id:'s'+Date.now(), mainId, name});
+        save(); document.getElementById('newSubName').value = ''; refreshAdminLists(); updateAllSelects();
     }
-
-    // Add Other Category (Level 3)
     function addOtherCat() {
         let subId = document.getElementById('selSubForOther').value;
         let name = document.getElementById('newOtherName').value.trim();
-        if(subId && name) { 
-            appData.otherCategories.push({id:'o'+Date.now(), subId:subId, name:name}); 
-            save(); 
-            document.getElementById('newOtherName').value = '';
-            refreshAdminLists();
-            updateSelects();
-        }
+        if (!subId || !name) return;
+        appData.otherCategories.push({id:'o'+Date.now(), subId, name});
+        save(); document.getElementById('newOtherName').value = ''; refreshAdminLists(); updateAllSelects();
     }
-
-    // Add Content
     function addContent() {
         let otherId = document.getElementById('selOtherForContent').value;
         let title = document.getElementById('newContentTitle').value.trim();
         let body = document.getElementById('newContentBody').value.trim();
         let img1 = document.getElementById('newContentImg1').value.trim();
         let img2 = document.getElementById('newContentImg2').value.trim();
-
-        if(otherId && title && body) { 
-            if (!appData.contents[otherId]) appData.contents[otherId] = [];
-            appData.contents[otherId].push({
-                id:'c'+Date.now(), 
-                title:title, 
-                body:body,
-                img1: img1,
-                img2: img2
-            }); 
-            save(); 
-            document.getElementById('newContentTitle').value = '';
-            document.getElementById('newContentBody').value = '';
-            document.getElementById('newContentImg1').value = '';
-            document.getElementById('newContentImg2').value = '';
-            refreshAdminLists();
-        }
+        if (!otherId || !title || !body) return;
+        if (!appData.contents[otherId]) appData.contents[otherId] = [];
+        appData.contents[otherId].push({id:'c'+Date.now(), title, body, img1, img2});
+        save();
+        document.getElementById('newContentTitle').value = '';
+        document.getElementById('newContentBody').value = '';
+        document.getElementById('newContentImg1').value = '';
+        document.getElementById('newContentImg2').value = '';
+        refreshAdminLists();
     }
 
-    // Delete functions
+    // ===== DELETE FUNCTIONS =====
     function deleteMainCat(id) {
-        if (!confirm('هل أنت متأكد من حذف هذا القسم؟ سيتم حذف جميع الأقسام الفرعية والأقسام الأخرى والمحتوى المرتبط به!')) return;
+        if (!confirm('حذف القسم الرئيسي وجميع ما يتبعه؟')) return;
         appData.mainCategories = appData.mainCategories.filter(m => m.id !== id);
-        let subsToDelete = appData.subCategories.filter(s => s.mainId === id);
+        let subs = appData.subCategories.filter(s => s.mainId === id);
         appData.subCategories = appData.subCategories.filter(s => s.mainId !== id);
-
-        subsToDelete.forEach(sub => {
-            let othersToDelete = appData.otherCategories.filter(o => o.subId === sub.id);
+        subs.forEach(sub => {
+            let others = appData.otherCategories.filter(o => o.subId === sub.id);
             appData.otherCategories = appData.otherCategories.filter(o => o.subId !== sub.id);
-            othersToDelete.forEach(o => delete appData.contents[o.id]);
+            others.forEach(o => delete appData.contents[o.id]);
         });
-
-        save();
-        refreshAdminLists();
-        updateSelects();
+        save(); refreshAdminLists(); updateAllSelects();
     }
-
     function deleteSubCat(id) {
-        if (!confirm('هل أنت متأكد من حذف هذا القسم الفرعي؟ سيتم حذف الأقسام الأخرى والمحتوى المرتبط!')) return;
+        if (!confirm('حذف القسم الفرعي وجميع ما يتبعه؟')) return;
         appData.subCategories = appData.subCategories.filter(s => s.id !== id);
-        let othersToDelete = appData.otherCategories.filter(o => o.subId === id);
+        let others = appData.otherCategories.filter(o => o.subId === id);
         appData.otherCategories = appData.otherCategories.filter(o => o.subId !== id);
-        othersToDelete.forEach(o => delete appData.contents[o.id]);
-        save();
-        refreshAdminLists();
-        updateSelects();
+        others.forEach(o => delete appData.contents[o.id]);
+        save(); refreshAdminLists(); updateAllSelects();
     }
-
     function deleteOtherCat(id) {
-        if (!confirm('هل أنت متأكد من حذف هذا القسم؟ سيتم حذف المحتوى المرتبط!')) return;
+        if (!confirm('حذف القسم وجميع محتوياته؟')) return;
         appData.otherCategories = appData.otherCategories.filter(o => o.id !== id);
         delete appData.contents[id];
-        save();
-        refreshAdminLists();
-        updateSelects();
+        save(); refreshAdminLists(); updateAllSelects();
     }
-
     function deleteContent(otherId, contentId) {
-        if (!confirm('هل أنت متأكد من حذف هذا المحتوى؟')) return;
-        if (appData.contents[otherId]) {
-            appData.contents[otherId] = appData.contents[otherId].filter(c => c.id !== contentId);
-        }
-        save();
-        refreshAdminLists();
+        if (!confirm('حذف هذا المحتوى؟')) return;
+        if (appData.contents[otherId]) appData.contents[otherId] = appData.contents[otherId].filter(c => c.id !== contentId);
+        save(); refreshAdminLists();
     }
 
-    // Edit functions
+    // ===== EDIT FUNCTIONS =====
     function editMainCat(id) {
         let cat = appData.mainCategories.find(m => m.id === id);
-        editingId = id;
-        editingType = 'main';
-        document.getElementById('editForm').innerHTML = `
-            <input id="editName" class="admin-input" value="${cat.name}" placeholder="الاسم">
-            <input id="editIcon" class="admin-input" value="${cat.icon}" placeholder="الأيقونة">
-            <button class="admin-btn success" onclick="saveEdit()">💾 حفظ</button>
-        `;
-        document.getElementById('editModal').style.display = 'flex';
+        let name = prompt('تعديل اسم القسم:', cat.name);
+        if (name && name.trim()) { cat.name = name.trim(); save(); refreshAdminLists(); updateAllSelects(); }
     }
-
     function editSubCat(id) {
         let sub = appData.subCategories.find(s => s.id === id);
-        editingId = id;
-        editingType = 'sub';
-        let options = appData.mainCategories.map(m => `<option value="${m.id}" ${m.id === sub.mainId ? 'selected' : ''}>${m.name}</option>`).join('');
-        document.getElementById('editForm').innerHTML = `
-            <select id="editMainId" class="admin-select">${options}</select>
-            <input id="editName" class="admin-input" value="${sub.name}" placeholder="الاسم">
-            <button class="admin-btn success" onclick="saveEdit()">💾 حفظ</button>
-        `;
-        document.getElementById('editModal').style.display = 'flex';
+        let name = prompt('تعديل اسم القسم:', sub.name);
+        if (name && name.trim()) { sub.name = name.trim(); save(); refreshAdminLists(); updateAllSelects(); }
     }
-
     function editOtherCat(id) {
         let other = appData.otherCategories.find(o => o.id === id);
-        editingId = id;
-        editingType = 'other';
-        let subOptions = appData.subCategories.map(s => `<option value="${s.id}" ${s.id === other.subId ? 'selected' : ''}>${s.name}</option>`).join('');
-        document.getElementById('editForm').innerHTML = `
-            <select id="editSubId" class="admin-select">${subOptions}</select>
-            <input id="editName" class="admin-input" value="${other.name}" placeholder="الاسم">
-            <button class="admin-btn success" onclick="saveEdit()">💾 حفظ</button>
-        `;
-        document.getElementById('editModal').style.display = 'flex';
+        let name = prompt('تعديل اسم القسم:', other.name);
+        if (name && name.trim()) { other.name = name.trim(); save(); refreshAdminLists(); updateAllSelects(); }
     }
-
     function editContent(otherId, contentId) {
         let content = appData.contents[otherId].find(c => c.id === contentId);
-        editingId = contentId;
-        editingType = 'content';
-        editingSubId = otherId;
-        document.getElementById('editForm').innerHTML = `
-            <input id="editTitle" class="admin-input" value="${content.title}" placeholder="العنوان">
-            <textarea id="editBody" class="textarea-content" placeholder="المحتوى">${content.body}</textarea>
-            <div class="optional-label">📎 روابط الصور (اختياري)</div>
-            <input id="editImg1" class="admin-input" value="${content.img1 || ''}" placeholder="رابط الصورة الأولى">
-            <input id="editImg2" class="admin-input" value="${content.img2 || ''}" placeholder="رابط الصورة الثانية">
-            <button class="admin-btn success" onclick="saveEdit()">💾 حفظ</button>
-        `;
-        document.getElementById('editModal').style.display = 'flex';
+        let title = prompt('تعديل العنوان:', content.title);
+        if (!title) return;
+        let body = prompt('تعديل النص:', content.body);
+        if (!body) return;
+        content.title = title; content.body = body;
+        save(); refreshAdminLists();
     }
 
-    function saveEdit() {
-        if (editingType === 'main') {
-            let cat = appData.mainCategories.find(m => m.id === editingId);
-            cat.name = document.getElementById('editName').value.trim();
-            cat.icon = document.getElementById('editIcon').value.trim();
-        } else if (editingType === 'sub') {
-            let sub = appData.subCategories.find(s => s.id === editingId);
-            sub.name = document.getElementById('editName').value.trim();
-            sub.mainId = document.getElementById('editMainId').value;
-        } else if (editingType === 'other') {
-            let other = appData.otherCategories.find(o => o.id === editingId);
-            other.name = document.getElementById('editName').value.trim();
-            other.subId = document.getElementById('editSubId').value;
-        } else if (editingType === 'content') {
-            let content = appData.contents[editingSubId].find(c => c.id === editingId);
-            content.title = document.getElementById('editTitle').value.trim();
-            content.body = document.getElementById('editBody').value.trim();
-            content.img1 = document.getElementById('editImg1').value.trim();
-            content.img2 = document.getElementById('editImg2').value.trim();
-        }
-        save();
-        closeEdit();
-        refreshAdminLists();
-        updateSelects();
-    }
-
-    function closeEdit() {
-        document.getElementById('editModal').style.display = 'none';
-        editingId = null;
-        editingType = null;
-    }
-
-    // Refresh admin lists
+    // ===== REFRESH LISTS =====
     function refreshAdminLists() {
-        // Main categories list
+        // Main
         let mainList = document.getElementById('mainCatList');
         mainList.innerHTML = '';
         appData.mainCategories.forEach(m => {
-            mainList.innerHTML += `
-                <div class="item-row">
-                    <span class="item-name">${m.icon} ${m.name}</span>
-                    <div class="item-actions">
-                        <button class="icon-btn edit-btn" onclick="editMainCat('${m.id}')">✏️</button>
-                        <button class="icon-btn delete-btn" onclick="deleteMainCat('${m.id}')">🗑️</button>
-                    </div>
-                </div>
-            `;
+            mainList.innerHTML += `<div class="item-row"><span class="item-name">${m.icon} ${m.name}</span><div class="item-actions"><button class="icon-btn edit-btn" onclick="editMainCat('${m.id}')">✏️</button><button class="icon-btn delete-btn" onclick="deleteMainCat('${m.id}')">🗑️</button></div></div>`;
         });
-
-        // Sub categories list
+        // Sub
         let subList = document.getElementById('subCatList');
         subList.innerHTML = '';
         appData.subCategories.forEach(s => {
             let main = appData.mainCategories.find(m => m.id === s.mainId);
-            subList.innerHTML += `
-                <div class="item-row">
-                    <span class="item-name">${main ? main.name : 'غير معروف'} → ${s.name}</span>
-                    <div class="item-actions">
-                        <button class="icon-btn edit-btn" onclick="editSubCat('${s.id}')">✏️</button>
-                        <button class="icon-btn delete-btn" onclick="deleteSubCat('${s.id}')">🗑️</button>
-                    </div>
-                </div>
-            `;
+            subList.innerHTML += `<div class="item-row"><span class="item-name">${main ? main.name : '؟'} → ${s.name}</span><div class="item-actions"><button class="icon-btn edit-btn" onclick="editSubCat('${s.id}')">✏️</button><button class="icon-btn delete-btn" onclick="deleteSubCat('${s.id}')">🗑️</button></div></div>`;
         });
-
-        // Other categories list
+        // Other
         let otherList = document.getElementById('otherCatList');
         otherList.innerHTML = '';
         appData.otherCategories.forEach(o => {
             let sub = appData.subCategories.find(s => s.id === o.subId);
             let main = sub ? appData.mainCategories.find(m => m.id === sub.mainId) : null;
-            otherList.innerHTML += `
-                <div class="item-row">
-                    <span class="item-name">${main ? main.name : ''} ${sub ? '→ ' + sub.name : ''} → ${o.name}</span>
-                    <div class="item-actions">
-                        <button class="icon-btn edit-btn" onclick="editOtherCat('${o.id}')">✏️</button>
-                        <button class="icon-btn delete-btn" onclick="deleteOtherCat('${o.id}')">🗑️</button>
-                    </div>
-                </div>
-            `;
+            otherList.innerHTML += `<div class="item-row"><span class="item-name">${main ? main.name : '؟'} ${sub ? '→ ' + sub.name : ''} → ${o.name}</span><div class="item-actions"><button class="icon-btn edit-btn" onclick="editOtherCat('${o.id}')">✏️</button><button class="icon-btn delete-btn" onclick="deleteOtherCat('${o.id}')">🗑️</button></div></div>`;
         });
-
-        // Content list
+        // Content
         let contentList = document.getElementById('contentList');
         contentList.innerHTML = '';
         Object.keys(appData.contents).forEach(otherId => {
@@ -1013,76 +526,61 @@
             let sub = other ? appData.subCategories.find(s => s.id === other.subId) : null;
             let main = sub ? appData.mainCategories.find(m => m.id === sub.mainId) : null;
             appData.contents[otherId].forEach(c => {
-                let imgBadge = (c.img1 || c.img2) ? '<span class="badge">📷</span>' : '';
-                contentList.innerHTML += `
-                    <div class="item-row">
-                        <span class="item-name">${main ? main.name : ''} ${sub ? '→ ' + sub.name : ''} ${other ? '→ ' + other.name : ''} → ${c.title} ${imgBadge}</span>
-                        <div class="item-actions">
-                            <button class="icon-btn edit-btn" onclick="editContent('${otherId}', '${c.id}')">✏️</button>
-                            <button class="icon-btn delete-btn" onclick="deleteContent('${otherId}', '${c.id}')">🗑️</button>
-                        </div>
-                    </div>
-                `;
+                contentList.innerHTML += `<div class="item-row"><span class="item-name">${main ? main.name : '؟'} ${sub ? '→ ' + sub.name : ''} ${other ? '→ ' + other.name : ''} → ${c.title}</span><div class="item-actions"><button class="icon-btn edit-btn" onclick="editContent('${otherId}', '${c.id}')">✏️</button><button class="icon-btn delete-btn" onclick="deleteContent('${otherId}', '${c.id}')">🗑️</button></div></div>`;
             });
         });
     }
 
-    // Update select dropdowns
-    function updateSelects() {
+    // ===== SELECT DROPDOWNS =====
+    function updateAllSelects() {
         let mainOptions = appData.mainCategories.map(m => `<option value="${m.id}">${m.icon} ${m.name}</option>`).join('');
-
         document.getElementById('selMainForSub').innerHTML = '<option value="">اختر قسم رئيسي</option>' + mainOptions;
         document.getElementById('selMainForOther').innerHTML = '<option value="">اختر قسم رئيسي</option>' + mainOptions;
         document.getElementById('selMainForContent').innerHTML = '<option value="">اختر قسم رئيسي</option>' + mainOptions;
-
-        updateSubForOther();
-        updateSubForContent();
+        document.getElementById('selSubForOther').innerHTML = '<option value="">اختر قسم فرعي</option>';
+        document.getElementById('selSubForContent').innerHTML = '<option value="">اختر قسم فرعي</option>';
+        document.getElementById('selOtherForContent').innerHTML = '<option value="">اختر قسم آخر</option>';
     }
 
     function updateSubForOther() {
         let mainId = document.getElementById('selMainForOther').value;
-        let subOptions = appData.subCategories
-            .filter(s => s.mainId === mainId)
-            .map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-        document.getElementById('selSubForOther').innerHTML = '<option value="">اختر قسم فرعي</option>' + subOptions;
+        if (!mainId) { document.getElementById('selSubForOther').innerHTML = '<option value="">اختر قسم فرعي</option>'; return; }
+        let options = appData.subCategories.filter(s => s.mainId === mainId).map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        document.getElementById('selSubForOther').innerHTML = '<option value="">اختر قسم فرعي</option>' + options;
     }
 
     function updateSubForContent() {
         let mainId = document.getElementById('selMainForContent').value;
-        let subOptions = appData.subCategories
-            .filter(s => s.mainId === mainId)
-            .map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-        document.getElementById('selSubForContent').innerHTML = '<option value="">اختر قسم فرعي</option>' + subOptions;
+        if (!mainId) {
+            document.getElementById('selSubForContent').innerHTML = '<option value="">اختر قسم فرعي</option>';
+            document.getElementById('selOtherForContent').innerHTML = '<option value="">اختر قسم آخر</option>';
+            return;
+        }
+        let options = appData.subCategories.filter(s => s.mainId === mainId).map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        document.getElementById('selSubForContent').innerHTML = '<option value="">اختر قسم فرعي</option>' + options;
         updateOtherForContent();
     }
 
     function updateOtherForContent() {
         let subId = document.getElementById('selSubForContent').value;
-        let otherOptions = appData.otherCategories
-            .filter(o => o.subId === subId)
-            .map(o => `<option value="${o.id}">${o.name}</option>`).join('');
-        document.getElementById('selOtherForContent').innerHTML = '<option value="">اختر قسم آخر</option>' + otherOptions;
+        if (!subId) { document.getElementById('selOtherForContent').innerHTML = '<option value="">اختر قسم آخر</option>'; return; }
+        let options = appData.otherCategories.filter(o => o.subId === subId).map(o => `<option value="${o.id}">${o.name}</option>`).join('');
+        document.getElementById('selOtherForContent').innerHTML = '<option value="">اختر قسم آخر</option>' + options;
     }
 
-    // Live Date & Time (Arabic format)
+    // ===== TIME =====
     function updateDateTime() {
         let now = new Date();
-        let options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        };
-        document.getElementById('liveTime').innerText = now.toLocaleDateString('ar-SA', options);
+        document.getElementById('liveTime').innerText = now.toLocaleDateString('ar-SA', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit' });
     }
 
+    // ===== INIT =====
     setInterval(updateDateTime, 1000);
+    setInterval(updateTickerClock, 1000);
     updateDateTime();
+    updateTickerClock();
+    updateNewsTicker();
     render();
 </script>
-
 </body>
 </html>
