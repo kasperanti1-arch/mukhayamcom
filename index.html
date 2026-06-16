@@ -1,4 +1,6 @@
-<html lang="ar" dir="rtl"><head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مخيم نت - الإدارة الذكية الكاملة</title>
@@ -23,7 +25,6 @@
             user-select: none;
         }
 
-        /* 🖼️ بنر الهيدر العلوي */
         .app-top-banner {
             max-width: 600px;
             margin: 0 auto;
@@ -33,14 +34,13 @@
             align-items: center;
             overflow: hidden;
         }
-        
+
         .app-top-banner img {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        /* 🟢 الهيدر الرئيسي */
         .app-header {
             background-color: var(--primary-green);
             color: white;
@@ -69,7 +69,6 @@
             padding: 12px;
         }
 
-        /* 🗂️ شبكة الأقسام الرئيسية */
         .main-menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -97,19 +96,18 @@
         .nav-card:active { transform: scale(0.96); }
         .nav-card .icon-img { font-size: 2rem; }
 
-        /* 📋 واجهة عرض العناصر */
         .sub-sections-view {
             display: none;
             margin-top: 5px;
         }
-        
+
         .items-flex-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 10px;
             margin-top: 15px;
         }
-        
+
         .pharmacy-card {
             background-color: #f1f5f9;
             color: #1e293b;
@@ -132,7 +130,6 @@
             background-color: #e2e8f0;
         }
 
-        /* 🚨 واجهات البوب اب المنبثقة */
         .popup-overlay {
             display: none;
             position: fixed;
@@ -143,7 +140,7 @@
             align-items: center;
             padding: 10px;
         }
-        
+
         .admin-modal {
             background: #ffffff;
             border-radius: 16px;
@@ -156,7 +153,7 @@
             box-shadow: 0 20px 25px rgba(0,0,0,0.3);
             -webkit-overflow-scrolling: touch;
         }
-        
+
         .popup-modal {
             background: #ffffff;
             border-radius: 16px;
@@ -184,7 +181,7 @@
         }
 
         .admin-modal h3 { color: #0284c7; margin-bottom: 15px; font-size: 1.15rem; text-align: center; }
-        
+
         .admin-section-box {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
@@ -199,21 +196,21 @@
             border-bottom: 1px dashed #cbd5e1;
             padding-bottom: 4px;
         }
-        .form-group { margin-bottom: 8px; }
-        .form-group label { display: block; font-size: 0.78rem; font-weight: bold; color: #64748b; margin-bottom: 3px; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 0.82rem; font-weight: bold; color: #64748b; margin-bottom: 4px; }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; outline: none;
+            width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; min-height: 44px;
         }
-        
+        .form-group textarea { min-height: 90px; resize: vertical; }
+
         .admin-btn {
-            background: #0284c7; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; width: 100%; margin-top: 4px;
+            background: #0284c7; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; width: 100%; margin-top: 6px;
         }
         .edit-btn { background: #f59e0b !important; }
         .delete-btn { background: var(--accent-red) !important; }
         .export-btn { background: #10b981 !important; margin-top: 10px; }
         .close-admin { background: #64748b; margin-top: 10px; }
 
-        /* 📢 شريط التوقيت والأخبار السفلي */
         .footer-ticker {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -236,7 +233,7 @@
             height: 32px;
             width: 100%;
         }
-        
+
         .ticker-text-area {
             flex: 1;
             overflow: hidden;
@@ -245,16 +242,16 @@
             position: relative;
             height: 100%;
         }
-        
+
         .ticker-track {
             display: flex;
             white-space: nowrap;
             position: absolute;
-            right: 0;
-            padding-left: 50px;
+            left: 0;
+            padding-right: 50px;
             animation: tickerLoop 25s linear infinite;
         }
-        
+
         .ticker-track:active, .ticker-track:hover {
             animation-play-state: paused;
         }
@@ -291,8 +288,8 @@
         }
 
         @keyframes tickerLoop {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(50%); } 
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(50%); }
         }
     </style>
 </head>
@@ -306,75 +303,90 @@
         <div class="right-side">
             <div class="app-title" onclick="handleSecretClicks()">مخيم نت</div>
         </div>
-        <div class="left-side" id="liveHeaderTime">صباح الخير | ١٦ حزيران ٢٠٢٦ | ٠٣:٤٠</div>
+        <div class="left-side" id="liveHeaderTime"></div>
     </div>
 
     <div class="container">
-        <div id="mainMenuGrid" class="main-menu-grid" style="display: grid;"><div class="nav-card"><div class="icon-img">🩺</div><div>الخدمات الطبية</div></div><div class="nav-card"><div class="icon-img">📰</div><div>أخبار المخيم</div></div><div class="nav-card"><div class="icon-img">📁</div><div>تكنولوجيا</div></div></div>
+        <div id="mainMenuGrid" class="main-menu-grid"></div>
 
         <div id="subSectionsView" class="sub-sections-view" style="display: none;">
-            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;">📌 الخدمات الطبية ⬅️ صيدليات المخيم</h3>
-            <div id="itemsGridContainer" class="items-flex-grid"><div class="pharmacy-card">ابو مروان</div><div class="pharmacy-card">صيدلية القدس</div><div class="pharmacy-card">صيدلية العودة</div><button class="nav-card" style="grid-column: 1 / -1; width: 100%; margin-top: 20px; padding: 10px; background: rgb(100, 116, 139);">⬅️ العودة للأقسام السابقة</button></div>
-            <button class="nav-card" style="width:100%; margin-top:25px; padding:12px; background:var(--dark-gray);" onclick="goBackToMain()">⬅️ العودة للقائمة الرئيسية</button>
+            <h3 id="currentMainTitle" style="margin-bottom:5px; color:var(--primary-green); padding-bottom: 5px;"></h3>
+            <div id="itemsGridContainer" class="items-flex-grid"></div>
+            <button id="backNavButton" class="nav-card" style="width:100%; margin-top:25px; padding:12px; background:var(--dark-gray);" onclick="goBackLogic()">⬅️ العودة للخلف</button>
         </div>
     </div>
 
     <div class="popup-overlay" id="contentPopup" style="display: none;">
         <div class="popup-modal">
-            <h3 id="popupTitle">ابو مروان</h3>
+            <h3 id="popupTitle"></h3>
             <img id="popupImage" src="" alt="صورة توضيحية" class="popup-img" onerror="this.style.display='none'" style="display: none;">
-            <div id="popupText" class="popup-text">دمير</div>
+            <div id="popupText" class="popup-text"></div>
             <button class="nav-card" style="width:100%; margin-top:15px; padding:10px; background:var(--primary-green);" onclick="closePopup()">إغلاق</button>
         </div>
     </div>
 
-    <div class="popup-overlay" id="adminOverlay" style="display: flex;">
+    <div class="popup-overlay" id="adminOverlay" style="display: none;">
         <div class="admin-modal">
             <h3>⚙️ لوحة الإدارة والتحكم الشاملة الذكية</h3>
-            
+
             <div class="admin-section-box">
-                <h4>1️⃣ إضافة قسم رئيسي جديد</h4>
+                <h4>1️⃣ إضافة قسم رئيسي جديد (المستوى 1)</h4>
                 <div class="form-group">
                     <input type="text" id="mainCatInput" placeholder="مثال: الخدمات الطبية، الدليل التجاري...">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="mainCatIconInput" placeholder="أيقونة تعبيرية (إيموجي) مثال: 🩺, 🛍️">
                 </div>
                 <button class="admin-btn" onclick="addMainCategory()">إنشاء القسم الرئيسي</button>
             </div>
 
             <div class="admin-section-box">
-                <h4>2️⃣ إضافة قسم فرعي جديد</h4>
+                <h4>2️⃣ إضافة قسم فرعي أول (المستوى 2)</h4>
                 <div class="form-group">
                     <label>اختر القسم الرئيسي التابع له:</label>
-                    <select id="mainCatSelectDropdown"><option value="m1">الخدمات الطبية</option><option value="m2">أخبار المخيم</option><option value="m_1781563653625">تكنولوجيا</option></select>
+                    <select id="mainCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="subCatInput" placeholder="مثال: صيدليات المخيم، الأطباء...">
                 </div>
-                <button class="admin-btn" onclick="addSubCategory()">إنشاء القسم الفرعي</button>
+                <button class="admin-btn" onclick="addSubCategory()">إنشاء القسم الفرعي الأول</button>
+            </div>
+
+            <div class="admin-section-box" style="border: 1px solid var(--primary-green);">
+                <h4>3️⃣ إضافة قسم فرعي ثانٍ / ثالث (المستوى 3) 🌟</h4>
+                <div class="form-group">
+                    <label>اختر القسم الفرعي الأول التابع له:</label>
+                    <select id="subCatSelectDropdownForLevel3"></select>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="subLevel3Input" placeholder="مثال: صيدليات مناوبة، صيدليات الوسط...">
+                </div>
+                <button class="admin-btn" style="background: var(--primary-green);" onclick="addSubLevel3Category()">إنشاء القسم الفرعي الثالث</button>
             </div>
 
             <div class="admin-section-box">
-                <h4>3️⃣ إضافة وإسناد محتوى (منشور) جديد</h4>
+                <h4>4️⃣ إضافة محتوى جديد داخل الأقسام الفرعية الثالثة</h4>
                 <div class="form-group">
-                    <label>اختر مكان النشر المستهدف:</label>
-                    <select id="subCatSelectDropdown"><optgroup label="⭐ أقسام رئيسية مباشرة"></optgroup><option value="m1">مباشر داخل ⬅️ [ الخدمات الطبية ]</option><option value="m2">مباشر داخل ⬅️ [ أخبار المخيم ]</option><option value="m_1781563653625">مباشر داخل ⬅️ [ تكنولوجيا ]</option><optgroup label="📂 أقسام فرعية"></optgroup><option value="s1">الخدمات الطبية ⬅️ صيدليات المخيم</option><option value="s2">الخدمات الطبية ⬅️ عيادات الأطباء</option></select>
+                    <label>اختر القسم الفرعي الثالث لنشر المحتوى:</label>
+                    <select id="subCatSelectDropdown"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="contentTitleInput" placeholder="مثال: صيدلية الشفاء المفتوحة...">
                 </div>
                 <div class="form-group">
-                    <input type="url" id="contentImageInput" placeholder="رابط صورة الصيدلية أو الشعار (إن وجد)...">
+                    <input type="url" id="contentImageInput" placeholder="رابط صورة (إن وجد)...">
                 </div>
                 <div class="form-group">
                     <textarea id="contentTextarea" rows="4" placeholder="اكتب هنا المعلومات كاملة..."></textarea>
                 </div>
-                <button class="admin-btn" onclick="addFinalContent()">نشر وتثبيت المعلومات</button>
+                <button class="admin-btn" onclick="addFinalContent()">نشر المعلومات</button>
             </div>
 
             <div class="admin-section-box" style="border: 2px solid #f59e0b; background: #fffbeb;">
-                <h4>✍️ تعديل المحتويات والمنشورات الحالية</h4>
+                <h4>✍️ تعديل المحتويات الحالية</h4>
                 <div class="form-group">
                     <label>اختر المنشور المراد تعديله:</label>
-                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"><option value="">-- اختر منشوراً للتعديل --</option><option value="pharmacy_demo1">صيدلية عمار</option><option value="pharmacy_demo2">صيدلية القدس</option><option value="pharmacy_demo3">صيدلية العودة</option><option value="c_1781563682474">تجربة</option></select>
+                    <select id="editContentSelectDropdown" onchange="loadContentToEdit()"></select>
                 </div>
                 <div class="form-group">
                     <input type="text" id="editContentTitleInput" placeholder="العنوان الجديد...">
@@ -385,7 +397,7 @@
                 <div class="form-group">
                     <textarea id="editContentTextarea" rows="4" placeholder="النص والمعلومات الجديدة..."></textarea>
                 </div>
-                <button class="admin-btn edit-btn" onclick="submitContentEdit()">💾 حفظ التعديلات نهائياً</button>
+                <button class="admin-btn edit-btn" onclick="submitContentEdit()">💾 حفظ التعديلات</button>
             </div>
 
             <div class="admin-section-box">
@@ -397,17 +409,17 @@
             </div>
 
             <div class="admin-section-box" style="border: 2px solid var(--accent-red); background: #fef2f2;">
-                <h4>🗑️ إدارة وحذف العناصر المضافة</h4>
+                <h4>🗑️ إدارة وحذف العناصر</h4>
                 <div class="form-group">
-                    <label>اختر القسم أو (الصيدلية/المنشور) للمسح النهائي:</label>
-                    <select id="deleteTargetSelectDropdown"><optgroup label="📁 الأقسام الرئيسية"></optgroup><option value="m:m1">[رئيسي] الخدمات الطبية</option><option value="m:m2">[رئيسي] أخبار المخيم</option><option value="m:m_1781563653625">[رئيسي] تكنولوجيا</option><optgroup label="📂 الأقسام الفرعية"></optgroup><option value="s:s1">[فرعي] صيدليات المخيم</option><option value="s:s2">[فرعي] عيادات الأطباء</option><option value="c:pharmacy_demo1">[عنصر] صيدلية عمار</option><option value="c:pharmacy_demo2">[عنصر] صيدلية القدس</option><option value="c:pharmacy_demo3">[عنصر] صيدلية العودة</option><option value="c:c_1781563682474">[عنصر] تجربة</option></select>
+                    <label>اختر العنصر للحذف:</label>
+                    <select id="deleteTargetSelectDropdown"></select>
                 </div>
-                <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر المحدد فوراً</button>
+                <button class="admin-btn delete-btn" onclick="deleteTargetItem()">🗑️ حذف العنصر</button>
             </div>
 
             <div class="admin-section-box" style="border: 2px solid #10b981; background: #f0fdf4;">
-                <h4>📥 تصدير الكود البرمجي المحدث بالكامل</h4>
-                <button class="admin-btn export-btn" onclick="exportFullCodeHTML()">تصدير وتحميل ملف HTML كود</button>
+                <h4>📥 تصدير الكود البرمجي</h4>
+                <button class="admin-btn export-btn" onclick="exportFullCodeHTML()">تصدير ملف HTML المحدث</button>
             </div>
 
             <button class="admin-btn close-admin" onclick="closeAdminPanel()">❌ إغلاق لوحة التحكم</button>
@@ -417,14 +429,9 @@
     <div class="footer-ticker">
         <div class="ticker-main-row">
             <div class="ticker-text-area">
-                <div class="ticker-track" id="tickerTrackContainer">
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
-                <span class="ticker-item">أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.</span>
+                <div class="ticker-track" id="tickerTrackContainer"></div>
             </div>
-            </div>
-            <div class="ticker-clock-area" id="liveFooterClock">٠٣:٤٠</div>
+            <div class="ticker-clock-area" id="liveFooterClock"></div>
         </div>
         <div class="footer-rights-bar">
             تصميم محمد ابراهيم مقبل | جميع الحقوق محفوظة ©
@@ -432,7 +439,8 @@
     </div>
 
     <script>
-        let defaultAppData = {
+        // ===== DATA STRUCTURE =====
+        let appData = {
             ticker: "أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.",
             mainCategories: [
                 { id: "m1", name: "الخدمات الطبية", icon: "🩺" },
@@ -442,29 +450,188 @@
                 { id: "s1", mainId: "m1", name: "صيدليات المخيم" },
                 { id: "s2", mainId: "m1", name: "عيادات الأطباء" }
             ],
+            subLevels3: [
+                { id: "l3_1", subId: "s1", name: "صيدليات مناوبة عاجلة" },
+                { id: "l3_2", subId: "s1", name: "صيدليات وسط المخيم" }
+            ],
             contents: {
-                "pharmacy_demo1": { belongsTo: "s1", title: "صيدلية الشفاء", img: "", text: "📍 العنوان: الشارع الرئيسي - مقابل المسجد الكبير\n📞 هاتف: 0599000000\n⏰ الدوام: من 8 صباحاً حتى 11 مساءً" },
-                "pharmacy_demo2": { belongsTo: "s1", title: "صيدلية القدس", img: "", text: "📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع" },
-                "pharmacy_demo3": { belongsTo: "s1", title: "صيدلية العودة", img: "", text: "📍 العنوان: أول مدخل المخيم - دوار العودة\n📞 هاتف: 0597222222\n⏰ الدوام: من 9 صباحاً حتى 10 مساءً" }
+                "c1": { belongsTo: "l3_1", title: "صيدلية الشفاء", img: "", text: "📍 العنوان: الشارع الرئيسي - مقابل المسجد الكبير\n📞 هاتف: 0599000000\n⏰ الدوام: من 8 صباحاً حتى 11 مساءً" },
+                "c2": { belongsTo: "l3_2", title: "صيدلية القدس", img: "", text: "📍 العنوان: حارة الوسط - بجانب Mخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع" }
             }
         };
 
-        let appData = {"ticker":"أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.","mainCategories":[{"id":"m1","name":"الخدمات الطبية","icon":"🩺"},{"id":"m2","name":"أخبار المخيم","icon":"📰"},{"id":"m_1781563653625","name":"تكنولوجيا","icon":"📁"}],"subCategories":[{"id":"s1","mainId":"m1","name":"صيدليات المخيم"},{"id":"s2","mainId":"m1","name":"عيادات الأطباء"}],"contents":{"pharmacy_demo1":{"belongsTo":"s1","title":"ابو مروان","img":"","text":"دمير"},"pharmacy_demo2":{"belongsTo":"s1","title":"صيدلية القدس","img":"","text":"📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"},"pharmacy_demo3":{"belongsTo":"s1","title":"صيدلية العودة","img":"","text":"📍 العنوان: أول مدخل المخيم - دوار العودة\n📞 هاتف: 0597222222\n⏰ الدوام: من 9 صباحاً حتى 10 مساءً"},"c_1781563682474":{"belongsTo":"m_1781563653625","title":"تجربة","img":"","text":"موضوع تكنولوجيا"}}};
         let secretClickCount = 0;
+        let currentViewStage = "main"; // Stages: main, stage2, stage3
+        let currentMainId = null;
+        let currentSubId = null;
 
-        document.getElementById('adminOverlay').style.display = 'none';
+        // ===== INIT =====
+        window.onload = function() {
+            init();
+        };
 
+        function init() {
+            renderMainMenu();
+            updateTicker();
+            updateClocks();
+            setInterval(updateClocks, 1000);
+            populateAdminDropdowns();
+        }
+
+        // ===== RENDER MAIN MENU =====
+        function renderMainMenu() {
+            currentViewStage = "main";
+            document.getElementById('mainMenuGrid').style.display = 'grid';
+            document.getElementById('subSectionsView').style.display = 'none';
+
+            const grid = document.getElementById('mainMenuGrid');
+            grid.innerHTML = '';
+            appData.mainCategories.forEach(cat => {
+                const card = document.createElement('div');
+                card.className = 'nav-card';
+                card.innerHTML = `<div class="icon-img">${cat.icon || '📌'}</div><div>${cat.name}</div>`;
+                card.onclick = () => showSubSectionsStage2(cat.id);
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== SHOW SUB SECTIONS (STAGE 2) =====
+        function showSubSectionsStage2(mainId) {
+            currentViewStage = "stage2";
+            currentMainId = mainId;
+            const mainCat = appData.mainCategories.find(c => c.id === mainId);
+            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat.icon || ''} ${mainCat.name}`;
+
+            const grid = document.getElementById('itemsGridContainer');
+            grid.innerHTML = '';
+
+            const subs = appData.subCategories.filter(s => s.mainId === mainId);
+            if(subs.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد أقسام فرعية مضافة هنا بعد.</div>';
+            }
+
+            subs.forEach(sub => {
+                const card = document.createElement('div');
+                card.className = 'pharmacy-card';
+                card.innerText = sub.name;
+                card.onclick = () => showSubSectionsStage3(sub.id);
+                grid.appendChild(card);
+            });
+
+            document.getElementById('mainMenuGrid').style.display = 'none';
+            document.getElementById('subSectionsView').style.display = 'block';
+        }
+
+        // ===== SHOW LEVEL 3 SECTIONS (STAGE 3) =====
+        function showSubSectionsStage3(subId) {
+            currentViewStage = "stage3";
+            currentSubId = subId;
+            const sub = appData.subCategories.find(s => s.id === subId);
+            const mainCat = appData.mainCategories.find(c => c.id === sub.mainId);
+            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat.icon || ''} ${mainCat.name} ➔ ${sub.name}`;
+
+            const grid = document.getElementById('itemsGridContainer');
+            grid.innerHTML = '';
+
+            const level3Items = appData.subLevels3.filter(l => l.subId === subId);
+            if(level3Items.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد تصنيفات فرعية ثالثة مضافة هنا بعد.</div>';
+            }
+
+            level3Items.forEach(lvl3 => {
+                const card = document.createElement('div');
+                card.className = 'pharmacy-card';
+                card.style.backgroundColor = '#e0f2fe';
+                card.style.borderColor = '#7dd3fc';
+                card.innerText = `📂 ${lvl3.name}`;
+                card.onclick = () => showContents(lvl3.id);
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== SHOW CONTENTS =====
+        function showContents(level3Id) {
+            currentViewStage = "contents";
+            const lvl3 = appData.subLevels3.find(l => l.id === level3Id);
+            const sub = appData.subCategories.find(s => s.id === lvl3.subId);
+            const mainCat = appData.mainCategories.find(c => c.id === sub.mainId);
+            document.getElementById('currentMainTitle').innerText = `📌 ${mainCat.icon || ''} ${sub.name} ➔ ${lvl3.name}`;
+
+            const grid = document.getElementById('itemsGridContainer');
+            grid.innerHTML = '';
+
+            let hasContent = false;
+            Object.entries(appData.contents).forEach(([id, content]) => {
+                if (content.belongsTo === level3Id) {
+                    hasContent = true;
+                    const card = document.createElement('div');
+                    card.className = 'pharmacy-card';
+                    card.innerText = content.title;
+                    card.onclick = () => openContentPopup(id);
+                    grid.appendChild(card);
+                }
+            });
+
+            if(!hasContent) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:20px; color:#64748b;">لا يوجد منشورات هنا بعد.</div>';
+            }
+        }
+
+        // ===== POPUP =====
+        function openContentPopup(contentId) {
+            const content = appData.contents[contentId];
+            document.getElementById('popupTitle').innerText = content.title;
+            document.getElementById('popupText').innerText = content.text;
+            if (content.img) {
+                document.getElementById('popupImage').src = content.img;
+                document.getElementById('popupImage').style.display = 'block';
+            } else {
+                document.getElementById('popupImage').style.display = 'none';
+            }
+            document.getElementById('contentPopup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('contentPopup').style.display = 'none';
+        }
+
+        function goBackLogic() {
+            if (currentViewStage === "stage2") {
+                renderMainMenu();
+            } else if (currentViewStage === "stage3") {
+                showSubSectionsStage2(currentMainId);
+            } else if (currentViewStage === "contents") {
+                showSubSectionsStage3(currentSubId);
+            }
+        }
+
+        // ===== TICKER & CLOCKS =====
+        function updateTicker() {
+            const track = document.getElementById('tickerTrackContainer');
+            track.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                const span = document.createElement('span');
+                span.className = 'ticker-item';
+                span.innerText = appData.ticker;
+                track.appendChild(span);
+            }
+        }
+
+        function updateClocks() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('liveFooterClock').innerText = `${hours}:${minutes}`;
+            document.getElementById('liveHeaderTime').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ` | ${hours}:${minutes}:${seconds}`;
+        }
+
+        // ===== ADMIN CORE FUNCTIONS =====
         function handleSecretClicks() {
             secretClickCount++;
             if (secretClickCount >= 5) {
+                document.getElementById('adminOverlay').style.display = 'flex';
                 secretClickCount = 0;
-                let password = prompt("الرجاء إدخال كلمة سر لوحة التحكم:");
-                if (password === "1234") {
-                    populateAdminDropdowns();
-                    document.getElementById('adminOverlay').style.display = 'flex';
-                } else if (password !== null) {
-                    alert("كلمة السر خاطئة!");
-                }
             }
         }
 
@@ -472,298 +639,167 @@
             document.getElementById('adminOverlay').style.display = 'none';
         }
 
-        function saveAndRefresh() {
-            localStorage.setItem('camp_net_premium_data', JSON.stringify(appData));
-            renderMainMenu();
+        function populateAdminDropdowns() {
+            const mainSelect = document.getElementById('mainCatSelectDropdown');
+            const subL3Select = document.getElementById('subCatSelectDropdownForLevel3');
+            const finalContentSelect = document.getElementById('subCatSelectDropdown');
+            const editSelect = document.getElementById('editContentSelectDropdown');
+            const deleteSelect = document.getElementById('deleteTargetSelectDropdown');
+
+            mainSelect.innerHTML = '';
+            subL3Select.innerHTML = '';
+            finalContentSelect.innerHTML = '';
+            editSelect.innerHTML = '<option value="">-- اختر منشراً للتعديل --</option>';
+            deleteSelect.innerHTML = '<option value="">-- اختر عنصراً لحذفه نهائياً --</option>';
+
+            // المستوى الاول
+            appData.mainCategories.forEach(c => {
+                mainSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                deleteSelect.innerHTML += `<option value="main_${c.id}">[رئيسي] ➔ ${c.name}</option>`;
+            });
+
+            // المستوى الثاني
+            appData.subCategories.forEach(s => {
+                const pName = appData.mainCategories.find(m => m.id === s.mainId)?.name || '';
+                subL3Select.innerHTML += `<option value="${s.id}">${pName} ➔ ${s.name}</option>`;
+                deleteSelect.innerHTML += `<option value="sub_${s.id}">[فرعي أول] ➔ ${s.name}</option>`;
+            });
+
+            // المستوى الثالث الجديد
+            if(!appData.subLevels3) appData.subLevels3 = [];
+            appData.subLevels3.forEach(l3 => {
+                const subName = appData.subCategories.find(s => s.id === l3.subId)?.name || '';
+                finalContentSelect.innerHTML += `<option value="${l3.id}">${subName} ➔ ${l3.name}</option>`;
+                deleteSelect.innerHTML += `<option value="l3_${l3.id}">[فرعي ثالث] ➔ ${l3.name}</option>`;
+            });
+
+            // المحتويات والمنشورات
+            Object.entries(appData.contents).forEach(([id, c]) => {
+                editSelect.innerHTML += `<option value="${id}">${c.title}</option>`;
+                deleteSelect.innerHTML += `<option value="content_${id}">[منشور] ➔ ${c.title}</option>`;
+            });
         }
 
         function addMainCategory() {
-            let name = document.getElementById('mainCatInput').value.trim();
-            if (!name) return alert("الرجاء كتابة الاسم!");
-            let newId = "m_" + Date.now();
-            appData.mainCategories.push({ id: newId, name: name, icon: "📁" });
-            document.getElementById('mainCatInput').value = "";
-            saveAndRefresh();
+            const name = document.getElementById('mainCatInput').value.trim();
+            const icon = document.getElementById('mainCatIconInput').value.trim() || '📌';
+            if(!name) return alert('الرجاء كتابة اسم القسم الرئيسي');
+
+            const id = 'm_' + Date.now();
+            appData.mainCategories.push({ id, name, icon });
+            document.getElementById('mainCatInput').value = '';
+            
             populateAdminDropdowns();
+            renderMainMenu();
+            alert(`تم إنشاء القسم الرئيسي بنجاح!`);
         }
 
         function addSubCategory() {
-            let mainId = document.getElementById('mainCatSelectDropdown').value;
-            let name = document.getElementById('subCatInput').value.trim();
-            if (!mainId || !name) return alert("الرجاء إدخال البيانات كاملة!");
-            let newSubId = "s_" + Date.now();
-            appData.subCategories.push({ id: newSubId, mainId: mainId, name: name });
-            document.getElementById('subCatInput').value = "";
-            saveAndRefresh();
+            const mainId = document.getElementById('mainCatSelectDropdown').value;
+            const name = document.getElementById('subCatInput').value.trim();
+            if(!name) return alert('الرجاء كتابة اسم القسم الفرعي الأول');
+
+            const id = 's_' + Date.now();
+            appData.subCategories.push({ id, mainId, name });
+            document.getElementById('subCatInput').value = '';
+
             populateAdminDropdowns();
+            alert(`تم إنشاء القسم الفرعي الأول بنجاح!`);
+        }
+
+        function addSubLevel3Category() {
+            const subId = document.getElementById('subCatSelectDropdownForLevel3').value;
+            const name = document.getElementById('subLevel3Input').value.trim();
+            if(!name) return alert('الرجاء كتابة اسم القسم الفرعي الثالث الجديد');
+
+            const id = 'l3_' + Date.now();
+            if(!appData.subLevels3) appData.subLevels3 = [];
+            appData.subLevels3.push({ id, subId, name });
+            document.getElementById('subLevel3Input').value = '';
+
+            populateAdminDropdowns();
+            alert(`تم إنشاء وتثبيت القسم الفرعي الثالث [${name}] بنجاح!`);
         }
 
         function addFinalContent() {
-            let targetId = document.getElementById('subCatSelectDropdown').value;
-            let title = document.getElementById('contentTitleInput').value.trim();
-            let img = document.getElementById('contentImageInput').value.trim();
-            let text = document.getElementById('contentTextarea').value.trim();
-            if (!targetId || !title || !text) return alert("يرجى ملء الحقول المطلوبة!");
-            let contentId = "c_" + Date.now();
-            appData.contents[contentId] = { belongsTo: targetId, title: title, img: img, text: text };
-            document.getElementById('contentTitleInput').value = "";
-            document.getElementById('contentImageInput').value = "";
-            document.getElementById('contentTextarea').value = "";
-            saveAndRefresh();
+            const belongsTo = document.getElementById('subCatSelectDropdown').value;
+            const title = document.getElementById('contentTitleInput').value.trim();
+            const img = document.getElementById('contentImageInput').value.trim();
+            const text = document.getElementById('contentTextarea').value.trim();
+
+            if(!belongsTo || !title || !text) return alert('الرجاء اختيار القسم الفرعي الثالث وملء البيانات الأساسية');
+
+            const id = 'c_' + Date.now();
+            appData.contents[id] = { belongsTo, title, img, text };
+
+            document.getElementById('contentTitleInput').value = '';
+            document.getElementById('contentImageInput').value = '';
+            document.getElementById('contentTextarea').value = '';
+
             populateAdminDropdowns();
-            alert("تم التثبيت بنجاح!");
+            showContents(belongsTo);
+            alert('تم نشر المحتوى والمعلومات الجديدة بنجاح!');
         }
 
         function loadContentToEdit() {
-            let contentId = document.getElementById('editContentSelectDropdown').value;
-            if (!contentId) {
-                document.getElementById('editContentTitleInput').value = "";
-                document.getElementById('editContentImageInput').value = "";
-                document.getElementById('editContentTextarea').value = "";
-                return;
-            }
-            let content = appData.contents[contentId];
-            if (content) {
-                document.getElementById('editContentTitleInput').value = content.title;
-                document.getElementById('editContentImageInput').value = content.img;
-                document.getElementById('editContentTextarea').value = content.text;
-            }
+            const id = document.getElementById('editContentSelectDropdown').value;
+            if(!id) return;
+            const c = appData.contents[id];
+            document.getElementById('editContentTitleInput').value = c.title;
+            document.getElementById('editContentImageInput').value = c.img;
+            document.getElementById('editContentTextarea').value = c.text;
         }
 
+        // باقي دوال التحكم الأساسية للحفظ والتصدير التلقائي
         function submitContentEdit() {
-            let contentId = document.getElementById('editContentSelectDropdown').value;
-            let title = document.getElementById('editContentTitleInput').value.trim();
-            let img = document.getElementById('editContentImageInput').value.trim();
-            let text = document.getElementById('editContentTextarea').value.trim();
-
-            if (!contentId) return alert("الرجاء اختيار منشور للتعديل!");
-            if (!title || !text) return alert("لا يمكن ترك العنوان أو النص فارغاً!");
-
-            appData.contents[contentId].title = title;
-            appData.contents[contentId].img = img;
-            appData.contents[contentId].text = text;
-
-            saveAndRefresh();
+            const id = document.getElementById('editContentSelectDropdown').value;
+            if(!id) return alert('اختر منشراً أولاً');
+            appData.contents[id].title = document.getElementById('editContentTitleInput').value.trim();
+            appData.contents[id].img = document.getElementById('editContentImageInput').value.trim();
+            appData.contents[id].text = document.getElementById('editContentTextarea').value.trim();
+            alert('تم التعديل بنجاح!');
             populateAdminDropdowns();
-            alert("تم حفظ التعديلات بنجاح ونشر المحتوى المحدث!");
         }
 
         function updateTickerText() {
-            let text = document.getElementById('tickerTextInput').value.trim();
-            if (!text) return alert("الرجاء كتابة نص الشريط!");
-            appData.ticker = text;
-            setupInfiniteTicker();
-            document.getElementById('tickerTextInput').value = "";
-            saveAndRefresh();
-        }
-
-        function setupInfiniteTicker() {
-            let track = document.getElementById('tickerTrackContainer');
-            let text = appData.ticker;
-            track.innerHTML = `
-                <span class="ticker-item">${text}</span>
-                <span class="ticker-item">${text}</span>
-                <span class="ticker-item">${text}</span>
-                <span class="ticker-item">${text}</span>
-            `;
+            const txt = document.getElementById('tickerTextInput').value.trim();
+            if(!txt) return alert('ادخل نص الشريط الإخباري');
+            appData.ticker = txt;
+            updateTicker();
+            alert('تم التحديث!');
         }
 
         function deleteTargetItem() {
-            let selectValue = document.getElementById('deleteTargetSelectDropdown').value;
-            if (!selectValue) return alert("حدد عنصر!");
-            let [type, id] = selectValue.split(':');
-            if (confirm("هل أنت متأكد من الحذف النهائي؟")) {
-                if (type === 'm') {
-                    appData.mainCategories = appData.mainCategories.filter(m => m.id !== id);
-                    for(let k in appData.contents) { if(appData.contents[k].belongsTo === id) delete appData.contents[k]; }
-                    let relatedSubs = appData.subCategories.filter(s => s.mainId === id);
-                    relatedSubs.forEach(s => { for(let k in appData.contents) { if(appData.contents[k].belongsTo === s.id) delete appData.contents[k]; } });
-                    appData.subCategories = appData.subCategories.filter(s => s.mainId !== id);
-                } else if (type === 's') {
-                    appData.subCategories = appData.subCategories.filter(s => s.id !== id);
-                    for(let k in appData.contents) { if(appData.contents[k].belongsTo === id) delete appData.contents[k]; }
-                } else if (type === 'c') {
-                    delete appData.contents[id];
-                }
-                saveAndRefresh();
+            const target = document.getElementById('deleteTargetSelectDropdown').value;
+            if(!target) return alert('اختر عنصراً للحذف');
+            const [type, id] = target.split('_');
+
+            if(confirm('هل تريد الحذف نهائياً؟')) {
+                if(type === 'main') appData.mainCategories = appData.mainCategories.filter(c => c.id !== id);
+                else if(type === 'sub') appData.subCategories = appData.subCategories.filter(s => s.id !== id);
+                else if(type === 'l3') appData.subLevels3 = appData.subLevels3.filter(l => l.id !== id);
+                else if(type === 'content') delete appData.contents[id];
+                
                 populateAdminDropdowns();
+                renderMainMenu();
+                alert('تم الحذف بنجاح.');
             }
-        }
-
-        function populateAdminDropdowns() {
-            let mainSelect = document.getElementById('mainCatSelectDropdown');
-            let subSelect = document.getElementById('subCatSelectDropdown');
-            let deleteSelect = document.getElementById('deleteTargetSelectDropdown');
-            let editSelect = document.getElementById('editContentSelectDropdown');
-
-            if(!mainSelect || !subSelect || !deleteSelect || !editSelect) return;
-
-            mainSelect.innerHTML = subSelect.innerHTML = deleteSelect.innerHTML = editSelect.innerHTML = "";
-
-            appData.mainCategories.forEach(m => { mainSelect.innerHTML += `<option value="${m.id}">${m.name}</option>`; });
-
-            subSelect.innerHTML += `<optgroup label="⭐ أقسام رئيسية مباشرة">`;
-            appData.mainCategories.forEach(m => { subSelect.innerHTML += `<option value="${m.id}">مباشر داخل ⬅️ [ ${m.name} ]</option>`; });
-            subSelect.innerHTML += `</optgroup>`;
-
-            if(appData.subCategories.length > 0) {
-                subSelect.innerHTML += `<optgroup label="📂 أقسام فرعية">`;
-                appData.subCategories.forEach(s => {
-                    let parentMain = appData.mainCategories.find(m => m.id === s.mainId);
-                    subSelect.innerHTML += `<option value="${s.id}">${parentMain ? parentMain.name : 'عام'} ⬅️ ${s.name}</option>`;
-                });
-                subSelect.innerHTML += `</optgroup>`;
-            }
-
-            deleteSelect.innerHTML += `<optgroup label="📁 الأقسام الرئيسية">`;
-            appData.mainCategories.forEach(m => { deleteSelect.innerHTML += `<option value="m:${m.id}">[رئيسي] ${m.name}</option>`; });
-            deleteSelect.innerHTML += `</optgroup>`;
-
-            if (appData.subCategories.length > 0) {
-                deleteSelect.innerHTML += `<optgroup label="📂 الأقسام الفرعية">`;
-                appData.subCategories.forEach(s => { deleteSelect.innerHTML += `<option value="s:${s.id}">[فرعي] ${s.name}</option>`; });
-                deleteSelect.innerHTML += `</optgroup>`;
-            }
-
-            for (let id in appData.contents) {
-                let option = `<option value="c:${id}">[عنصر] ${appData.contents[id].title}</option>`;
-                deleteSelect.innerHTML += option;
-                editSelect.innerHTML += `<option value="${id}">${appData.contents[id].title}</option>`;
-            }
-
-            editSelect.insertAdjacentHTML('afterbegin', '<option value="">-- اختر منشوراً للتعديل --</option>');
-        }
-
-        function renderMainMenu() {
-            setupInfiniteTicker();
-            let grid = document.getElementById('mainMenuGrid');
-            grid.innerHTML = "";
-            appData.mainCategories.forEach(m => {
-                let card = document.createElement('div');
-                card.className = "nav-card";
-                card.innerHTML = `<div class="icon-img">${m.icon || '📁'}</div><div>${m.name}</div>`;
-                card.onclick = () => handleMainCardClick(m.id, m.name);
-                grid.appendChild(card);
-            });
-        }
-
-        // 🛠️ تم إصلاح الخلل المذكور هنا لمنع التحويل التلقائي للصيدليات عند الضغط على أي قسم
-        function handleMainCardClick(mainId, mainName) {
-            openSubSections(mainId, mainName);
-        }
-
-        function openSubSections(mainId, mainName) {
-            document.getElementById('mainMenuGrid').style.display = 'none';
-            document.getElementById('subSectionsView').style.display = 'block';
-            document.getElementById('currentMainTitle').innerText = `📌 تصفح: ${mainName}`;
-            
-            let container = document.getElementById('itemsGridContainer');
-            container.innerHTML = "";
-            
-            // 1. جلب وعرض الأقسام الفرعية التابعة لهذا القسم
-            let filteredSubs = appData.subCategories.filter(s => s.mainId === mainId);
-            filteredSubs.forEach(s => {
-                let subCard = document.createElement('div');
-                subCard.className = "pharmacy-card";
-                subCard.style.backgroundColor = "var(--primary-green)";
-                subCard.style.color = "white";
-                subCard.innerText = `📂 ${s.name}`;
-                subCard.onclick = () => openPharmacyList(s.id, s.name, mainId, mainName);
-                container.appendChild(subCard);
-            });
-
-            // 2. جلب وعرض العناصر (المنشورات المباشرة) داخل هذا القسم إن وجدت
-            let directContents = Object.keys(appData.contents).filter(k => appData.contents[k].belongsTo === mainId);
-            directContents.forEach(k => {
-                let item = appData.contents[k];
-                container.innerHTML += `<div class="pharmacy-card" style="background:#e0f2fe; border-color:#7dd3fc;" onclick="viewContentData('${k}')">⭐ ${item.title}</div>`;
-            });
-            
-            if (filteredSubs.length === 0 && directContents.length === 0) {
-                container.innerHTML = `<div style="grid-column: span 2; color:#666; text-align:center; padding:20px;">لا توجد محتويات مضافة في هذا القسم حتى الآن.</div>`;
-            }
-        }
-
-        function openPharmacyList(subId, subName, mainId, mainName) {
-            document.getElementById('currentMainTitle').innerText = `📌 ${mainName} ⬅️ ${subName}`;
-            let container = document.getElementById('itemsGridContainer');
-            container.innerHTML = "";
-            let items = Object.keys(appData.contents).filter(k => appData.contents[k].belongsTo === subId);
-            if (items.length === 0) {
-                container.innerHTML = `<div style="grid-column: span 2; color:#666; text-align:center; padding:20px;">لا توجد عناصر مضافة في هذا القسم بعد.</div>`;
-            } else {
-                items.forEach(k => {
-                    let item = appData.contents[k];
-                    let card = document.createElement('div');
-                    card.className = "pharmacy-card";
-                    card.innerText = item.title;
-                    card.onclick = () => viewContentData(k);
-                    container.appendChild(card);
-                });
-            }
-            let backBtn = document.createElement('button');
-            backBtn.className = "nav-card";
-            backBtn.style.cssText = "grid-column: 1 / -1; width:100%; margin-top:20px; padding:10px; background:#64748b;";
-            backBtn.innerText = "⬅️ العودة للأقسام السابقة";
-            backBtn.onclick = () => openSubSections(mainId, mainName);
-            container.appendChild(backBtn);
-        }
-
-        function viewContentData(contentId) {
-            let content = appData.contents[contentId];
-            if (!content) return;
-            
-            document.getElementById('popupTitle').innerText = content.title || "بدون عنوان";
-            let imgElement = document.getElementById('popupImage');
-            if (content.img && content.img.trim() !== "") {
-                imgElement.src = content.img;
-                imgElement.style.display = "block";
-            } else {
-                imgElement.style.display = "none";
-            }
-            document.getElementById('popupText').innerText = content.text || "لا توجد تفاصيل مضافة لهذا العنصر.";
-            document.getElementById('contentPopup').style.display = 'flex';
-        }
-
-        function closePopup() { document.getElementById('contentPopup').style.display = 'none'; }
-        
-        function goBackToMain() {
-            document.getElementById('subSectionsView').style.display = 'none';
-            document.getElementById('mainMenuGrid').style.display = 'grid';
-        }
-
-        function initLiveClock() {
-            function tick() {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('ar-SY', { hour: '2-digit', minute: '2-digit', hour12: false });
-                document.getElementById('liveFooterClock').innerText = timeStr;
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('liveHeaderTime').innerText = `${now.getHours() >= 12 ? "مساء الخير" : "صباح الخير"} | ${now.toLocaleDateString('ar-SY', options)} | ${timeStr}`;
-            }
-            setInterval(tick, 1000);
-            tick();
         }
 
         function exportFullCodeHTML() {
-            let dataString = JSON.stringify(appData);
-            let fullHtmlContent = document.documentElement.outerHTML;
-            let scriptToReplace = `let appData = {"ticker":"أهلاً بكم في التطبيق الرسمي الموحد لشبكة مخيم نت الإلكترونية 🇵🇸 حياكم الله جميعاً.","mainCategories":[{"id":"m1","name":"الخدمات الطبية","icon":"🩺"},{"id":"m2","name":"أخبار المخيم","icon":"📰"},{"id":"m_1781563653625","name":"تكنولوجيا","icon":"📁"}],"subCategories":[{"id":"s1","mainId":"m1","name":"صيدليات المخيم"},{"id":"s2","mainId":"m1","name":"عيادات الأطباء"}],"contents":{"pharmacy_demo1":{"belongsTo":"s1","title":"صيدلية عمار","img":"","text":"عمارررىججججج"},"pharmacy_demo2":{"belongsTo":"s1","title":"صيدلية القدس","img":"","text":"📍 العنوان: حارة الوسط - بجانب المخبز الآلي\n📞 هاتف: 0598111111\n⏰ الدوام: خدمة 24 ساعة طوال الأسبوع"},"pharmacy_demo3":{"belongsTo":"s1","title":"صيدلية العودة","img":"","text":"📍 العنوان: أول مدخل المخيم - دوار العودة\n📞 هاتف: 0597222222\n⏰ الدوام: من 9 صباحاً حتى 10 مساءً"},"c_1781563682474":{"belongsTo":"m_1781563653625","title":"تجربة","img":"","text":"موضوع تكنولوجيا"}}};`;
-            let injectedScript = `let appData = ${dataString};`;
-            let finalCodeOutput = fullHtmlContent.replace(scriptToReplace, injectedScript);
-            let blob = new Blob([finalCodeOutput], { type: "text/html;charset=utf-8" });
-            let downloadLink = document.createElement("a");
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = "mukhayam_net_editable.html";
-            downloadLink.click();
+            const scriptDataStr = `let appData = ${JSON.stringify(appData, null, 4)};`;
+            let currentHTML = document.documentElement.outerHTML;
+            const regex = /let appData = \{[\s\S]*?\};/;
+            currentHTML = currentHTML.replace(regex, scriptDataStr);
+
+            const blob = new Blob([currentHTML], { type: 'text/html;charset=utf-8' });
+            const tempAnchor = document.createElement('a');
+            tempAnchor.href = URL.createObjectURL(blob);
+            tempAnchor.download = 'camp_net_level3_updated.html';
+            document.body.appendChild(tempAnchor);
+            tempAnchor.click();
+            document.body.removeChild(tempAnchor);
         }
-
-        window.onload = function() {
-            document.getElementById('adminOverlay').style.display = 'none';
-            initLiveClock();
-            renderMainMenu();
-        };
     </script>
-
-
-
-</body></html>
+</body>
+</html>
