@@ -1,278 +1,438 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <base target="_self">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | النظام المتكامل 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخيم نت - موقع إدارة المحتوى</title>
+    <meta name="description" content="موقع مخيم نت لإدارة المحتوى والأقسام مع لوحة تحكم متكاملة">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
-        body { font-family: 'Cairo', sans-serif; margin: 0; background: #f0f2f5; padding-bottom: 100px; user-select: none; overflow-x: hidden; }
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
         
-        /* الهيدر والبار الشفاف */
-        header { background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; height: 160px; border-bottom: 4px solid var(--p-green); position: relative; }
-        .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; border: 1px solid rgba(255,255,255,0.2); -webkit-tap-highlight-color: transparent; }
-        .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
-
-        /* الخبر الهام (يختفي ويظهر تلقائياً) */
-        #urgentArea { margin: 15px; background: white; border-right: 5px solid var(--p-red); border-radius: 8px; padding: 12px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(206, 17, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0); } }
-
-        .container { padding: 15px; }
-
-        /* عرض المحتوى المباشر وعرض المجلدات */
-        .content-block { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-right: 6px solid var(--p-green); }
-        .content-img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
-        .content-title { background: var(--p-black); color: white; padding: 10px 15px; font-weight: bold; }
-        .content-text { padding: 15px; line-height: 1.8; color: #333; white-space: pre-wrap; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
-        .card { background: white; border-radius: 12px; height: 90px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700; padding: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); border: 1px solid #ddd; cursor: pointer; border-right: 5px solid var(--p-blue); }
-
-        /* لوحة التحكم المحصنة */
-        #adminPanel { display: none !important; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
-        .admin-header { position: sticky; top: -20px; background: #fff; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; z-index: 100; }
-        .admin-item { background: #f8f9fa; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; border-right: 5px solid var(--p-green); }
-
-        input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; border: 10px solid #eee; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 14px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 8px; }
-        .btn-green { background: var(--p-green); color: white; }
-        .btn-blue { background: var(--p-blue); color: white; }
-        .btn-red { background: var(--p-red); color: white; }
-
-        /* النافذة المنبثقة للاختيار (Picker) */
-        .picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
-        .picker-box { background: white; width: 100%; max-width: 400px; padding: 25px; border-radius: 15px; }
-
-        /* الفوتر وشريط الأخبار المستمر */
-        .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
-        .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
-        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; font-size: 0.9rem; z-index: 1001; order: -1; }
-        .ticker-wrapper { flex: 1; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; }
-        .ticker-move { display: flex; position: absolute; white-space: nowrap; right: 0; flex-direction: row-reverse; }
-        .ticker-item { padding-left: 100px; font-size: 0.9rem; direction: rtl; }
-        .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
-
-        .path-nav { background: #fff; padding: 10px; border-radius: 10px; margin-bottom: 12px; display: none; align-items: center; border: 1px solid #eee; }
-        .back-btn { background: #000; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; margin-left: 12px; cursor: pointer; }
+        .palestine-gradient {
+            background: linear-gradient(90deg, #000000 33%, #ffffff 33%, #ffffff 66%, #007a3d 66%);
+        }
+        
+        .palestine-green {
+            background-color: #007a3d;
+        }
+        
+        .palestine-red {
+            background-color: #ce1126;
+        }
+        
+        .palestine-black {
+            background-color: #000000;
+        }
+        
+        .palestine-white {
+            background-color: #ffffff;
+        }
+        
+        .news-ticker {
+            direction: ltr;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .news-ticker-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 30s linear infinite;
+        }
+        
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .sortable-item {
+            cursor: move;
+            transition: all 0.3s ease;
+        }
+        
+        .sortable-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .sortable-item.dragging {
+            opacity: 0.5;
+        }
     </style>
 </head>
-<body>
+<body class="min-h-screen bg-gray-50" dir="rtl">
+    <!-- شريط الأخبار العاجلة -->
+    <div id="urgent-news" class="palestine-red text-white text-center py-2 px-4 hidden">
+        <span id="urgent-news-text">خبر عاجل: هذا خبر مهم يظهر عند التعبئة</span>
+        <button onclick="closeUrgentNews()" class="mr-4 text-white hover:text-gray-200">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
 
-<header id="siteHeader">
-    <div class="header-tag-right" id="adminTrigger">مخيم نت</div>
-    <div class="header-tag-left" id="headerDate">-- : --</div>
-</header>
-
-<div id="urgentArea">
-    <span style="color:red; font-weight:bold;">🔴 خبر هام:</span>
-    <div id="urgentText" style="font-weight:bold; font-size:1.1rem; color:black;"></div>
-</div>
-
-<div id="adminPanel">
-    <div class="admin-header">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-             <h3 style="margin:0;">تحرير الموقع</h3>
-             <button onclick="closeAdmin()" class="btn-red" style="width:auto; padding:5px 15px; margin:0;">إغلاق X</button>
+    <!-- شريط التنقل العلوي -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- الشعار مع كلمة سر مخفية -->
+                <div class="flex items-center">
+                    <h1 id="site-title" class="text-2xl font-bold text-gray-800 cursor-pointer" onclick="handleLogoClick(event)">
+                        مخيم نت
+                    </h1>
+                    <div class="mr-4 flex items-center">
+                        <!-- التاريخ والوقت -->
+                        <div id="date-time" class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium">
+                            <span id="current-date"></span>
+                            <span id="current-time" class="mr-2"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- شريط الأخبار المتحرك -->
+                <div class="flex-1 mx-4">
+                    <div class="news-ticker bg-gray-100 border border-gray-300 rounded-lg overflow-hidden">
+                        <div id="news-ticker-content" class="news-ticker-content py-2">
+                            <!-- سيتم ملء المحتوى ديناميكياً -->
+                        </div>
+                    </div>
+                    <!-- عناصر التحكم في شريط الأخبار (للأدمن فقط) -->
+                    <div id="news-controls" class="hidden mt-2 flex items-center justify-end space-x-2 space-x-reverse">
+                        <button onclick="editNewsTicker()" class="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
+                            <i class="fas fa-edit mr-1"></i>تعديل
+                        </button>
+                        <input type="range" id="news-speed" min="10" max="60" value="30" class="w-24" onchange="updateNewsSpeed()">
+                        <span class="text-xs text-gray-600">سرعة: <span id="speed-value">30</span> ثانية</span>
+                    </div>
+                </div>
+                
+                <!-- زر القائمة للموبايل -->
+                <button id="mobile-menu-btn" class="lg:hidden text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- قائمة التنقل -->
+            <nav id="main-nav" class="hidden lg:block border-t border-gray-200 pt-4 pb-2">
+                <ul id="nav-list" class="flex flex-wrap justify-center gap-6">
+                    <!-- سيتم ملء القائمة ديناميكياً -->
+                </ul>
+            </nav>
         </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-            <button class="btn btn-blue" onclick="showPicker('folder')">➕ إضافة قسم</button>
-            <button class="btn btn-green" onclick="showPicker('direct')">✍️ إضافة محتوى</button>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- الأقسام الرئيسية -->
+        <section id="main-sections" class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">الأقسام الرئيسية</h2>
+            <div id="sections-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- سيتم ملء الأقسام ديناميكياً -->
+            </div>
+        </section>
+        
+        <!-- المنشورات الأخيرة -->
+        <section id="recent-posts" class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">آخر المنشورات</h2>
+            <div id="posts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- سيتم ملء المنشورات ديناميكياً -->
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-300 mb-2">تصميم محمد إبراهيم مقبل</p>
+                <p class="text-gray-400 text-sm">جميع الحقوق محفوظة © <span id="current-year"></span> مخيم نت</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- نافذة البوب أب للمحتوى -->
+    <div id="content-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-xl font-bold text-gray-800"></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="modal-content" class="text-gray-700">
+                <!-- سيتم ملء المحتوى ديناميكياً -->
+            </div>
         </div>
     </div>
 
-    <!-- إعدادات الشريط والخبر الهام -->
-    <div class="admin-item" style="border-right-color: var(--p-red);">
-        <h4>🔴 التحكم بالأخبار السريعة</h4>
-        <input type="text" id="urgentInp" placeholder="الخبر الهام العلوي (اتركه فارغاً للإخفاء)">
-        <hr>
-        <input type="text" id="newsInp" placeholder="نص شريط الأخبار السفلي">
-        <label>سرعة الشريط: <input type="range" id="speedSld" min="1" max="10" step="0.5"></label>
-        <button class="btn btn-green" onclick="saveMeta()">حفظ الإعدادات</button>
-    </div>
-
-    <div id="adminTree"></div>
-    <hr>
-    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportSite()">📥 تصدير الكود المحدث</button>
-</div>
-
-<!-- اختيار مكان النشر -->
-<div id="targetPicker" class="picker-overlay">
-    <div class="picker-box">
-        <h3 id="pickTitle" style="margin-top:0">مكان النشر</h3>
-        <select id="folderSelect"><option value="root">الواجهة الرئيسية</option></select>
-        <button onclick="confirmAdd()" class="btn btn-green">تأكيد الإضافة</button>
-        <button onclick="document.getElementById('targetPicker').style.display='none'" class="btn btn-red">إلغاء</button>
-    </div>
-</div>
-
-<div class="container">
-    <div class="path-nav" id="pathNav">
-        <button onclick="goBack()" class="back-btn">← عودة</button>
-        <span id="currentPath" style="font-weight:bold;">الرئيسية</span>
-    </div>
-    <div id="directArea"></div>
-    <div id="gridArea" class="grid"></div>
-</div>
-
-<div class="footer">
-    <div class="news-bar">
-        <div class="clock" id="liveClock">00:00</div>
-        <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox"><div id="tickerContent" style="display: flex;"></div></div>
+    <!-- نافذة تسجيل الدخول -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-gray-800">لوحة التحكم - تسجيل الدخول</h3>
+                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">كلمة المرور</label>
+                <input type="password" id="admin-password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل كلمة المرور">
+            </div>
+            <div class="flex justify-end">
+                <button onclick="loginToDashboard()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                    دخول
+                </button>
+            </div>
         </div>
     </div>
-    <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
-</div>
 
-<script id="siteData">
-    var INITIAL_TREE = [];
-    var INITIAL_NEWS = "مرحباً بكم في مخيم نت";
-    var INITIAL_SPEED = 2;
-    var INITIAL_URGENT = "";
-</script>
+    <!-- لوحة التحكم -->
+    <div id="admin-panel" class="fixed left-0 top-0 w-full h-full bg-white z-50 overflow-y-auto hidden">
+        <div class="container mx-auto px-4 py-8">
+            <!-- شريط التحكم العلوي -->
+            <div class="flex justify-between items-center mb-8 bg-gray-100 p-4 rounded-lg">
+                <h2 class="text-2xl font-bold text-gray-800">لوحة تحكم مخيم نت</h2>
+                <button onclick="logoutFromDashboard()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                    <i class="fas fa-sign-out-alt mr-2"></i>خروج
+                </button>
+            </div>
+            
+            <!-- إدارة الأقسام -->
+            <div class="mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">إدارة الأقسام</h3>
+                    <button onclick="showAddSectionModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-plus mr-2"></i>إضافة قسم
+                    </button>
+                </div>
+                
+                <div id="sections-management" class="bg-white border border-gray-300 rounded-lg p-4">
+                    <!-- سيتم ملء إدارة الأقسام ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- إدارة المنشورات -->
+            <div class="mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">إدارة المنشورات</h3>
+                    <button onclick="showAddPostModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-plus mr-2"></i>إضافة منشور
+                    </button>
+                </div>
+                
+                <div id="posts-management" class="bg-white border border-gray-300 rounded-lg p-4">
+                    <!-- سيتم ملء إدارة المنشورات ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- إعدادات الموقع -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">إعدادات الموقع</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- إعدادات شريط الأخبار -->
+                    <div class="bg-white border border-gray-300 rounded-lg p-4">
+                        <h4 class="font-bold text-gray-700 mb-4">شريط الأخبار</h4>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">نص شريط الأخبار</label>
+                            <textarea id="news-ticker-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">سرعة العرض (ثانية)</label>
+                            <input type="range" id="admin-news-speed" min="10" max="60" value="30" class="w-full" onchange="updateAdminNewsSpeed()">
+                            <span class="text-sm text-gray-600">سرعة: <span id="admin-speed-value">30</span> ثانية</span>
+                        </div>
+                        <button onclick="updateNewsSettings()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                            حفظ الإعدادات
+                        </button>
+                    </div>
+                    
+                    <!-- إعدادات الخبر العاجل -->
+                    <div class="bg-white border border-gray-300 rounded-lg p-4">
+                        <h4 class="font-bold text-gray-700 mb-4">الخبر العاجل</h4>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">نص الخبر العاجل</label>
+                            <textarea id="urgent-news-text-input" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="urgent-news-enabled" class="ml-2">
+                                <span class="text-gray-700">تفعيل الخبر العاجل</span>
+                            </label>
+                        </div>
+                        <button onclick="updateUrgentNewsSettings()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                            حفظ الإعدادات
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تعليمات السحب والإفلات -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+                <h4 class="font-bold text-yellow-800 mb-2">تعليمات إعادة الترتيب:</h4>
+                <p class="text-yellow-700">يمكنك سحب الأقسام والمنشورات وإفلاتها لإعادة ترتيبها حسب الرغبة. اسحب العنصر إلى الموقع المطلوب ثم أفلته.</p>
+            </div>
+        </div>
+    </div>
 
-<script>
-    // الحماية المطلقة من الفتح التلقائي
-    window.onload = () => { document.getElementById("adminPanel").style.setProperty('display', 'none', 'important'); tick(); renderUI(); };
+    <!-- نافذة إضافة/تعديل قسم -->
+    <div id="section-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="section-modal-title" class="text-xl font-bold text-gray-800">إضافة قسم جديد</h3>
+                <button onclick="closeSectionModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">اسم القسم</label>
+                    <input type="text" id="section-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل اسم القسم">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">وصف القسم</label>
+                    <textarea id="section-description" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3" placeholder="أدخل وصف القسم"></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">القسم الرئيسي</label>
+                    <select id="section-parent" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="">لا يوجد (قسم رئيسي)</option>
+                        <!-- سيتم ملء الأقسام الرئيسية ديناميكياً -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">لون الخلفية</label>
+                    <input type="color" id="section-color" class="w-full h-10 border border-gray-300 rounded-lg" value="#3b82f6">
+                </div>
+                <div class="hidden">
+                    <input type="hidden" id="section-id">
+                </div>
+            </div>
+            <div class="flex justify-end mt-6 space-x-2 space-x-reverse">
+                <button onclick="closeSectionModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    إلغاء
+                </button>
+                <button onclick="saveSection()" id="save-section-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
 
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_final_tree_v13')) || [];
-    let newsStr = localStorage.getItem('mn_news_v13') || INITIAL_NEWS;
-    let tickerSpeed = parseFloat(localStorage.getItem('mn_speed_v13')) || INITIAL_SPEED;
-    let urgentStr = localStorage.getItem('mn_urgent_v13') || INITIAL_URGENT;
-    let currentStack = [];
-    let pendingType = '';
+    <!-- نافذة إضافة/تعديل منشور -->
+    <div id="post-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="post-modal-title" class="text-xl font-bold text-gray-800">إضافة منشور جديد</h3>
+                <button onclick="closePostModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">عنوان المنشور</label>
+                    <input type="text" id="post-title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل عنوان المنشور">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">محتوى المنشور</label>
+                    <textarea id="post-content" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="6" placeholder="أدخل محتوى المنشور"></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">القسم</label>
+                    <select id="post-section" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                        <!-- سيتم ملء الأقسام ديناميكياً -->
+                    </select>
+                </div>
+                <div class="hidden">
+                    <input type="hidden" id="post-id">
+                </div>
+            </div>
+            <div class="flex justify-end mt-6 space-x-2 space-x-reverse">
+                <button onclick="closePostModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    إلغاء
+                </button>
+                <button onclick="savePost()" id="save-post-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
 
-    function tick() {
-        const now = new Date();
-        document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        setTimeout(tick, 1000);
-    }
-
-    let pos = 0;
-    function startTicker() {
-        const content = document.getElementById('tickerContent');
-        content.innerHTML = `<span class="ticker-item">${newsStr}</span><span class="ticker-item">${newsStr}</span>`;
-        function animate() {
-            pos += tickerSpeed;
-            if (content.children[0] && pos >= content.children[0].offsetWidth) pos = 0;
-            document.getElementById('tickerBox').style.transform = `translateX(${pos}px)`;
-            requestAnimationFrame(animate);
-        }
-        animate();
-    }
-
-    // الدخول بـ 5 نقرات على مخيم نت
-    let clicks = 0;
-    document.getElementById('adminTrigger').onclick = () => {
-        clicks++;
-        if(clicks === 5) {
-            if(prompt("الباسوورد:") === "1234") {
-                document.getElementById('adminPanel').style.setProperty('display', 'block', 'important');
-                document.getElementById('newsInp').value = newsStr;
-                document.getElementById('speedSld').value = tickerSpeed;
-                document.getElementById('urgentInp').value = urgentStr;
-                renderAdmin();
+    <script>
+        // ========== DATA LAYER ==========
+        // بيانات الأقسام
+        const sectionsData = [
+            { 
+                "id": 1, 
+                "name": "أخبار المخيم", 
+                "description": "آخر الأخبار والتطورات في المخيم", 
+                "parentId": null, 
+                "color": "#3b82f6",
+                "order": 1
+            },
+            { 
+                "id": 2, 
+                "name": "خدمات المجتمع", 
+                "description": "الخدمات المتاحة لأهالي المخيم", 
+                "parentId": null, 
+                "color": "#10b981",
+                "order": 2
+            },
+            { 
+                "id": 3, 
+                "name": "الفعاليات", 
+                "description": "الفعاليات والأنشطة القادمة", 
+                "parentId": null, 
+                "color": "#8b5cf6",
+                "order": 3
+            },
+            { 
+                "id": 4, 
+                "name": "أخبار محلية", 
+                "description": "أخبار من داخل المخيم", 
+                "parentId": 1, 
+                "color": "#3b82f6",
+                "order": 1
+            },
+            { 
+                "id": 5, 
+                "name": "أخبار خارجية", 
+                "description": "أخبار من خارج المخيم", 
+                "parentId": 1, 
+                "color": "#3b82f6",
+                "order": 2
             }
-            clicks = 0;
-        }
-        setTimeout(() => clicks = 0, 3000);
-    };
+        ];
 
-    function closeAdmin() { document.getElementById('adminPanel').style.setProperty('display', 'none', 'important'); }
-
-    function showPicker(type) {
-        pendingType = type;
-        const sel = document.getElementById('folderSelect');
-        sel.innerHTML = '<option value="root">الواجهة الرئيسية</option>';
-        function fill(arr, depth=0) {
-            arr.forEach(i => { if(i.type==='folder'){ sel.innerHTML += `<option value="${i.id}">${"—".repeat(depth)} ${i.title}</option>`; fill(i.children, depth+1); }});
-        }
-        fill(tree);
-        document.getElementById('targetPicker').style.display='flex';
-    }
-
-    function confirmAdd() {
-        const targetId = document.getElementById('folderSelect').value;
-        const newItem = { id: Date.now(), title: "عنصر جديد", type: pendingType, content: "", image: "", children: [] };
-        if(targetId === 'root') tree.unshift(newItem);
-        else {
-            function walk(arr) { for(let i of arr){ if(i.id == targetId){ i.children.unshift(newItem); return true; } if(i.children.length>0 && walk(i.children)) return true; } }
-            walk(tree);
-        }
-        save(); document.getElementById('targetPicker').style.display='none'; renderAdmin(); renderUI();
-    }
-
-    function renderAdmin() {
-        const container = document.getElementById('adminTree');
-        container.innerHTML = '<h4>ترتيب وتنسيق المحتوى:</h4>';
-        function draw(arr) {
-            let h = `<div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">`;
-            arr.forEach(i => {
-                h += `<div class="admin-item" style="border-right-color:${i.type==='folder'?'var(--p-blue)':'var(--p-green)'}">
-                        <input type="text" value="${i.title}" oninput="updateVal('${i.id}','title',this.value)">
-                        ${i.type==='direct' ? `<input type="text" value="${i.image}" oninput="updateVal('${i.id}','image',this.value)" placeholder="رابط الصورة"><textarea oninput="updateVal('${i.id}','content',this.value)">${i.content}</textarea>` : ''}
-                        <button class="btn-red" style="padding:2px 8px; width:auto; font-size:0.7rem;" onclick="deleteNode('${i.id}')">حذف</button>
-                      </div>`;
-                if(i.children.length>0) h += draw(i.children);
-            });
-            return h + '</div>';
-        }
-        container.innerHTML += draw(tree);
-    }
-
-    function updateVal(id, f, v) { function walk(arr){ for(let i of arr){ if(i.id==id){i[f]=v; return true;} if(i.children.length>0 && walk(i.children)) return true; }} walk(tree); save(); renderUI(); }
-    function deleteNode(id) { if(confirm("حذف؟")){ function walk(arr){ for(let i=0; i<arr.length; i++){ if(arr[i].id==id){arr.splice(i,1); return true;} if(arr[i].children.length>0 && walk(arr[i].children)) return true; }} walk(tree); save(); renderAdmin(); renderUI(); }}
-
-    function saveMeta() {
-        newsStr = document.getElementById('newsInp').value;
-        tickerSpeed = parseFloat(document.getElementById('speedSld').value);
-        localStorage.setItem('mn_news_v13', newsStr);
-        localStorage.setItem('mn_speed_v13', tickerSpeed);
-        location.reload();
-    }
-
-    function updateUrgent() {
-        urgentStr = document.getElementById('urgentInp').value;
-        localStorage.setItem('mn_urgent_v13', urgentStr);
-        applyUrgent(); alert("تم حفظ الخبر الهام");
-    }
-
-    function applyUrgent() {
-        const area = document.getElementById('urgentArea');
-        if(urgentStr && urgentStr.trim() !== "") { area.style.display='block'; document.getElementById('urgentText').innerText = urgentStr; }
-        else area.style.display='none';
-    }
-
-    function renderUI() {
-        const grid = document.getElementById('gridArea'); grid.innerHTML = '';
-        const dc = document.getElementById('directArea'); dc.innerHTML = '';
-        const nav = document.getElementById('pathNav');
-        let currentItems = currentStack.length > 0 ? currentStack[currentStack.length - 1].children : tree;
-        nav.style.display = currentStack.length > 0 ? 'flex' : 'none';
-        if(currentStack.length>0) document.getElementById('currentPath').innerText = currentStack[currentStack.length-1].title;
-        currentItems.forEach(i => {
-            if(i.type==='folder'){
-                const c = document.createElement('div'); c.className = 'card'; c.innerText = i.title;
-                c.onclick = () => { currentStack.push(i); renderUI(); window.scrollTo(0,0); }; grid.appendChild(c);
-            } else {
-                const b = document.createElement('div'); b.className = 'content-block';
-                b.innerHTML = `<div class="content-title">${i.title}</div>${i.image?`<img src="${i.image}" class="content-img">`:''}<div class="content-text">${i.content.replace(/\n/g,'<br>')}</div>`;
-                dc.appendChild(b);
-            }
-        });
-    }
-
-    function goBack() { currentStack.pop(); renderUI(); }
-    const save = () => localStorage.setItem('mn_final_tree_v13', JSON.stringify(tree));
-
-    function exportSite() {
-        let h = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsStr)};\n    var INITIAL_SPEED = ${tickerSpeed};\n    var INITIAL_URGENT = ${JSON.stringify(urgentStr)};`);
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + h], {type:'text/html'}));
-        a.download = 'MukhayamNet_Final.html'; a.click();
-    }
-
-    startTicker(); applyUrgent();
-</script>
-</body>
-</html>
+        // بيانات المنشورات
+        const postsData = [
+            { 
+                "id": 1, 
+                "title": "افتتاح مركز جديد للتعليم", 
+                "content": "تم اليوم افتتاح مركز تعليمي جديد في المخيم يهدف إلى تقديم دورات تعليمية للأطفال والكبار في مختلف المجالات. المر
