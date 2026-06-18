@@ -1,3 +1,55 @@
+AR
+0
+
+Picture
+Toggle Sidebar
+
+
+
+Preview
+Code
+
+نشر
+
+عرض
+
+mukhayyam-net-cms.html
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -34,405 +86,126 @@
             background-color: #ffffff;
         }
         
-        .news-ticker {
-            direction: ltr;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        .news-ticker-content {
-            display: inline-block;
-            padding-left: 100%;
-            animation: ticker 30s linear infinite;
-        }
-        
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        
-        .sortable-item {
-            cursor: move;
-            transition: all 0.3s ease;
-        }
-        
-        .sortable-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .sortable-item.dragging {
-            opacity: 0.5;
-        }
-    </style>
-</head>
-<body class="min-h-screen bg-gray-50" dir="rtl">
-    <!-- شريط الأخبار العاجلة -->
-    <div id="urgent-news" class="palestine-red text-white text-center py-2 px-4 hidden">
-        <span id="urgent-news-text">خبر عاجل: هذا خبر مهم يظهر عند التعبئة</span>
-        <button onclick="closeUrgentNews()" class="mr-4 text-white hover:text-gray-200">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
+Logo
+DeepSite الذكاء الاصطناعي
+منشئ مواقع ويب احترافي مدعوم بالذكاء الاصطناعي | أنشئ مواقع ويب على الفور باستخدام DeepSeek V3 | لا يتطلب ترميزًا
 
-    <!-- شريط التنقل العلوي -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <!-- الشعار مع كلمة سر مخفية -->
-                <div class="flex items-center">
-                    <h1 id="site-title" class="text-2xl font-bold text-gray-800 cursor-pointer" onclick="handleLogoClick(event)">
-                        مخيم نت
-                    </h1>
-                    <div class="mr-4 flex items-center">
-                        <!-- التاريخ والوقت -->
-                        <div id="date-time" class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium">
-                            <span id="current-date"></span>
-                            <span id="current-time" class="mr-2"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- شريط الأخبار المتحرك -->
-                <div class="flex-1 mx-4">
-                    <div class="news-ticker bg-gray-100 border border-gray-300 rounded-lg overflow-hidden">
-                        <div id="news-ticker-content" class="news-ticker-content py-2">
-                            <!-- سيتم ملء المحتوى ديناميكياً -->
-                        </div>
-                    </div>
-                    <!-- عناصر التحكم في شريط الأخبار (للأدمن فقط) -->
-                    <div id="news-controls" class="hidden mt-2 flex items-center justify-end space-x-2 space-x-reverse">
-                        <button onclick="editNewsTicker()" class="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
-                            <i class="fas fa-edit mr-1"></i>تعديل
-                        </button>
-                        <input type="range" id="news-speed" min="10" max="60" value="30" class="w-24" onchange="updateNewsSpeed()">
-                        <span class="text-xs text-gray-600">سرعة: <span id="speed-value">30</span> ثانية</span>
-                    </div>
-                </div>
-                
-                <!-- زر القائمة للموبايل -->
-                <button id="mobile-menu-btn" class="lg:hidden text-gray-600">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-            
-            <!-- قائمة التنقل -->
-            <nav id="main-nav" class="hidden lg:block border-t border-gray-200 pt-4 pb-2">
-                <ul id="nav-list" class="flex flex-wrap justify-center gap-6">
-                    <!-- سيتم ملء القائمة ديناميكياً -->
-                </ul>
-            </nav>
-        </div>
-    </header>
+Powered by DeepSeek V3. DeepSiteAI.com is not affiliated with DeepSeek.
 
-    <!-- المحتوى الرئيسي -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- الأقسام الرئيسية -->
-        <section id="main-sections" class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">الأقسام الرئيسية</h2>
-            <div id="sections-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- سيتم ملء الأقسام ديناميكياً -->
-            </div>
-        </section>
-        
-        <!-- المنشورات الأخيرة -->
-        <section id="recent-posts" class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">آخر المنشورات</h2>
-            <div id="posts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- سيتم ملء المنشورات ديناميكياً -->
-            </div>
-        </section>
-    </main>
+المنتجات
+Mixz AI
 
-    <!-- الفوتر -->
-    <footer class="bg-gray-800 text-white mt-12">
-        <div class="container mx-auto px-4 py-8">
-            <div class="text-center">
-                <p class="text-gray-300 mb-2">تصميم محمد إبراهيم مقبل</p>
-                <p class="text-gray-400 text-sm">جميع الحقوق محفوظة © <span id="current-year"></span> مخيم نت</p>
-            </div>
-        </div>
-    </footer>
+Veo 3
 
-    <!-- نافذة البوب أب للمحتوى -->
-    <div id="content-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="modal-title" class="text-xl font-bold text-gray-800"></h3>
-                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div id="modal-content" class="text-gray-700">
-                <!-- سيتم ملء المحتوى ديناميكياً -->
-            </div>
-        </div>
-    </div>
+النماذج
+OpenAI GPT OSS 20B | DeepSite AI
 
-    <!-- نافذة تسجيل الدخول -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-800">لوحة التحكم - تسجيل الدخول</h3>
-                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">كلمة المرور</label>
-                <input type="password" id="admin-password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل كلمة المرور">
-            </div>
-            <div class="flex justify-end">
-                <button onclick="loginToDashboard()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
-                    دخول
-                </button>
-            </div>
-        </div>
-    </div>
+Qwen: Qwen3 Coder Model ｜ DeepSite AI
 
-    <!-- لوحة التحكم -->
-    <div id="admin-panel" class="fixed left-0 top-0 w-full h-full bg-white z-50 overflow-y-auto hidden">
-        <div class="container mx-auto px-4 py-8">
-            <!-- شريط التحكم العلوي -->
-            <div class="flex justify-between items-center mb-8 bg-gray-100 p-4 rounded-lg">
-                <h2 class="text-2xl font-bold text-gray-800">لوحة تحكم مخيم نت</h2>
-                <button onclick="logoutFromDashboard()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-                    <i class="fas fa-sign-out-alt mr-2"></i>خروج
-                </button>
-            </div>
-            
-            <!-- إدارة الأقسام -->
-            <div class="mb-12">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">إدارة الأقسام</h3>
-                    <button onclick="showAddSectionModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-plus mr-2"></i>إضافة قسم
-                    </button>
-                </div>
-                
-                <div id="sections-management" class="bg-white border border-gray-300 rounded-lg p-4">
-                    <!-- سيتم ملء إدارة الأقسام ديناميكياً -->
-                </div>
-            </div>
-            
-            <!-- إدارة المنشورات -->
-            <div class="mb-12">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">إدارة المنشورات</h3>
-                    <button onclick="showAddPostModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-plus mr-2"></i>إضافة منشور
-                    </button>
-                </div>
-                
-                <div id="posts-management" class="bg-white border border-gray-300 rounded-lg p-4">
-                    <!-- سيتم ملء إدارة المنشورات ديناميكياً -->
-                </div>
-            </div>
-            
-            <!-- إعدادات الموقع -->
-            <div class="mb-12">
-                <h3 class="text-xl font-bold text-gray-800 mb-6">إعدادات الموقع</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- إعدادات شريط الأخبار -->
-                    <div class="bg-white border border-gray-300 rounded-lg p-4">
-                        <h4 class="font-bold text-gray-700 mb-4">شريط الأخبار</h4>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">نص شريط الأخبار</label>
-                            <textarea id="news-ticker-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">سرعة العرض (ثانية)</label>
-                            <input type="range" id="admin-news-speed" min="10" max="60" value="30" class="w-full" onchange="updateAdminNewsSpeed()">
-                            <span class="text-sm text-gray-600">سرعة: <span id="admin-speed-value">30</span> ثانية</span>
-                        </div>
-                        <button onclick="updateNewsSettings()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                            حفظ الإعدادات
-                        </button>
-                    </div>
-                    
-                    <!-- إعدادات الخبر العاجل -->
-                    <div class="bg-white border border-gray-300 rounded-lg p-4">
-                        <h4 class="font-bold text-gray-700 mb-4">الخبر العاجل</h4>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">نص الخبر العاجل</label>
-                            <textarea id="urgent-news-text-input" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label class="flex items-center">
-                                <input type="checkbox" id="urgent-news-enabled" class="ml-2">
-                                <span class="text-gray-700">تفعيل الخبر العاجل</span>
-                            </label>
-                        </div>
-                        <button onclick="updateUrgentNewsSettings()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                            حفظ الإعدادات
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- تعليمات السحب والإفلات -->
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
-                <h4 class="font-bold text-yellow-800 mb-2">تعليمات إعادة الترتيب:</h4>
-                <p class="text-yellow-700">يمكنك سحب الأقسام والمنشورات وإفلاتها لإعادة ترتيبها حسب الرغبة. اسحب العنصر إلى الموقع المطلوب ثم أفلته.</p>
-            </div>
-        </div>
-    </div>
+Claude 4 Sonnet Model
 
-    <!-- نافذة إضافة/تعديل قسم -->
-    <div id="section-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="section-modal-title" class="text-xl font-bold text-gray-800">إضافة قسم جديد</h3>
-                <button onclick="closeSectionModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-gray-700 mb-2">اسم القسم</label>
-                    <input type="text" id="section-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل اسم القسم">
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">وصف القسم</label>
-                    <textarea id="section-description" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3" placeholder="أدخل وصف القسم"></textarea>
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">القسم الرئيسي</label>
-                    <select id="section-parent" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-                        <option value="">لا يوجد (قسم رئيسي)</option>
-                        <!-- سيتم ملء الأقسام الرئيسية ديناميكياً -->
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">لون الخلفية</label>
-                    <input type="color" id="section-color" class="w-full h-10 border border-gray-300 rounded-lg" value="#3b82f6">
-                </div>
-                <div class="hidden">
-                    <input type="hidden" id="section-id">
-                </div>
-            </div>
-            <div class="flex justify-end mt-6 space-x-2 space-x-reverse">
-                <button onclick="closeSectionModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                    إلغاء
-                </button>
-                <button onclick="saveSection()" id="save-section-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
-                    حفظ
-                </button>
-            </div>
-        </div>
-    </div>
+GPT-4.1 Model
 
-    <!-- نافذة إضافة/تعديل منشور -->
-    <div id="post-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="post-modal-title" class="text-xl font-bold text-gray-800">إضافة منشور جديد</h3>
-                <button onclick="closePostModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-gray-700 mb-2">عنوان المنشور</label>
-                    <input type="text" id="post-title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل عنوان المنشور">
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">محتوى المنشور</label>
-                    <textarea id="post-content" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="6" placeholder="أدخل محتوى المنشور"></textarea>
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">القسم</label>
-                    <select id="post-section" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-                        <!-- سيتم ملء الأقسام ديناميكياً -->
-                    </select>
-                </div>
-                <div class="hidden">
-                    <input type="hidden" id="post-id">
-                </div>
-            </div>
-            <div class="flex justify-end mt-6 space-x-2 space-x-reverse">
-                <button onclick="closePostModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                    إلغاء
-                </button>
-                <button onclick="savePost()" id="save-post-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
-                    حفظ
-                </button>
-            </div>
-        </div>
-    </div>
+DeepSeek V3 0324 Model
 
-    <script>
-        // ========== DATA LAYER ==========
-        // بيانات الأقسام
-        const sectionsData = [
-            { 
-                "id": 1, 
-                "name": "أخبار المخيم", 
-                "description": "آخر الأخبار والتطورات في المخيم", 
-                "parentId": null, 
-                "color": "#3b82f6",
-                "order": 1
-            },
-            { 
-                "id": 2, 
-                "name": "خدمات المجتمع", 
-                "description": "الخدمات المتاحة لأهالي المخيم", 
-                "parentId": null, 
-                "color": "#10b981",
-                "order": 2
-            },
-            { 
-                "id": 3, 
-                "name": "الفعاليات", 
-                "description": "الفعاليات والأنشطة القادمة", 
-                "parentId": null, 
-                "color": "#8b5cf6",
-                "order": 3
-            },
-            { 
-                "id": 4, 
-                "name": "أخبار محلية", 
-                "description": "أخبار من داخل المخيم", 
-                "parentId": 1, 
-                "color": "#3b82f6",
-                "order": 1
-            },
-            { 
-                "id": 5, 
-                "name": "أخبار خارجية", 
-                "description": "أخبار من خارج المخيم", 
-                "parentId": 1, 
-                "color": "#3b82f6",
-                "order": 2
-            }
-        ];
+GPTs
+Looksmax GPT
 
-        // بيانات المنشورات
-        const postsData = [
-            { 
-                "id": 1, 
-                "title": "افتتاح مركز جديد للتعليم", 
-                "content": "تم اليوم افتتاح مركز تعليمي جديد في المخيم يهدف إلى تقديم دورات تعليمية للأطفال والكبار في مختلف المجالات. المر
+AI Astrology
+
+Chat Watermark Remover
+
+College Admissions Essay Grader
+
+Wrapped by GPT
+
+Black Friday Deals
+
+Ad Creator
+
+Height Estimator
+
+Image Analyzer
+
+Adult
+
+نماذج صور ذكاء اصطناعي
+Nano Banana Pro
+
+Seedream 4
+
+Nano Banana
+
+Flux Schnell
+
+Flux Kontext Pro
+
+Flux Kontext Max
+
+Qwen Image
+
+Imagen 4
+
+Ideogram V3 Quality
+
+Seedream 3
+
+Flux Dev
+
+Flux 1.1 Pro
+
+Flux 1.1 Pro Ultra
+
+نماذج فيديوهات ذكاء اصطناعي
+Kling 2.5 Turbo
+
+Wan 2.2 Fast
+
+Wan 2.2
+
+Veo 3 Fast
+
+Veo 3
+
+Kling 2.1
+
+Kling 2.1 Master
+
+Hailuo 02
+
+Seedance 1.0 Lite
+
+Seedance 1.0 Pro
+
+الشركة
+جي بي تي مجانية
+
+نماذج صور ذكاء اصطناعي
+
+نماذج فيديوهات ذكاء اصطناعي
+
+الموارد
+
+النماذج
+
+القانوني
+سياسة الخصوصية
+
+شروط الخدمة
+
+سياسة الاسترداد
+
+اتصل بنا
+
+English
+العربية
+한국어
+Deutsch
+Français
+Español
+Português
+Русский
+日本語
+Türkçe
+简体中文
+حقوق النشر 2025 © DeepSite.ai جميع الحقوق محفوظة.
