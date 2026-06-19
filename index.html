@@ -115,7 +115,22 @@
                     </div>
                 </div>
                 
-
+                <!-- شريط الأخبار المتحرك -->
+                <div class="flex-1 mx-4">
+                    <div class="news-ticker bg-gray-100 border border-gray-300 rounded-lg overflow-hidden">
+                        <div id="news-ticker-content" class="news-ticker-content py-2">
+                            <!-- سيتم ملء المحتوى ديناميكياً -->
+                        </div>
+                    </div>
+                    <!-- عناصر التحكم في شريط الأخبار (للأدمن فقط) -->
+                    <div id="news-controls" class="hidden mt-2 flex items-center justify-end space-x-2 space-x-reverse">
+                        <button onclick="editNewsTicker()" class="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
+                            <i class="fas fa-edit mr-1"></i>تعديل
+                        </button>
+                        <input type="range" id="news-speed" min="10" max="60" value="30" class="w-24" onchange="updateNewsSpeed()">
+                        <span class="text-xs text-gray-600">سرعة: <span id="speed-value">30</span> ثانية</span>
+                    </div>
+                </div>
                 
                 <!-- زر القائمة للموبايل -->
                 <button id="mobile-menu-btn" class="lg:hidden text-gray-600">
@@ -137,7 +152,7 @@
         <!-- الأقسام الرئيسية -->
         <section id="main-sections" class="mb-12">
             <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">الأقسام الرئيسية</h2>
-            <div id="sections-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div id="sections-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- سيتم ملء الأقسام ديناميكياً -->
             </div>
         </section>
@@ -151,25 +166,8 @@
         </section>
     </main>
 
-    <!-- شريط الأخبار المتحرك -->
-    <div class="bg-gray-100 border-y border-gray-300 overflow-hidden">
-        <div class="news-ticker">
-            <div id="news-ticker-content" class="news-ticker-content py-3">
-                <!-- سيتم ملء المحتوى ديناميكياً -->
-            </div>
-        </div>
-        <!-- عناصر التحكم في شريط الأخبار (للأدمن فقط) -->
-        <div id="news-controls" class="hidden px-4 py-2 flex items-center justify-end space-x-2 space-x-reverse bg-gray-200">
-            <button onclick="editNewsTicker()" class="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
-                <i class="fas fa-edit mr-1"></i>تعديل
-            </button>
-            <input type="range" id="news-speed" min="10" max="60" value="30" class="w-24" onchange="updateNewsSpeed()">
-            <span class="text-xs text-gray-600">سرعة: <span id="speed-value">30</span> ثانية</span>
-        </div>
-    </div>
-
     <!-- الفوتر -->
-    <footer class="bg-gray-800 text-white">
+    <footer class="bg-gray-800 text-white mt-12">
         <div class="container mx-auto px-4 py-8">
             <div class="text-center">
                 <p class="text-gray-300 mb-2">تصميم محمد إبراهيم مقبل</p>
@@ -443,245 +441,950 @@
                 "order": 1
             },
             { 
-                "id":         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 8px; }
-        .btn-green { background: var(--p-green); color: white; }
-        .btn-blue { background: var(--p-blue); color: white; }
-        .btn-red { background: var(--p-red); color: white; }
-
-        /* النافذة المنبثقة للاختيار (Picker) */
-        .picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
-        .picker-box { background: white; width: 100%; max-width: 400px; padding: 25px; border-radius: 15px; }
-
-        /* الفوتر وشريط الأخبار المستمر */
-        .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
-        .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
-        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; font-size: 0.9rem; z-index: 1001; order: -1; }
-        .ticker-wrapper { flex: 1; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; }
-        .ticker-move { display: flex; position: absolute; white-space: nowrap; right: 0; flex-direction: row-reverse; }
-        .ticker-item { padding-left: 100px; font-size: 0.9rem; direction: rtl; }
-        .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
-
-        .path-nav { background: #fff; padding: 10px; border-radius: 10px; margin-bottom: 12px; display: none; align-items: center; border: 1px solid #eee; }
-        .back-btn { background: #000; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; margin-left: 12px; cursor: pointer; }
-    </style>
-</head>
-<body>
-
-<header id="siteHeader">
-    <div class="header-tag-right" id="adminTrigger">مخيم نت</div>
-    <div class="header-tag-left" id="headerDate">-- : --</div>
-</header>
-
-<div id="urgentArea">
-    <span style="color:red; font-weight:bold;">🔴 خبر هام:</span>
-    <div id="urgentText" style="font-weight:bold; font-size:1.1rem; color:black;"></div>
-</div>
-
-<div id="adminPanel">
-    <div class="admin-header">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-             <h3 style="margin:0;">تحرير الموقع</h3>
-             <button onclick="closeAdmin()" class="btn-red" style="width:auto; padding:5px 15px; margin:0;">إغلاق X</button>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-            <button class="btn btn-blue" onclick="showPicker('folder')">➕ إضافة قسم</button>
-            <button class="btn btn-green" onclick="showPicker('direct')">✍️ إضافة محتوى</button>
-        </div>
-    </div>
-
-    <!-- إعدادات الشريط والخبر الهام -->
-    <div class="admin-item" style="border-right-color: var(--p-red);">
-        <h4>🔴 التحكم بالأخبار السريعة</h4>
-        <input type="text" id="urgentInp" placeholder="الخبر الهام العلوي (اتركه فارغاً للإخفاء)">
-        <hr>
-        <input type="text" id="newsInp" placeholder="نص شريط الأخبار السفلي">
-        <label>سرعة الشريط: <input type="range" id="speedSld" min="1" max="10" step="0.5"></label>
-        <button class="btn btn-green" onclick="saveMeta()">حفظ الإعدادات</button>
-    </div>
-
-    <div id="adminTree"></div>
-    <hr>
-    <button class="btn" style="background:#2c3e50; color:white;" onclick="exportSite()">📥 تصدير الكود المحدث</button>
-</div>
-
-<!-- اختيار مكان النشر -->
-<div id="targetPicker" class="picker-overlay">
-    <div class="picker-box">
-        <h3 id="pickTitle" style="margin-top:0">مكان النشر</h3>
-        <select id="folderSelect"><option value="root">الواجهة الرئيسية</option></select>
-        <button onclick="confirmAdd()" class="btn btn-green">تأكيد الإضافة</button>
-        <button onclick="document.getElementById('targetPicker').style.display='none'" class="btn btn-red">إلغاء</button>
-    </div>
-</div>
-
-<div class="container">
-    <div class="path-nav" id="pathNav">
-        <button onclick="goBack()" class="back-btn">← عودة</button>
-        <span id="currentPath" style="font-weight:bold;">الرئيسية</span>
-    </div>
-    <div id="directArea"></div>
-    <div id="gridArea" class="grid"></div>
-</div>
-
-<div class="footer">
-    <div class="news-bar">
-        <div class="clock" id="liveClock">00:00</div>
-        <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox"><div id="tickerContent" style="display: flex;"></div></div>
-        </div>
-    </div>
-    <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
-</div>
-
-<script id="siteData">
-    var INITIAL_TREE = [];
-    var INITIAL_NEWS = "مرحباً بكم في مخيم نت";
-    var INITIAL_SPEED = 2;
-    var INITIAL_URGENT = "";
-</script>
-
-<script>
-    // الحماية المطلقة من الفتح التلقائي
-    window.onload = () => { document.getElementById("adminPanel").style.setProperty('display', 'none', 'important'); tick(); renderUI(); };
-
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_final_tree_v13')) || [];
-    let newsStr = localStorage.getItem('mn_news_v13') || INITIAL_NEWS;
-    let tickerSpeed = parseFloat(localStorage.getItem('mn_speed_v13')) || INITIAL_SPEED;
-    let urgentStr = localStorage.getItem('mn_urgent_v13') || INITIAL_URGENT;
-    let currentStack = [];
-    let pendingType = '';
-
-    function tick() {
-        const now = new Date();
-        document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        setTimeout(tick, 1000);
-    }
-
-    let pos = 0;
-    function startTicker() {
-        const content = document.getElementById('tickerContent');
-        content.innerHTML = `<span class="ticker-item">${newsStr}</span><span class="ticker-item">${newsStr}</span>`;
-        function animate() {
-            pos += tickerSpeed;
-            if (content.children[0] && pos >= content.children[0].offsetWidth) pos = 0;
-            document.getElementById('tickerBox').style.transform = `translateX(${pos}px)`;
-            requestAnimationFrame(animate);
-        }
-        animate();
-    }
-
-    // الدخول بـ 5 نقرات على مخيم نت
-    let clicks = 0;
-    document.getElementById('adminTrigger').onclick = () => {
-        clicks++;
-        if(clicks === 5) {
-            if(prompt("الباسوورد:") === "1234") {
-                document.getElementById('adminPanel').style.setProperty('display', 'block', 'important');
-                document.getElementById('newsInp').value = newsStr;
-                document.getElementById('speedSld').value = tickerSpeed;
-                document.getElementById('urgentInp').value = urgentStr;
-                renderAdmin();
+                "id": 2, 
+                "title": "فعالية رياضية للأطفال", 
+                "content": "تنظم إدارة المخيم فعالية رياضية للأطفال يوم السبت القادم في الملعب الرئيسي. الفعالية تشمل مسابقات رياضية متنوعة وجوائز قيمة للمشاركين.", 
+                "sectionId": 3, 
+                "date": "2024-03-14",
+                "order": 2
+            },
+            { 
+                "id": 3, 
+                "title": "توزيع مساعدات غذائية", 
+                "content": "سيتم توزيع مساعدات غذائية على الأسر المحتاجة في المخيم يوم الأحد القادم. على المستفيدين الحضور إلى مركز التوزيع الساعة 10 صباحاً.", 
+                "sectionId": 2, 
+                "date": "2024-03-13",
+                "order": 3
+            },
+            { 
+                "id": 4, 
+                "title": "ورشة عمل عن الصحة النفسية", 
+                "content": "تعقد جمعية الإغاثة ورشة عمل عن الصحة النفسية وكيفية التعامل مع الضغوط يوم الاثنين القادم. الورشة مجانية ومفتوحة للجميع.", 
+                "sectionId": 3, 
+                "date": "2024-03-12",
+                "order": 4
             }
-            clicks = 0;
+        ];
+
+        // بيانات شريط الأخبار
+        const newsTickerData = [
+            "مرحباً بكم في موقع مخيم نت - أول موقع إلكتروني للمخيم",
+            "فعالية رياضية للأطفال تقام يوم السبت القادم",
+            "توزيع مساعدات غذائية يوم الأحد على الأسر المحتاجة",
+            "ورشة عمل عن الصحة النفسية يوم الاثنين القادم",
+            "مركز التعليم الجديد يفتح أبوابه لأهالي المخيم"
+        ];
+
+        // بيانات التنقل
+        const navItemsData = [
+            { "id": 1, "label": "الرئيسية", "href": "#home", "icon": "fas fa-home" },
+            { "id": 2, "label": "الأخبار", "href": "#news", "icon": "fas fa-newspaper" },
+            { "id": 3, "label": "الخدمات", "href": "#services", "icon": "fas fa-hands-helping" },
+            { "id": 4, "label": "الفعاليات", "href": "#events", "icon": "fas fa-calendar-alt" },
+            { "id": 5, "label": "اتصل بنا", "href": "#contact", "icon": "fas fa-phone" }
+        ];
+
+        // إعدادات الموقع
+        let siteSettings = {
+            "newsSpeed": 30,
+            "urgentNews": {
+                "enabled": false,
+                "text": "خبر عاجل: هذا خبر مهم يظهر عند التعبئة"
+            },
+            "adminPassword": "1234"
+        };
+
+        // حالة التطبيق
+        let appState = {
+            "isAdmin": false,
+            "logoClickCount": 0,
+            "lastLogoClickTime": 0,
+            "draggedItem": null
+        };
+
+        // ========== RENDER FUNCTIONS ==========
+        // دالة عرض عناصر التنقل
+        function renderNavItems(items) {
+            return items.map(item => 
+                `<li>
+                    <a href="${item.href}" class="flex items-center text-gray-700 hover:text-green-600 transition-colors">
+                        <i class="${item.icon} ml-2"></i>
+                        ${item.label}
+                    </a>
+                </li>`
+            ).join("");
         }
-        setTimeout(() => clicks = 0, 3000);
-    };
 
-    function closeAdmin() { document.getElementById('adminPanel').style.setProperty('display', 'none', 'important'); }
-
-    function showPicker(type) {
-        pendingType = type;
-        const sel = document.getElementById('folderSelect');
-        sel.innerHTML = '<option value="root">الواجهة الرئيسية</option>';
-        function fill(arr, depth=0) {
-            arr.forEach(i => { if(i.type==='folder'){ sel.innerHTML += `<option value="${i.id}">${"—".repeat(depth)} ${i.title}</option>`; fill(i.children, depth+1); }});
+        // دالة عرض الأقسام الرئيسية
+        function renderMainSections(sections) {
+            const mainSections = sections.filter(section => section.parentId === null);
+            return mainSections.map(section => {
+                const subSections = sections.filter(sub => sub.parentId === section.id);
+                const subSectionsHtml = subSections.map(sub => 
+                    `<div class="bg-white rounded-lg p-3 mb-2 border border-gray-200">
+                        <h4 class="font-medium text-gray-800">${sub.name}</h4>
+                        <p class="text-sm text-gray-600 mt-1">${sub.description}</p>
+                    </div>`
+                ).join("");
+                
+                return `
+                <div class="sortable-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200" data-id="${section.id}">
+                    <div class="h-3" style="background-color: ${section.color}"></div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-gray-800">${section.name}</h3>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${subSections.length} أقسام فرعية</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">${section.description}</p>
+                        ${subSections.length > 0 ? `
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">الأقسام الفرعية:</h4>
+                            ${subSectionsHtml}
+                        </div>
+                        ` : ''}
+                        <button onclick="viewSectionContent(${section.id})" class="mt-4 w-full bg-gray-100 text-gray-700 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                            عرض المحتوى
+                        </button>
+                    </div>
+                </div>`;
+            }).join("");
         }
-        fill(tree);
-        document.getElementById('targetPicker').style.display='flex';
-    }
 
-    function confirmAdd() {
-        const targetId = document.getElementById('folderSelect').value;
-        const newItem = { id: Date.now(), title: "عنصر جديد", type: pendingType, content: "", image: "", children: [] };
-        if(targetId === 'root') tree.unshift(newItem);
-        else {
-            function walk(arr) { for(let i of arr){ if(i.id == targetId){ i.children.unshift(newItem); return true; } if(i.children.length>0 && walk(i.children)) return true; } }
-            walk(tree);
+        // دالة عرض المنشورات
+        function renderPosts(posts) {
+            return posts.map(post => {
+                const section = sectionsData.find(s => s.id === post.sectionId);
+                return `
+                <div class="sortable-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200" data-id="${post.id}">
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-gray-800">${post.title}</h3>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${section ? section.name : 'غير مصنف'}</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">${post.content.substring(0, 150)}...</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>${post.date}</span>
+                            <button onclick="viewPostContent(${post.id})" class="text-green-600 hover:text-green-700">
+                                قراءة المزيد
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join("");
         }
-        save(); document.getElementById('targetPicker').style.display='none'; renderAdmin(); renderUI();
-    }
 
-    function renderAdmin() {
-        const container = document.getElementById('adminTree');
-        container.innerHTML = '<h4>ترتيب وتنسيق المحتوى:</h4>';
-        function draw(arr) {
-            let h = `<div style="margin-right:15px; border-right:2px solid #ddd; padding-right:10px;">`;
-            arr.forEach(i => {
-                h += `<div class="admin-item" style="border-right-color:${i.type==='folder'?'var(--p-blue)':'var(--p-green)'}">
-                        <input type="text" value="${i.title}" oninput="updateVal('${i.id}','title',this.value)">
-                        ${i.type==='direct' ? `<input type="text" value="${i.image}" oninput="updateVal('${i.id}','image',this.value)" placeholder="رابط الصورة"><textarea oninput="updateVal('${i.id}','content',this.value)">${i.content}</textarea>` : ''}
-                        <button class="btn-red" style="padding:2px 8px; width:auto; font-size:0.7rem;" onclick="deleteNode('${i.id}')">حذف</button>
-                      </div>`;
-                if(i.children.length>0) h += draw(i.children);
+        // دالة عرض إدارة الأقسام
+        function renderSectionsManagement(sections) {
+            const mainSections = sections.filter(section => section.parentId === null);
+            return mainSections.map(section => {
+                const subSections = sections.filter(sub => sub.parentId === section.id);
+                return `
+                <div class="sortable-item bg-gray-50 border border-gray-300 rounded-lg p-4 mb-4" data-id="${section.id}" data-type="section">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 rounded-full ml-2" style="background-color: ${section.color}"></div>
+                            <h4 class="font-bold text-gray-800">${section.name}</h4>
+                        </div>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button onclick="editSection(${section.id})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteSection(${section.id})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <span class="cursor-move text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-arrows-alt"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-3">${section.description}</p>
+                    ${subSections.length > 0 ? `
+                    <div class="mr-6 mt-3 space-y-2">
+                        ${subSections.map(sub => `
+                        <div class="flex justify-between items-center bg-white p-3 rounded border border-gray-200">
+                            <div>
+                                <h5 class="font-medium text-gray-700">${sub.name}</h5>
+                                <p class="text-sm text-gray-600">${sub.description}</p>
+                            </div>
+                            <div class="flex space-x-2 space-x-reverse">
+                                <button onclick="editSection(${sub.id})" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteSection(${sub.id})" class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        `).join("")}
+                    </div>
+                    ` : ''}
+                </div>`;
+            }).join("");
+        }
+
+        // دالة عرض إدارة المنشورات
+        function renderPostsManagement(posts) {
+            return posts.map(post => {
+                const section = sectionsData.find(s => s.id === post.sectionId);
+                return `
+                <div class="sortable-item bg-gray-50 border border-gray-300 rounded-lg p-4 mb-4" data-id="${post.id}" data-type="post">
+                    <div class="flex justify-between items-center mb-3">
+                        <div>
+                            <h4 class="font-bold text-gray-800">${post.title}</h4>
+                            <p class="text-sm text-gray-600">${section ? section.name : 'غير مصنف'} - ${post.date}</p>
+                        </div>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button onclick="editPost(${post.id})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deletePost(${post.id})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <span class="cursor-move text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-arrows-alt"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">${post.content.substring(0, 200)}...</p>
+                </div>`;
+            }).join("");
+        }
+
+        // دالة عرض شريط الأخبار
+        function renderNewsTicker(newsItems) {
+            return newsItems.map(item => 
+                `<span class="mx-8">${item} •</span>`
+            ).join("");
+        }
+
+        // دالة عرض خيارات الأقسام في select
+        function renderSectionOptions(sections, selectedId = null) {
+            const mainSections = sections.filter(section => section.parentId === null);
+            let options = '<option value="">لا يوجد (قسم رئيسي)</option>';
+            
+            mainSections.forEach(section => {
+                const selected = selectedId === section.id ? 'selected' : '';
+                options += `<option value="${section.id}" ${selected}>${section.name}</option>`;
             });
-            return h + '</div>';
+            
+            return options;
         }
-        container.innerHTML += draw(tree);
-    }
 
-    function updateVal(id, f, v) { function walk(arr){ for(let i of arr){ if(i.id==id){i[f]=v; return true;} if(i.children.length>0 && walk(i.children)) return true; }} walk(tree); save(); renderUI(); }
-    function deleteNode(id) { if(confirm("حذف؟")){ function walk(arr){ for(let i=0; i<arr.length; i++){ if(arr[i].id==id){arr.splice(i,1); return true;} if(arr[i].children.length>0 && walk(arr[i].children)) return true; }} walk(tree); save(); renderAdmin(); renderUI(); }}
+        // دالة عرض خيارات الأقسام للمنشورات
+        function renderPostSectionOptions(sections, selectedId = null) {
+            let options = '';
+            
+            sections.forEach(section => {
+                const selected = selectedId === section.id ? 'selected' : '';
+                options += `<option value="${section.id}" ${selected}>${section.name}</option>`;
+            });
+            
+            return options;
+        }
 
-    function saveMeta() {
-        newsStr = document.getElementById('newsInp').value;
-        tickerSpeed = parseFloat(document.getElementById('speedSld').value);
-        localStorage.setItem('mn_news_v13', newsStr);
-        localStorage.setItem('mn_speed_v13', tickerSpeed);
-        location.reload();
-    }
+        // ========== UTILITY FUNCTIONS ==========
+        // تحديث التاريخ والوقت
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+            
+            const dateStr = now.toLocaleDateString('ar-SA', dateOptions);
+            const timeStr = now.toLocaleTimeString('ar-SA', timeOptions);
+            
+            document.getElementById('current-date').textContent = dateStr;
+            document.getElementById('current-time').textContent = timeStr;
+        }
 
-    function updateUrgent() {
-        urgentStr = document.getElementById('urgentInp').value;
-        localStorage.setItem('mn_urgent_v13', urgentStr);
-        applyUrgent(); alert("تم حفظ الخبر الهام");
-    }
+        // تحديث سرعة شريط الأخبار
+        function updateNewsSpeed() {
+            const speed = document.getElementById('news-speed').value;
+            document.getElementById('speed-value').textContent = speed;
+            siteSettings.newsSpeed = parseInt(speed);
+            
+            const tickerContent = document.getElementById('news-ticker-content');
+            const animationDuration = speed + 's';
+            tickerContent.style.animationDuration = animationDuration;
+            
+            // حفظ في localStorage
+            saveSettings();
+        }
 
-    function applyUrgent() {
-        const area = document.getElementById('urgentArea');
-        if(urgentStr && urgentStr.trim() !== "") { area.style.display='block'; document.getElementById('urgentText').innerText = urgentStr; }
-        else area.style.display='none';
-    }
+        // تحديث سرعة شريط الأخبار من لوحة التحكم
+        function updateAdminNewsSpeed() {
+            const speed = document.getElementById('admin-news-speed').value;
+            document.getElementById('admin-speed-value').textContent = speed;
+            document.getElementById('news-speed').value = speed;
+            document.getElementById('speed-value').textContent = speed;
+            
+            siteSettings.newsSpeed = parseInt(speed);
+            updateNewsSpeed();
+        }
 
-    function renderUI() {
-        const grid = document.getElementById('gridArea'); grid.innerHTML = '';
-        const dc = document.getElementById('directArea'); dc.innerHTML = '';
-        const nav = document.getElementById('pathNav');
-        let currentItems = currentStack.length > 0 ? currentStack[currentStack.length - 1].children : tree;
-        nav.style.display = currentStack.length > 0 ? 'flex' : 'none';
-        if(currentStack.length>0) document.getElementById('currentPath').innerText = currentStack[currentStack.length-1].title;
-        currentItems.forEach(i => {
-            if(i.type==='folder'){
-                const c = document.createElement('div'); c.className = 'card'; c.innerText = i.title;
-                c.onclick = () => { currentStack.push(i); renderUI(); window.scrollTo(0,0); }; grid.appendChild(c);
-            } else {
-                const b = document.createElement('div'); b.className = 'content-block';
-                b.innerHTML = `<div class="content-title">${i.title}</div>${i.image?`<img src="${i.image}" class="content-img">`:''}<div class="content-text">${i.content.replace(/\n/g,'<br>')}</div>`;
-                dc.appendChild(b);
+        // تحديث إعدادات شريط الأخبار
+        function updateNewsSettings() {
+            const newsText = document.getElementById('news-ticker-text').value;
+            const newsItems = newsText.split('\n').filter(item => item.trim() !== '');
+            
+            if (newsItems.length > 0) {
+                newsTickerData.length = 0;
+                newsItems.forEach(item => newsTickerData.push(item.trim()));
+                
+                const tickerContent = document.getElementById('news-ticker-content');
+                tickerContent.innerHTML = renderNewsTicker(newsTickerData);
+                
+                // إعادة تشغيل الأنيميشن
+                tickerContent.style.animation = 'none';
+                setTimeout(() => {
+                    tickerContent.style.animation = `ticker ${siteSettings.newsSpeed}s linear infinite`;
+                }, 10);
             }
-        });
-    }
+            
+            saveSettings();
+            alert('تم حفظ إعدادات شريط الأخبار بنجاح');
+        }
 
-    function goBack() { currentStack.pop(); renderUI(); }
-    const save = () => localStorage.setItem('mn_final_tree_v13', JSON.stringify(tree));
+        // تحديث إعدادات الخبر العاجل
+        function updateUrgentNewsSettings() {
+            const urgentText = document.getElementById('urgent-news-text-input').value;
+            const urgentEnabled = document.getElementById('urgent-news-enabled').checked;
+            
+            siteSettings.urgentNews.text = urgentText;
+            siteSettings.urgentNews.enabled = urgentEnabled;
+            
+            document.getElementById('urgent-news-text').textContent = urgentText;
+            
+            if (urgentEnabled) {
+                document.getElementById('urgent-news').classList.remove('hidden');
+            } else {
+                document.getElementById('urgent-news').classList.add('hidden');
+            }
+            
+            saveSettings();
+            alert('تم حفظ إعدادات الخبر العاجل بنجاح');
+        }
 
-    function exportSite() {
-        let h = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(newsStr)};\n    var INITIAL_SPEED = ${tickerSpeed};\n    var INITIAL_URGENT = ${JSON.stringify(urgentStr)};`);
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + h], {type:'text/html'}));
-        a.download = 'MukhayamNet_Final.html'; a.click();
-    }
+        // إغلاق الخبر العاجل
+        function closeUrgentNews() {
+            document.getElementById('urgent-news').classList.add('hidden');
+        }
 
-    startTicker(); applyUrgent();
-</script>
+        // عرض محتوى القسم
+        function viewSectionContent(sectionId) {
+            const section = sectionsData.find(s => s.id === sectionId);
+            const subSections = sectionsData.filter(s => s.parentId === sectionId);
+            const sectionPosts = postsData.filter(p => p.sectionId === sectionId);
+            
+            let content = `
+                <div class="mb-6">
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">${section.name}</h4>
+                    <p class="text-gray-600">${section.description}</p>
+                </div>
+            `;
+            
+            if (subSections.length > 0) {
+                content += `
+                    <div class="mb-6">
+                        <h5 class="font-bold text-gray-700 mb-3">الأقسام الفرعية:</h5>
+                        <div class="space-y-3">
+                            ${subSections.map(sub => `
+                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                                    <h6 class="font-medium text-gray-800">${sub.name}</h6>
+                                    <p class="text-sm text-gray-600 mt-1">${sub.description}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (sectionPosts.length > 0) {
+                content += `
+                    <div>
+                        <h5 class="font-bold text-gray-700 mb-3">المنشورات في هذا القسم:</h5>
+                        <div class="space-y-4">
+                            ${sectionPosts.map(post => `
+                                <div class="border-l-4 border-green-500 pl-4 py-2">
+                                    <h6 class="font-medium text-gray-800">${post.title}</h6>
+                                    <p class="text-sm text-gray-600 mt-1">${post.content.substring(0, 100)}...</p>
+                                    <button onclick="viewPostContent(${post.id})" class="text-green-600 hover:text-green-700 text-sm mt-2">
+                                        قراءة المزيد
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('modal-title').textContent = section.name;
+            document.getElementById('modal-content').innerHTML = content;
+            document.getElementById('content-modal').style.display = 'block';
+        }
+
+        // عرض محتوى المنشور
+        function viewPostContent(postId) {
+            const post = postsData.find(p => p.id === postId);
+            const section = sectionsData.find(s => s.id === post.sectionId);
+            
+            const content = `
+                <div class="mb-4">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-800">${post.title}</h4>
+                            <p class="text-gray-600 text-sm mt-1">${section ? section.name : 'غير مصنف'} - ${post.date}</p>
+                        </div>
+                    </div>
+                    <div class="text-gray-700 leading-relaxed">
+                        ${post.content.split('\n').map(paragraph => `<p class="mb-4">${paragraph}</p>`).join('')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modal-title').textContent = post.title;
+            document.getElementById('modal-content').innerHTML = content;
+            document.getElementById('content-modal').style.display = 'block';
+        }
+
+        // إغلاق نافذة البوب أب
+        function closeModal() {
+            document.getElementById('content-modal').style.display = 'none';
+        }
+
+        // ========== ADMIN FUNCTIONS ==========
+        // التعامل مع النقر على الشعار
+        function handleLogoClick(event) {
+            const now = Date.now();
+            
+            // إعادة تعيين العداد إذا مر أكثر من 3 ثواني
+            if (now - appState.lastLogoClickTime > 3000) {
+                appState.logoClickCount = 0;
+            }
+            
+            appState.logoClickCount++;
+            appState.lastLogoClickTime = now;
+            
+            // إذا تم النقر 5 مرات، عرض نافذة تسجيل الدخول
+            if (appState.logoClickCount >= 5) {
+                appState.logoClickCount = 0;
+                showLoginModal();
+            }
+        }
+
+        // عرض نافذة تسجيل الدخول
+        function showLoginModal() {
+            document.getElementById('login-modal').style.display = 'block';
+        }
+
+        // إغلاق نافذة تسجيل الدخول
+        function closeLoginModal() {
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        // تسجيل الدخول إلى لوحة التحكم
+        function loginToDashboard() {
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === siteSettings.adminPassword) {
+                appState.isAdmin = true;
+                document.getElementById('admin-panel').classList.remove('hidden');
+                document.getElementById('news-controls').classList.remove('hidden');
+                closeLoginModal();
+                
+                // تحميل البيانات في لوحة التحكم
+                loadAdminData();
+            } else {
+                alert('كلمة المرور غير صحيحة');
+            }
+        }
+
+        // تسجيل الخروج من لوحة التحكم
+        function logoutFromDashboard() {
+            appState.isAdmin = false;
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.getElementById('news-controls').classList.add('hidden');
+        }
+
+        // تحميل البيانات في لوحة التحكم
+        function loadAdminData() {
+            // تحديث إدارة الأقسام
+            document.getElementById('sections-management').innerHTML = renderSectionsManagement(sectionsData);
+            
+            // تحديث إدارة المنشورات
+            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
+            
+            // تحديث إعدادات شريط الأخبار
+            document.getElementById('news-ticker-text').value = newsTickerData.join('\n');
+            document.getElementById('admin-news-speed').value = siteSettings.newsSpeed;
+            document.getElementById('admin-speed-value').textContent = siteSettings.newsSpeed;
+            
+            // تحديث إعدادات الخبر العاجل
+            document.getElementById('urgent-news-text-input').value = siteSettings.urgentNews.text;
+            document.getElementById('urgent-news-enabled').checked = siteSettings.urgentNews.enabled;
+            
+            // تحديث خيارات الأقسام
+            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
+            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
+            
+            // تفعيل السحب والإفلات
+            initDragAndDrop();
+        }
+
+        // عرض نافذة إضافة قسم
+        function showAddSectionModal() {
+            document.getElementById('section-modal-title').textContent = 'إضافة قسم جديد';
+            document.getElementById('section-name').value = '';
+            document.getElementById('section-description').value = '';
+            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
+            document.getElementById('section-color').value = '#3b82f6';
+            document.getElementById('section-id').value = '';
+            document.getElementById('save-section-btn').textContent = 'إضافة';
+            document.getElementById('section-modal').style.display = 'block';
+        }
+
+        // عرض نافذة تعديل قسم
+        function editSection(sectionId) {
+            const section = sectionsData.find(s => s.id === sectionId);
+            if (!section) return;
+            
+            document.getElementById('section-modal-title').textContent = 'تعديل قسم';
+            document.getElementById('section-name').value = section.name;
+            document.getElementById('section-description').value = section.description;
+            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData, section.parentId);
+            document.getElementById('section-color').value = section.color;
+            document.getElementById('section-id').value = section.id;
+            document.getElementById('save-section-btn').textContent = 'تحديث';
+            document.getElementById('section-modal').style.display = 'block';
+        }
+
+        // إغلاق نافذة القسم
+        function closeSectionModal() {
+            document.getElementById('section-modal').style.display = 'none';
+        }
+
+        // حفظ القسم
+        function saveSection() {
+            const id = document.getElementById('section-id').value;
+            const name = document.getElementById('section-name').value.trim();
+            const description = document.getElementById('section-description').value.trim();
+            const parentId = document.getElementById('section-parent').value || null;
+            const color = document.getElementById('section-color').value;
+            
+            if (!name) {
+                alert('يرجى إدخال اسم القسم');
+                return;
+            }
+            
+            if (id) {
+                // تحديث قسم موجود
+                const index = sectionsData.findIndex(s => s.id === parseInt(id));
+                if (index !== -1) {
+                    sectionsData[index] = {
+                        ...sectionsData[index],
+                        name,
+                        description,
+                        parentId: parentId ? parseInt(parentId) : null,
+                        color
+                    };
+                }
+            } else {
+                // إضافة قسم جديد
+                const newId = Math.max(...sectionsData.map(s => s.id)) + 1;
+                const newOrder = sectionsData.filter(s => s.parentId === (parentId ? parseInt(parentId) : null)).length + 1;
+                
+                sectionsData.push({
+                    id: newId,
+                    name,
+                    description,
+                    parentId: parentId ? parseInt(parentId) : null,
+                    color,
+                    order: newOrder
+                });
+            }
+            
+            // إعادة عرض البيانات
+            document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
+            document.getElementById('sections-management').innerHTML = renderSectionsManagement(sectionsData);
+            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
+            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
+            
+            closeSectionModal();
+            saveSettings();
+            alert(id ? 'تم تحديث القسم بنجاح' : 'تم إضافة القسم بنجاح');
+        }
+
+        // حذف قسم
+        function deleteSection(sectionId) {
+            if (!confirm('هل أنت متأكد من حذف هذا القسم؟ سيتم حذف جميع الأقسام الفرعية والمنشورات المرتبطة به.')) {
+                return;
+            }
+            
+            // حذف القسم
+            const sectionIndex = sectionsData.findIndex(s => s.id === sectionId);
+            if (sectionIndex !== -1) {
+                sectionsData.splice(sectionIndex, 1);
+            }
+            
+            // حذف الأقسام الفرعية
+            const subSections = sectionsData.filter(s => s.parentId === sectionId);
+            subSections.forEach(sub => {
+                const subIndex = sectionsData.findIndex(s => s.id === sub.id);
+                if (subIndex !== -1) {
+                    sectionsData.splice(subIndex, 1);
+                }
+            });
+            
+            // حذف المنشورات المرتبطة
+            const postsToDelete = postsData.filter(p => p.sectionId === sectionId);
+            postsToDelete.forEach(post => {
+                const postIndex = postsData.findIndex(p => p.id === post.id);
+                if (postIndex !== -1) {
+                    postsData.splice(postIndex, 1);
+                }
+            });
+            
+            // إعادة عرض البيانات
+            document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
+            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
+            document.getElementById('sections-management').innerHTML = renderSectionsManagement(sectionsData);
+            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
+            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
+            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
+            
+            saveSettings();
+            alert('تم حذف القسم بنجاح');
+        }
+
+        // عرض نافذة إضافة منشور
+        function showAddPostModal() {
+            document.getElementById('post-modal-title').textContent = 'إضافة منشور جديد';
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-content').value = '';
+            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
+            document.getElementById('post-id').value = '';
+            document.getElementById('save-post-btn').textContent = 'إضافة';
+            document.getElementById('post-modal').style.display = 'block';
+        }
+
+        // عرض نافذة تعديل منشور
+        function editPost(postId) {
+            const post = postsData.find(p => p.id === postId);
+            if (!post) return;
+            
+            document.getElementById('post-modal-title').textContent = 'تعديل منشور';
+            document.getElementById('post-title').value = post.title;
+            document.getElementById('post-content').value = post.content;
+            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData, post.sectionId);
+            document.getElementById('post-id').value = post.id;
+            document.getElementById('save-post-btn').textContent = 'تحديث';
+            document.getElementById('post-modal').style.display = 'block';
+        }
+
+        // إغلاق نافذة المنشور
+        function closePostModal() {
+            document.getElementById('post-modal').style.display = 'none';
+        }
+
+        // حفظ المنشور
+        function savePost() {
+            const id = document.getElementById('post-id').value;
+            const title = document.getElementById('post-title').value.trim();
+            const content = document.getElementById('post-content').value.trim();
+            const sectionId = document.getElementById('post-section').value;
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (!title || !content || !sectionId) {
+                alert('يرجى ملء جميع الحقول المطلوبة');
+                return;
+            }
+            
+            if (id) {
+                // تحديث منشور موجود
+                const index = postsData.findIndex(p => p.id === parseInt(id));
+                if (index !== -1) {
+                    postsData[index] = {
+                        ...postsData[index],
+                        title,
+                        content,
+                        sectionId: parseInt(sectionId)
+                    };
+                }
+            } else {
+                // إضافة منشور جديد
+                const newId = Math.max(...postsData.map(p => p.id)) + 1;
+                const newOrder = postsData.length + 1;
+                
+                postsData.push({
+                    id: newId,
+                    title,
+                    content,
+                    sectionId: parseInt(sectionId),
+                    date: today,
+                    order: newOrder
+                });
+            }
+            
+            // إعادة عرض البيانات
+            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
+            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
+            
+            closePostModal();
+            saveSettings();
+            alert(id ? 'تم تحديث المنشور بنجاح' : 'تم إضافة المنشور بنجاح');
+        }
+
+        // حذف منشور
+        function deletePost(postId) {
+            if (!confirm('هل أنت متأكد من حذف هذا المنشور؟')) {
+                return;
+            }
+            
+            const postIndex = postsData.findIndex(p => p.id === postId);
+            if (postIndex !== -1) {
+                postsData.splice(postIndex, 1);
+            }
+            
+            // إعادة عرض البيانات
+            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
+            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
+            
+            saveSettings();
+            alert('تم حذف المنشور بنجاح');
+        }
+
+        // تعديل شريط الأخبار
+        function editNewsTicker() {
+            document.getElementById('news-ticker-text').value = newsTickerData.join('\n');
+            // يمكن إضافة منطق للانتقال إلى قسم الإعدادات في لوحة التحكم
+            alert('انتقل إلى قسم "إعدادات الموقع" في لوحة التحكم لتعديل شريط الأخبار');
+        }
+
+        // ========== DRAG AND DROP ==========
+        // تهيئة السحب والإفلات
+        function initDragAndDrop() {
+            const sectionsContainer = document.getElementById('sections-management');
+            const postsContainer = document.getElementById('posts-management');
+            
+            if (sectionsContainer) {
+                makeSortable(sectionsContainer, 'section');
+            }
+            
+            if (postsContainer) {
+                makeSortable(postsContainer, 'post');
+            }
+            
+            // جعل الأقسام والمنشورات في الصفحة الرئيسية قابلة للسحب
+            const mainSectionsContainer = document.getElementById('sections-container');
+            const mainPostsContainer = document.getElementById('posts-container');
+            
+            if (mainSectionsContainer && appState.isAdmin) {
+                makeSortable(mainSectionsContainer, 'section');
+            }
+            
+            if (mainPostsContainer && appState.isAdmin) {
+                makeSortable(mainPostsContainer, 'post');
+            }
+        }
+
+        // جعل العناصر قابلة للترتيب
+        function makeSortable(container, type) {
+            const items = container.querySelectorAll('.sortable-item');
+            
+            items.forEach(item => {
+                item.setAttribute('draggable', 'true');
+                
+                item.addEventListener('dragstart', function(e) {
+                    this.classList.add('dragging');
+                    appState.draggedItem = {
+                        id: this.getAttribute('data-id'),
+                        type: type,
+                        element: this
+                    };
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    appState.draggedItem = null;
+                    
+                    // حفظ الترتيب الجديد
+                    saveOrder(container, type);
+                });
+            });
+            
+            container.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                
+                if (afterElement == null) {
+                    container.appendChild(draggable);
+                } else {
+                    container.insertBefore(draggable, afterElement);
+                }
+            });
+        }
+
+        // الحصول على العنصر الذي يلي موقع السحب
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.sortable-item:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // حفظ الترتيب الجديد
+        function saveOrder(container, type) {
+            const items = container.querySelectorAll('.sortable-item');
+            const orderMap = {};
+            
+            items.forEach((item, index) => {
+                const id = parseInt(item.getAttribute('data-id'));
+                orderMap[id] = index + 1;
+            });
+            
+            if (type === 'section') {
+                // تحديث ترتيب الأقسام
+                Object.keys(orderMap).forEach(id => {
+                    const section = sectionsData.find(s => s.id === parseInt(id));
+                    if (section) {
+                        section.order = orderMap[id];
+                    }
+                });
+            } else if (type === 'post') {
+                // تحديث ترتيب المنشورات
+                Object.keys(orderMap).forEach(id => {
+                    const post = postsData.find(p => p.id === parseInt(id));
+                    if (post) {
+                        post.order = orderMap[id];
+                    }
+                });
+            }
+            
+            saveSettings();
+            
+            // إعادة عرض البيانات إذا لزم الأمر
+            if (type === 'section') {
+                document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
+            } else if (type === 'post') {
+                document.getElementById('posts-container').innerHTML = renderPosts(postsData);
+            }
+        }
+
+        // ========== STORAGE FUNCTIONS ==========
+        // حفظ الإعدادات في localStorage
+        function saveSettings() {
+            const data = {
+                sections: sectionsData,
+                posts: postsData,
+                newsTicker: newsTickerData,
+                settings: siteSettings,
+                navItems: navItemsData
+            };
+            
+            localStorage.setItem('mukhayyamNetData', JSON.stringify(data));
+        }
+
+        // تحميل الإعدادات من localStorage
+        function loadSettings() {
+            const savedData = localStorage.getItem('mukhayyamNetData');
+            
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                if (data.sections) sectionsData.length = 0;
+                data.sections.forEach(section => sectionsData.push(section));
+                
+                if (data.posts) postsData.length = 0;
+                data.posts.forEach(post => postsData.push(post));
+                
+                if (data.newsTicker) newsTickerData.length = 0;
+                data.newsTicker.forEach(item => newsTickerData.push(item));
+                
+                if (data.settings) siteSettings = data.settings;
+                if (data.navItems) navItemsData.length = 0;
+                data.navItems.forEach(item => navItemsData.push(item));
+            }
+        }
+
+        // ========== INITIALIZATION ==========
+        // تهيئة التطبيق
+        function initApp() {
+            // تحميل الإعدادات المحفوظة
+            loadSettings();
+            
+            // تحديث التاريخ والوقت
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // تحديث كل دقيقة
+            
+            // تعيين السنة الحالية في الفوتر
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // عرض عناصر التنقل
+            document.getElementById('nav-list').innerHTML = renderNavItems(navItemsData);
+            
+            // عرض الأقسام الرئيسية
+            document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
+            
+            // عرض المنشورات
+            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
+            
+            // عرض شريط الأخبار
+            const tickerContent = document.getElementById('news-ticker-content');
+            tickerContent.innerHTML = renderNewsTicker(newsTickerData);
+            
+            // تعيين سرعة شريط الأخبار
+            document.getElementById('news-speed').value = siteSettings.newsSpeed;
+            document.getElementById('speed-value').textContent = siteSettings.newsSpeed;
+            const animationDuration = siteSettings.newsSpeed + 's';
+            tickerContent.style.animationDuration = animationDuration;
+            
+            // عرض/إخفاء الخبر العاجل
+            document.getElementById('urgent-news-text').textContent = siteSettings.urgentNews.text;
+            if (siteSettings.urgentNews.enabled) {
+                document.getElementById('urgent-news').classList.remove('hidden');
+            }
+            
+            // إضافة حدث النقر على القائمة للموبايل
+            document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+                const nav = document.getElementById('main-nav');
+                nav.classList.toggle('hidden');
+            });
+            
+            // إغلاق النوافذ عند النقر خارجها
+            window.addEventListener('click', function(event) {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+            
+            // منع السلوك الافتراضي للروابط
+            document.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A' && event.target.getAttribute('href')?.startsWith('#')) {
+                    event.preventDefault();
+                    const targetId = event.target.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        }
+
+        // تشغيل التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
 </body>
 </html>
