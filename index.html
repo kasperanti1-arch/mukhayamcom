@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مخيم نت | 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 100px; user-select: none; overflow-x: hidden; }
@@ -61,14 +61,14 @@
 </head>
 <body>
 
-<header id="siteHeader" style="background-image: url(&quot;https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png&quot;);">
+<header id="siteHeader" style="background-image: url("https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png");">
     <div class="header-tag-right" id="adminTrigger">مخيم نت</div>
     <div class="header-tag-left" id="headerDate">السبت، ٢٠ يونيو ٢٠٢٦</div>
 </header>
 
 <div id="urgentArea" style="display: block;">
     <span style="color:red; font-weight:bold;">🔴 خبر هام:</span>
-    <b id="urgentText">نسخة تجريبية</b>
+    <b id="urgentText">نسخة تجريبية.</b>
 </div>
 
 <div id="adminPanel" style="display: block !important;">
@@ -116,19 +116,19 @@
 </div>
 
 <div class="container">
-    <div id="pathNav" style="display: flex; margin-bottom: 15px;">
+    <div id="pathNav" style="display: none; margin-bottom: 15px;">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:8px 15px; border-radius:8px;">← عودة</button>
         <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)">فعاليات المخيم</span>
     </div>
     <div id="directArea"></div>
-    <div id="gridArea" class="grid"><div class="card card-folder">قهوة</div><div class="card card-folder">سوبر ماركت</div><div class="card card-folder">اتصالات</div><div class="card card-folder">صيدليات</div></div>
+    <div id="gridArea" class="grid"><div class="card card-folder">عن المخيم</div><div class="card card-folder">فعاليات المخيم</div></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
-        <div class="clock" id="liveClock">١٦:٢٣</div>
+        <div class="clock" id="liveClock">١٦:٣٧</div>
         <div class="ticker-wrapper" style="flex:1; height:100%; position:relative; overflow:hidden;">
-            <div class="ticker-move" id="tickerBox" style="transform: translateX(4.5px);"><div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span></div></div>
+            <div class="ticker-move" id="tickerBox" style="transform: translateX(828px);"><div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span></div></div>
         </div>
     </div>
     <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
@@ -265,6 +265,7 @@
     }
     function initEdit(id) { let i = find(tree, id); openAdder(i.type, id); }
 </script>
+
 
 
 </body></html>
