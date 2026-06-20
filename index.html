@@ -107,14 +107,14 @@
     </div>
 
     <div style="background: #fafafa; border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-right: 5px solid orange;">
-        <h4>⚙️ الإعدادات العامة للموقع (حفظ فوري تلقائي)</h4>
+        <h4>⚙️ الإعدادات العامة للموقع (حفظ فوري ذكي)</h4>
         <label>رابط صورة الهيدر:</label> 
         <input type="text" id="headInp" oninput="autoSaveGlobal()">
         
         <label>نص الخبر الهام:</label> 
         <input type="text" id="urgInp" oninput="autoSaveGlobal()">
         
-        <label style="color: var(--p-blue); font-weight: bold;">🎯 وجهة زر "عرض المزيد" للخبر الهام (الحفظ فوري عند الاختيار):</label>
+        <label style="color: var(--p-blue); font-weight: bold;">🎯 وجهة زر "عرض المزيد" للخبر الهام:</label>
         <select id="urgentDestSelect" onchange="autoSaveGlobal()">
             </select>
         
@@ -124,8 +124,8 @@
         <label style="color: var(--p-green); font-weight: bold;">⏱️ سرعة شريط الأخبار بالثواني:</label>
         <input type="number" id="newsSpeedInp" min="5" max="100" placeholder="مثال: 25" oninput="autoSaveGlobal()">
 
-        <div style="margin-top: 10px; color: #555; font-size: 0.85rem; font-weight: bold; text-align: center; background: #e6f7ff; padding: 8px; border-radius: 5px; border: 1px dashed #91d5ff;">
-            ⚡ يتم الآن حفظ أي تغيير في الحقول أعلاه تلقائياً لحمايتك من تحديث الصفحة!
+        <div style="margin-top: 10px; color: #2b542c; font-size: 0.85rem; font-weight: bold; text-align: center; background: #e2f0d9; padding: 8px; border-radius: 5px; border: 1px dashed #70ad47;">
+            🔒 محرك الحفظ التلقائي الفوري مُفعل ومحصن ضد تحديث الصفحة.
         </div>
     </div>
 
@@ -210,7 +210,7 @@
 
 <script>
     let tree = localStorage.getItem("site_tree") ? JSON.parse(localStorage.getItem("site_tree")) : INITIAL_TREE;
-    let urgentDestinationId = localStorage.getItem("site_urg_dest") ? localStorage.getItem("site_urg_dest") : INITIAL_URGENT_DEST;
+    let urgentDestinationId = localStorage.getItem("site_urg_dest") !== null ? localStorage.getItem("site_urg_dest") : INITIAL_URGENT_DEST;
     let tickerSpeed = localStorage.getItem("site_speed") ? localStorage.getItem("site_speed") : INITIAL_TICKER_SPEED;
     let currentNews = localStorage.getItem("site_news") ? localStorage.getItem("site_news") : INITIAL_NEWS;
     let currentHead = localStorage.getItem("site_head") ? localStorage.getItem("site_head") : INITIAL_HEAD;
@@ -230,6 +230,9 @@
         document.getElementById("newsInp").value = currentNews;
         document.getElementById("newsSpeedInp").value = tickerSpeed;
         
+        // [تعديل جوهري] تعبئة وتثبيت خيار القائمة المنسدلة فور تحميل الصفحة لضمان مطابقتها للذاكرة
+        populateUrgentDestSelect();
+        
         setupTicker(currentNews);
         applyTickerSpeed(tickerSpeed);
         tick(); 
@@ -243,7 +246,7 @@
         if (currentTime - lastClickTime > 2000) { clickCount = 0; }
         clickCount++; lastClickTime = currentTime;
         if (clickCount === 5) {
-            let pass = prompt("الرجاء إدخال كلمة سر لوحة التحكم:");
+            let pass = prompt("الرجاء إدخل كلمة سر لوحة التحكم:");
             if(pass === "1234") { openAdmin(); } else { alert("كلمة السر خاطئة!"); }
             clickCount = 0;
         }
@@ -252,7 +255,6 @@
     function openAdmin() { 
         document.getElementById("adminPanel").style.display = 'block'; 
         buildAdminTree(); 
-        populateUrgentDestSelect(); 
     }
     function closeAdmin() { document.getElementById("adminPanel").style.display = 'none'; }
 
@@ -421,7 +423,8 @@
                 select.appendChild(option); if (item.children) traverse(item.children, depth + "    ");
             });
         }
-        traverse(tree); select.value = urgentDestinationId;
+        traverse(tree); 
+        select.value = urgentDestinationId; // تثبيت القيمة بدقة من الذاكرة الصلبة
     }
 
     function buildParentSelect(currentId = null) {
@@ -522,23 +525,22 @@
         } return false;
     }
 
-    /* [تحديث هندسي جوهري ونادر]: محرك الحفظ التلقائي الصامت والفوري */
+    /* محرك الحفظ التلقائي الصامت والفوري الفولاذي */
     function autoSaveGlobal() {
-        // سحب البيانات حية ومباشرة من الحقول أثناء الكتابة أو الاختيار
         currentNews = document.getElementById("newsInp").value;
         currentUrgentText = document.getElementById("urgInp").value;
         currentHead = document.getElementById("headInp").value;
         urgentDestinationId = document.getElementById("urgentDestSelect").value;
         tickerSpeed = document.getElementById("newsSpeedInp").value || "25";
         
-        // التحديث الفوري المباشر على الصفحة ليشاهده المستخدم أمام عينه
+        // تحديث مرئي فوري
         setupTicker(currentNews);
         document.getElementById("urgentText").innerText = currentUrgentText;
         document.getElementById("siteHeader").style.backgroundImage = `url('${currentHead}')`;
         toggleUrgentBtnVisibility(urgentDestinationId);
         applyTickerSpeed(tickerSpeed);
         
-        // التخزين الحديدي الفوري بذاكرة المتصفح الصلبة (كل حرف بحرفه) لمنع النسيان عند الـ Refresh نهائياً
+        // القفل الفوري داخل التخزين المحلي
         localStorage.setItem("site_news", currentNews);
         localStorage.setItem("site_urg_text", currentUrgentText);
         localStorage.setItem("site_head", currentHead);
