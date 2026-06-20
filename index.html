@@ -38,8 +38,8 @@
         .content-title { background: var(--p-black); color: white; padding: 10px 15px; font-weight: bold; }
         .content-text { padding: 15px; line-height: 1.8; color: #333; white-space: pre-wrap; }
 
-        /* لوحة التحكم ومساحات الكتابة الكبيرة */
-        #adminPanel { display: none; position: fixed; inset: 0; background: #fff; z-index: 9000; padding: 20px; overflow-y: auto; }
+        /* لوحة التحكم */
+        #adminPanel { display: none; position: fixed; inset: 0; background: #fff; z-index: 50000 !important; padding: 20px; overflow-y: auto; }
         .admin-nav { position: sticky; top: -20px; background: #fff; z-index: 100; border-bottom: 2px solid var(--p-green); padding: 10px 0; margin-bottom: 15px; }
         
         .admin-item { background: white; border: 1px solid #eee; padding: 12px; margin-bottom: 8px; border-radius: 8px; border-right: 5px solid var(--p-green); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
@@ -56,11 +56,11 @@
         .btn-blue { background: var(--p-blue); color: white; }
         .btn-orange { background: orange; color: white; }
 
-        /* [تعديل جوهري للحل] جعل النافذة المنبثقة للتعديل أعلى من لوحة التحكم لتظهر فوقها تماماً */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
-        .modal-box { background: white; width: 100%; max-width: 500px; border-radius: 15px; max-height: 85vh; overflow-y: auto; }
+        /* [تحديث حاسم وقوي] قمنا برفع المودال لأعلى طبقة بالمتصفح ليكون فوق لوحة التحكم بشكل مطلق وتام */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9) !important; z-index: 999999 !important; align-items: center; justify-content: center; padding: 20px; }
+        .modal-box { background: white; width: 100%; max-width: 500px; border-radius: 15px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; z-index: 1000000 !important; }
 
-        /* شريط الأخبار اللانهائي المتصل */
+        /* شريط الأخبار */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
         .clock { background: var(--p-green); padding: 0 20px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1002; direction: rtl; position: relative; }
@@ -95,7 +95,10 @@
     <div class="admin-nav">
         <div style="display:flex; justify-content:space-between; align-items:center;">
              <h2 style="margin:0;">منصة الإدارة والأرشفة</h2>
-             <button onclick="closeAdmin()" class="btn btn-red" style="padding:5px 10px;">إغلاق لوحة التحكم X</button>
+             <div style="display: flex; gap: 10px;">
+                 <button onclick="clearCache()" class="btn btn-orange" style="padding:5px 10px;">🔄 تصهير الذاكرة وإعادة الضبط الأصلي</button>
+                 <button onclick="closeAdmin()" class="btn btn-red" style="padding:5px 10px;">إغلاق X</button>
+             </div>
         </div>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
             <button class="btn btn-blue" onclick="openAdder('folder')">📁 إضافة قسم / تصنيف</button>
@@ -114,7 +117,7 @@
         
         <label>شريط الأخبار المتحرك السفلي:</label> <input type="text" id="newsInp">
         
-        <label style="color: var(--p-green); font-weight: bold;">⏱️ سرعة شريط الأخبار بالثواني (كلما قل الرقم زادت السرعة):</label>
+        <label style="color: var(--p-green); font-weight: bold;">⏱️ سرعة شريط الأخبار بالثواني:</label>
         <input type="number" id="newsSpeedInp" min="5" max="100" placeholder="مثال: 25">
 
         <button class="btn btn-green" style="width:100%; margin-top: 10px;" onclick="saveGlobal()">✅ تحديث الإعدادات العامة</button>
@@ -122,7 +125,7 @@
 
     <div id="adminTree"><h4>قائمة التعديل الشامل للهيكلية:</h4></div>
     
-    <button class="btn btn-blue" style="width:100%; border:3px solid #000; font-size:1.1rem; margin-top: 25px; margin-bottom:25px; padding:15px;" onclick="exportSite()">📥 تصدير وإصدار الكود النهائي المحدث</button>
+    <button class="btn btn-green" style="width:100%; border:3px solid #000; font-size:1.2rem; margin-top: 25px; margin-bottom:25px; padding:15px; background: #007A3D;" onclick="exportSite()">📥 تصدير وإصدار الكود النهائي المحدث (تنزيل ملف index.html)</button>
 </div>
 
 <div id="adderModal" class="modal">
@@ -149,13 +152,13 @@
             </div>
             
             <label>نص الوصف والبيانات بالكامل:</label>
-            <textarea id="itemText" placeholder="اكتب تفاصيل المحتوى هنا بكل حرية، المساحة مصممة لتستوعب النصوص الطويلة جداً..."></textarea>
+            <textarea id="itemText" placeholder="اكتب تفاصيل المحتوى هنا بكل حرية..."></textarea>
         </div>
         
         <label>مكان النشر المخصص (القسم أو المجلد الأب):</label> 
         <select id="parentSelect"></select>
         
-        <button class="btn btn-green" style="width:100%; margin-top:15px; font-size:1.1rem;" onclick="saveEntry()">💾 حفظ وتثبيت التعديل مؤقتاً</button>
+        <button class="btn btn-green" style="width:100%; margin-top:15px; font-size:1.1rem;" onclick="saveEntry()">💾 حفظ وتثبيت في ذاكرة المتصفح الصلبة</button>
         <button class="btn btn-red" style="width:100%; margin-top:5px;" onclick="closeAdder()">إلغاء التغييرات</button>
     </div>
 </div>
@@ -199,26 +202,28 @@
 </script>
 
 <script>
-    let tree = INITIAL_TREE;
+    // تفعيل المحرك الذكي للاحتفاظ بالتعديلات حتى لو تم عمل Refresh للصحة بالخطأ
+    let tree = localStorage.getItem("site_tree") ? JSON.parse(localStorage.getItem("site_tree")) : INITIAL_TREE;
+    let urgentDestinationId = localStorage.getItem("site_urg_dest") ? localStorage.getItem("site_urg_dest") : INITIAL_URGENT_DEST;
+    let tickerSpeed = localStorage.getItem("site_speed") ? localStorage.getItem("site_speed") : INITIAL_TICKER_SPEED;
+    let currentNews = localStorage.getItem("site_news") ? localStorage.getItem("site_news") : INITIAL_NEWS;
+    let currentHead = localStorage.getItem("site_head") ? localStorage.getItem("site_head") : INITIAL_HEAD;
+
     let currentFolderId = null; 
     let navigationHistory = []; 
     let addingType = 'folder';
-    let urgentDestinationId = INITIAL_URGENT_DEST;
-    let tickerSpeed = INITIAL_TICKER_SPEED;
-
-    let clickCount = 0;
-    let lastClickTime = 0;
+    let clickCount = 0; let lastClickTime = 0;
 
     window.onload = () => { 
         document.getElementById("adminPanel").style.display = 'none'; 
-        document.getElementById("headInp").value = INITIAL_HEAD;
-        document.getElementById("siteHeader").style.backgroundImage = `url('${INITIAL_HEAD}')`;
-        document.getElementById("urgInp").value = "إطلاق النسخة المحدثة 2026 بنجاح.";
-        document.getElementById("urgentText").innerText = "إطلاق النسخة المحدثة 2026 بنجاح.";
-        document.getElementById("newsInp").value = INITIAL_NEWS;
+        document.getElementById("headInp").value = currentHead;
+        document.getElementById("siteHeader").style.backgroundImage = `url('${currentHead}')`;
+        document.getElementById("urgInp").value = localStorage.getItem("site_urg_text") || "إطلاق النسخة المحدثة 2026 بنجاح.";
+        document.getElementById("urgentText").innerText = localStorage.getItem("site_urg_text") || "إطلاق النسخة المحدثة 2026 بنجاح.";
+        document.getElementById("newsInp").value = currentNews;
         document.getElementById("newsSpeedInp").value = tickerSpeed;
         
-        setupTicker(INITIAL_NEWS);
+        setupTicker(currentNews);
         applyTickerSpeed(tickerSpeed);
         tick(); 
         renderUI(); 
@@ -229,8 +234,7 @@
     function handleAdminClick() {
         const currentTime = new Date().getTime();
         if (currentTime - lastClickTime > 2000) { clickCount = 0; }
-        clickCount++;
-        lastClickTime = currentTime;
+        clickCount++; lastClickTime = currentTime;
         if (clickCount === 5) {
             let pass = prompt("الرجاء إدخال كلمة سر لوحة التحكم:");
             if(pass === "1234") { openAdmin(); } else { alert("كلمة السر خاطئة!"); }
@@ -489,17 +493,18 @@
         if (parentId === "root") { tree.push(targetItem); } 
         else { let p = findItemById(tree, parentId); if (p) { if (!p.children) p.children = []; p.children.push(targetItem); } }
 
-        alert("تم حفظ وتثبيت التعديل بنجاح داخل لوحة التحكم."); 
-        closeAdder(); 
-        buildAdminTree(); 
-        populateUrgentDestSelect(); 
-        renderUI();
+        // التخزين الفوري بذاكرة المتصفح الصلبة
+        localStorage.setItem("site_tree", JSON.stringify(tree));
+
+        alert("تم التثبيت والحفظ الآمن داخل المتصفح."); 
+        closeAdder(); buildAdminTree(); populateUrgentDestSelect(); renderUI();
     }
 
     function deleteItem(id) {
         if(confirm("هل تريد حذف هذا العنصر وكل محتوياته؟")) {
             removeItemFromTree(tree, id); if(currentFolderId === id) currentFolderId = null;
             if(urgentDestinationId === id) { urgentDestinationId = ""; toggleUrgentBtnVisibility(""); }
+            localStorage.setItem("site_tree", JSON.stringify(tree));
             buildAdminTree(); populateUrgentDestSelect(); renderUI();
         }
     }
@@ -513,16 +518,33 @@
 
     function saveGlobal() {
         let nText = document.getElementById("newsInp").value;
+        let uText = document.getElementById("urgInp").value;
+        let hLink = document.getElementById("headInp").value;
+        
         setupTicker(nText);
-        document.getElementById("urgentText").innerText = document.getElementById("urgInp").value;
-        document.getElementById("siteHeader").style.backgroundImage = `url('${document.getElementById("headInp").value}')`;
+        document.getElementById("urgentText").innerText = uText;
+        document.getElementById("siteHeader").style.backgroundImage = `url('${hLink}')`;
         urgentDestinationId = document.getElementById("urgentDestSelect").value;
         toggleUrgentBtnVisibility(urgentDestinationId);
         
         tickerSpeed = document.getElementById("newsSpeedInp").value || "25";
         applyTickerSpeed(tickerSpeed);
         
-        alert("تم تحديث الإعدادات والسرعة المحددة بنجاح.");
+        // حفظ الإعدادات العامة في الذاكرة لتجنب فقدانها عند الريفرش
+        localStorage.setItem("site_news", nText);
+        localStorage.setItem("site_urg_text", uText);
+        localStorage.setItem("site_head", hLink);
+        localStorage.setItem("site_urg_dest", urgentDestinationId);
+        localStorage.setItem("site_speed", tickerSpeed);
+        
+        alert("تم الحفظ الفوري للإعدادات العامة.");
+    }
+
+    function clearCache() {
+        if(confirm("هل تريد مسح التعديلات المؤقتة والعودة للنسخة البرمجية الأصلية؟")) {
+            localStorage.clear();
+            location.reload();
+        }
     }
 
     function exportSite() {
@@ -530,6 +552,8 @@
         let fullHtml = document.documentElement.outerHTML;
         let regex = /var INITIAL_TREE =[\s\S]*?var INITIAL_TICKER_SPEED = ".*?";/;
         fullHtml = fullHtml.replace(regex, dataScript.trim());
+        
+        // مسح الكاش تلقائياً عند التصدير ليكون ملف الـ HTML الجديد نظيفاً
         let blob = new Blob([`<!DOCTYPE html>\n` + fullHtml], {type: "text/html"});
         let a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "index.html"; a.click();
     }
