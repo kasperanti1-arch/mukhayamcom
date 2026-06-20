@@ -68,7 +68,7 @@
 
 <div id="urgentArea" style="display: block;">
     <span style="color:red; font-weight:bold;">🔴 خبر هام:</span>
-    <b id="urgentText">نسخة تجربية</b>
+    <b id="urgentText">نسخة تجريبية</b>
 </div>
 
 <div id="adminPanel" style="display: block !important;">
@@ -116,30 +116,38 @@
 </div>
 
 <div class="container">
-    <div id="pathNav" style="display: none; margin-bottom: 15px;">
+    <div id="pathNav" style="display: flex; margin-bottom: 15px;">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:8px 15px; border-radius:8px;">← عودة</button>
-        <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)">عن المخيم</span>
+        <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)">فعاليات المخيم</span>
     </div>
     <div id="directArea"></div>
-    <div id="gridArea" class="grid"><div class="card card-folder">عن المخيم</div><div class="card card-folder">فعاليات المخيم</div></div>
+    <div id="gridArea" class="grid"><div class="card card-folder">قهوة</div><div class="card card-folder">سوبر ماركت</div><div class="card card-folder">اتصالات</div><div class="card card-folder">صيدليات</div></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
-        <div class="clock" id="liveClock">١٦:٠١</div>
+        <div class="clock" id="liveClock">١٦:٢٣</div>
         <div class="ticker-wrapper" style="flex:1; height:100%; position:relative; overflow:hidden;">
-            <div class="ticker-move" id="tickerBox" style="transform: translateX(687px);"><div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span></div></div>
+            <div class="ticker-move" id="tickerBox" style="transform: translateX(4.5px);"><div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span></div></div>
         </div>
     </div>
     <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
 </div>
 
 <!-- Modal العرض -->
-<div id="viewModal" class="modal">
+<div id="viewModal" class="modal" style="display: none;">
     <div class="modal-box">
-        <div style="background:#000; color:#fff; padding:10px; display:flex; justify-content:space-between;"><span id="viewT"></span><span onclick="document.getElementById('viewModal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">×</span></div>
-        <div id="viewSlider"></div>
-        <div id="viewB" style="padding:15px; text-align:right; line-height:1.7;"></div>
+        <div style="background:#000; color:#fff; padding:10px; display:flex; justify-content:space-between;"><span id="viewT">رامي للاتصالات</span><span onclick="document.getElementById('viewModal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">×</span></div>
+        <div id="viewSlider">
+            <div class="slider-wrapper" id="slider_pop">
+                <img src="https://i.postimg.cc/hPcGzBGH/e8c25943-bf78-4912-bf7d-fbb622a74cc7.jpg" class="slider-img active" id="img_pop_0"><img src="https://i.postimg.cc/26NDsQbG/Whats-App-Image-2026-06-20-at-1-40-54-PM.jpg" class="slider-img " id="img_pop_1"><img src="https://i.postimg.cc/x8RnyXdw/Whats-App-Image-2026-06-20-at-1-43-58-PM.jpg" class="slider-img " id="img_pop_2">
+                
+                    <button class="slide-btn btn-prev" onclick="changeSlide('pop', -1, 3)">▶</button>
+                    <button class="slide-btn btn-next" onclick="changeSlide('pop', 1, 3)">◀</button>
+                    <div class="slide-count"><span id="count_pop">1</span> / 3</div>
+                
+            </div></div>
+        <div id="viewB" style="padding:15px; text-align:right; line-height:1.7;">رامي لخدمات الاتصالات والانترنت<br>مركز معتمد سيريتل مصغر<br>تسديد فواتير الهاتف الارضي والانترنت والمياه والكهرباء<br>مركز دفع إلكتروني حكومي لجميع المعاملات<br>تجارة جميع انواع اجهزة الموبايل والاكسسوار وملحقاتها<br>تركيب انترنت فضائي وهوائي خدمة ممتازة<br>اللاذقية - الرمل الجنوبي - شارع المخيم الرئيسي<br>مقابل صيدلية عمار<br>واتس اب 0935640800</div>
     </div>
 </div>
 
@@ -257,5 +265,6 @@
     }
     function initEdit(id) { let i = find(tree, id); openAdder(i.type, id); }
 </script>
+
 
 </body></html>
