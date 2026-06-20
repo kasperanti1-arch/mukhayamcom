@@ -1,54 +1,59 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<html lang="ar" dir="rtl"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | لوحة التحكم المتطورة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>مخيم نت | 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 100px; user-select: none; overflow-x: hidden; }
         
-        header { 
-            background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; 
-            height: 160px; border-bottom: 4px solid var(--p-green); position: relative; 
-        }
+        /* الهيدر */
+        header { background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; height: 160px; border-bottom: 4px solid var(--p-green); position: relative; }
         .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; border: 1px solid rgba(255,255,255,0.2); }
         .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
 
+        /* الخبر الهام */
         #urgentArea { margin: 15px; background: white; border-right: 5px solid var(--p-red); border-radius: 8px; padding: 12px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(206, 17, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0); } }
 
         .container { padding: 0 15px 15px 15px; min-height: 40vh; }
-        .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; border-right: 6px solid var(--p-blue); }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
+        .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; }
+        .card-folder { border-right: 6px solid var(--p-blue); }
+        .card-popup { border-right: 6px solid #9c27b0; }
+
+        /* تصميم السلايدر (Slider) */
+        .slider-wrapper { position: relative; width: 100%; height: 250px; background: #eee; overflow: hidden; }
+        .slider-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .slider-img.active { display: block; }
+        .slide-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 15px; cursor: pointer; font-size: 1.2rem; border-radius: 5px; z-index: 5; }
+        .btn-prev { left: 10px; }
+        .btn-next { right: 10px; }
+        .slide-count { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: white; padding: 2px 10px; border-radius: 15px; font-size: 0.7rem; }
+
+        /* المحتوى المباشر */
         .content-block { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-right: 6px solid var(--p-green); }
-        .content-img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
         .content-title { background: var(--p-black); color: white; padding: 10px 15px; font-weight: bold; }
         .content-text { padding: 15px; line-height: 1.8; color: #333; white-space: pre-wrap; }
 
         /* لوحة التحكم */
         #adminPanel { display: none !important; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
-        .admin-nav { position: sticky; top: -20px; background: #fff; z-index: 100; padding: 10px 0; border-bottom: 2px solid var(--p-green); margin-bottom: 20px; }
-        .admin-section { background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
-        .admin-item { background: #fff; border: 1px solid #eee; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .controls { display: flex; gap: 5px; }
+        .admin-nav { position: sticky; top: -20px; background: #fff; z-index: 100; border-bottom: 2px solid var(--p-green); padding: 10px 0; margin-bottom: 15px; }
+        .admin-item { background: white; border: 1px solid #eee; padding: 10px; margin-bottom: 8px; border-radius: 8px; border-right: 5px solid var(--p-green); }
 
-        input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 14px; box-sizing: border-box; }
-        .btn { border: none; border-radius: 8px; cursor: pointer; font-weight: bold; padding: 12px; font-size: 0.9rem; }
+        input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; box-sizing: border-box; }
+        .btn { border: none; border-radius: 8px; cursor: pointer; font-weight: bold; padding: 12px; }
         .btn-green { background: var(--p-green); color: white; }
         .btn-red { background: var(--p-red); color: white; }
         .btn-blue { background: var(--p-blue); color: white; }
-        .btn-sm { padding: 5px 10px; font-size: 0.75rem; border-radius: 5px; }
 
-        /* بوب آب الإضافة */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-box { background: white; width: 100%; max-width: 450px; padding: 20px; border-radius: 15px; max-height: 90vh; overflow-y: auto; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 5000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-box { background: white; width: 100%; max-width: 450px; border-radius: 15px; max-height: 85vh; overflow-y: auto; }
 
-        /* الفوتر */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; }
-        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; font-size: 0.9rem; z-index: 1001; }
-        .ticker-wrapper { flex: 1; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; }
+        .clock { background: var(--p-green); padding: 0 20px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1001; }
         .ticker-move { display: flex; position: absolute; white-space: nowrap; right: 0; flex-direction: row-reverse; }
         .ticker-item { padding-left: 100px; font-size: 0.9rem; direction: rtl; }
         .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
@@ -56,330 +61,201 @@
 </head>
 <body>
 
-<header id="siteHeader">
+<header id="siteHeader" style="background-image: url(&quot;https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png&quot;);">
     <div class="header-tag-right" id="adminTrigger">مخيم نت</div>
-    <div class="header-tag-left" id="headerDate">-- : --</div>
+    <div class="header-tag-left" id="headerDate">السبت، ٢٠ يونيو ٢٠٢٦</div>
 </header>
 
-<div id="urgentArea">
+<div id="urgentArea" style="display: block;">
     <span style="color:red; font-weight:bold;">🔴 خبر هام:</span>
-    <b id="urgentText"></b>
+    <b id="urgentText">نسخة تجربية</b>
 </div>
 
-<div id="adminPanel">
+<div id="adminPanel" style="display: block !important;">
     <div class="admin-nav">
         <div style="display:flex; justify-content:space-between; align-items:center;">
              <h2 style="margin:0;">منصة الإدارة</h2>
-             <button onclick="closeAdmin()" class="btn btn-red btn-sm">إغلاق X</button>
+             <button onclick="closeAdmin()" class="btn btn-red" style="padding:5px 10px;">إغلاق X</button>
         </div>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-            <button class="btn btn-blue" onclick="openAdder('folder')">📁 إضافة صنف / قسم</button>
-            <button class="btn btn-green" onclick="openAdder('direct')">✍️ إضافة موضوع / محتوى</button>
+            <button class="btn btn-blue" onclick="openAdder('folder')">📁 قسم</button>
+            <button class="btn btn-green" onclick="openAdder('direct')">✍️ محتوى</button>
         </div>
     </div>
 
-    <!-- الإعدادات العامة -->
-    <div class="admin-section">
-        <h4>⚙️ إعدادات الواجهة والهوية</h4>
-        <label>رابط صورة الهيدر:</label>
-        <input type="text" id="headInp">
-        <label>الخبر الهام العلوي:</label>
-        <input type="text" id="urgInp">
-        <label>نص الشريط السفلي:</label>
-        <input type="text" id="newsInp">
-        <label>سرعة الشريط:</label>
-        <input type="range" id="speedSld" min="1" max="10" step="0.5">
-        <button class="btn btn-green" style="width:100%; margin-top:10px;" onclick="saveGlobalSettings()">✅ حفظ إعدادات الموقع</button>
+    <!-- الإعدادات -->
+    <div class="admin-item" style="border-right-color: orange;">
+        <h4>⚙️ الإعدادات العامة</h4>
+        <label>رابط الهيدر:</label> <input type="text" id="headInp">
+        <label>الخبر الهام:</label> <input type="text" id="urgInp">
+        <label>شريط الأخبار:</label> <input type="text" id="newsInp">
+        <button class="btn btn-green" style="width:100%" onclick="saveGlobal()">✅ تحديث</button>
     </div>
 
-    <!-- إدارة الأقسام -->
-    <div class="admin-section">
-        <h4>📁 إدارة شجرة الأقسام</h4>
-        <div id="folderManager"></div>
-    </div>
-
-    <!-- إدارة المحتويات -->
-    <div class="admin-section">
-        <h4>✍️ إدارة المواضيع والمحتويات</h4>
-        <div id="contentManager"></div>
-    </div>
-
-    <button class="btn btn-blue" style="width:100%" onclick="exportSite()">📥 تصدير الكود المحدث بالكامل</button>
+    <div id="adminTree"><h4>قائمة العناصر:</h4><div class="admin-item" style="border-right-color:var(--p-blue)"> فعاليات المخيم <button onclick="initEdit('mn1781950777614')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950777614')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-blue)">— قهوة <button onclick="initEdit('mn1781950908933')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950908933')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— ايهاب <button onclick="initEdit('mn1781951286893')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781951286893')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— الشاويش <button onclick="initEdit('mn1781951258613')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781951258613')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-blue)">— سوبر ماركت <button onclick="initEdit('mn1781950898333')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950898333')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— سوبر ماركت بيتي <button onclick="initEdit('mn1781951220966')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781951220966')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— سوبر ماركت القدس <button onclick="initEdit('mn1781951025317')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781951025317')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-blue)">— اتصالات <button onclick="initEdit('mn1781950887853')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950887853')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— مركز MLM <button onclick="initEdit('mn1781951081582')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781951081582')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— رامي للاتصالات <button onclick="initEdit('mn1781950963501')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950963501')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-blue)">— صيدليات <button onclick="initEdit('mn1781950792117')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950792117')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— صيدلية العفاف <button onclick="initEdit('mn1781951185869')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781951185869')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— صيدلية تيسير <button onclick="initEdit('mn1781951138981')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781951138981')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">—— صيدلية عمار <button onclick="initEdit('mn1781950850349')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950850349')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-blue)"> عن المخيم <button onclick="initEdit('mn1781950669494')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950669494')" style="color:red">حذف</button></div><div class="admin-item" style="border-right-color:var(--p-green)">— عن المخيم <button onclick="initEdit('mn1781950741182')" style="color:blue">تعديل</button> <button onclick="deleteItem('mn1781950741182')" style="color:red">حذف</button></div></div>
+    <button class="btn btn-blue" style="width:100%; border:2px solid #000;" onclick="exportSite()">📥 تصدير الكود</button>
 </div>
 
-<!-- مودال الإضافة / التعديل -->
-<div id="adderModal" class="modal-overlay">
-    <div class="modal-box">
-        <h3 id="modalTitle">إضافة جديد</h3>
-        <label>العنوان:</label>
-        <input type="text" id="itemTitle">
-        <div id="contentFields">
-            <label>رابط الصورة:</label>
-            <input type="text" id="itemImg">
-            <label>النص التفصيلي:</label>
-            <textarea id="itemText" rows="5"></textarea>
+<!-- واجهة الإضافة -->
+<div id="adderModal" class="modal" style="display:none; z-index:10001;">
+    <div class="modal-box" style="padding:20px;">
+        <h3 id="modalTitle">تحرير المحتوى</h3>
+        <input type="text" id="itemTitle" placeholder="العنوان">
+        <div id="extraFields">
+            <label>نمط العرض:</label>
+            <select id="itemDisplayMode"><option value="direct">منشور مباشر</option><option value="popup">منبثق</option></select>
+            <input type="text" id="itemImg1" placeholder="رابط صورة 1 (أساسي)">
+            <input type="text" id="itemImg2" placeholder="رابط صورة 2 (اختياري)">
+            <input type="text" id="itemImg3" placeholder="رابط صورة 3 (اختياري)">
+            <textarea id="itemText" placeholder="النص..." rows="5"></textarea>
         </div>
-        <label>اختر المكان (التبعية):</label>
-        <select id="parentSelect"></select>
-        <button class="btn btn-green" style="width:100%" onclick="saveEntry()">💾 حفظ البيانات</button>
+        <label>المكان:</label> <select id="parentSelect"></select>
+        <button class="btn btn-green" style="width:100%" onclick="saveEntry()">💾 حفظ</button>
         <button class="btn btn-red" style="width:100%" onclick="closeAdder()">إلغاء</button>
     </div>
 </div>
 
 <div class="container">
-    <div id="pathNav" style="display:none; margin-bottom:15px; align-items:center;">
+    <div id="pathNav" style="display:none; margin-bottom:15px;">
         <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:8px 15px; border-radius:8px;">← عودة</button>
-        <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)">الرئيسية</span>
+        <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)"></span>
     </div>
     <div id="directArea"></div>
-    <div id="gridArea" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px;"></div>
+    <div id="gridArea" class="grid"><div class="card card-folder">فعاليات المخيم</div><div class="card card-folder">عن المخيم</div></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
-        <div class="clock" id="liveClock">00:00</div>
-        <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox"><div id="tickerContent" style="display: flex;"></div></div>
+        <div class="clock" id="liveClock">١٣:٣٠</div>
+        <div class="ticker-wrapper" style="flex:1; height:100%; position:relative; overflow:hidden;">
+            <div class="ticker-move" id="tickerBox" style="transform: translateX(877.5px);"><div id="tickerContent" style="display: flex;"><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span><span class="ticker-item">أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك</span></div></div>
         </div>
     </div>
     <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
 </div>
 
-<script id="siteData">
-    var INITIAL_TREE = [];
-    var INITIAL_NEWS = "مرحباً بكم في مخيم نت";
-    var INITIAL_HEAD = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
-    var INITIAL_SPEED = 2;
-    var INITIAL_URGENT = "";
-</script>
+<!-- Modal العرض -->
+<div id="viewModal" class="modal">
+    <div class="modal-box">
+        <div style="background:#000; color:#fff; padding:10px; display:flex; justify-content:space-between;"><span id="viewT"></span><span onclick="document.getElementById('viewModal').style.display='none'" style="cursor:pointer; font-size:1.5rem;">×</span></div>
+        <div id="viewSlider"></div>
+        <div id="viewB" style="padding:15px; text-align:right; line-height:1.7;"></div>
+    </div>
+</div>
+
+<script id="siteData">var INITIAL_TREE = [{"id":"mn1781950777614","title":"فعاليات المخيم","type":"folder","mode":"popup","imgs":["","",""],"content":"","children":[{"id":"mn1781950908933","title":"قهوة","type":"folder","mode":"popup","imgs":["","",""],"content":"","children":[{"id":"mn1781951286893","title":"ايهاب","type":"direct","mode":"popup","imgs":["","",""],"content":"الشارع الرئيسي \nمقابل صيدلية تيسير","children":[]},{"id":"mn1781951258613","title":"الشاويش","type":"direct","mode":"popup","imgs":["","",""],"content":"قهوة الشاويش \nالشارع الرئيسي جانب مفرق الفرن","children":[]}]},{"id":"mn1781950898333","title":"سوبر ماركت","type":"folder","mode":"popup","imgs":["","",""],"content":"","children":[{"id":"mn1781951220966","title":"سوبر ماركت بيتي","type":"direct","mode":"popup","imgs":["","",""],"content":"الشارع الرئيسي جانب رامي للاتصالات","children":[]},{"id":"mn1781951025317","title":"سوبر ماركت القدس","type":"direct","mode":"popup","imgs":["","",""],"content":"سوبر ماركت القدس \nالشارع الرئيسي مقابل مفرق الفرن","children":[]}]},{"id":"mn1781950887853","title":"اتصالات","type":"folder","mode":"popup","imgs":["","",""],"content":"","children":[{"id":"mn1781951081582","title":"مركز MLM","type":"direct","mode":"popup","imgs":["","",""],"content":"مركز MLM للاتصالات \nالشارع الرئيسي مقابل صيدلية تيسير","children":[]},{"id":"mn1781950963501","title":"رامي للاتصالات","type":"direct","mode":"popup","imgs":["","",""],"content":"مركز رامي للاتصالات \nالشارع الرئيسي مقابل صيدلية عمار","children":[]}]},{"id":"mn1781950792117","title":"صيدليات","type":"folder","mode":"popup","imgs":["","",""],"content":"","children":[{"id":"mn1781951185869","title":"صيدلية العفاف","type":"direct","mode":"popup","imgs":["","",""],"content":"الشارع الرئيسي \n","children":[]},{"id":"mn1781951138981","title":"صيدلية تيسير","type":"direct","mode":"popup","imgs":["","",""],"content":"صيدلية تيسير \nالشارع الرئيسي مقابل مدرسة جبع أونروا","children":[]},{"id":"mn1781950850349","title":"صيدلية عمار","type":"direct","mode":"popup","imgs":["","",""],"content":"عمار صلاح عمر \nالشارع الرئيسي مقابل رامي للاتصالات","children":[]}]}]},{"id":"mn1781950669494","title":"عن المخيم","type":"folder","mode":"direct","imgs":["","",""],"content":"","children":[{"id":"mn1781950741182","title":"عن المخيم","type":"direct","mode":"popup","imgs":["https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png","https://i.postimg.cc/QxTm5kFX/1756472535-68b1a4d7f0f82.webp ",""],"content":"مخيم اللاذقية أحد مخيمات اللاجئين الفلسطينيين وهو مخيم غير رسمي يقع ضمن حدود مدينة اللاذقية، سوريا على ساحل البحر الأبيض المتوسط. يُسمى أيضًا مخيم الرمل أو مخيم القدس، وقد تم تأسيس المخيم بين عامي 1955-1956 فوق مساحة من الأرض تبلغ 0,22 كيلومتر مربع. ومعظم اللاجئين في المخيم أصولهم من قضاء يافا وقضاء حيفا والجليل. في عام 2011 تعرض لهجوم واسع من الجيش السوري في حكم بشار الأسد أسفر عن ترحيل الآلاف. وينحدرون من قرى وبلدات إجزم وعين غزال وجبع والصرفند وعتليت وكفر لام وطيرة والطنطورة والزيب وترشيحا البروة وياجور وأم الفرج والفريديس والسنديانة وعمقا والنهر والفراضية ودبورية وإكسال وغيرها.\nالتعليم بالمخيم\nيتوفر المخيم على عدد من المدارس التي تتبع وزارة التربية السورية ووكالة الأونروا، مما يساهم في توفير التعليم للسكان. ومنذ السبعينيات، ركز سكان المخيم على التعليم الثانوي والجامعي.\nأهم المؤسسات التعليمية بالمخيم\nمدارس تتبع وزارة التربية السورية\nمدرسة الشهيد يوسف نداف (ثانوية)\nمدرسة الرمل الجنوبي المحدثة (للتعليم الأساسي)\nمدارس تديرها وكالة الأونروا\nمدرسة جبع (للتعليم الأساسي، حلقة أولى، ذكور)\nمدرسة عتليت (للتعليم الأساسي، حلقة أولى، إناث)\nمدرسة الخيرية (ابتدائية وإعدادية)\nمدرسة مجد الكروم (ابتدائية وإعدادية)\n","children":[]}]}];
+    var INITIAL_NEWS = "أهلاً بكم في مخيم نت     يمكنكم اضافة اعلاناتكم عبر الشريط الاخباري بالتواصل معنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية على الفيسبوك";
+    var INITIAL_HEAD = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";</script>
 
 <script>
-    // الحماية من الفتح التلقائي
-    window.onload = () => { document.getElementById("adminPanel").style.setProperty('display', 'none', 'important'); };
+    window.onload = () => { document.getElementById("adminPanel").style.setProperty('display', 'none', 'important'); tick(); renderUI(); startTicker(); document.getElementById('siteHeader').style.backgroundImage = `url('${config.head}')`; };
 
-    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_pro_tree')) || [];
-    let config = {
-        news: localStorage.getItem('mn_pro_news') || INITIAL_NEWS,
-        head: localStorage.getItem('mn_pro_head') || INITIAL_HEAD,
-        speed: parseFloat(localStorage.getItem('mn_pro_speed')) || INITIAL_SPEED,
-        urgent: localStorage.getItem('mn_pro_urgent') || INITIAL_URGENT
-    };
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_v_slider')) || [];
+    let config = { news: localStorage.getItem('mn_p_news') || INITIAL_NEWS, head: localStorage.getItem('mn_p_head') || INITIAL_HEAD, urgent: localStorage.getItem('mn_p_urg') || "" };
+    let stack = [], entryClicks = 0, editingId = null;
 
-    let editingId = null;
-    let stack = [];
-
-    // الوقت
-    function tick() {
-        const now = new Date();
-        document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        setTimeout(tick, 1000);
-    }
-
-    // الشريط الإخباري
-    let tPos = 0;
+    function tick() { const now = new Date(); document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit',hour12:false}); document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'}); setTimeout(tick, 1000); }
+    
     function startTicker() {
-        const content = document.getElementById('tickerContent');
-        content.innerHTML = `<span class="ticker-item">${config.news}</span><span class="ticker-item">${config.news}</span>`;
-        function animate() {
-            tPos += config.speed;
-            if (content.children[0] && tPos >= content.children[0].offsetWidth) tPos = 0;
-            document.getElementById('tickerBox').style.transform = `translateX(${tPos}px)`;
-            requestAnimationFrame(animate);
-        }
-        animate();
+        const c = document.getElementById('tickerContent'); c.innerHTML = `<span class="ticker-item">${config.news}</span><span class="ticker-item">${config.news}</span>`;
+        let pos = 0; function anim() { pos += 1.5; if (c.children[0] && pos >= c.children[0].offsetWidth) pos = 0; document.getElementById('tickerBox').style.transform = `translateX(${pos}px)`; requestAnimationFrame(anim); } anim();
     }
 
-    // إعدادات الخبر الهام
-    function applyUrgent() {
-        const area = document.getElementById('urgentArea');
-        if(config.urgent && config.urgent.trim() !== "") {
-            area.style.display = 'block';
-            document.getElementById('urgentText').innerText = config.urgent;
-        } else { area.style.display = 'none'; }
-    }
-
-    // دخول لوحة التحكم
-    let clicks = 0;
-    document.getElementById('adminTrigger').onclick = () => {
-        clicks++;
-        if(clicks === 5) {
-            if(prompt("كلمة السر:") === "1234") {
-                document.getElementById('adminPanel').style.setProperty('display', 'block', 'important');
-                document.getElementById('newsInp').value = config.news;
-                document.getElementById('headInp').value = config.head;
-                document.getElementById('speedSld').value = config.speed;
-                document.getElementById('urgInp').value = config.urgent;
-                renderAdmin();
-            }
-            clicks = 0;
-        }
-        setTimeout(() => clicks = 0, 3000);
-    };
+    document.getElementById('adminTrigger').onclick = () => { if (++entryClicks === 5) { if (prompt("كلمة السر:") === "1234") { document.getElementById('adminPanel').style.setProperty('display', 'block', 'important'); document.getElementById('newsInp').value = config.news; document.getElementById('headInp').value = config.head; document.getElementById('urgInp').value = config.urgent; renderAdmin(); } entryClicks = 0; } setTimeout(() => entryClicks = 0, 3000); };
 
     function closeAdmin() { document.getElementById('adminPanel').style.setProperty('display', 'none', 'important'); }
+    function closeAdder() { document.getElementById('adderModal').style.display = 'none'; editingId = null; }
 
-    // إدارة البيانات
     function renderAdmin() {
-        const fMan = document.getElementById('folderManager');
-        const cMan = document.getElementById('contentManager');
-        fMan.innerHTML = ''; cMan.innerHTML = '';
-
-        function walk(arr, depth = 0) {
-            arr.forEach(i => {
-                const itemHtml = `
-                    <div class="admin-item">
-                        <span><b>${"—".repeat(depth)}</b> ${i.title}</span>
-                        <div class="controls">
-                            <button class="btn btn-blue btn-sm" onclick="editItem('${i.id}')">تعديل</button>
-                            <button class="btn btn-red btn-sm" onclick="deleteItem('${i.id}')">حذف</button>
-                        </div>
-                    </div>`;
-                if(i.type === 'folder') fMan.innerHTML += itemHtml;
-                else cMan.innerHTML += itemHtml;
-                if(i.children.length > 0) walk(i.children, depth + 1);
-            });
-        }
-        walk(tree);
+        const c = document.getElementById('adminTree'); c.innerHTML = '<h4>قائمة العناصر:</h4>';
+        function walk(arr, d = 0) { arr.forEach(i => { c.innerHTML += `<div class="admin-item" style="border-right-color:${i.type==='folder'?'var(--p-blue)':'var(--p-green)'}">${"—".repeat(d)} ${i.title} <button onclick="initEdit('${i.id}')" style="color:blue">تعديل</button> <button onclick="deleteItem('${i.id}')" style="color:red">حذف</button></div>`; if(i.children.length > 0) walk(i.children, d + 1); }); } walk(tree);
     }
 
     function openAdder(type, id = null) {
-        editingId = id;
-        document.getElementById('contentFields').style.display = (type === 'direct' || type === 'content') ? 'block' : 'none';
-        document.getElementById('modalTitle').innerText = id ? "تعديل البيانات" : "إضافة عنصر جديد";
-        
-        const sel = document.getElementById('parentSelect');
-        sel.innerHTML = '<option value="root">الواجهة الرئيسية</option>';
-        function fill(arr, depth=0) {
-            arr.forEach(i => {
-                if(i.type==='folder' && i.id !== id){ 
-                    sel.innerHTML += `<option value="${i.id}">${"—".repeat(depth)} ${i.title}</option>`;
-                    fill(i.children, depth+1);
-                }
-            });
-        }
-        fill(tree);
-
-        if(id) {
-            let item = findById(tree, id);
-            document.getElementById('itemTitle').value = item.title;
-            document.getElementById('itemImg').value = item.image;
-            document.getElementById('itemText').value = item.content;
-            sel.value = findParentId(tree, id) || 'root';
-        } else {
-            document.getElementById('itemTitle').value = '';
-            document.getElementById('itemImg').value = '';
-            document.getElementById('itemText').value = '';
-            document.getElementById('adderModal').dataset.type = type;
-        }
-        document.getElementById('adderModal').style.display='flex';
+        editingId = id; document.getElementById('extraFields').style.display = type === 'direct' ? 'block' : 'none';
+        const sel = document.getElementById('parentSelect'); sel.innerHTML = '<option value="root">الرئيسية</option>';
+        function fill(arr, d=0) { arr.forEach(i => { if(i.type==='folder' && i.id !== id){ sel.innerHTML += `<option value="${i.id}">${"—".repeat(d)} ${i.title}</option>`; fill(i.children, d+1); }}); } fill(tree);
+        if(id) { let i = find(tree, id); document.getElementById('itemTitle').value = i.title; document.getElementById('itemImg1').value = i.imgs[0]||''; document.getElementById('itemImg2').value = i.imgs[1]||''; document.getElementById('itemImg3').value = i.imgs[2]||''; document.getElementById('itemText').value = i.content; document.getElementById('itemDisplayMode').value = i.mode || 'direct'; sel.value = findParentId(tree, id) || 'root'; }
+        else { document.querySelectorAll('#itemTitle, #itemImg1, #itemImg2, #itemImg3, #itemText').forEach(el => el.value = ''); }
+        document.getElementById('adderModal').dataset.type = type; document.getElementById('adderModal').style.display = 'flex';
     }
-
-    function closeAdder() { document.getElementById('adderModal').style.display='none'; editingId = null; }
 
     function saveEntry() {
-        const t = document.getElementById('itemTitle').value;
-        const i = document.getElementById('itemImg').value;
-        const c = document.getElementById('itemText').value;
+        const newItem = { id: 'mn'+Date.now(), title: document.getElementById('itemTitle').value, type: document.getElementById('adderModal').dataset.type, mode: document.getElementById('itemDisplayMode').value, imgs: [document.getElementById('itemImg1').value, document.getElementById('itemImg2').value, document.getElementById('itemImg3').value], content: document.getElementById('itemText').value, children: [] };
+        if(editingId) deleteItem(editingId, false);
         const pId = document.getElementById('parentSelect').value;
-        const type = document.getElementById('adderModal').dataset.type;
-
-        if(!t) return alert("أدخل العنوان");
-
-        if(editingId) {
-            // منطق التعديل والنقل
-            let item = findById(tree, editingId);
-            item.title = t; item.image = i; item.content = c;
-            
-            // النقل
-            let oldParentArr = findParentArray(tree, editingId);
-            let targetParentArr = pId === 'root' ? tree : findById(tree, pId).children;
-            
-            if(oldParentArr !== targetParentArr) {
-                let idx = oldParentArr.findIndex(x => x.id == editingId);
-                let extracted = oldParentArr.splice(idx, 1)[0];
-                targetParentArr.unshift(extracted);
-            }
-        } else {
-            // منطق الإضافة الجديدة
-            const newItem = { id: 'mn'+Date.now(), title: t, type: type, image: i, content: c, children: [] };
-            if(pId === 'root') tree.unshift(newItem);
-            else findById(tree, pId).children.unshift(newItem);
-        }
-
-        saveTree(); closeAdder(); renderAdmin(); renderUI();
+        if(pId === 'root') tree.unshift(newItem); else find(tree, pId).children.unshift(newItem);
+        saveData(); closeAdder(); renderAdmin(); renderUI();
     }
 
-    function saveGlobalSettings() {
-        config.news = document.getElementById('newsInp').value;
-        config.head = document.getElementById('headInp').value;
-        config.speed = parseFloat(document.getElementById('speedSld').value);
-        config.urgent = document.getElementById('urgInp').value;
-        
-        localStorage.setItem('mn_pro_news', config.news);
-        localStorage.setItem('mn_pro_head', config.head);
-        localStorage.setItem('mn_pro_speed', config.speed);
-        localStorage.setItem('mn_pro_urgent', config.urgent);
-        
-        location.reload();
+    function deleteItem(id, conf = true) { if(conf && !confirm("حذف؟")) return; function walk(arr) { for(let i=0; i<arr.length; i++) { if(arr[i].id == id) { arr.splice(i, 1); return true; } if(arr[i].children.length > 0 && walk(arr[i].children)) return true; } } walk(tree); if(conf) { saveData(); renderAdmin(); renderUI(); } }
+    function saveGlobal() { config.news = document.getElementById('newsInp').value; config.head = document.getElementById('headInp').value; config.urgent = document.getElementById('urgInp').value; localStorage.setItem('mn_p_news', config.news); localStorage.setItem('mn_p_head', config.head); localStorage.setItem('mn_p_urg', config.urgent); location.reload(); }
+    function find(arr, id) { for(let i of arr) { if(i.id == id) return i; if(i.children.length > 0) { let res = find(i.children, id); if(res) return res; } } }
+    function findParentId(arr, id, pId = null) { for(let i of arr) { if(i.id == id) return pId; if(i.children.length > 0) { let res = findParentId(i.children, id, i.id); if(res) return res; } } }
+    function saveData() { localStorage.setItem('mn_v_slider', JSON.stringify(tree)); }
+
+    // --- منطق السلايدر ---
+    function buildSlider(imgs, idPrefix) {
+        const validImgs = imgs.filter(u => u && u.trim() !== "");
+        if(validImgs.length === 0) return "";
+        let currentIdx = 0;
+        const html = `
+            <div class="slider-wrapper" id="slider_${idPrefix}">
+                ${validImgs.map((u, i) => `<img src="${u}" class="slider-img ${i===0?'active':''}" id="img_${idPrefix}_${i}">`).join('')}
+                ${validImgs.length > 1 ? `
+                    <button class="slide-btn btn-prev" onclick="changeSlide('${idPrefix}', -1, ${validImgs.length})">▶</button>
+                    <button class="slide-btn btn-next" onclick="changeSlide('${idPrefix}', 1, ${validImgs.length})">◀</button>
+                    <div class="slide-count"><span id="count_${idPrefix}">1</span> / ${validImgs.length}</div>
+                ` : ''}
+            </div>`;
+        return html;
     }
 
-    function editItem(id) {
-        let item = findById(tree, id);
-        openAdder(item.type, id);
-    }
-
-    function deleteItem(id) {
-        if(!confirm("حذف؟")) return;
-        let arr = findParentArray(tree, id);
-        let idx = arr.findIndex(x => x.id == id);
-        arr.splice(idx, 1);
-        saveTree(); renderAdmin(); renderUI();
-    }
-
-    // وظائف المساعدة
-    function findById(arr, id) {
-        for(let i of arr) { if(i.id == id) return i; if(i.children.length>0) { let f = findById(i.children, id); if(f) return f; } }
-    }
-    function findParentArray(arr, id) {
-        for(let i=0; i<arr.length; i++) { if(arr[i].id == id) return arr; if(arr[i].children.length>0) { let f = findParentArray(arr[i].children, id); if(f) return f; } }
-    }
-    function findParentId(arr, id, pId = null) {
-        for(let i of arr) { if(i.id == id) return pId; if(i.children.length>0) { let f = findParentId(i.children, id, i.id); if(f) return f; } }
-    }
+    window.changeSlide = (prefix, dir, total) => {
+        const imgs = document.querySelectorAll(`#slider_${prefix} .slider-img`);
+        let activeIdx = 0; imgs.forEach((img, i) => { if(img.classList.contains('active')) activeIdx = i; img.classList.remove('active'); });
+        let newIdx = (activeIdx + dir + total) % total;
+        imgs[newIdx].classList.add('active');
+        document.getElementById(`count_${prefix}`).innerText = newIdx + 1;
+    };
 
     function renderUI() {
         const grid = document.getElementById('gridArea'); grid.innerHTML = '';
         const dc = document.getElementById('directArea'); dc.innerHTML = '';
         const nav = document.getElementById('pathNav');
         let cur = stack.length > 0 ? stack[stack.length - 1].children : tree;
-
         nav.style.display = stack.length > 0 ? 'flex' : 'none';
-        if(stack.length>0) document.getElementById('currentPath').innerText = stack[stack.length-1].title;
+        if(stack.length > 0) document.getElementById('currentPath').innerText = stack[stack.length-1].title;
 
-        cur.forEach(i => {
+        cur.forEach((i, idx) => {
             if(i.type === 'folder') {
-                const c = document.createElement('div'); c.className = 'card'; c.innerText = i.title;
+                const c = document.createElement('div'); c.className = 'card card-folder'; c.innerText = i.title;
                 c.onclick = () => { stack.push(i); renderUI(); window.scrollTo(0,0); }; grid.appendChild(c);
             } else {
-                const b = document.createElement('div'); b.className = 'content-block';
-                b.innerHTML = `<div class="content-title">${i.title}</div>${i.image?`<img src="${i.image}" class="content-img">`:''}<div class="content-text">${i.content.replace(/\n/g,'<br>')}</div>`;
-                dc.appendChild(b);
+                if(i.mode === 'direct') {
+                    const b = document.createElement('div'); b.className = 'content-block';
+                    b.innerHTML = `<div class="content-title">${i.title}</div>${buildSlider(i.imgs, 'dir_'+idx)}<div class="content-text">${i.content.replace(/\n/g,'<br>')}</div>`;
+                    dc.appendChild(b);
+                } else {
+                    const c = document.createElement('div'); c.className = 'card card-popup'; c.innerText = i.title;
+                    c.onclick = () => {
+                        document.getElementById('viewSlider').innerHTML = buildSlider(i.imgs, 'pop');
+                        document.getElementById('viewT').innerText = i.title;
+                        document.getElementById('viewB').innerHTML = i.content.replace(/\n/g,'<br>');
+                        document.getElementById('viewModal').style.display = 'flex';
+                    }; grid.appendChild(c);
+                }
             }
         });
+        const a = document.getElementById('urgentArea'); if(config.urgent) { a.style.display = 'block'; document.getElementById('urgentText').innerText = config.urgent; } else a.style.display = 'none';
     }
 
     function goBack() { stack.pop(); renderUI(); }
-    function saveTree() { localStorage.setItem('mn_pro_tree', JSON.stringify(tree)); }
     function exportSite() {
-        let snippet = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(config.news)};\n    var INITIAL_HEAD = ${JSON.stringify(config.head)};\n    var INITIAL_SPEED = ${config.speed};\n    var INITIAL_URGENT = ${JSON.stringify(config.urgent)};`);
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + snippet], {type:'text/html'}));
-        a.download = 'MukhayamNet_Final_Pro.html'; a.click();
+        let snippet = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(config.news)};\n    var INITIAL_HEAD = ${JSON.stringify(config.head)};`);
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n"+snippet], {type:'text/html'})); a.download = 'MukhayamNet_Slider.html'; a.click();
     }
-
-    tick(); startTicker(); applyUrgent();
-    document.getElementById('siteHeader').style.backgroundImage = `url('${config.head}')`;
-    renderUI();
+    function initEdit(id) { let i = find(tree, id); openAdder(i.type, id); }
 </script>
-</body>
-</html>
+
+</body></html>
