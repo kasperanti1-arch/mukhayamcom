@@ -1,1390 +1,385 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <base target="_self">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مخيم نت - موقع إدارة المحتوى</title>
-    <meta name="description" content="موقع مخيم نت لإدارة المحتوى والأقسام مع لوحة تحكم متكاملة">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مخيم نت | لوحة التحكم المتطورة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            font-family: 'Cairo', sans-serif;
-        }
+        :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
+        body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 100px; user-select: none; overflow-x: hidden; }
         
-        .palestine-gradient {
-            background: linear-gradient(90deg, #000000 33%, #ffffff 33%, #ffffff 66%, #007a3d 66%);
+        header { 
+            background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; 
+            height: 160px; border-bottom: 4px solid var(--p-green); position: relative; 
         }
-        
-        .palestine-green {
-            background-color: #007a3d;
-        }
-        
-        .palestine-red {
-            background-color: #ce1126;
-        }
-        
-        .palestine-black {
-            background-color: #000000;
-        }
-        
-        .palestine-white {
-            background-color: #ffffff;
-        }
-        
-        .news-ticker {
-            direction: ltr;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        .news-ticker-content {
-            display: inline-block;
-            padding-left: 100%;
-            animation: ticker 30s linear infinite;
-        }
-        
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        
-        .sortable-item {
-            cursor: move;
-            transition: all 0.3s ease;
-        }
-        
-        .sortable-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .sortable-item.dragging {
-            opacity: 0.5;
-        }
+        .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; border: 1px solid rgba(255,255,255,0.2); }
+        .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
+
+        #urgentArea { margin: 15px; background: white; border-right: 5px solid var(--p-red); border-radius: 8px; padding: 12px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(206, 17, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0); } }
+
+        .container { padding: 0 15px 15px 15px; min-height: 40vh; }
+        .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; border-right: 6px solid var(--p-blue); }
+        .content-block { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-right: 6px solid var(--p-green); }
+        .content-img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
+        .content-title { background: var(--p-black); color: white; padding: 10px 15px; font-weight: bold; }
+        .content-text { padding: 15px; line-height: 1.8; color: #333; white-space: pre-wrap; }
+
+        /* لوحة التحكم */
+        #adminPanel { display: none !important; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
+        .admin-nav { position: sticky; top: -20px; background: #fff; z-index: 100; padding: 10px 0; border-bottom: 2px solid var(--p-green); margin-bottom: 20px; }
+        .admin-section { background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+        .admin-item { background: #fff; border: 1px solid #eee; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .controls { display: flex; gap: 5px; }
+
+        input, textarea, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 14px; box-sizing: border-box; }
+        .btn { border: none; border-radius: 8px; cursor: pointer; font-weight: bold; padding: 12px; font-size: 0.9rem; }
+        .btn-green { background: var(--p-green); color: white; }
+        .btn-red { background: var(--p-red); color: white; }
+        .btn-blue { background: var(--p-blue); color: white; }
+        .btn-sm { padding: 5px 10px; font-size: 0.75rem; border-radius: 5px; }
+
+        /* بوب آب الإضافة */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-box { background: white; width: 100%; max-width: 450px; padding: 20px; border-radius: 15px; max-height: 90vh; overflow-y: auto; }
+
+        /* الفوتر */
+        .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
+        .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; }
+        .clock { background: var(--p-green); padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; font-size: 0.9rem; z-index: 1001; }
+        .ticker-wrapper { flex: 1; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; }
+        .ticker-move { display: flex; position: absolute; white-space: nowrap; right: 0; flex-direction: row-reverse; }
+        .ticker-item { padding-left: 100px; font-size: 0.9rem; direction: rtl; }
+        .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
     </style>
 </head>
-<body class="min-h-screen bg-gray-50" dir="rtl">
-    <!-- شريط الأخبار العاجلة -->
-    <div id="urgent-news" class="palestine-red text-white text-center py-2 px-4 hidden">
-        <span id="urgent-news-text">خبر عاجل: هذا خبر مهم يظهر عند التعبئة</span>
-        <button onclick="closeUrgentNews()" class="mr-4 text-white hover:text-gray-200">
-            <i class="fas fa-times"></i>
-        </button>
+<body>
+
+<header id="siteHeader">
+    <div class="header-tag-right" id="adminTrigger">مخيم نت</div>
+    <div class="header-tag-left" id="headerDate">-- : --</div>
+</header>
+
+<div id="urgentArea">
+    <span style="color:red; font-weight:bold;">🔴 خبر هام:</span>
+    <b id="urgentText"></b>
+</div>
+
+<div id="adminPanel">
+    <div class="admin-nav">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+             <h2 style="margin:0;">منصة الإدارة</h2>
+             <button onclick="closeAdmin()" class="btn btn-red btn-sm">إغلاق X</button>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+            <button class="btn btn-blue" onclick="openAdder('folder')">📁 إضافة صنف / قسم</button>
+            <button class="btn btn-green" onclick="openAdder('direct')">✍️ إضافة موضوع / محتوى</button>
+        </div>
     </div>
 
-    <!-- شريط التنقل العلوي -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <!-- الشعار مع كلمة سر مخفية -->
-                <div class="flex items-center">
-                    <h1 id="site-title" class="text-2xl font-bold text-gray-800 cursor-pointer" onclick="handleLogoClick(event)">
-                        مخيم نت
-                    </h1>
-                    <div class="mr-4 flex items-center">
-                        <!-- التاريخ والوقت -->
-                        <div id="date-time" class="bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium">
-                            <span id="current-date"></span>
-                            <span id="current-time" class="mr-2"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- شريط الأخبار المتحرك -->
-                <div class="flex-1 mx-4">
-                    <div class="news-ticker bg-gray-100 border border-gray-300 rounded-lg overflow-hidden">
-                        <div id="news-ticker-content" class="news-ticker-content py-2">
-                            <!-- سيتم ملء المحتوى ديناميكياً -->
-                        </div>
-                    </div>
-                    <!-- عناصر التحكم في شريط الأخبار (للأدمن فقط) -->
-                    <div id="news-controls" class="hidden mt-2 flex items-center justify-end space-x-2 space-x-reverse">
-                        <button onclick="editNewsTicker()" class="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
-                            <i class="fas fa-edit mr-1"></i>تعديل
-                        </button>
-                        <input type="range" id="news-speed" min="10" max="60" value="30" class="w-24" onchange="updateNewsSpeed()">
-                        <span class="text-xs text-gray-600">سرعة: <span id="speed-value">30</span> ثانية</span>
-                    </div>
-                </div>
-                
-                <!-- زر القائمة للموبايل -->
-                <button id="mobile-menu-btn" class="lg:hidden text-gray-600">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-            
-            <!-- قائمة التنقل -->
-            <nav id="main-nav" class="hidden lg:block border-t border-gray-200 pt-4 pb-2">
-                <ul id="nav-list" class="flex flex-wrap justify-center gap-6">
-                    <!-- سيتم ملء القائمة ديناميكياً -->
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- الإعدادات العامة -->
+    <div class="admin-section">
+        <h4>⚙️ إعدادات الواجهة والهوية</h4>
+        <label>رابط صورة الهيدر:</label>
+        <input type="text" id="headInp">
+        <label>الخبر الهام العلوي:</label>
+        <input type="text" id="urgInp">
+        <label>نص الشريط السفلي:</label>
+        <input type="text" id="newsInp">
+        <label>سرعة الشريط:</label>
+        <input type="range" id="speedSld" min="1" max="10" step="0.5">
+        <button class="btn btn-green" style="width:100%; margin-top:10px;" onclick="saveGlobalSettings()">✅ حفظ إعدادات الموقع</button>
+    </div>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- الأقسام الرئيسية -->
-        <section id="main-sections" class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">الأقسام الرئيسية</h2>
-            <div id="sections-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- سيتم ملء الأقسام ديناميكياً -->
-            </div>
-        </section>
+    <!-- إدارة الأقسام -->
+    <div class="admin-section">
+        <h4>📁 إدارة شجرة الأقسام</h4>
+        <div id="folderManager"></div>
+    </div>
+
+    <!-- إدارة المحتويات -->
+    <div class="admin-section">
+        <h4>✍️ إدارة المواضيع والمحتويات</h4>
+        <div id="contentManager"></div>
+    </div>
+
+    <button class="btn btn-blue" style="width:100%" onclick="exportSite()">📥 تصدير الكود المحدث بالكامل</button>
+</div>
+
+<!-- مودال الإضافة / التعديل -->
+<div id="adderModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 id="modalTitle">إضافة جديد</h3>
+        <label>العنوان:</label>
+        <input type="text" id="itemTitle">
+        <div id="contentFields">
+            <label>رابط الصورة:</label>
+            <input type="text" id="itemImg">
+            <label>النص التفصيلي:</label>
+            <textarea id="itemText" rows="5"></textarea>
+        </div>
+        <label>اختر المكان (التبعية):</label>
+        <select id="parentSelect"></select>
+        <button class="btn btn-green" style="width:100%" onclick="saveEntry()">💾 حفظ البيانات</button>
+        <button class="btn btn-red" style="width:100%" onclick="closeAdder()">إلغاء</button>
+    </div>
+</div>
+
+<div class="container">
+    <div id="pathNav" style="display:none; margin-bottom:15px; align-items:center;">
+        <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:8px 15px; border-radius:8px;">← عودة</button>
+        <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)">الرئيسية</span>
+    </div>
+    <div id="directArea"></div>
+    <div id="gridArea" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px;"></div>
+</div>
+
+<div class="footer">
+    <div class="news-bar">
+        <div class="clock" id="liveClock">00:00</div>
+        <div class="ticker-wrapper">
+            <div class="ticker-move" id="tickerBox"><div id="tickerContent" style="display: flex;"></div></div>
+        </div>
+    </div>
+    <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
+</div>
+
+<script id="siteData">
+    var INITIAL_TREE = [];
+    var INITIAL_NEWS = "مرحباً بكم في مخيم نت";
+    var INITIAL_HEAD = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
+    var INITIAL_SPEED = 2;
+    var INITIAL_URGENT = "";
+</script>
+
+<script>
+    // الحماية من الفتح التلقائي
+    window.onload = () => { document.getElementById("adminPanel").style.setProperty('display', 'none', 'important'); };
+
+    let tree = INITIAL_TREE.length > 0 ? INITIAL_TREE : JSON.parse(localStorage.getItem('mn_pro_tree')) || [];
+    let config = {
+        news: localStorage.getItem('mn_pro_news') || INITIAL_NEWS,
+        head: localStorage.getItem('mn_pro_head') || INITIAL_HEAD,
+        speed: parseFloat(localStorage.getItem('mn_pro_speed')) || INITIAL_SPEED,
+        urgent: localStorage.getItem('mn_pro_urgent') || INITIAL_URGENT
+    };
+
+    let editingId = null;
+    let stack = [];
+
+    // الوقت
+    function tick() {
+        const now = new Date();
+        document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: false });
+        document.getElementById('headerDate').innerText = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        setTimeout(tick, 1000);
+    }
+
+    // الشريط الإخباري
+    let tPos = 0;
+    function startTicker() {
+        const content = document.getElementById('tickerContent');
+        content.innerHTML = `<span class="ticker-item">${config.news}</span><span class="ticker-item">${config.news}</span>`;
+        function animate() {
+            tPos += config.speed;
+            if (content.children[0] && tPos >= content.children[0].offsetWidth) tPos = 0;
+            document.getElementById('tickerBox').style.transform = `translateX(${tPos}px)`;
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }
+
+    // إعدادات الخبر الهام
+    function applyUrgent() {
+        const area = document.getElementById('urgentArea');
+        if(config.urgent && config.urgent.trim() !== "") {
+            area.style.display = 'block';
+            document.getElementById('urgentText').innerText = config.urgent;
+        } else { area.style.display = 'none'; }
+    }
+
+    // دخول لوحة التحكم
+    let clicks = 0;
+    document.getElementById('adminTrigger').onclick = () => {
+        clicks++;
+        if(clicks === 5) {
+            if(prompt("كلمة السر:") === "1234") {
+                document.getElementById('adminPanel').style.setProperty('display', 'block', 'important');
+                document.getElementById('newsInp').value = config.news;
+                document.getElementById('headInp').value = config.head;
+                document.getElementById('speedSld').value = config.speed;
+                document.getElementById('urgInp').value = config.urgent;
+                renderAdmin();
+            }
+            clicks = 0;
+        }
+        setTimeout(() => clicks = 0, 3000);
+    };
+
+    function closeAdmin() { document.getElementById('adminPanel').style.setProperty('display', 'none', 'important'); }
+
+    // إدارة البيانات
+    function renderAdmin() {
+        const fMan = document.getElementById('folderManager');
+        const cMan = document.getElementById('contentManager');
+        fMan.innerHTML = ''; cMan.innerHTML = '';
+
+        function walk(arr, depth = 0) {
+            arr.forEach(i => {
+                const itemHtml = `
+                    <div class="admin-item">
+                        <span><b>${"—".repeat(depth)}</b> ${i.title}</span>
+                        <div class="controls">
+                            <button class="btn btn-blue btn-sm" onclick="editItem('${i.id}')">تعديل</button>
+                            <button class="btn btn-red btn-sm" onclick="deleteItem('${i.id}')">حذف</button>
+                        </div>
+                    </div>`;
+                if(i.type === 'folder') fMan.innerHTML += itemHtml;
+                else cMan.innerHTML += itemHtml;
+                if(i.children.length > 0) walk(i.children, depth + 1);
+            });
+        }
+        walk(tree);
+    }
+
+    function openAdder(type, id = null) {
+        editingId = id;
+        document.getElementById('contentFields').style.display = (type === 'direct' || type === 'content') ? 'block' : 'none';
+        document.getElementById('modalTitle').innerText = id ? "تعديل البيانات" : "إضافة عنصر جديد";
         
-        <!-- المنشورات الأخيرة -->
-        <section id="recent-posts" class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">آخر المنشورات</h2>
-            <div id="posts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- سيتم ملء المنشورات ديناميكياً -->
-            </div>
-        </section>
-    </main>
-
-    <!-- الفوتر -->
-    <footer class="bg-gray-800 text-white mt-12">
-        <div class="container mx-auto px-4 py-8">
-            <div class="text-center">
-                <p class="text-gray-300 mb-2">تصميم محمد إبراهيم مقبل</p>
-                <p class="text-gray-400 text-sm">جميع الحقوق محفوظة © <span id="current-year"></span> مخيم نت</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- نافذة البوب أب للمحتوى -->
-    <div id="content-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="modal-title" class="text-xl font-bold text-gray-800"></h3>
-                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div id="modal-content" class="text-gray-700">
-                <!-- سيتم ملء المحتوى ديناميكياً -->
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة تسجيل الدخول -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-800">لوحة التحكم - تسجيل الدخول</h3>
-                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">كلمة المرور</label>
-                <input type="password" id="admin-password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل كلمة المرور">
-            </div>
-            <div class="flex justify-end">
-                <button onclick="loginToDashboard()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
-                    دخول
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- لوحة التحكم -->
-    <div id="admin-panel" class="fixed left-0 top-0 w-full h-full bg-white z-50 overflow-y-auto hidden">
-        <div class="container mx-auto px-4 py-8">
-            <!-- شريط التحكم العلوي -->
-            <div class="flex justify-between items-center mb-8 bg-gray-100 p-4 rounded-lg">
-                <h2 class="text-2xl font-bold text-gray-800">لوحة تحكم مخيم نت</h2>
-                <button onclick="logoutFromDashboard()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-                    <i class="fas fa-sign-out-alt mr-2"></i>خروج
-                </button>
-            </div>
-            
-            <!-- إدارة الأقسام -->
-            <div class="mb-12">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">إدارة الأقسام</h3>
-                    <button onclick="showAddSectionModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-plus mr-2"></i>إضافة قسم
-                    </button>
-                </div>
-                
-                <div id="sections-management" class="bg-white border border-gray-300 rounded-lg p-4">
-                    <!-- سيتم ملء إدارة الأقسام ديناميكياً -->
-                </div>
-            </div>
-            
-            <!-- إدارة المنشورات -->
-            <div class="mb-12">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">إدارة المنشورات</h3>
-                    <button onclick="showAddPostModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-plus mr-2"></i>إضافة منشور
-                    </button>
-                </div>
-                
-                <div id="posts-management" class="bg-white border border-gray-300 rounded-lg p-4">
-                    <!-- سيتم ملء إدارة المنشورات ديناميكياً -->
-                </div>
-            </div>
-            
-            <!-- إعدادات الموقع -->
-            <div class="mb-12">
-                <h3 class="text-xl font-bold text-gray-800 mb-6">إعدادات الموقع</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- إعدادات شريط الأخبار -->
-                    <div class="bg-white border border-gray-300 rounded-lg p-4">
-                        <h4 class="font-bold text-gray-700 mb-4">شريط الأخبار</h4>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">نص شريط الأخبار</label>
-                            <textarea id="news-ticker-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">سرعة العرض (ثانية)</label>
-                            <input type="range" id="admin-news-speed" min="10" max="60" value="30" class="w-full" onchange="updateAdminNewsSpeed()">
-                            <span class="text-sm text-gray-600">سرعة: <span id="admin-speed-value">30</span> ثانية</span>
-                        </div>
-                        <button onclick="updateNewsSettings()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                            حفظ الإعدادات
-                        </button>
-                    </div>
-                    
-                    <!-- إعدادات الخبر العاجل -->
-                    <div class="bg-white border border-gray-300 rounded-lg p-4">
-                        <h4 class="font-bold text-gray-700 mb-4">الخبر العاجل</h4>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">نص الخبر العاجل</label>
-                            <textarea id="urgent-news-text-input" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label class="flex items-center">
-                                <input type="checkbox" id="urgent-news-enabled" class="ml-2">
-                                <span class="text-gray-700">تفعيل الخبر العاجل</span>
-                            </label>
-                        </div>
-                        <button onclick="updateUrgentNewsSettings()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                            حفظ الإعدادات
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- تعليمات السحب والإفلات -->
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
-                <h4 class="font-bold text-yellow-800 mb-2">تعليمات إعادة الترتيب:</h4>
-                <p class="text-yellow-700">يمكنك سحب الأقسام والمنشورات وإفلاتها لإعادة ترتيبها حسب الرغبة. اسحب العنصر إلى الموقع المطلوب ثم أفلته.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة إضافة/تعديل قسم -->
-    <div id="section-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="section-modal-title" class="text-xl font-bold text-gray-800">إضافة قسم جديد</h3>
-                <button onclick="closeSectionModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-gray-700 mb-2">اسم القسم</label>
-                    <input type="text" id="section-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل اسم القسم">
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">وصف القسم</label>
-                    <textarea id="section-description" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="3" placeholder="أدخل وصف القسم"></textarea>
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">القسم الرئيسي</label>
-                    <select id="section-parent" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-                        <option value="">لا يوجد (قسم رئيسي)</option>
-                        <!-- سيتم ملء الأقسام الرئيسية ديناميكياً -->
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">لون الخلفية</label>
-                    <input type="color" id="section-color" class="w-full h-10 border border-gray-300 rounded-lg" value="#3b82f6">
-                </div>
-                <div class="hidden">
-                    <input type="hidden" id="section-id">
-                </div>
-            </div>
-            <div class="flex justify-end mt-6 space-x-2 space-x-reverse">
-                <button onclick="closeSectionModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                    إلغاء
-                </button>
-                <button onclick="saveSection()" id="save-section-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
-                    حفظ
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة إضافة/تعديل منشور -->
-    <div id="post-modal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="post-modal-title" class="text-xl font-bold text-gray-800">إضافة منشور جديد</h3>
-                <button onclick="closePostModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-gray-700 mb-2">عنوان المنشور</label>
-                    <input type="text" id="post-title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="أدخل عنوان المنشور">
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">محتوى المنشور</label>
-                    <textarea id="post-content" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" rows="6" placeholder="أدخل محتوى المنشور"></textarea>
-                </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">القسم</label>
-                    <select id="post-section" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-                        <!-- سيتم ملء الأقسام ديناميكياً -->
-                    </select>
-                </div>
-                <div class="hidden">
-                    <input type="hidden" id="post-id">
-                </div>
-            </div>
-            <div class="flex justify-end mt-6 space-x-2 space-x-reverse">
-                <button onclick="closePostModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                    إلغاء
-                </button>
-                <button onclick="savePost()" id="save-post-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
-                    حفظ
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ========== DATA LAYER ==========
-        // بيانات الأقسام
-        const sectionsData = [
-            { 
-                "id": 1, 
-                "name": "أخبار المخيم", 
-                "description": "آخر الأخبار والتطورات في المخيم", 
-                "parentId": null, 
-                "color": "#3b82f6",
-                "order": 1
-            },
-            { 
-                "id": 2, 
-                "name": "خدمات المجتمع", 
-                "description": "الخدمات المتاحة لأهالي المخيم", 
-                "parentId": null, 
-                "color": "#10b981",
-                "order": 2
-            },
-            { 
-                "id": 3, 
-                "name": "الفعاليات", 
-                "description": "الفعاليات والأنشطة القادمة", 
-                "parentId": null, 
-                "color": "#8b5cf6",
-                "order": 3
-            },
-            { 
-                "id": 4, 
-                "name": "أخبار محلية", 
-                "description": "أخبار من داخل المخيم", 
-                "parentId": 1, 
-                "color": "#3b82f6",
-                "order": 1
-            },
-            { 
-                "id": 5, 
-                "name": "أخبار خارجية", 
-                "description": "أخبار من خارج المخيم", 
-                "parentId": 1, 
-                "color": "#3b82f6",
-                "order": 2
-            }
-        ];
-
-        // بيانات المنشورات
-        const postsData = [
-            { 
-                "id": 1, 
-                "title": "افتتاح مركز جديد للتعليم", 
-                "content": "تم اليوم افتتاح مركز تعليمي جديد في المخيم يهدف إلى تقديم دورات تعليمية للأطفال والكبار في مختلف المجالات. المركز مجهز بأحدث الوسائل التعليمية ويشرف عليه فريق من المتخصصين.", 
-                "sectionId": 2, 
-                "date": "2024-03-15",
-                "order": 1
-            },
-            { 
-                "id": 2, 
-                "title": "فعالية رياضية للأطفال", 
-                "content": "تنظم إدارة المخيم فعالية رياضية للأطفال يوم السبت القادم في الملعب الرئيسي. الفعالية تشمل مسابقات رياضية متنوعة وجوائز قيمة للمشاركين.", 
-                "sectionId": 3, 
-                "date": "2024-03-14",
-                "order": 2
-            },
-            { 
-                "id": 3, 
-                "title": "توزيع مساعدات غذائية", 
-                "content": "سيتم توزيع مساعدات غذائية على الأسر المحتاجة في المخيم يوم الأحد القادم. على المستفيدين الحضور إلى مركز التوزيع الساعة 10 صباحاً.", 
-                "sectionId": 2, 
-                "date": "2024-03-13",
-                "order": 3
-            },
-            { 
-                "id": 4, 
-                "title": "ورشة عمل عن الصحة النفسية", 
-                "content": "تعقد جمعية الإغاثة ورشة عمل عن الصحة النفسية وكيفية التعامل مع الضغوط يوم الاثنين القادم. الورشة مجانية ومفتوحة للجميع.", 
-                "sectionId": 3, 
-                "date": "2024-03-12",
-                "order": 4
-            }
-        ];
-
-        // بيانات شريط الأخبار
-        const newsTickerData = [
-            "مرحباً بكم في موقع مخيم نت - أول موقع إلكتروني للمخيم",
-            "فعالية رياضية للأطفال تقام يوم السبت القادم",
-            "توزيع مساعدات غذائية يوم الأحد على الأسر المحتاجة",
-            "ورشة عمل عن الصحة النفسية يوم الاثنين القادم",
-            "مركز التعليم الجديد يفتح أبوابه لأهالي المخيم"
-        ];
-
-        // بيانات التنقل
-        const navItemsData = [
-            { "id": 1, "label": "الرئيسية", "href": "#home", "icon": "fas fa-home" },
-            { "id": 2, "label": "الأخبار", "href": "#news", "icon": "fas fa-newspaper" },
-            { "id": 3, "label": "الخدمات", "href": "#services", "icon": "fas fa-hands-helping" },
-            { "id": 4, "label": "الفعاليات", "href": "#events", "icon": "fas fa-calendar-alt" },
-            { "id": 5, "label": "اتصل بنا", "href": "#contact", "icon": "fas fa-phone" }
-        ];
-
-        // إعدادات الموقع
-        let siteSettings = {
-            "newsSpeed": 30,
-            "urgentNews": {
-                "enabled": false,
-                "text": "خبر عاجل: هذا خبر مهم يظهر عند التعبئة"
-            },
-            "adminPassword": "1234"
-        };
-
-        // حالة التطبيق
-        let appState = {
-            "isAdmin": false,
-            "logoClickCount": 0,
-            "lastLogoClickTime": 0,
-            "draggedItem": null
-        };
-
-        // ========== RENDER FUNCTIONS ==========
-        // دالة عرض عناصر التنقل
-        function renderNavItems(items) {
-            return items.map(item => 
-                `<li>
-                    <a href="${item.href}" class="flex items-center text-gray-700 hover:text-green-600 transition-colors">
-                        <i class="${item.icon} ml-2"></i>
-                        ${item.label}
-                    </a>
-                </li>`
-            ).join("");
-        }
-
-        // دالة عرض الأقسام الرئيسية
-        function renderMainSections(sections) {
-            const mainSections = sections.filter(section => section.parentId === null);
-            return mainSections.map(section => {
-                const subSections = sections.filter(sub => sub.parentId === section.id);
-                const subSectionsHtml = subSections.map(sub => 
-                    `<div class="bg-white rounded-lg p-3 mb-2 border border-gray-200">
-                        <h4 class="font-medium text-gray-800">${sub.name}</h4>
-                        <p class="text-sm text-gray-600 mt-1">${sub.description}</p>
-                    </div>`
-                ).join("");
-                
-                return `
-                <div class="sortable-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200" data-id="${section.id}">
-                    <div class="h-3" style="background-color: ${section.color}"></div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-xl font-bold text-gray-800">${section.name}</h3>
-                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${subSections.length} أقسام فرعية</span>
-                        </div>
-                        <p class="text-gray-600 mb-4">${section.description}</p>
-                        ${subSections.length > 0 ? `
-                        <div class="mt-4">
-                            <h4 class="font-medium text-gray-700 mb-2">الأقسام الفرعية:</h4>
-                            ${subSectionsHtml}
-                        </div>
-                        ` : ''}
-                        <button onclick="viewSectionContent(${section.id})" class="mt-4 w-full bg-gray-100 text-gray-700 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                            عرض المحتوى
-                        </button>
-                    </div>
-                </div>`;
-            }).join("");
-        }
-
-        // دالة عرض المنشورات
-        function renderPosts(posts) {
-            return posts.map(post => {
-                const section = sectionsData.find(s => s.id === post.sectionId);
-                return `
-                <div class="sortable-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200" data-id="${post.id}">
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-xl font-bold text-gray-800">${post.title}</h3>
-                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${section ? section.name : 'غير مصنف'}</span>
-                        </div>
-                        <p class="text-gray-600 mb-4">${post.content.substring(0, 150)}...</p>
-                        <div class="flex justify-between items-center text-sm text-gray-500">
-                            <span>${post.date}</span>
-                            <button onclick="viewPostContent(${post.id})" class="text-green-600 hover:text-green-700">
-                                قراءة المزيد
-                            </button>
-                        </div>
-                    </div>
-                </div>`;
-            }).join("");
-        }
-
-        // دالة عرض إدارة الأقسام
-        function renderSectionsManagement(sections) {
-            const mainSections = sections.filter(section => section.parentId === null);
-            return mainSections.map(section => {
-                const subSections = sections.filter(sub => sub.parentId === section.id);
-                return `
-                <div class="sortable-item bg-gray-50 border border-gray-300 rounded-lg p-4 mb-4" data-id="${section.id}" data-type="section">
-                    <div class="flex justify-between items-center mb-3">
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 rounded-full ml-2" style="background-color: ${section.color}"></div>
-                            <h4 class="font-bold text-gray-800">${section.name}</h4>
-                        </div>
-                        <div class="flex space-x-2 space-x-reverse">
-                            <button onclick="editSection(${section.id})" class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteSection(${section.id})" class="text-red-600 hover:text-red-800">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <span class="cursor-move text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-arrows-alt"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 mb-3">${section.description}</p>
-                    ${subSections.length > 0 ? `
-                    <div class="mr-6 mt-3 space-y-2">
-                        ${subSections.map(sub => `
-                        <div class="flex justify-between items-center bg-white p-3 rounded border border-gray-200">
-                            <div>
-                                <h5 class="font-medium text-gray-700">${sub.name}</h5>
-                                <p class="text-sm text-gray-600">${sub.description}</p>
-                            </div>
-                            <div class="flex space-x-2 space-x-reverse">
-                                <button onclick="editSection(${sub.id})" class="text-blue-600 hover:text-blue-800">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button onclick="deleteSection(${sub.id})" class="text-red-600 hover:text-red-800">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        `).join("")}
-                    </div>
-                    ` : ''}
-                </div>`;
-            }).join("");
-        }
-
-        // دالة عرض إدارة المنشورات
-        function renderPostsManagement(posts) {
-            return posts.map(post => {
-                const section = sectionsData.find(s => s.id === post.sectionId);
-                return `
-                <div class="sortable-item bg-gray-50 border border-gray-300 rounded-lg p-4 mb-4" data-id="${post.id}" data-type="post">
-                    <div class="flex justify-between items-center mb-3">
-                        <div>
-                            <h4 class="font-bold text-gray-800">${post.title}</h4>
-                            <p class="text-sm text-gray-600">${section ? section.name : 'غير مصنف'} - ${post.date}</p>
-                        </div>
-                        <div class="flex space-x-2 space-x-reverse">
-                            <button onclick="editPost(${post.id})" class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deletePost(${post.id})" class="text-red-600 hover:text-red-800">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <span class="cursor-move text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-arrows-alt"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="text-gray-600">${post.content.substring(0, 200)}...</p>
-                </div>`;
-            }).join("");
-        }
-
-        // دالة عرض شريط الأخبار
-        function renderNewsTicker(newsItems) {
-            return newsItems.map(item => 
-                `<span class="mx-8">${item} •</span>`
-            ).join("");
-        }
-
-        // دالة عرض خيارات الأقسام في select
-        function renderSectionOptions(sections, selectedId = null) {
-            const mainSections = sections.filter(section => section.parentId === null);
-            let options = '<option value="">لا يوجد (قسم رئيسي)</option>';
-            
-            mainSections.forEach(section => {
-                const selected = selectedId === section.id ? 'selected' : '';
-                options += `<option value="${section.id}" ${selected}>${section.name}</option>`;
+        const sel = document.getElementById('parentSelect');
+        sel.innerHTML = '<option value="root">الواجهة الرئيسية</option>';
+        function fill(arr, depth=0) {
+            arr.forEach(i => {
+                if(i.type==='folder' && i.id !== id){ 
+                    sel.innerHTML += `<option value="${i.id}">${"—".repeat(depth)} ${i.title}</option>`;
+                    fill(i.children, depth+1);
+                }
             });
-            
-            return options;
         }
+        fill(tree);
 
-        // دالة عرض خيارات الأقسام للمنشورات
-        function renderPostSectionOptions(sections, selectedId = null) {
-            let options = '';
-            
-            sections.forEach(section => {
-                const selected = selectedId === section.id ? 'selected' : '';
-                options += `<option value="${section.id}" ${selected}>${section.name}</option>`;
-            });
-            
-            return options;
+        if(id) {
+            let item = findById(tree, id);
+            document.getElementById('itemTitle').value = item.title;
+            document.getElementById('itemImg').value = item.image;
+            document.getElementById('itemText').value = item.content;
+            sel.value = findParentId(tree, id) || 'root';
+        } else {
+            document.getElementById('itemTitle').value = '';
+            document.getElementById('itemImg').value = '';
+            document.getElementById('itemText').value = '';
+            document.getElementById('adderModal').dataset.type = type;
         }
+        document.getElementById('adderModal').style.display='flex';
+    }
 
-        // ========== UTILITY FUNCTIONS ==========
-        // تحديث التاريخ والوقت
-        function updateDateTime() {
-            const now = new Date();
-            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
-            
-            const dateStr = now.toLocaleDateString('ar-SA', dateOptions);
-            const timeStr = now.toLocaleTimeString('ar-SA', timeOptions);
-            
-            document.getElementById('current-date').textContent = dateStr;
-            document.getElementById('current-time').textContent = timeStr;
-        }
+    function closeAdder() { document.getElementById('adderModal').style.display='none'; editingId = null; }
 
-        // تحديث سرعة شريط الأخبار
-        function updateNewsSpeed() {
-            const speed = document.getElementById('news-speed').value;
-            document.getElementById('speed-value').textContent = speed;
-            siteSettings.newsSpeed = parseInt(speed);
-            
-            const tickerContent = document.getElementById('news-ticker-content');
-            const animationDuration = speed + 's';
-            tickerContent.style.animationDuration = animationDuration;
-            
-            // حفظ في localStorage
-            saveSettings();
-        }
+    function saveEntry() {
+        const t = document.getElementById('itemTitle').value;
+        const i = document.getElementById('itemImg').value;
+        const c = document.getElementById('itemText').value;
+        const pId = document.getElementById('parentSelect').value;
+        const type = document.getElementById('adderModal').dataset.type;
 
-        // تحديث سرعة شريط الأخبار من لوحة التحكم
-        function updateAdminNewsSpeed() {
-            const speed = document.getElementById('admin-news-speed').value;
-            document.getElementById('admin-speed-value').textContent = speed;
-            document.getElementById('news-speed').value = speed;
-            document.getElementById('speed-value').textContent = speed;
-            
-            siteSettings.newsSpeed = parseInt(speed);
-            updateNewsSpeed();
-        }
+        if(!t) return alert("أدخل العنوان");
 
-        // تحديث إعدادات شريط الأخبار
-        function updateNewsSettings() {
-            const newsText = document.getElementById('news-ticker-text').value;
-            const newsItems = newsText.split('\n').filter(item => item.trim() !== '');
+        if(editingId) {
+            // منطق التعديل والنقل
+            let item = findById(tree, editingId);
+            item.title = t; item.image = i; item.content = c;
             
-            if (newsItems.length > 0) {
-                newsTickerData.length = 0;
-                newsItems.forEach(item => newsTickerData.push(item.trim()));
-                
-                const tickerContent = document.getElementById('news-ticker-content');
-                tickerContent.innerHTML = renderNewsTicker(newsTickerData);
-                
-                // إعادة تشغيل الأنيميشن
-                tickerContent.style.animation = 'none';
-                setTimeout(() => {
-                    tickerContent.style.animation = `ticker ${siteSettings.newsSpeed}s linear infinite`;
-                }, 10);
+            // النقل
+            let oldParentArr = findParentArray(tree, editingId);
+            let targetParentArr = pId === 'root' ? tree : findById(tree, pId).children;
+            
+            if(oldParentArr !== targetParentArr) {
+                let idx = oldParentArr.findIndex(x => x.id == editingId);
+                let extracted = oldParentArr.splice(idx, 1)[0];
+                targetParentArr.unshift(extracted);
             }
-            
-            saveSettings();
-            alert('تم حفظ إعدادات شريط الأخبار بنجاح');
+        } else {
+            // منطق الإضافة الجديدة
+            const newItem = { id: 'mn'+Date.now(), title: t, type: type, image: i, content: c, children: [] };
+            if(pId === 'root') tree.unshift(newItem);
+            else findById(tree, pId).children.unshift(newItem);
         }
 
-        // تحديث إعدادات الخبر العاجل
-        function updateUrgentNewsSettings() {
-            const urgentText = document.getElementById('urgent-news-text-input').value;
-            const urgentEnabled = document.getElementById('urgent-news-enabled').checked;
-            
-            siteSettings.urgentNews.text = urgentText;
-            siteSettings.urgentNews.enabled = urgentEnabled;
-            
-            document.getElementById('urgent-news-text').textContent = urgentText;
-            
-            if (urgentEnabled) {
-                document.getElementById('urgent-news').classList.remove('hidden');
+        saveTree(); closeAdder(); renderAdmin(); renderUI();
+    }
+
+    function saveGlobalSettings() {
+        config.news = document.getElementById('newsInp').value;
+        config.head = document.getElementById('headInp').value;
+        config.speed = parseFloat(document.getElementById('speedSld').value);
+        config.urgent = document.getElementById('urgInp').value;
+        
+        localStorage.setItem('mn_pro_news', config.news);
+        localStorage.setItem('mn_pro_head', config.head);
+        localStorage.setItem('mn_pro_speed', config.speed);
+        localStorage.setItem('mn_pro_urgent', config.urgent);
+        
+        location.reload();
+    }
+
+    function editItem(id) {
+        let item = findById(tree, id);
+        openAdder(item.type, id);
+    }
+
+    function deleteItem(id) {
+        if(!confirm("حذف؟")) return;
+        let arr = findParentArray(tree, id);
+        let idx = arr.findIndex(x => x.id == id);
+        arr.splice(idx, 1);
+        saveTree(); renderAdmin(); renderUI();
+    }
+
+    // وظائف المساعدة
+    function findById(arr, id) {
+        for(let i of arr) { if(i.id == id) return i; if(i.children.length>0) { let f = findById(i.children, id); if(f) return f; } }
+    }
+    function findParentArray(arr, id) {
+        for(let i=0; i<arr.length; i++) { if(arr[i].id == id) return arr; if(arr[i].children.length>0) { let f = findParentArray(arr[i].children, id); if(f) return f; } }
+    }
+    function findParentId(arr, id, pId = null) {
+        for(let i of arr) { if(i.id == id) return pId; if(i.children.length>0) { let f = findParentId(i.children, id, i.id); if(f) return f; } }
+    }
+
+    function renderUI() {
+        const grid = document.getElementById('gridArea'); grid.innerHTML = '';
+        const dc = document.getElementById('directArea'); dc.innerHTML = '';
+        const nav = document.getElementById('pathNav');
+        let cur = stack.length > 0 ? stack[stack.length - 1].children : tree;
+
+        nav.style.display = stack.length > 0 ? 'flex' : 'none';
+        if(stack.length>0) document.getElementById('currentPath').innerText = stack[stack.length-1].title;
+
+        cur.forEach(i => {
+            if(i.type === 'folder') {
+                const c = document.createElement('div'); c.className = 'card'; c.innerText = i.title;
+                c.onclick = () => { stack.push(i); renderUI(); window.scrollTo(0,0); }; grid.appendChild(c);
             } else {
-                document.getElementById('urgent-news').classList.add('hidden');
+                const b = document.createElement('div'); b.className = 'content-block';
+                b.innerHTML = `<div class="content-title">${i.title}</div>${i.image?`<img src="${i.image}" class="content-img">`:''}<div class="content-text">${i.content.replace(/\n/g,'<br>')}</div>`;
+                dc.appendChild(b);
             }
-            
-            saveSettings();
-            alert('تم حفظ إعدادات الخبر العاجل بنجاح');
-        }
+        });
+    }
 
-        // إغلاق الخبر العاجل
-        function closeUrgentNews() {
-            document.getElementById('urgent-news').classList.add('hidden');
-        }
+    function goBack() { stack.pop(); renderUI(); }
+    function saveTree() { localStorage.setItem('mn_pro_tree', JSON.stringify(tree)); }
+    function exportSite() {
+        let snippet = document.documentElement.outerHTML.replace(document.getElementById('siteData').innerHTML, `var INITIAL_TREE = ${JSON.stringify(tree)};\n    var INITIAL_NEWS = ${JSON.stringify(config.news)};\n    var INITIAL_HEAD = ${JSON.stringify(config.head)};\n    var INITIAL_SPEED = ${config.speed};\n    var INITIAL_URGENT = ${JSON.stringify(config.urgent)};`);
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + snippet], {type:'text/html'}));
+        a.download = 'MukhayamNet_Final_Pro.html'; a.click();
+    }
 
-        // عرض محتوى القسم
-        function viewSectionContent(sectionId) {
-            const section = sectionsData.find(s => s.id === sectionId);
-            const subSections = sectionsData.filter(s => s.parentId === sectionId);
-            const sectionPosts = postsData.filter(p => p.sectionId === sectionId);
-            
-            let content = `
-                <div class="mb-6">
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">${section.name}</h4>
-                    <p class="text-gray-600">${section.description}</p>
-                </div>
-            `;
-            
-            if (subSections.length > 0) {
-                content += `
-                    <div class="mb-6">
-                        <h5 class="font-bold text-gray-700 mb-3">الأقسام الفرعية:</h5>
-                        <div class="space-y-3">
-                            ${subSections.map(sub => `
-                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <h6 class="font-medium text-gray-800">${sub.name}</h6>
-                                    <p class="text-sm text-gray-600 mt-1">${sub.description}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            if (sectionPosts.length > 0) {
-                content += `
-                    <div>
-                        <h5 class="font-bold text-gray-700 mb-3">المنشورات في هذا القسم:</h5>
-                        <div class="space-y-4">
-                            ${sectionPosts.map(post => `
-                                <div class="border-l-4 border-green-500 pl-4 py-2">
-                                    <h6 class="font-medium text-gray-800">${post.title}</h6>
-                                    <p class="text-sm text-gray-600 mt-1">${post.content.substring(0, 100)}...</p>
-                                    <button onclick="viewPostContent(${post.id})" class="text-green-600 hover:text-green-700 text-sm mt-2">
-                                        قراءة المزيد
-                                    </button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            document.getElementById('modal-title').textContent = section.name;
-            document.getElementById('modal-content').innerHTML = content;
-            document.getElementById('content-modal').style.display = 'block';
-        }
-
-        // عرض محتوى المنشور
-        function viewPostContent(postId) {
-            const post = postsData.find(p => p.id === postId);
-            const section = sectionsData.find(s => s.id === post.sectionId);
-            
-            const content = `
-                <div class="mb-4">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-800">${post.title}</h4>
-                            <p class="text-gray-600 text-sm mt-1">${section ? section.name : 'غير مصنف'} - ${post.date}</p>
-                        </div>
-                    </div>
-                    <div class="text-gray-700 leading-relaxed">
-                        ${post.content.split('\n').map(paragraph => `<p class="mb-4">${paragraph}</p>`).join('')}
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('modal-title').textContent = post.title;
-            document.getElementById('modal-content').innerHTML = content;
-            document.getElementById('content-modal').style.display = 'block';
-        }
-
-        // إغلاق نافذة البوب أب
-        function closeModal() {
-            document.getElementById('content-modal').style.display = 'none';
-        }
-
-        // ========== ADMIN FUNCTIONS ==========
-        // التعامل مع النقر على الشعار
-        function handleLogoClick(event) {
-            const now = Date.now();
-            
-            // إعادة تعيين العداد إذا مر أكثر من 3 ثواني
-            if (now - appState.lastLogoClickTime > 3000) {
-                appState.logoClickCount = 0;
-            }
-            
-            appState.logoClickCount++;
-            appState.lastLogoClickTime = now;
-            
-            // إذا تم النقر 5 مرات، عرض نافذة تسجيل الدخول
-            if (appState.logoClickCount >= 5) {
-                appState.logoClickCount = 0;
-                showLoginModal();
-            }
-        }
-
-        // عرض نافذة تسجيل الدخول
-        function showLoginModal() {
-            document.getElementById('login-modal').style.display = 'block';
-        }
-
-        // إغلاق نافذة تسجيل الدخول
-        function closeLoginModal() {
-            document.getElementById('login-modal').style.display = 'none';
-            document.getElementById('admin-password').value = '';
-        }
-
-        // تسجيل الدخول إلى لوحة التحكم
-        function loginToDashboard() {
-            const password = document.getElementById('admin-password').value;
-            
-            if (password === siteSettings.adminPassword) {
-                appState.isAdmin = true;
-                document.getElementById('admin-panel').classList.remove('hidden');
-                document.getElementById('news-controls').classList.remove('hidden');
-                closeLoginModal();
-                
-                // تحميل البيانات في لوحة التحكم
-                loadAdminData();
-            } else {
-                alert('كلمة المرور غير صحيحة');
-            }
-        }
-
-        // تسجيل الخروج من لوحة التحكم
-        function logoutFromDashboard() {
-            appState.isAdmin = false;
-            document.getElementById('admin-panel').classList.add('hidden');
-            document.getElementById('news-controls').classList.add('hidden');
-        }
-
-        // تحميل البيانات في لوحة التحكم
-        function loadAdminData() {
-            // تحديث إدارة الأقسام
-            document.getElementById('sections-management').innerHTML = renderSectionsManagement(sectionsData);
-            
-            // تحديث إدارة المنشورات
-            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
-            
-            // تحديث إعدادات شريط الأخبار
-            document.getElementById('news-ticker-text').value = newsTickerData.join('\n');
-            document.getElementById('admin-news-speed').value = siteSettings.newsSpeed;
-            document.getElementById('admin-speed-value').textContent = siteSettings.newsSpeed;
-            
-            // تحديث إعدادات الخبر العاجل
-            document.getElementById('urgent-news-text-input').value = siteSettings.urgentNews.text;
-            document.getElementById('urgent-news-enabled').checked = siteSettings.urgentNews.enabled;
-            
-            // تحديث خيارات الأقسام
-            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
-            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
-            
-            // تفعيل السحب والإفلات
-            initDragAndDrop();
-        }
-
-        // عرض نافذة إضافة قسم
-        function showAddSectionModal() {
-            document.getElementById('section-modal-title').textContent = 'إضافة قسم جديد';
-            document.getElementById('section-name').value = '';
-            document.getElementById('section-description').value = '';
-            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
-            document.getElementById('section-color').value = '#3b82f6';
-            document.getElementById('section-id').value = '';
-            document.getElementById('save-section-btn').textContent = 'إضافة';
-            document.getElementById('section-modal').style.display = 'block';
-        }
-
-        // عرض نافذة تعديل قسم
-        function editSection(sectionId) {
-            const section = sectionsData.find(s => s.id === sectionId);
-            if (!section) return;
-            
-            document.getElementById('section-modal-title').textContent = 'تعديل قسم';
-            document.getElementById('section-name').value = section.name;
-            document.getElementById('section-description').value = section.description;
-            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData, section.parentId);
-            document.getElementById('section-color').value = section.color;
-            document.getElementById('section-id').value = section.id;
-            document.getElementById('save-section-btn').textContent = 'تحديث';
-            document.getElementById('section-modal').style.display = 'block';
-        }
-
-        // إغلاق نافذة القسم
-        function closeSectionModal() {
-            document.getElementById('section-modal').style.display = 'none';
-        }
-
-        // حفظ القسم
-        function saveSection() {
-            const id = document.getElementById('section-id').value;
-            const name = document.getElementById('section-name').value.trim();
-            const description = document.getElementById('section-description').value.trim();
-            const parentId = document.getElementById('section-parent').value || null;
-            const color = document.getElementById('section-color').value;
-            
-            if (!name) {
-                alert('يرجى إدخال اسم القسم');
-                return;
-            }
-            
-            if (id) {
-                // تحديث قسم موجود
-                const index = sectionsData.findIndex(s => s.id === parseInt(id));
-                if (index !== -1) {
-                    sectionsData[index] = {
-                        ...sectionsData[index],
-                        name,
-                        description,
-                        parentId: parentId ? parseInt(parentId) : null,
-                        color
-                    };
-                }
-            } else {
-                // إضافة قسم جديد
-                const newId = Math.max(...sectionsData.map(s => s.id)) + 1;
-                const newOrder = sectionsData.filter(s => s.parentId === (parentId ? parseInt(parentId) : null)).length + 1;
-                
-                sectionsData.push({
-                    id: newId,
-                    name,
-                    description,
-                    parentId: parentId ? parseInt(parentId) : null,
-                    color,
-                    order: newOrder
-                });
-            }
-            
-            // إعادة عرض البيانات
-            document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
-            document.getElementById('sections-management').innerHTML = renderSectionsManagement(sectionsData);
-            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
-            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
-            
-            closeSectionModal();
-            saveSettings();
-            alert(id ? 'تم تحديث القسم بنجاح' : 'تم إضافة القسم بنجاح');
-        }
-
-        // حذف قسم
-        function deleteSection(sectionId) {
-            if (!confirm('هل أنت متأكد من حذف هذا القسم؟ سيتم حذف جميع الأقسام الفرعية والمنشورات المرتبطة به.')) {
-                return;
-            }
-            
-            // حذف القسم
-            const sectionIndex = sectionsData.findIndex(s => s.id === sectionId);
-            if (sectionIndex !== -1) {
-                sectionsData.splice(sectionIndex, 1);
-            }
-            
-            // حذف الأقسام الفرعية
-            const subSections = sectionsData.filter(s => s.parentId === sectionId);
-            subSections.forEach(sub => {
-                const subIndex = sectionsData.findIndex(s => s.id === sub.id);
-                if (subIndex !== -1) {
-                    sectionsData.splice(subIndex, 1);
-                }
-            });
-            
-            // حذف المنشورات المرتبطة
-            const postsToDelete = postsData.filter(p => p.sectionId === sectionId);
-            postsToDelete.forEach(post => {
-                const postIndex = postsData.findIndex(p => p.id === post.id);
-                if (postIndex !== -1) {
-                    postsData.splice(postIndex, 1);
-                }
-            });
-            
-            // إعادة عرض البيانات
-            document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
-            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
-            document.getElementById('sections-management').innerHTML = renderSectionsManagement(sectionsData);
-            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
-            document.getElementById('section-parent').innerHTML = renderSectionOptions(sectionsData);
-            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
-            
-            saveSettings();
-            alert('تم حذف القسم بنجاح');
-        }
-
-        // عرض نافذة إضافة منشور
-        function showAddPostModal() {
-            document.getElementById('post-modal-title').textContent = 'إضافة منشور جديد';
-            document.getElementById('post-title').value = '';
-            document.getElementById('post-content').value = '';
-            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData);
-            document.getElementById('post-id').value = '';
-            document.getElementById('save-post-btn').textContent = 'إضافة';
-            document.getElementById('post-modal').style.display = 'block';
-        }
-
-        // عرض نافذة تعديل منشور
-        function editPost(postId) {
-            const post = postsData.find(p => p.id === postId);
-            if (!post) return;
-            
-            document.getElementById('post-modal-title').textContent = 'تعديل منشور';
-            document.getElementById('post-title').value = post.title;
-            document.getElementById('post-content').value = post.content;
-            document.getElementById('post-section').innerHTML = renderPostSectionOptions(sectionsData, post.sectionId);
-            document.getElementById('post-id').value = post.id;
-            document.getElementById('save-post-btn').textContent = 'تحديث';
-            document.getElementById('post-modal').style.display = 'block';
-        }
-
-        // إغلاق نافذة المنشور
-        function closePostModal() {
-            document.getElementById('post-modal').style.display = 'none';
-        }
-
-        // حفظ المنشور
-        function savePost() {
-            const id = document.getElementById('post-id').value;
-            const title = document.getElementById('post-title').value.trim();
-            const content = document.getElementById('post-content').value.trim();
-            const sectionId = document.getElementById('post-section').value;
-            const today = new Date().toISOString().split('T')[0];
-            
-            if (!title || !content || !sectionId) {
-                alert('يرجى ملء جميع الحقول المطلوبة');
-                return;
-            }
-            
-            if (id) {
-                // تحديث منشور موجود
-                const index = postsData.findIndex(p => p.id === parseInt(id));
-                if (index !== -1) {
-                    postsData[index] = {
-                        ...postsData[index],
-                        title,
-                        content,
-                        sectionId: parseInt(sectionId)
-                    };
-                }
-            } else {
-                // إضافة منشور جديد
-                const newId = Math.max(...postsData.map(p => p.id)) + 1;
-                const newOrder = postsData.length + 1;
-                
-                postsData.push({
-                    id: newId,
-                    title,
-                    content,
-                    sectionId: parseInt(sectionId),
-                    date: today,
-                    order: newOrder
-                });
-            }
-            
-            // إعادة عرض البيانات
-            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
-            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
-            
-            closePostModal();
-            saveSettings();
-            alert(id ? 'تم تحديث المنشور بنجاح' : 'تم إضافة المنشور بنجاح');
-        }
-
-        // حذف منشور
-        function deletePost(postId) {
-            if (!confirm('هل أنت متأكد من حذف هذا المنشور؟')) {
-                return;
-            }
-            
-            const postIndex = postsData.findIndex(p => p.id === postId);
-            if (postIndex !== -1) {
-                postsData.splice(postIndex, 1);
-            }
-            
-            // إعادة عرض البيانات
-            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
-            document.getElementById('posts-management').innerHTML = renderPostsManagement(postsData);
-            
-            saveSettings();
-            alert('تم حذف المنشور بنجاح');
-        }
-
-        // تعديل شريط الأخبار
-        function editNewsTicker() {
-            document.getElementById('news-ticker-text').value = newsTickerData.join('\n');
-            // يمكن إضافة منطق للانتقال إلى قسم الإعدادات في لوحة التحكم
-            alert('انتقل إلى قسم "إعدادات الموقع" في لوحة التحكم لتعديل شريط الأخبار');
-        }
-
-        // ========== DRAG AND DROP ==========
-        // تهيئة السحب والإفلات
-        function initDragAndDrop() {
-            const sectionsContainer = document.getElementById('sections-management');
-            const postsContainer = document.getElementById('posts-management');
-            
-            if (sectionsContainer) {
-                makeSortable(sectionsContainer, 'section');
-            }
-            
-            if (postsContainer) {
-                makeSortable(postsContainer, 'post');
-            }
-            
-            // جعل الأقسام والمنشورات في الصفحة الرئيسية قابلة للسحب
-            const mainSectionsContainer = document.getElementById('sections-container');
-            const mainPostsContainer = document.getElementById('posts-container');
-            
-            if (mainSectionsContainer && appState.isAdmin) {
-                makeSortable(mainSectionsContainer, 'section');
-            }
-            
-            if (mainPostsContainer && appState.isAdmin) {
-                makeSortable(mainPostsContainer, 'post');
-            }
-        }
-
-        // جعل العناصر قابلة للترتيب
-        function makeSortable(container, type) {
-            const items = container.querySelectorAll('.sortable-item');
-            
-            items.forEach(item => {
-                item.setAttribute('draggable', 'true');
-                
-                item.addEventListener('dragstart', function(e) {
-                    this.classList.add('dragging');
-                    appState.draggedItem = {
-                        id: this.getAttribute('data-id'),
-                        type: type,
-                        element: this
-                    };
-                    e.dataTransfer.effectAllowed = 'move';
-                });
-                
-                item.addEventListener('dragend', function() {
-                    this.classList.remove('dragging');
-                    appState.draggedItem = null;
-                    
-                    // حفظ الترتيب الجديد
-                    saveOrder(container, type);
-                });
-            });
-            
-            container.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                const afterElement = getDragAfterElement(container, e.clientY);
-                const draggable = document.querySelector('.dragging');
-                
-                if (afterElement == null) {
-                    container.appendChild(draggable);
-                } else {
-                    container.insertBefore(draggable, afterElement);
-                }
-            });
-        }
-
-        // الحصول على العنصر الذي يلي موقع السحب
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.sortable-item:not(.dragging)')];
-            
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
-
-        // حفظ الترتيب الجديد
-        function saveOrder(container, type) {
-            const items = container.querySelectorAll('.sortable-item');
-            const orderMap = {};
-            
-            items.forEach((item, index) => {
-                const id = parseInt(item.getAttribute('data-id'));
-                orderMap[id] = index + 1;
-            });
-            
-            if (type === 'section') {
-                // تحديث ترتيب الأقسام
-                Object.keys(orderMap).forEach(id => {
-                    const section = sectionsData.find(s => s.id === parseInt(id));
-                    if (section) {
-                        section.order = orderMap[id];
-                    }
-                });
-            } else if (type === 'post') {
-                // تحديث ترتيب المنشورات
-                Object.keys(orderMap).forEach(id => {
-                    const post = postsData.find(p => p.id === parseInt(id));
-                    if (post) {
-                        post.order = orderMap[id];
-                    }
-                });
-            }
-            
-            saveSettings();
-            
-            // إعادة عرض البيانات إذا لزم الأمر
-            if (type === 'section') {
-                document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
-            } else if (type === 'post') {
-                document.getElementById('posts-container').innerHTML = renderPosts(postsData);
-            }
-        }
-
-        // ========== STORAGE FUNCTIONS ==========
-        // حفظ الإعدادات في localStorage
-        function saveSettings() {
-            const data = {
-                sections: sectionsData,
-                posts: postsData,
-                newsTicker: newsTickerData,
-                settings: siteSettings,
-                navItems: navItemsData
-            };
-            
-            localStorage.setItem('mukhayyamNetData', JSON.stringify(data));
-        }
-
-        // تحميل الإعدادات من localStorage
-        function loadSettings() {
-            const savedData = localStorage.getItem('mukhayyamNetData');
-            
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                
-                if (data.sections) sectionsData.length = 0;
-                data.sections.forEach(section => sectionsData.push(section));
-                
-                if (data.posts) postsData.length = 0;
-                data.posts.forEach(post => postsData.push(post));
-                
-                if (data.newsTicker) newsTickerData.length = 0;
-                data.newsTicker.forEach(item => newsTickerData.push(item));
-                
-                if (data.settings) siteSettings = data.settings;
-                if (data.navItems) navItemsData.length = 0;
-                data.navItems.forEach(item => navItemsData.push(item));
-            }
-        }
-
-        // ========== INITIALIZATION ==========
-        // تهيئة التطبيق
-        function initApp() {
-            // تحميل الإعدادات المحفوظة
-            loadSettings();
-            
-            // تحديث التاريخ والوقت
-            updateDateTime();
-            setInterval(updateDateTime, 60000); // تحديث كل دقيقة
-            
-            // تعيين السنة الحالية في الفوتر
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-            
-            // عرض عناصر التنقل
-            document.getElementById('nav-list').innerHTML = renderNavItems(navItemsData);
-            
-            // عرض الأقسام الرئيسية
-            document.getElementById('sections-container').innerHTML = renderMainSections(sectionsData);
-            
-            // عرض المنشورات
-            document.getElementById('posts-container').innerHTML = renderPosts(postsData);
-            
-            // عرض شريط الأخبار
-            const tickerContent = document.getElementById('news-ticker-content');
-            tickerContent.innerHTML = renderNewsTicker(newsTickerData);
-            
-            // تعيين سرعة شريط الأخبار
-            document.getElementById('news-speed').value = siteSettings.newsSpeed;
-            document.getElementById('speed-value').textContent = siteSettings.newsSpeed;
-            const animationDuration = siteSettings.newsSpeed + 's';
-            tickerContent.style.animationDuration = animationDuration;
-            
-            // عرض/إخفاء الخبر العاجل
-            document.getElementById('urgent-news-text').textContent = siteSettings.urgentNews.text;
-            if (siteSettings.urgentNews.enabled) {
-                document.getElementById('urgent-news').classList.remove('hidden');
-            }
-            
-            // إضافة حدث النقر على القائمة للموبايل
-            document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-                const nav = document.getElementById('main-nav');
-                nav.classList.toggle('hidden');
-            });
-            
-            // إغلاق النوافذ عند النقر خارجها
-            window.addEventListener('click', function(event) {
-                const modals = document.querySelectorAll('.modal');
-                modals.forEach(modal => {
-                    if (event.target === modal) {
-                        modal.style.display = 'none';
-                    }
-                });
-            });
-            
-            // منع السلوك الافتراضي للروابط
-            document.addEventListener('click', function(event) {
-                if (event.target.tagName === 'A' && event.target.getAttribute('href')?.startsWith('#')) {
-                    event.preventDefault();
-                    const targetId = event.target.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
-        }
-
-        // تشغيل التطبيق عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', initApp);
-    </script>
+    tick(); startTicker(); applyUrgent();
+    document.getElementById('siteHeader').style.backgroundImage = `url('${config.head}')`;
+    renderUI();
+</script>
 </body>
 </html>
