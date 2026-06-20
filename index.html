@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مخيم نت | 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
     <style>
         :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
         body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 100px; user-select: none; overflow-x: hidden; }
@@ -78,7 +78,7 @@
 </head>
 <body>
 
-<header id="siteHeader">
+<header id="siteHeader" style="background-image: url(&quot;https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png&quot;);">
     <div class="header-tag-right" id="adminTrigger" onclick="handleAdminClick()">مخيم نت</div>
     <div class="header-tag-left" id="headerDate">السبت، ٢٠ يونيو ٢٠٢٦</div>
 </header>
@@ -86,12 +86,12 @@
 <div id="urgentArea">
     <div>
         <span style="color:var(--p-red); font-weight:bold;">🔴 خبر هام:</span>
-        <b id="urgentText">جاري تحميل البيانات...</b>
+        <b id="urgentText">نسخة تجريبية</b>
     </div>
     <button id="urgentMoreBtn" class="btn btn-blue" style="padding: 4px 12px; font-size: 0.8rem; margin: 0; display: none;" onclick="handleUrgentMore()">عرض المزيد ←</button>
 </div>
 
-<div id="adminPanel">
+<div id="adminPanel" style="display: block;">
     <div class="admin-nav">
         <div style="display:flex; justify-content:space-between; align-items:center;">
              <h2 style="margin:0;">منصة الإدارة والأرشفة</h2>
@@ -115,8 +115,7 @@
         <input type="text" id="urgInp" oninput="autoSaveGlobal()">
         
         <label style="color: var(--p-blue); font-weight: bold;">🎯 وجهة زر "عرض المزيد" للخبر الهام:</label>
-        <select id="urgentDestSelect" onchange="autoSaveGlobal()">
-            </select>
+        <select id="urgentDestSelect" onchange="autoSaveGlobal()"><option value="">⚠️ لا تربطه بأي مكان (تعطيل وإخفاء الزر)</option><option value="mn1781960395864"> 📁 قسم: عن المخيم</option><option value="mn1781960470559">     ✍️ محتوى: تاريخ مخيم العائدين باللاذقية</option><option value="mn1781950777614"> 📁 قسم: فعاليات المخيم</option><option value="mn1781950908933">     📁 قسم: قهوة</option><option value="mn1781951286893">         ✍️ محتوى: ايهاب</option><option value="mn1781951258613">         ✍️ محتوى: الشاويش</option><option value="mn1781950898333">     📁 قسم: سوبر ماركت</option><option value="mn1781951220966">         ✍️ محتوى: سوبر ماركت بيتي</option><option value="mn1781951025317">         ✍️ محتوى: سوبر ماركت القدس</option><option value="mn1781950887853">     📁 قسم: اتصالات</option><option value="mn1781951081582">         ✍️ محتوى: مركز MLM</option><option value="mn1781952545499">         ✍️ محتوى: رامي للاتصالات</option><option value="mn1781950792117">     📁 قسم: صيدليات</option><option value="mn1781951185869">         ✍️ محتوى: صيدلية العفاف</option><option value="mn1781951138981">         ✍️ محتوى: صيدلية تيسير</option><option value="mn1781950850349">         ✍️ محتوى: صيدلية عمار</option></select>
         
         <label>شريط الأخبار المتحرك السفلي:</label> 
         <input type="text" id="newsInp" oninput="autoSaveGlobal()">
@@ -129,7 +128,7 @@
         </div>
     </div>
 
-    <div id="adminTree"><h4>قائمة التعديل الشامل للهيكلية:</h4></div>
+    <div id="adminTree"><h4>قائمة التعديل الشامل للهيكلية:</h4><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info"> عن المخيم <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">— تاريخ مخيم العائدين باللاذقية <span style="font-size:0.75rem; color:#666; font-weight:normal;">(منشور مباشر)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info"> فعاليات المخيم <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— قهوة <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— ايهاب <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— الشاويش <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— سوبر ماركت <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— سوبر ماركت بيتي <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— سوبر ماركت القدس <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— اتصالات <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— مركز MLM <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— رامي للاتصالات <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— صيدليات <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— صيدلية العفاف <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— صيدلية تيسير <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— صيدلية عمار <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div></div>
     
     <button class="btn btn-green" style="width:100%; border:3px solid #000; font-size:1.2rem; margin-top: 25px; margin-bottom:25px; padding:15px; background: #007A3D;" onclick="exportSite()">📥 تصدير وإصدار الكود النهائي المحدث (تنزيل ملف index.html)</button>
 </div>
@@ -175,16 +174,16 @@
         <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)"></span>
     </div>
     <div id="directArea"></div>
-    <div id="gridArea" class="grid"></div>
+    <div id="gridArea" class="grid"><div class="card card-folder">عن المخيم</div><div class="card card-folder">فعاليات المخيم</div></div>
 </div>
 
 <div class="footer">
     <div class="news-bar">
-        <div class="clock" id="liveClock">٠٠:٠٠</div>
+        <div class="clock" id="liveClock">19:48</div>
         <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox">
-                <div id="tickerContent" style="display: flex;"></div>
-                <div id="tickerContentDup" style="display: flex;"></div>
+            <div class="ticker-move" id="tickerBox" style="animation-duration: 25s;">
+                <div id="tickerContent" style="display: flex;"><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span></div>
+                <div id="tickerContentDup" style="display: flex;"><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span></div>
             </div>
         </div>
     </div>
@@ -200,12 +199,12 @@
 </div>
 
 <script id="siteData">
-    var INITIAL_TREE = [{"id":"mn1781960395864","title":"عن المخيم","type":"folder","mode":"direct","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781960470559","title":"تاريخ مخيم العائدين باللاذقية","type":"direct","mode":"direct","imgs":["https://i.postimg.cc/QxTm5kFX/1756472535-68b1a4d7f0f82.webp","","","","",""],"content":"مخيم اللاذقية أحد مخيمات اللاجئين الفلسطينيين وهو مخيم غير رسمي يقع ضمن حدود مدينة اللاذقية...","children":[]}]},{"id":"mn1781950777614","title":"فعاليات المخيم","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781950908933","title":"قهوة","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951286893","title":"ايهاب","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي \nمقابل صيدلية تيسير","children":[]},{"id":"mn1781951258613","title":"الشاويش","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"قهوة الشاويش \nالشارع الرئيسي جانب مفرق الفرن","children":[]}]},{"id":"mn1781950898333","title":"سوبر ماركت","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951220966","title":"سوبر ماركت بيتي","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي جانب رامي للاتصالات","children":[]},{"id":"mn1781951025317","title":"سوبر ماركت القدس","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"سوبر ماركت القدس \nالشارع الرئيسي مقابل مفرق الفرن","children":[]}]},{"id":"mn1781950887853","title":"اتصالات","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781952545499","title":"رامي للاتصالات","type":"direct","mode":"popup","imgs":["https://i.postimg.cc/hPcGzBGH/e8c25943-bf78-4912-bf7d-fbb622a74cc7.jpg","https://i.postimg.cc/26NDsQbG/Whats-App-Image-2026-06-20-at-1-40-54-PM.jpg","https://i.postimg.cc/x8RnyXdw/Whats-App-Image-2026-06-20-at-1-43-58-PM.jpg","","",""],"content":"رامي لخدمات الاتصالات والانترنت...","children":[]},{"id":"mn1781951081582","title":"مركز MLM","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"مركز MLM للاتصالات \nالشارع الرئيسي مقابل صيدلية تيسير","children":[]}]},{"id":"mn1781950792117","title":"صيدليات","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951185869","title":"صيدلية العفاف","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي \n","children":[]},{"id":"mn1781951138981","title":"صيدلية تيسير","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"صيدلية تيسير \nالشارع الرئيسي مقابل مدرسة جبع أونروا","children":[]},{"id":"mn1781950850349","title":"صيدلية عمار","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"عمار صلاح عمر \nالشارع الرئيسي مقابل رامي للاتصالات","children":[]}]}]}];
-    var INITIAL_NEWS = "أهلاً بكم في منصة مخيم نت الإخبارية والخدمية المحدثة بالكامل | تواصلوا معنا لإضافة إعلاناتكم";
-    var INITIAL_HEAD = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
-    var INITIAL_URGENT_DEST = "mn1781952545499";
-    var INITIAL_TICKER_SPEED = "25";
-    var INITIAL_URGENT_TEXT = "إطلاق النسخة المحدثة 2026 بنجاح.";
+    var INITIAL_TREE = [{"id":"mn1781960395864","title":"عن المخيم","type":"folder","mode":"direct","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781960470559","title":"تاريخ مخيم العائدين باللاذقية","type":"direct","mode":"direct","imgs":["https://i.postimg.cc/QxTm5kFX/1756472535-68b1a4d7f0f82.webp","","","","",""],"content":"تاريخ مخيم العائدين باللاذقية\nمخيم اللاذقية أحد مخيمات اللاجئين الفلسطينيين وهو مخيم غير رسمي يقع ضمن حدود مدينة اللاذقية، سوريا على ساحل البحر الأبيض المتوسط. يُسمى أيضًا مخيم الرمل أو مخيم القدس، وقد تم تأسيس المخيم بين عامي 1955-1956 فوق مساحة من الأرض تبلغ 0,22 كيلومتر مربع. ومعظم اللاجئين في المخيم أصولهم من قضاء يافا وقضاء حيفا والجليل. في عام 2011 تعرض لهجوم واسع من الجيش السوري في حكم بشار الأسد أسفر عن ترحيل الآلاف. وينحدرون من قرى وبلدات إجزم وعين غزال وجبع والصرفند وعتليت وكفر لام وطيرة والطنطورة والزيب وترشيحا البروة وياجور وأم الفرج والفريديس والسنديانة وعمقا والنهر والفراضية ودبورية وإكسال وغيرها.\nالتعليم بالمخيم\nيتوفر المخيم على عدد من المدارس التي تتبع وزارة التربية السورية ووكالة الأونروا، مما يساهم في توفير التعليم للسكان. ومنذ السبعينيات، ركز سكان المخيم على التعليم الثانوي والجامعي.\nأهم المؤسسات التعليمية بالمخيم\nمدارس تتبع وزارة التربية السورية\nمدرسة الشهيد يوسف نداف (ثانوية)\nمدرسة الرمل الجنوبي المحدثة (للتعليم الأساسي)\nمدارس تديرها وكالة الأونروا\nمدرسة جبع (للتعليم الأساسي، حلقة أولى، ذكور)\nمدرسة عتليت (للتعليم الأساسي، حلقة أولى، إناث)\nمدرسة الخيرية (ابتدائية وإعدادية)\nمدرسة مجد الكروم (ابتدائية وإعدادية)\n","children":[]}]},{"id":"mn1781950777614","title":"فعاليات المخيم","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781950908933","title":"قهوة","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951286893","title":"ايهاب","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي \nمقابل صيدلية تيسير","children":[]},{"id":"mn1781951258613","title":"الشاويش","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"قهوة الشاويش \nالشارع الرئيسي جانب مفرق الفرن\nبإدارة ابو ربيع و اخوته","children":[]}]},{"id":"mn1781950898333","title":"سوبر ماركت","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951220966","title":"سوبر ماركت بيتي","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي جانب رامي للاتصالات","children":[]},{"id":"mn1781951025317","title":"سوبر ماركت القدس","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"سوبر ماركت القدس \nالشارع الرئيسي مقابل مفرق الفرن","children":[]}]},{"id":"mn1781950887853","title":"اتصالات","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951081582","title":"مركز MLM","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"مركز MLM للاتصالات \nالشارع الرئيسي مقابل صيدلية تيسير","children":[]},{"id":"mn1781952545499","title":"رامي للاتصالات","type":"direct","mode":"popup","imgs":["https://i.postimg.cc/hPcGzBGH/e8c25943-bf78-4912-bf7d-fbb622a74cc7.jpg","https://i.postimg.cc/26NDsQbG/Whats-App-Image-2026-06-20-at-1-40-54-PM.jpg","https://i.postimg.cc/x8RnyXdw/Whats-App-Image-2026-06-20-at-1-43-58-PM.jpg","","",""],"content":"رامي لخدمات الاتصالات والانترنت\nمركز معتمد سيريتل مصغر\nتسديد فواتير الهاتف الارضي والانترنت والمياه والكهرباء\nمركز دفع إلكتروني حكومي لجميع المعاملات\nتجارة جميع انواع اجهزة الموبايل والاكسسوار وملحقاتها\nتركيب انترنت فضائي وهوائي خدمة ممتازة\nاللاذقية - الرمل الجنوبي - شارع المخيم الرئيسي\nمقابل صيدلية عمار\nواتس اب 0935640800","children":[]}]},{"id":"mn1781950792117","title":"صيدليات","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951185869","title":"صيدلية العفاف","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي \n","children":[]},{"id":"mn1781951138981","title":"صيدلية تيسير","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"صيدلية تيسير \nالشارع الرئيسي مقابل مدرسة جبع أونروا","children":[]},{"id":"mn1781950850349","title":"صيدلية عمار","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"عمار صلاح عمر \nالشارع الرئيسي مقابل رامي للاتصالات","children":[]}]}]}];
+var INITIAL_NEWS = "اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية ";
+var INITIAL_HEAD = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
+var INITIAL_URGENT_DEST = "";
+var INITIAL_TICKER_SPEED = "25";
+var INITIAL_URGENT_TEXT = "نسخة تجريبية";
 </script>
 
 <script>
@@ -566,5 +565,6 @@
     }
 </script>
 
-</body>
-</html>
+
+
+</body></html>
