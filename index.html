@@ -56,11 +56,11 @@
         .btn-blue { background: var(--p-blue); color: white; }
         .btn-orange { background: orange; color: white; }
 
-        /* [تحديث حاسم وقوي] قمنا برفع المودال لأعلى طبقة بالمتصفح ليكون فوق لوحة التحكم بشكل مطلق وتام */
+        /* نافذة المودال تظهر فوق لوحة التحكم وبأعلى طبقة حماية */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9) !important; z-index: 999999 !important; align-items: center; justify-content: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 500px; border-radius: 15px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; z-index: 1000000 !important; }
 
-        /* شريط الأخبار */
+        /* شريط الأخبار السفلي */
         .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
         .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
         .clock { background: var(--p-green); padding: 0 20px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1002; direction: rtl; position: relative; }
@@ -111,7 +111,7 @@
         <label>رابط صورة الهيدر:</label> <input type="text" id="headInp">
         <label>نص الخبر الهام:</label> <input type="text" id="urgInp">
         
-        <label style="color: var(--p-blue); font-weight: bold;">🎯 وجهة زر "عرض المزيد" للخبر الهام:</label>
+        <label style="color: var(--p-blue); font-weight: bold;">🎯 وجهة زر "عرض المزيد" للخبر الهام (ربط مع الأقسام والمنشورات):</label>
         <select id="urgentDestSelect" onchange="toggleUrgentBtnVisibility(this.value)">
             </select>
         
@@ -120,7 +120,7 @@
         <label style="color: var(--p-green); font-weight: bold;">⏱️ سرعة شريط الأخبار بالثواني:</label>
         <input type="number" id="newsSpeedInp" min="5" max="100" placeholder="مثال: 25">
 
-        <button class="btn btn-green" style="width:100%; margin-top: 10px;" onclick="saveGlobal()">✅ تحديث الإعدادات العامة</button>
+        <button class="btn btn-green" style="width:100%; margin-top: 10px; font-size:1.1rem;" onclick="saveGlobal()">✅ تحديث وحفظ الإعدادات العامة في الذاكرة</button>
     </div>
 
     <div id="adminTree"><h4>قائمة التعديل الشامل للهيكلية:</h4></div>
@@ -199,15 +199,17 @@
     var INITIAL_HEAD = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
     var INITIAL_URGENT_DEST = "mn1781952545499";
     var INITIAL_TICKER_SPEED = "25";
+    var INITIAL_URGENT_TEXT = "إطلاق النسخة المحدثة 2026 بنجاح.";
 </script>
 
 <script>
-    // تفعيل المحرك الذكي للاحتفاظ بالتعديلات حتى لو تم عمل Refresh للصحة بالخطأ
+    // تفعيل المحرك التزامني الموحد
     let tree = localStorage.getItem("site_tree") ? JSON.parse(localStorage.getItem("site_tree")) : INITIAL_TREE;
     let urgentDestinationId = localStorage.getItem("site_urg_dest") ? localStorage.getItem("site_urg_dest") : INITIAL_URGENT_DEST;
     let tickerSpeed = localStorage.getItem("site_speed") ? localStorage.getItem("site_speed") : INITIAL_TICKER_SPEED;
     let currentNews = localStorage.getItem("site_news") ? localStorage.getItem("site_news") : INITIAL_NEWS;
     let currentHead = localStorage.getItem("site_head") ? localStorage.getItem("site_head") : INITIAL_HEAD;
+    let currentUrgentText = localStorage.getItem("site_urg_text") ? localStorage.getItem("site_urg_text") : INITIAL_URGENT_TEXT;
 
     let currentFolderId = null; 
     let navigationHistory = []; 
@@ -218,8 +220,8 @@
         document.getElementById("adminPanel").style.display = 'none'; 
         document.getElementById("headInp").value = currentHead;
         document.getElementById("siteHeader").style.backgroundImage = `url('${currentHead}')`;
-        document.getElementById("urgInp").value = localStorage.getItem("site_urg_text") || "إطلاق النسخة المحدثة 2026 بنجاح.";
-        document.getElementById("urgentText").innerText = localStorage.getItem("site_urg_text") || "إطلاق النسخة المحدثة 2026 بنجاح.";
+        document.getElementById("urgInp").value = currentUrgentText;
+        document.getElementById("urgentText").innerText = currentUrgentText;
         document.getElementById("newsInp").value = currentNews;
         document.getElementById("newsSpeedInp").value = tickerSpeed;
         
@@ -493,10 +495,9 @@
         if (parentId === "root") { tree.push(targetItem); } 
         else { let p = findItemById(tree, parentId); if (p) { if (!p.children) p.children = []; p.children.push(targetItem); } }
 
-        // التخزين الفوري بذاكرة المتصفح الصلبة
         localStorage.setItem("site_tree", JSON.stringify(tree));
 
-        alert("تم التثبيت والحفظ الآمن داخل المتصفح."); 
+        alert("تم الحفظ والتثبيت التام في الذاكرة."); 
         closeAdder(); buildAdminTree(); populateUrgentDestSelect(); renderUI();
     }
 
@@ -516,28 +517,30 @@
         } return false;
     }
 
+    // [تحديث جوهري هنا] جعل منظومة الحفظ العام تطابق آلية الحفظ للمحتويات وتخزينها كمتغيرات ثابتة لعملية التصدير
     function saveGlobal() {
-        let nText = document.getElementById("newsInp").value;
-        let uText = document.getElementById("urgInp").value;
-        let hLink = document.getElementById("headInp").value;
-        
-        setupTicker(nText);
-        document.getElementById("urgentText").innerText = uText;
-        document.getElementById("siteHeader").style.backgroundImage = `url('${hLink}')`;
+        currentNews = document.getElementById("newsInp").value;
+        currentUrgentText = document.getElementById("urgInp").value;
+        currentHead = document.getElementById("headInp").value;
         urgentDestinationId = document.getElementById("urgentDestSelect").value;
-        toggleUrgentBtnVisibility(urgentDestinationId);
-        
         tickerSpeed = document.getElementById("newsSpeedInp").value || "25";
+        
+        // تطبيق فوري على واجهة الموقع الحالية
+        setupTicker(currentNews);
+        document.getElementById("urgentText").innerText = currentUrgentText;
+        document.getElementById("siteHeader").style.backgroundImage = `url('${currentHead}')`;
+        toggleUrgentBtnVisibility(urgentDestinationId);
         applyTickerSpeed(tickerSpeed);
         
-        // حفظ الإعدادات العامة في الذاكرة لتجنب فقدانها عند الريفرش
-        localStorage.setItem("site_news", nText);
-        localStorage.setItem("site_urg_text", uText);
-        localStorage.setItem("site_head", hLink);
+        // القفل والتثبيت الموحد داخل الذاكرة لمنع الضياع نهائياً عند الـ Refresh
+        localStorage.setItem("site_tree", JSON.stringify(tree));
+        localStorage.setItem("site_news", currentNews);
+        localStorage.setItem("site_urg_text", currentUrgentText);
+        localStorage.setItem("site_head", currentHead);
         localStorage.setItem("site_urg_dest", urgentDestinationId);
         localStorage.setItem("site_speed", tickerSpeed);
         
-        alert("تم الحفظ الفوري للإعدادات العامة.");
+        alert("✅ تم قفل وتثبيت جميع الإعدادات العامة والربط البرمجي بنجاح تام!");
     }
 
     function clearCache() {
@@ -548,12 +551,12 @@
     }
 
     function exportSite() {
-        let dataScript = `\nvar INITIAL_TREE = ${JSON.stringify(tree)};\nvar INITIAL_NEWS = "${document.getElementById("newsInp").value.replace(/"/g, '\\"')}";\nvar INITIAL_HEAD = "${document.getElementById("headInp").value}";\nvar INITIAL_URGENT_DEST = "${urgentDestinationId}";\nvar INITIAL_TICKER_SPEED = "${tickerSpeed}";\n`;
+        // هنا نقوم بحقن القيم المحدثة والمثبتة حالياً بدقة شديدة داخل الكود النهائي المصدر
+        let dataScript = `\nvar INITIAL_TREE = ${JSON.stringify(tree)};\nvar INITIAL_NEWS = "${currentNews.replace(/"/g, '\\"')}";\nvar INITIAL_HEAD = "${currentHead}";\nvar INITIAL_URGENT_DEST = "${urgentDestinationId}";\nvar INITIAL_TICKER_SPEED = "${tickerSpeed}";\nvar INITIAL_URGENT_TEXT = "${currentUrgentText.replace(/"/g, '\\"')}";\n`;
         let fullHtml = document.documentElement.outerHTML;
-        let regex = /var INITIAL_TREE =[\s\S]*?var INITIAL_TICKER_SPEED = ".*?";/;
+        let regex = /var INITIAL_TREE =[\s\S]*?var INITIAL_URGENT_TEXT = ".*?";/;
         fullHtml = fullHtml.replace(regex, dataScript.trim());
         
-        // مسح الكاش تلقائياً عند التصدير ليكون ملف الـ HTML الجديد نظيفاً
         let blob = new Blob([`<!DOCTYPE html>\n` + fullHtml], {type: "text/html"});
         let a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "index.html"; a.click();
     }
