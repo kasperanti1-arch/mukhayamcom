@@ -1,624 +1,1372 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مخيم نت | 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet">
-    <style>
-        :root { --p-green: #007A3D; --p-red: #CE1126; --p-black: #000; --p-white: #fff; --p-blue: #2196F3; }
-        body { font-family: 'Cairo', sans-serif; margin: 0; background: #f4f7f6; padding-bottom: 100px; user-select: none; overflow-x: hidden; }
-        
-        /* الهيدر */
-        header { background: url('https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png') center/cover no-repeat; height: 160px; border-bottom: 4px solid var(--p-green); position: relative; }
-        .header-tag-right { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10; border: 1px solid rgba(255,255,255,0.2); }
-        .header-tag-left { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); color: white; padding: 6px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 10; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مخيم نت</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&amp;family=Cairo:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --pg:#006233;--pgl:#008a47;--pr:#ce1126;--gold:#c9a84c;
+  --bg:#0f0f0f;--cbg:#1c1c1c;--card:#1e1e1e;
+  --bd:rgba(255,255,255,0.08);--pw:#f5f0e8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--pw);min-height:100vh;display:flex;flex-direction:column;}
 
-        /* الخبر الهام */
-        #urgentArea { margin: 15px; background: white; border-right: 5px solid var(--p-red); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(206, 17, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(206, 17, 38, 0); } }
+/* HEADER */
+#hdr{width:100%;min-height:190px;background:linear-gradient(135deg,#0a0a0a,#1a1a1a);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:3px solid var(--pr);}
+#hdr::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:5px;background:linear-gradient(to right,#111 25%,#f5f0e8 25%,#f5f0e8 50%,#006233 50%,#006233 75%,#ce1126 75%);}
+#hdr-img{width:100%;max-height:310px;object-fit:cover;display:none;}
+.hph{display:flex;flex-direction:column;align-items:center;gap:8px;padding:36px;text-align:center;position:relative;z-index:1;}
+.hph svg{width:64px;height:64px;opacity:0.2;}
+.hph p{color:rgba(255,255,255,0.25);font-size:13px;}
+.kbg{position:absolute;inset:0;opacity:0.04;background-image:repeating-linear-gradient(45deg,#ce1126 0,#ce1126 2px,transparent 2px,transparent 18px),repeating-linear-gradient(-45deg,#006233 0,#006233 2px,transparent 2px,transparent 18px);}
 
-        .container { padding: 0 15px 15px 15px; min-height: 40vh; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
-        .card { background: white; border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; cursor: pointer; transition: transform 0.2s; }
-        .card:active { transform: scale(0.95); }
-        .card-folder { border-right: 6px solid var(--p-blue); }
-        .card-popup { border-right: 6px solid #9c27b0; }
+/* BREAKING */
+#brk{background:linear-gradient(to right,#6a0000,#a00000);padding:9px 18px;display:none;align-items:center;gap:12px;border-bottom:2px solid #e8192e;}
+#brk.on{display:flex;}
+.brk-lbl{background:#fff;color:#900;font-weight:900;font-size:11px;padding:3px 9px;border-radius:3px;white-space:nowrap;font-family:'Cairo',sans-serif;animation:pulse 2s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+#brk-txt{font-size:13px;flex:1;cursor:pointer;line-height:1.4;}
 
-        /* السلايدر المتطور المكون من 6 صور */
-        .slider-wrapper { position: relative; width: 100%; height: 250px; background: #eee; overflow: hidden; }
-        .slider-img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .slider-img.active { display: block; }
-        .slide-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 15px; cursor: pointer; font-size: 1.2rem; border-radius: 5px; z-index: 5; }
-        .btn-prev { left: 10px; }
-        .btn-next { right: 10px; }
-        .slide-count { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: white; padding: 2px 10px; border-radius: 15px; font-size: 0.7rem; }
+/* GREEN BANNER */
+#gbn{background:linear-gradient(135deg,var(--pg),var(--pgl),var(--pg));padding:11px 20px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;border-bottom:2px solid rgba(0,0,0,0.25);}
+#gbn::before{content:'🇵🇸';position:absolute;font-size:70px;opacity:0.07;right:16px;top:50%;transform:translateY(-50%);}
+.sname{font-family:'Cairo',sans-serif;font-size:24px;font-weight:900;color:#fff;cursor:pointer;user-select:none;position:relative;z-index:1;text-shadow:0 2px 6px rgba(0,0,0,0.4);}
+.sname em{color:var(--gold);font-style:normal;}
+.bdate{font-family:'Cairo',sans-serif;font-size:13px;color:rgba(255,255,255,0.88);font-weight:600;background:rgba(0,0,0,0.18);padding:4px 11px;border-radius:18px;border:1px solid rgba(255,255,255,0.18);position:relative;z-index:1;cursor:pointer;user-select:none;}
 
-        /* المحتوى المباشر */
-        .content-block { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-right: 6px solid var(--p-green); }
-        .content-title { background: var(--p-black); color: white; padding: 10px 15px; font-weight: bold; }
-        .content-text { padding: 15px; line-height: 1.8; color: #333; white-space: pre-wrap; }
+/* BREADCRUMB */
+#bc{padding:8px 18px;display:none;align-items:center;gap:5px;flex-wrap:wrap;background:rgba(0,0,0,0.28);border-bottom:1px solid var(--bd);}
+#bc.show{display:flex;}
+.bc-i{font-size:13px;color:rgba(255,255,255,0.45);cursor:pointer;font-family:'Cairo',sans-serif;transition:color .2s;}
+.bc-i:hover{color:#fff;}
+.bc-i.cur{color:#fff;font-weight:700;}
+.bc-sep{color:rgba(255,255,255,0.2);font-size:11px;}
 
-        /* لوحة التحكم */
-        #adminPanel { display: none; position: fixed; inset: 0; background: #fff; z-index: 50000 !important; padding: 20px; overflow-y: auto; }
-        .admin-nav { position: sticky; top: -20px; background: #fff; z-index: 100; border-bottom: 2px solid var(--p-green); padding: 10px 0; margin-bottom: 15px; }
-        
-        .admin-item { background: white; border: 1px solid #eee; padding: 12px; margin-bottom: 8px; border-radius: 8px; border-right: 5px solid var(--p-green); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-        .admin-item-info { flex: 1; font-weight: bold; }
-        .admin-actions { display: flex; gap: 5px; }
+/* MAIN */
+#mc{flex:1;padding:20px 16px;max-width:1400px;margin:0 auto;width:100%;}
 
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 1rem; box-sizing: border-box; }
-        textarea { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-family: 'Cairo'; font-size: 1rem; box-sizing: border-box; min-height: 180px; resize: vertical; line-height: 1.6; }
-        
-        .btn { border: none; border-radius: 8px; cursor: pointer; font-weight: bold; padding: 12px; font-size: 0.95rem; }
-        .btn-sm { padding: 4px 10px; font-size: 0.8rem; border-radius: 5px; }
-        .btn-green { background: var(--p-green); color: white; }
-        .btn-red { background: var(--p-red); color: white; }
-        .btn-blue { background: var(--p-blue); color: white; }
-        .btn-orange { background: orange; color: white; }
+/* SECTION LABEL */
+.sec-lbl{font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:7px;}
 
-        /* نافذة المودال */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9) !important; z-index: 999999 !important; align-items: center; justify-content: center; padding: 20px; }
-        .modal-box { background: white; width: 100%; max-width: 500px; border-radius: 15px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; z-index: 1000000 !important; }
+/* CARDS GRID - always 2 columns */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
 
-        /* شريط الأخبار السفلي */
-        .footer { position: fixed; bottom: 0; width: 100%; z-index: 1000; direction: ltr; }
-        .news-bar { background: var(--p-black); color: white; height: 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
-        .clock { background: var(--p-green); padding: 0 20px; height: 100%; display: flex; align-items: center; font-weight: bold; z-index: 1002; direction: rtl; position: relative; }
-        
-        .ticker-wrapper { flex: 1; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; z-index: 1000; }
-        .ticker-move { display: flex; white-space: nowrap; position: absolute; left: 0; animation: marquee-infinite 25s linear infinite; }
-        
-        @keyframes marquee-infinite {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0%); }
-        }
-        .ticker-item { font-size: 0.95rem; direction: rtl; line-height: 40px; padding-left: 60px; font-weight: bold; }
-        .copyright { background: #1a1a1a; color: #888; text-align: center; font-size: 0.7rem; padding: 6px 0; direction: rtl; }
-    </style>
+/* SECTION CARD */
+.sc{background:var(--cbg);border-radius:11px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;position:relative;border:2px solid transparent;}
+.sc:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,0.5);}
+/* Spinning Palestinian border */
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false;}
+.sc{animation:spinB 4s linear infinite;}
+@keyframes spinB{to{--a:360deg;}}
+.sc{border-image:none;background:
+  linear-gradient(var(--cbg),var(--cbg)) padding-box,
+  conic-gradient(from var(--a),#1a1a1a 0% 20%,#f5f0e8 20% 35%,#006233 35% 65%,#ce1126 65% 80%,#1a1a1a 80% 100%) border-box;}
+.sc-ico{height:90px;display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(135deg,rgba(0,98,51,.28),rgba(206,17,38,.15));}
+.sc-body{padding:12px;}
+.sc-ttl{font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;}
+.sc-dsc{font-size:11px;color:rgba(255,255,255,.45);line-height:1.5;}
+.sc-cnt{display:inline-block;margin-top:7px;background:rgba(0,98,51,.18);color:#4caf80;font-size:10px;padding:2px 8px;border-radius:18px;border:1px solid rgba(0,98,51,.32);}
+
+/* IMAGE CARD */
+.imgcard{border-radius:11px;overflow:hidden;cursor:pointer;position:relative;border:1px solid var(--bd);transition:transform .25s;}
+.imgcard:hover{transform:translateY(-3px);}
+.imgcard img{width:100%;height:130px;object-fit:cover;display:block;}
+.imgcard .ic-cap{padding:8px 10px;background:var(--cbg);font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,.75);}
+.imgcard .ic-edit{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;display:none;}
+.imgcard:hover .ic-edit{display:block;}
+
+/* PREVIEW STRIP */
+.prev-strip{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.pv-card{background:linear-gradient(135deg,rgba(0,98,51,.18),rgba(206,17,38,.08));border:1px solid rgba(0,98,51,.3);border-radius:11px;overflow:hidden;cursor:pointer;transition:all .25s;position:relative;}
+.pv-card:hover{border-color:var(--pg);transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.45);}
+.pv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,#111 25%,#f5f0e8 25%,#f5f0e8 50%,#006233 50%,#006233 75%,#ce1126 75%);}
+.pv-img{width:100%;height:120px;object-fit:cover;background:linear-gradient(135deg,#111,#222);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.pv-body{padding:10px;}
+.pv-badge{font-size:10px;background:rgba(0,98,51,.22);color:#4caf80;border:1px solid rgba(0,98,51,.32);border-radius:9px;padding:2px 7px;display:inline-block;margin-bottom:5px;font-family:'Cairo',sans-serif;}
+.pv-ttl{font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:4px;}
+.pv-more{font-size:11px;color:var(--gold);font-family:'Cairo',sans-serif;}
+
+/* POST CARD - single line */
+.pc{background:var(--cbg);border:1px solid var(--bd);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:0;}
+.pc:hover{border-color:rgba(0,98,51,.45);background:rgba(0,98,51,.08);}
+.pc-thumb{width:64px;height:64px;flex-shrink:0;object-fit:cover;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.pc-thumb img{width:64px;height:64px;object-fit:cover;}
+.pc-body{padding:10px 12px;flex:1;min-width:0;}
+.pc-type{font-size:9px;padding:1px 6px;border-radius:8px;display:inline-block;margin-bottom:3px;}
+.pc-type.popup{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.28);}
+.pc-type.full{background:rgba(0,98,51,.15);color:#4caf80;border:1px solid rgba(0,98,51,.28);}
+.pc-ttl{font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff;}
+.pc-date{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;}
+
+/* POPUP */
+#pov{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;display:none;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(5px);}
+#pov.open{display:flex;}
+#pob{background:#1e1e1e;border:1px solid rgba(0,98,51,.38);border-radius:13px;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;}
+#pob::-webkit-scrollbar{width:4px;}#pob::-webkit-scrollbar-thumb{background:var(--pg);border-radius:3px;}
+.pop-h{background:linear-gradient(135deg,var(--pg),var(--pgl));padding:15px 18px;display:flex;align-items:center;justify-content:space-between;border-radius:13px 13px 0 0;}
+.pop-t{font-family:'Cairo',sans-serif;font-size:17px;font-weight:700;color:#fff;flex:1;margin-left:10px;}
+.pop-cl{background:rgba(0,0,0,.3);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;flex-shrink:0;}
+.pop-b{padding:18px;font-size:14px;line-height:1.8;color:rgba(255,255,255,.84);}
+.pop-b img{max-width:100%;border-radius:7px;margin:7px 0;}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:10px;}
+.gallery img{width:100%;height:90px;object-fit:cover;border-radius:6px;cursor:pointer;transition:transform .2s;border:2px solid transparent;}
+.gallery img:hover{transform:scale(1.06);border-color:var(--pg);}
+
+/* LIGHTBOX */
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:2000;display:none;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:92vh;border-radius:9px;object-fit:contain;}
+#lbc{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.14);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;}
+
+/* FOOTER */
+#fbar{background:linear-gradient(135deg,#0c180c,#0c0c18);border-top:3px solid var(--pg);padding:8px 14px;display:flex;align-items:center;gap:14px;position:sticky;bottom:0;z-index:50;}
+#clk{background:rgba(0,0,0,.4);border:1px solid rgba(0,98,51,.38);border-radius:7px;padding:5px 11px;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:#4caf80;white-space:nowrap;min-width:82px;text-align:center;letter-spacing:1px;}
+#tw{flex:1;overflow:hidden;position:relative;height:24px;}
+#tw::before,#tw::after{content:'';position:absolute;top:0;bottom:0;width:28px;z-index:2;pointer-events:none;}
+#tw::before{right:0;background:linear-gradient(to left,#0c180c,transparent);}
+#tw::after{left:0;background:linear-gradient(to right,#0c180c,transparent);}
+#tt{position:absolute;top:0;left:0;display:flex;align-items:center;white-space:nowrap;gap:0;}
+@keyframes tkgo-rtl{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes tkgo-ltr{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.ti{font-size:13px;color:rgba(255,255,255,.76);display:flex;align-items:center;gap:7px;}
+.td{width:5px;height:5px;background:var(--pr);border-radius:50%;flex-shrink:0;}
+
+/* EMPTY */
+.es{text-align:center;padding:44px 18px;color:rgba(255,255,255,.26);}
+.es .ei{font-size:46px;margin-bottom:11px;}
+
+/* ============ ADMIN ============ */
+#adm-login{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:9000;align-items:center;justify-content:center;}
+#adm-login.open{display:flex;}
+.lbox{background:#111;border:2px solid var(--pg);border-radius:15px;padding:32px;width:300px;text-align:center;box-shadow:0 0 50px rgba(0,98,51,.28);}
+.lbox .lgo{font-family:'Cairo',sans-serif;font-size:26px;font-weight:900;margin-bottom:5px;}
+.lbox .lgo em{color:var(--gold);font-style:normal;}
+.lbox p{color:rgba(255,255,255,.36);font-size:12px;margin-bottom:20px;}
+.lfi{width:100%;padding:10px;background:#0a0a0a;border:1px solid rgba(0,98,51,.45);border-radius:8px;color:#fff;font-family:'Tajawal',sans-serif;font-size:15px;text-align:center;outline:none;margin-bottom:11px;}
+.lfi:focus{border-color:var(--pg);}
+.lbtn{width:100%;padding:10px;background:linear-gradient(135deg,var(--pg),var(--pgl));border:none;border-radius:8px;color:#fff;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.lerr{color:var(--pr);font-size:12px;margin-top:8px;display:none;}
+.lcnl{background:none;border:none;color:rgba(255,255,255,.28);cursor:pointer;font-family:'Tajawal',sans-serif;margin-top:8px;font-size:12px;}
+
+#adm{display:none;position:fixed;inset:0;background:#0d0d0d;z-index:8000;flex-direction:column;}
+#adm.open{display:flex;}
+#atb{background:linear-gradient(135deg,var(--pg),var(--pgl));padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.atbtl{font-family:'Cairo',sans-serif;font-size:16px;font-weight:900;color:#fff;}
+.atbtl em{color:var(--gold);font-style:normal;}
+.atbr{display:flex;gap:7px;}
+.btn-exp{background:var(--gold);border:none;border-radius:7px;color:#000;padding:6px 12px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.btn-cadm{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:7px;color:#fff;padding:6px 12px;font-family:'Cairo',sans-serif;font-size:12px;cursor:pointer;}
+#abody{display:flex;flex:1;overflow:hidden;}
+#asb{width:185px;background:#111;border-left:1px solid var(--bd);padding:9px 0;overflow-y:auto;flex-shrink:0;}
+.asi{padding:9px 14px;cursor:pointer;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:7px;transition:all .2s;border-right:3px solid transparent;}
+.asi:hover{color:#fff;background:rgba(255,255,255,.04);}
+.asi.active{color:#fff;border-right-color:var(--pg);background:rgba(0,98,51,.1);}
+#act{flex:1;overflow-y:auto;padding:18px;}
+.atab{display:none;}.atab.active{display:block;}
+h2.ah{font-family:'Cairo',sans-serif;font-size:18px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--bd);}
+.acard{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:14px;}
+.acard h3{font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;margin-bottom:11px;color:rgba(255,255,255,.84);}
+.fg{margin-bottom:11px;}
+.fl{display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.38);margin-bottom:4px;}
+.fi,.fta,.fsel{width:100%;padding:8px 11px;background:#111;border:1px solid rgba(255,255,255,.1);border-radius:7px;color:#fff;font-family:'Tajawal',sans-serif;font-size:13px;outline:none;}
+.fi:focus,.fta:focus,.fsel:focus{border-color:var(--pg);}
+.fta{resize:vertical;min-height:75px;line-height:1.6;}
+.fsel option{background:#111;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.btn-p{background:linear-gradient(135deg,var(--pg),var(--pgl));border:none;border-radius:7px;color:#fff;padding:7px 14px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.btn-p:hover{opacity:.85;}
+.btn-d{background:rgba(206,17,38,.12);border:1px solid rgba(206,17,38,.26);border-radius:6px;color:#ff6b7a;padding:4px 9px;font-family:'Cairo',sans-serif;font-size:11px;font-weight:600;cursor:pointer;}
+.btn-d:hover{background:rgba(206,17,38,.26);}
+.btn-e{background:rgba(0,98,51,.15);border:1px solid rgba(0,98,51,.26);border-radius:6px;color:#4caf80;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Cairo',sans-serif;}
+.btn-e:hover{background:rgba(0,98,51,.3);}
+#seclist{min-height:40px;border:2px dashed var(--bd);border-radius:8px;padding:6px;}
+.sitem{background:#111;border:1px solid var(--bd);border-radius:7px;padding:9px 12px;margin-bottom:5px;display:flex;align-items:center;gap:8px;cursor:grab;user-select:none;}
+.sitem.dragov{border-color:var(--pg);background:rgba(0,98,51,.1);}
+.sitem.dragging{opacity:.3;}
+.dh{color:rgba(255,255,255,.22);font-size:14px;}
+.si-inf{flex:1;}
+.si-tit{font-family:'Cairo',sans-serif;font-weight:700;font-size:13px;}
+.si-meta{font-size:10px;color:rgba(255,255,255,.32);margin-top:1px;}
+.si-acts{display:flex;gap:4px;}
+.igrid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-top:6px;}
+.ibtn{background:#111;border:1px solid var(--bd);border-radius:5px;padding:5px;font-size:16px;cursor:pointer;text-align:center;transition:all .2s;}
+.ibtn:hover,.ibtn.sel{background:rgba(0,98,51,.25);border-color:var(--pg);}
+.grow,.tkrow{display:flex;gap:6px;margin-bottom:5px;align-items:center;}
+.pmitem{background:#111;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;margin-bottom:5px;display:flex;align-items:center;gap:8px;}
+.pmitem .pm-ttl{flex:1;font-size:12px;font-family:'Cairo',sans-serif;font-weight:600;}
+.pmitem .pm-loc{font-size:10px;color:rgba(255,255,255,.32);}
+
+/* MODAL */
+#mod{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9500;display:none;align-items:center;justify-content:center;padding:14px;}
+#mod.open{display:flex;}
+#mbox{background:#1a1a1a;border:1px solid rgba(0,98,51,.3);border-radius:12px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;}
+.mhdr{background:linear-gradient(135deg,var(--pg),var(--pgl));padding:13px 16px;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between;}
+.mtit{font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:#fff;}
+.mcl{background:rgba(0,0,0,.3);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.mbdy{padding:16px;}
+
+/* EXPORT */
+#exmod{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:9600;display:none;align-items:flex-start;justify-content:center;padding:18px 12px;overflow-y:auto;}
+#exmod.open{display:flex;}
+.exbox{background:#111;border:1px solid var(--bd);border-radius:12px;width:100%;max-width:780px;}
+.exhdr{background:linear-gradient(135deg,#1a1500,#2a2200);border-bottom:1px solid rgba(201,168,76,.28);padding:13px 16px;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between;}
+.exhdr h3{font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:var(--gold);}
+.exacts{padding:11px 14px;display:flex;gap:8px;align-items:center;background:#0f0f0f;flex-wrap:wrap;}
+.exnote{font-size:11px;color:rgba(255,255,255,.3);}
+#excode{background:#080808;padding:14px;font-family:monospace;font-size:11px;color:#bbb;overflow-x:auto;white-space:pre;max-height:48vh;overflow-y:auto;border-radius:0 0 12px 12px;direction:ltr;}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--pg);color:#fff;padding:9px 18px;border-radius:7px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+#toast.show{opacity:1;}
+@media(max-width:480px){.cg{gap:8px;}.sc-ttl{font-size:13px;}.prev-strip{gap:8px;}}
+</style>
 </head>
 <body>
 
-<header id="siteHeader" style="background-image: url(&quot;https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png&quot;);">
-    <div class="header-tag-right" id="adminTrigger" onclick="handleAdminClick()">مخيم نت</div>
-    <div class="header-tag-left" id="headerDate">السبت، ٢٠ يونيو ٢٠٢٦</div>
-</header>
-
-<div id="urgentArea">
-    <div>
-        <span style="color:var(--p-red); font-weight:bold;">🔴 خبر هام:</span>
-        <b id="urgentText">نسخة تجريبية.</b>
-    </div>
-    <button id="urgentMoreBtn" class="btn btn-blue" style="padding: 4px 12px; font-size: 0.8rem; margin: 0; display: none;" onclick="handleUrgentMore()">عرض المزيد ←</button>
+<div id="hdr">
+  <div class="kbg"></div>
+  <div class="hph" id="hph" style="display: none;">
+    <svg viewBox="0 0 64 64" fill="none"><line x1="0" y1="0" x2="64" y2="64" stroke="#006233" stroke-width="2"></line><line x1="0" y1="16" x2="64" y2="64" stroke="#ce1126" stroke-width="1.5"></line><line x1="16" y1="0" x2="64" y2="64" stroke="#006233" stroke-width="1"></line></svg>
+    <p>مكان صورة الهيدر — يُضاف من لوحة التحكم</p>
+  </div>
+  <img id="hdr-img" src="https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png" alt="" style="display: block;">
 </div>
 
-<div id="adminPanel" style="display: block;">
-    <div class="admin-nav">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-             <h2 style="margin:0;">منصة الإدارة والأرشفة</h2>
-             <div style="display: flex; gap: 10px;">
-                 <button onclick="clearCache()" class="btn btn-orange" style="padding:5px 10px;">🔄 تصهير الذاكرة وإعادة الضبط الأصلي</button>
-                 <button onclick="closeAdmin()" class="btn btn-red" style="padding:5px 10px;">إغلاق X</button>
-             </div>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-            <button class="btn btn-blue" onclick="openAdder('folder')">📁 إضافة قسم / تصنيف</button>
-            <button class="btn btn-green" onclick="openAdder('direct')">✍️ إضافة محتوى / منشور</button>
-        </div>
-    </div>
+<div id="brk" class="on"><span class="brk-lbl" id="brk-lbl">نسخة تجريبية</span><span id="brk-txt" style="text-decoration: none;">يمكنكم اضافة اعلاناتكم بمراسلتنا على صفحة مخيم الرمل الفلسطيني باللاذقية</span></div>
 
-    <div style="background: #fafafa; border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-right: 5px solid orange;">
-        <h4>⚙️ الإعدادات العامة للموقع (حفظ فوري ذكي)</h4>
-        <label>رابط صورة الهيدر:</label> 
-        <input type="text" id="headInp" oninput="autoSaveGlobal()">
-        
-        <label>نص الخبر الهام:</label> 
-        <input type="text" id="urgInp" oninput="autoSaveGlobal()">
-        
-        <label style="color: var(--p-blue); font-weight: bold;">🎯 وجهة زر "عرض المزيد" للخبر الهام:</label>
-        <select id="urgentDestSelect" onchange="autoSaveGlobal()"><option value="">⚠️ لا تربطه بأي مكان (تعطيل وإخفاء الزر)</option><option value="mn1781960395864"> 📁 قسم: عن المخيم</option><option value="mn1781960470559">     ✍️ محتوى: تاريخ مخيم العائدين باللاذقية</option><option value="mn1781950777614"> 📁 قسم: فعاليات المخيم</option><option value="mn1781950908933">     📁 قسم: قهوة</option><option value="mn1781951286893">         ✍️ محتوى: ايهاب</option><option value="mn1781951258613">         ✍️ محتوى: الشاويش</option><option value="mn1781950898333">     📁 قسم: سوبر ماركت</option><option value="mn1781951220966">         ✍️ محتوى: سوبر ماركت بيتي</option><option value="mn1781951025317">         ✍️ محتوى: سوبر ماركت القدس</option><option value="mn1781950887853">     📁 قسم: اتصالات</option><option value="mn1781951081582">         ✍️ محتوى: مركز MLM</option><option value="mn1781952545499">         ✍️ محتوى: رامي للاتصالات</option><option value="mn1782076605426">         ✍️ محتوى: مركز القمة</option><option value="mn1781950792117">     📁 قسم: صيدليات</option><option value="mn1781951185869">         ✍️ محتوى: صيدلية العفاف</option><option value="mn1781951138981">         ✍️ محتوى: صيدلية تيسير</option><option value="mn1781950850349">         ✍️ محتوى: صيدلية عمار</option><option value="mn1781976867594"> 📁 قسم: معلومات عامة</option><option value="mn1781977102449">     📁 قسم: صحة</option><option value="mn1781977136978">         ✍️ محتوى: الماء والليمون على الريق</option><option value="mn1781977229755">         ✍️ محتوى: فوائد العسل مع الليمون</option><option value="mn1781977300682">         ✍️ محتوى: فوائد الليمون والكمون على الريق</option><option value="mn1781978211570">     📁 قسم: تكنولوجيا</option><option value="mn1781978259961">         ✍️ محتوى: من مؤسس جوجل</option><option value="mn1781977669961"> 📁 قسم: المطبخ الفلسطيني</option><option value="mn1781977731514">     ✍️ محتوى: المسخن بالدجاج والسماق</option><option value="mn1781977822298">     ✍️ محتوى: المسخن الفلسطيني</option><option value="mn1781977917643">     ✍️ محتوى: مقلوبة باللحم والباذنجان</option><option value="mn1781978001849">     ✍️ محتوى: المفتول على الطريقة الفلسطينية</option><option value="mn1781996024058">     ✍️ محتوى: تجربة</option></select>
-        
-        <label>شريط الأخبار المتحرك السفلي:</label> 
-        <input type="text" id="newsInp" oninput="autoSaveGlobal()">
-        
-        <label style="color: var(--p-green); font-weight: bold;">⏱️ سرعة شريط الأخبار بالثواني:</label>
-        <input type="number" id="newsSpeedInp" min="5" max="100" placeholder="مثال: 25" oninput="autoSaveGlobal()">
-
-        <div style="margin-top: 10px; color: #2b542c; font-size: 0.85rem; font-weight: bold; text-align: center; background: #e2f0d9; padding: 8px; border-radius: 5px; border: 1px dashed #70ad47;">
-            🔒 محرك الحفظ التلقائي الفوري مُفعل ومحصن ضد تحديث الصفحة.
-        </div>
-    </div>
-
-    <div id="adminTree"><h4>قائمة التعديل الشامل للهيكلية:</h4><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info"> عن المخيم <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">— تاريخ مخيم العائدين باللاذقية <span style="font-size:0.75rem; color:#666; font-weight:normal;">(منشور مباشر)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info"> فعاليات المخيم <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— قهوة <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— ايهاب <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— الشاويش <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— سوبر ماركت <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— سوبر ماركت بيتي <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— سوبر ماركت القدس <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— اتصالات <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— مركز MLM <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— رامي للاتصالات <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— مركز القمة <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— صيدليات <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— صيدلية العفاف <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— صيدلية تيسير <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— صيدلية عمار <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info"> معلومات عامة <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— صحة <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— الماء والليمون على الريق <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— فوائد العسل مع الليمون <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— فوائد الليمون والكمون على الريق <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info">— تكنولوجيا <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">—— من مؤسس جوجل <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-blue);"><div class="admin-item-info"> المطبخ الفلسطيني <span style="font-size:0.75rem; color:#666; font-weight:normal;">(قسم)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">— المسخن بالدجاج والسماق <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">— المسخن الفلسطيني <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">— مقلوبة باللحم والباذنجان <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">— المفتول على الطريقة الفلسطينية <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div><div class="admin-item" style="border-right-color: var(--p-green);"><div class="admin-item-info">— تجربة <span style="font-size:0.75rem; color:#666; font-weight:normal;">(بوب اب)</span></div><div class="admin-actions"><button class="btn btn-sm btn-orange">تعديل ✏️</button><button class="btn btn-sm btn-red">حذف ❌</button></div></div></div>
-    
-    <button class="btn btn-green" style="width:100%; border:3px solid #000; font-size:1.2rem; margin-top: 25px; margin-bottom:25px; padding:15px; background: #007A3D;" onclick="exportSite()">📥 تصدير وإصدار الكود النهائي المحدث (تنزيل ملف index.html)</button>
+<div id="gbn">
+  <span class="sname" id="snc">مخيم <em>نت</em></span>
+  <span class="bdate" id="bdt">الأربعاء، ٢٤ حزيران ٢٠٢٦</span>
 </div>
 
-<div id="adderModal" class="modal" style="display: none;">
-    <div class="modal-box" style="padding:20px;">
-        <h3 id="modalTitle">✏️ تعديل محتويات المنشور</h3>
-        <input type="hidden" id="editItemId" value="mn1782076605426">
-        <label>العنوان الأساسي:</label> <input type="text" id="itemTitle" placeholder="أدخل العنوان هنا...">
-        
-        <div id="extraFields" style="display: block;">
-            <label>طريقة عرض هذا المحتوى:</label>
-            <select id="itemDisplayMode">
-                <option value="direct">منشور مباشر معروض داخل القسم</option>
-                <option value="popup">نافذة منبثقة مستقلة (Popup)</option>
-            </select>
-            
-            <label style="color: var(--p-blue); font-weight:bold;">🖼️ روابط الصور المرفقة بالمنشور (حد أقصى 6 صور):</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
-                <input type="text" id="itemImg1" placeholder="رابط الصورة 1">
-                <input type="text" id="itemImg2" placeholder="رابط الصورة 2">
-                <input type="text" id="itemImg3" placeholder="رابط الصورة 3">
-                <input type="text" id="itemImg4" placeholder="رابط الصورة 4">
-                <input type="text" id="itemImg5" placeholder="رابط الصورة 5">
-                <input type="text" id="itemImg6" placeholder="رابط الصورة 6">
+<div id="bc" class=""><span class="bc-i" onclick="goHome()">🏠 الرئيسية</span><span class="bc-sep">›</span><span class="bc-i cur" onclick="gotoDepth(0)">معلومات عامة</span></div>
+<main id="mc"><div id="va"><div class="sec-lbl">⭐ أبرز المواضيع</div><div class="prev-strip"><div class="pv-card" onclick="openByPathAndId('x17823055592707ucg%7C%7Cx17823055767979qdi','x1782305883782y3k9')"><div class="pv-img"><img src="https://i.postimg.cc/hPcGzBGH/e8c25943-bf78-4912-bf7d-fbb622a74cc7.jpg" style="width:100%;height:120px;object-fit:cover"></div><div class="pv-body"><span class="pv-badge">دليل المخيم › اتصالات</span><div class="pv-ttl">رامي للاتصالات</div><div class="pv-more">مزيد من التفاصيل ←</div></div></div><div class="pv-card" onclick="openByPathAndId('x1782306164247ug5z','x17823062635918dp6')"><div class="pv-img"><img src="https://kitchen.sayidaty.net/uploads/node/1767010920_node.jpg" style="width:100%;height:120px;object-fit:cover"></div><div class="pv-body"><span class="pv-badge">المطبخ الفلسطيني</span><div class="pv-ttl">مقلوبة باللحم والباذنجان</div><div class="pv-more">مزيد من التفاصيل ←</div></div></div></div><div class="sec-lbl">📁 الأقسام</div><div class="cg"><div class="sc" onclick="gotoSec('x17823053080854jtl')"><div class="sc-ico">🕯️</div><div class="sc-body"><div class="sc-ttl">عن المخيم</div><div class="sc-dsc">مخيمنا</div><span class="sc-cnt">1 عنصر</span></div></div><div class="sc" onclick="gotoSec('x17823055592707ucg')"><div class="sc-ico">🤝</div><div class="sc-body"><div class="sc-ttl">دليل المخيم</div><div class="sc-dsc">كافة  المحلات و المهن بالمخيم و ما حوله</div><span class="sc-cnt">5 عنصر</span></div></div><div class="sc" onclick="gotoSec('x1782306164247ug5z')"><div class="sc-ico">🇵🇸</div><div class="sc-body"><div class="sc-ttl">المطبخ الفلسطيني</div><div class="sc-dsc">اشهى المأكولات الفلسطينية</div><span class="sc-cnt">3 عنصر</span></div></div><div class="sc" onclick="gotoSec('x178230643668745mx')"><div class="sc-ico">🗺️</div><div class="sc-body"><div class="sc-ttl">معلومات عامة</div><div class="sc-dsc"></div><span class="sc-cnt">2 عنصر</span></div></div></div></div></main>
+
+<div id="pov" onclick="closePop(event)" class="">
+  <div id="pob">
+    <div class="pop-h"><span class="pop-t" id="pop-t">فوائد العسل مع الليمون</span><button class="pop-cl" onclick="closePop()">✕</button></div>
+    <div class="pop-b" id="pop-b">شراب العسل مع الليمون ذو الطعم اللذيذ يحتوي على الكثير من القيم الغذائية والفوائد، فلهذا الشراب القدرة على تهدئة الأعصاب والتقليل من الكثير من الأمراض التي يتعرض لها الإنسان، إذ يُساعد على رفع مناعة الجسم، وتقليل احتمالية إصابتهِ بأمراض البرد والزكام، وذلك لاحتوائهِ على العديد من الفيتامينات، والمعادن، ومضادات الاكسدة. فوائد العسل مع الليمون هناك فوائد عديدة للعسل مع الليمون ومنها ما يأتي: تخفيف نزلات البرد يساعد استخدام مشروب الليمون والعسل على تقليل المخاط ومنع الجفاف، ويمكن تناول ذلك المشروب لعدة مرات يومياً حسب الحاجة عن طريق إضافة ملعقة من العسل لكوب ماء مع عصير نصف ليمونة، ويمكن زيادة كمية العسل لزيادة حلاوة طعم المشروب حسب الرغبة. توفير الطاقة يعتبر العسل من الأغذية التي تسهم برفع نسبة السكر في الدم بدرجة بسيطة، كما أنه يحافظ على ذلك المستوى لمدة تقارب الساعتين، وعلى هذه الخاصية أجريت الكثير من الدراسات تُشير إحداها إلى أنّ تناول العسل بمقدار ملعقة إلى ملعقتين يومياً لعدة مرات في الأسبوع يسهم إيجابياً في رفع وتعزيز طاقة الجسم وخاصةً عند مزج العسل مع الماء المضاف له عصير الليمون. تطهير وتنقية الجسم يعتبر الليمون من الثمار التي تقوم بتطهير وتنقية الجسم من الفضلات، وعند مزج مشروب الليمون مع العسل، فإن ذلك يعزز من خاصية التنقية والتطهير، كما أنه يساعد على تقليل شدة الإمساك، ويعمل على تقليل الكوليسترول في الدم وقد يُخفض من مستوى ضغط الدم، كما أنه يسهم في علاج السعال وتهدئة الجسم بشكل عام. التخفيف من الامساك شرب الليمون بالعسل يعتبر من الطرق التي تُساعد على التخفيف من مشكلة الإمساك، فهو شراب محفز لحركة الأمعاء وزيادة إنتاج المادة المخاطية فيها، كما أنه يمد البراز بكميات مناسبه من الماء ويرطب القولون، بشكل عام فشراب الليمون والعسل يسهل الحركة المعوية للتخلص من الإمساك. فقدان الوزن يعتبر شراب الليمون والعسل ذا الخواص المطهرة والتي تسهم بجعل الحركة المعوية أسهل، وأيضاً يحتوي على ألياف البكتين الموجودة في الليمون التي تزيد من الشعور بالشبع بسرعة، كما أن تحضير الشراب باستعمال الماء الدافئ يزيد من قلوية المعدة، وذلك قد يسرع من عملية فقدان الوزن. تنقية البشرة عرف كل من العسل والليمون منذ القدم بالفوائد العديدة للبشرة، فشراب الليمون بالعسل يساعد على تنقية الدم بسبب خواصه المطهرة، ووجود الماء والعسل اللذين يتميزان بأنهما مضادان للجراثيم، كما أن لهما قدرة على تعزيز الكولاجين الذي ينتج في البشرة، فتناول شراب الليمون والعسل طريقة مثالية للمساعدة في الحصول على بشرة نقية وجميلة.
+</div>
+  </div>
+</div>
+<!-- FULL POST PAGE -->
+<div id="full-page" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:900;overflow-y:auto;flex-direction:column;">
+  <div style="background:linear-gradient(135deg,var(--pg),var(--pgl));padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:1;">
+    <button onclick="closeFullPage()" style="background:rgba(0,0,0,.3);border:none;color:#fff;padding:6px 14px;border-radius:7px;font-family:'Cairo',sans-serif;font-size:13px;cursor:pointer;">← رجوع</button>
+    <span id="fp-title" style="font-family:'Cairo',sans-serif;font-size:17px;font-weight:700;color:#fff;flex:1;"></span>
+  </div>
+  <div id="fp-body" style="padding:20px;font-size:14px;line-height:1.9;color:rgba(255,255,255,.86);max-width:760px;margin:0 auto;width:100%;"></div>
+</div>
+<div id="lb"><button id="lbc" onclick="document.getElementById('lb').classList.remove('open')">✕</button><img id="lb-img" src="" alt=""></div>
+<div id="fbar"><div id="clk">19:27:31</div><div id="tw"><div id="tt" style="animation: 15s linear 0s infinite normal none running tkgo-ltr; transform: none; width: 3544px;"><span class="ti"><span class="td"></span>أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span></div></div></div>
+
+<!-- ADMIN LOGIN -->
+<div id="adm-login" class="">
+  <div class="lbox">
+    <div class="lgo">مخيم <em>نت</em></div>
+    <p>لوحة التحكم</p>
+    <input type="password" class="lfi" id="lpin" placeholder="كلمة السر">
+    <button class="lbtn" onclick="doLogin()">دخول</button>
+    <div class="lerr" id="lerr" style="display: none;">كلمة السر غير صحيحة</div>
+    <button class="lcnl" onclick="document.getElementById('adm-login').classList.remove('open')">إلغاء</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adm" class="">
+  <div id="atb">
+    <div class="atbtl">🇵🇸 مخيم <em>نت</em> — لوحة التحكم</div>
+    <div class="atbr">
+      <button class="btn-exp" onclick="openEx()">⬇ تصدير HTML</button>
+      <button class="btn-cadm" onclick="document.getElementById('adm').classList.remove('open')">✕ إغلاق</button>
+    </div>
+  </div>
+  <div id="abody">
+    <div id="asb">
+      <div class="asi" onclick="showTab('tgen',this)">⚙️ عام</div>
+      <div class="asi" onclick="showTab('tsec',this)">📁 الأقسام</div>
+      <div class="asi" onclick="showTab('thome',this)">🏠 الرئيسية</div>
+      <div class="asi" onclick="showTab('tpost',this)">✍️ منشور جديد</div>
+      <div class="asi active" onclick="showTab('tposts',this)">📋 كل المنشورات</div>
+      <div class="asi" onclick="showTab('tbrk',this)">⚡ عاجل</div>
+      <div class="asi" onclick="showTab('ttk',this)">📡 الشريط</div>
+    </div>
+    <div id="act">
+
+      <!-- GENERAL -->
+      <div class="atab" id="tgen">
+        <h2 class="ah">⚙️ الإعدادات العامة</h2>
+        <div class="acard">
+          <h3>🖼 صورة الهيدر</h3>
+          <div class="fg"><label class="fl">رابط الصورة</label><input type="url" class="fi" id="a-hd" placeholder="https://example.com/header.jpg"></div>
+          <button class="btn-p" onclick="saveHdr()">💾 حفظ</button>
+        </div>
+        <div class="acard">
+          <h3>🔐 كلمة السر</h3>
+          <div class="fg"><label class="fl">كلمة السر الجديدة</label><input type="password" class="fi" id="a-np" placeholder="كلمة السر الجديدة"></div>
+          <button class="btn-p" onclick="chgPass()">🔑 تغيير</button>
+        </div>
+      </div>
+
+      <!-- SECTIONS -->
+      <div class="atab" id="tsec">
+        <h2 class="ah">📁 الأقسام</h2>
+        <div class="acard">
+          <h3>➕ قسم جديد</h3>
+          <div class="g2">
+            <div class="fg"><label class="fl">الاسم</label><input type="text" class="fi" id="a-nst" placeholder="اسم القسم"></div>
+            <div class="fg"><label class="fl">وصف</label><input type="text" class="fi" id="a-nsd" placeholder="وصف مختصر"></div>
+          </div>
+          <div class="fg"><label class="fl">الأيقونة</label><div class="igrid" id="a-sipick"><div class="ibtn" onclick="selIco(this,'🕌','a-nsico')">🕌</div><div class="ibtn" onclick="selIco(this,'📰','a-nsico')">📰</div><div class="ibtn" onclick="selIco(this,'🏡','a-nsico')">🏡</div><div class="ibtn" onclick="selIco(this,'📸','a-nsico')">📸</div><div class="ibtn" onclick="selIco(this,'🎬','a-nsico')">🎬</div><div class="ibtn" onclick="selIco(this,'📚','a-nsico')">📚</div><div class="ibtn" onclick="selIco(this,'👨‍👩‍👧','a-nsico')">👨‍👩‍👧</div><div class="ibtn" onclick="selIco(this,'⚽','a-nsico')">⚽</div><div class="ibtn" onclick="selIco(this,'🎨','a-nsico')">🎨</div><div class="ibtn" onclick="selIco(this,'🌿','a-nsico')">🌿</div><div class="ibtn" onclick="selIco(this,'🕯️','a-nsico')">🕯️</div><div class="ibtn" onclick="selIco(this,'🤝','a-nsico')">🤝</div><div class="ibtn" onclick="selIco(this,'📢','a-nsico')">📢</div><div class="ibtn" onclick="selIco(this,'🗺️','a-nsico')">🗺️</div><div class="ibtn" onclick="selIco(this,'💬','a-nsico')">💬</div><div class="ibtn sel" onclick="selIco(this,'📁','a-nsico')">📁</div><div class="ibtn" onclick="selIco(this,'🏛','a-nsico')">🏛</div><div class="ibtn" onclick="selIco(this,'⭐','a-nsico')">⭐</div><div class="ibtn" onclick="selIco(this,'🔔','a-nsico')">🔔</div><div class="ibtn" onclick="selIco(this,'📌','a-nsico')">📌</div><div class="ibtn" onclick="selIco(this,'🌍','a-nsico')">🌍</div><div class="ibtn" onclick="selIco(this,'✊','a-nsico')">✊</div><div class="ibtn" onclick="selIco(this,'🇵🇸','a-nsico')">🇵🇸</div><div class="ibtn" onclick="selIco(this,'🫒','a-nsico')">🫒</div><div class="ibtn" onclick="selIco(this,'🌾','a-nsico')">🌾</div></div><input type="hidden" id="a-nsico" value="📁"></div>
+          <button class="btn-p" onclick="addSec()">➕ إضافة</button>
+        </div>
+        <div class="acard">
+          <h3>📋 الأقسام <small style="color:rgba(255,255,255,.28);font-size:10px;font-weight:400">(اسحب للترتيب)</small></h3>
+          <div id="seclist"><div class="sitem" draggable="true" ondragstart="ds(event,0)" ondragover="dov(event)" ondrop="ddrop(event,0)" ondragleave="dlv(event)"><span class="dh">⠿</span><span style="font-size:18px">🕯️</span><div class="si-inf"><div class="si-tit">عن المخيم</div><div class="si-meta">1 عنصر</div></div><div class="si-acts"><button class="btn-e" onclick="editSecMod('x17823053080854jtl')">✏️</button><button class="btn-d" onclick="delSec('x17823053080854jtl')">🗑</button></div></div><div class="sitem" draggable="true" ondragstart="ds(event,1)" ondragover="dov(event)" ondrop="ddrop(event,1)" ondragleave="dlv(event)"><span class="dh">⠿</span><span style="font-size:18px">🤝</span><div class="si-inf"><div class="si-tit">دليل المخيم</div><div class="si-meta">5 عنصر</div></div><div class="si-acts"><button class="btn-e" onclick="editSecMod('x17823055592707ucg')">✏️</button><button class="btn-d" onclick="delSec('x17823055592707ucg')">🗑</button></div></div><div class="sitem" draggable="true" ondragstart="ds(event,2)" ondragover="dov(event)" ondrop="ddrop(event,2)" ondragleave="dlv(event)"><span class="dh">⠿</span><span style="font-size:18px">🇵🇸</span><div class="si-inf"><div class="si-tit">المطبخ الفلسطيني</div><div class="si-meta">3 عنصر</div></div><div class="si-acts"><button class="btn-e" onclick="editSecMod('x1782306164247ug5z')">✏️</button><button class="btn-d" onclick="delSec('x1782306164247ug5z')">🗑</button></div></div><div class="sitem" draggable="true" ondragstart="ds(event,3)" ondragover="dov(event)" ondrop="ddrop(event,3)" ondragleave="dlv(event)"><span class="dh">⠿</span><span style="font-size:18px">🗺️</span><div class="si-inf"><div class="si-tit">معلومات عامة</div><div class="si-meta">2 عنصر</div></div><div class="si-acts"><button class="btn-e" onclick="editSecMod('x178230643668745mx')">✏️</button><button class="btn-d" onclick="delSec('x178230643668745mx')">🗑</button></div></div></div>
+        </div>
+      </div>
+
+      <!-- HOME -->
+      <div class="atab" id="thome">
+        <h2 class="ah">🏠 الصفحة الرئيسية</h2>
+        <div class="acard">
+          <h3>⭐ بريفيو موضوعين (فوق الأقسام)</h3>
+          <p style="font-size:11px;color:rgba(255,255,255,.34);margin-bottom:10px">إذا تركتهما فارغين يأخذ آخر موضوعين تلقائياً</p>
+          <div class="fg"><label class="fl">الموضوع الأول</label><select class="fsel" id="a-fv1"><option value="">— تلقائي —</option></select></div>
+          <div class="fg"><label class="fl">الموضوع الثاني</label><select class="fsel" id="a-fv2"><option value="">— تلقائي —</option></select></div>
+          <button class="btn-p" onclick="saveFeatured()">💾 حفظ البريفيو</button>
+        </div>
+        <div class="acard">
+          <h3>🖼 صور الصفحة الرئيسية</h3>
+          <p style="font-size:11px;color:rgba(255,255,255,.34);margin-bottom:10px">صور تظهر بين البريفيو والأقسام — اضغط عليها لتكبيرها</p>
+          <div class="fg"><label class="fl">رابط الصورة</label><input type="url" class="fi" id="a-himg" placeholder="https://..."></div>
+          <div class="fg"><label class="fl">تسمية (اختياري)</label><input type="text" class="fi" id="a-himgcap" placeholder="تسمية الصورة"></div>
+          <button class="btn-p" onclick="addHomeImg()">➕ إضافة صورة</button>
+          <div id="a-himglist" style="margin-top:10px"></div>
+        </div>
+        <div class="acard">
+          <h3>📌 منشورات الرئيسية</h3>
+          <div class="g2">
+            <div class="fg"><label class="fl">العنوان</label><input type="text" class="fi" id="a-hptit" placeholder="عنوان المنشور"></div>
+            <div class="fg"><label class="fl">نوع</label><select class="fsel" id="a-hptype"><option value="popup">بوب اب</option><option value="full">منشور كامل</option></select></div>
+          </div>
+          <div class="fg"><label class="fl">الموضع</label><select class="fsel" id="a-hppos"><option value="below">تحت الأقسام</option><option value="above">فوق الأقسام</option></select></div>
+          <div class="fg"><label class="fl">رابط صورة</label><input type="url" class="fi" id="a-hpimg" placeholder="https://..."></div>
+          <div class="fg"><label class="fl">المحتوى</label><textarea class="fta" id="a-hpcont" rows="4" placeholder="محتوى المنشور..."></textarea></div>
+          <button class="btn-p" onclick="addHomePost()">📤 إضافة</button>
+          <div id="a-hplist" style="margin-top:10px"></div>
+        </div>
+      </div>
+
+      <!-- NEW POST -->
+      <div class="atab" id="tpost">
+        <h2 class="ah">✍️ منشور جديد</h2>
+        <div class="acard">
+          <h3>📍 مكان النشر</h3>
+          <div class="fg"><label class="fl">القسم</label><select class="fsel" id="a-psec"><option value="">— اختر قسماً —</option><option value="x17823053080854jtl">🕯️ عن المخيم</option><option value="x17823055592707ucg">🤝 دليل المخيم</option><option value="x1782306164247ug5z">🇵🇸 المطبخ الفلسطيني</option><option value="x178230643668745mx">🗺️ معلومات عامة</option></select></div>
+          <div id="a-ppath"></div>
+          <p id="a-pprev" style="font-size:11px;color:#4caf80;min-height:16px;margin-top:3px;font-family:'Cairo',sans-serif;"></p>
+        </div>
+        <div class="acard">
+          <h3>🖼 صور القسم (بدون موضوع)</h3>
+          <p style="font-size:11px;color:rgba(255,255,255,.34);margin-bottom:8px">صور تظهر في هذا القسم — يمكن النقر عليها للتكبير</p>
+          <div class="fg"><label class="fl">رابط الصورة</label><input type="url" class="fi" id="a-simg" placeholder="https://..."></div>
+          <div class="fg"><label class="fl">تسمية (اختياري)</label><input type="text" class="fi" id="a-simgcap" placeholder="تسمية الصورة"></div>
+          <button class="btn-p" onclick="addSecImg()">➕ إضافة صورة للقسم</button>
+        </div>
+        <div class="acard">
+          <h3>📝 تفاصيل المنشور</h3>
+          <div class="g2">
+            <div class="fg"><label class="fl">العنوان (اختياري)</label><input type="text" class="fi" id="a-ptit" placeholder="عنوان المنشور (اختياري)"></div>
+            <div class="fg"><label class="fl">نوع</label><select class="fsel" id="a-ptype"><option value="popup">بوب اب</option><option value="full">منشور كامل</option></select></div>
+          </div>
+          <div class="fg"><label class="fl">الموضع</label><select class="fsel" id="a-ppos"><option value="below">تحت البطاقات</option><option value="above">فوق البطاقات</option></select></div>
+          <div class="fg"><label class="fl">رابط صورة رئيسية</label><input type="url" class="fi" id="a-pimg" placeholder="https://..."></div>
+          <div class="fg"><label class="fl">المحتوى</label><textarea class="fta" id="a-pcont" rows="4" placeholder="محتوى المنشور..."></textarea></div>
+          <div class="fg"><label class="fl">🖼 معرض صور (حتى 10)</label><div id="a-gal"><div class="grow"><input type="url" class="fi" placeholder="https://..." style="flex:1"><button class="btn-d" onclick="this.parentElement.remove()">🗑</button></div></div><button class="btn-e" style="margin-top:5px" onclick="addGrow()">➕ صورة</button></div>
+          <button class="btn-p" onclick="addPost()">📤 نشر</button>
+        </div>
+      </div>
+
+      <!-- ALL POSTS -->
+      <div class="atab active" id="tposts">
+        <h2 class="ah">📋 كل المنشورات</h2>
+        <div class="acard">
+          <div id="a-allposts"><div class="pmitem"><div style="flex:1"><div class="pm-ttl">تاريخ مخيم العائدين باللاذقية</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">عن المخيم <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x17823053730875eyi')">✏️</button><button class="btn-d" onclick="delPost('x17823053730875eyi')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">رامي للاتصالات</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">دليل المخيم › اتصالات <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x1782305883782y3k9')">✏️</button><button class="btn-d" onclick="delPost('x1782305883782y3k9')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">مركز القمة</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">دليل المخيم › اتصالات <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x1782305994175ep54')">✏️</button><button class="btn-d" onclick="delPost('x1782305994175ep54')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">الشاويش</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">دليل المخيم › قهوة <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x1782305737126byoz')">✏️</button><button class="btn-d" onclick="delPost('x1782305737126byoz')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">المسخن بالدجاج والسماق</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">المطبخ الفلسطيني <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x1782306209559qyqq')">✏️</button><button class="btn-d" onclick="delPost('x1782306209559qyqq')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">مقلوبة باللحم والباذنجان</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">المطبخ الفلسطيني <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x17823062635918dp6')">✏️</button><button class="btn-d" onclick="delPost('x17823062635918dp6')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">المفتول على الطريقة الفلسطينية</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">المطبخ الفلسطيني <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x1782306303374ovz7')">✏️</button><button class="btn-d" onclick="delPost('x1782306303374ovz7')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">فوائد العسل مع الليمون</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">معلومات عامة <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x1782306474639bjqz')">✏️</button><button class="btn-d" onclick="delPost('x1782306474639bjqz')">🗑</button></div><div class="pmitem"><div style="flex:1"><div class="pm-ttl">فوائد الليمون والكمون على الريق</div><div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">معلومات عامة <span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span></div></div><button class="btn-e" style="margin-left:5px" onclick="openEditPost('x17823065257597or5')">✏️</button><button class="btn-d" onclick="delPost('x17823065257597or5')">🗑</button></div></div>
+        </div>
+      </div>
+
+      <!-- BREAKING -->
+      <div class="atab" id="tbrk">
+        <h2 class="ah">⚡ الخبر الهام</h2>
+        <div class="acard">
+          <p style="font-size:11px;color:rgba(255,255,255,.34);margin-bottom:10px">اتركه فارغاً لإخفاء الشريط</p>
+          <div class="g2">
+            <div class="fg"><label class="fl">كلمة الوسم</label><input type="text" class="fi" id="a-brklbl" placeholder="عاجل"></div>
+            <div class="fg"><label class="fl">نص الخبر</label><input type="text" class="fi" id="a-brktxt" placeholder="نص الخبر..."></div>
+          </div>
+          <div class="fg"><label class="fl">رابط خارجي (اختياري)</label><input type="url" class="fi" id="a-brkurl" placeholder="https://..."></div>
+          <div class="fg"><label class="fl">ربط بمنشور داخلي (اختياري)</label><select class="fsel" id="a-brklink"><option value="">— بدون رابط —</option></select></div>
+          <button class="btn-p" onclick="saveBrk()">💾 حفظ</button>
+          <button class="btn-d" style="margin-right:8px" onclick="clrBrk()">🗑 مسح</button>
+        </div>
+      </div>
+
+      <!-- TICKER -->
+      <div class="atab" id="ttk">
+        <h2 class="ah">📡 الشريط الإخباري</h2>
+        <div class="acard">
+          <h3>⚙️ إعدادات الشريط</h3>
+          <div class="g2">
+            <div class="fg"><label class="fl">الاتجاه</label>
+              <select class="fsel" id="a-tkdir">
+                <option value="rtl">يمين لليسار ◀</option>
+                <option value="ltr">يسار لليمين ▶</option>
+              </select>
             </div>
-            
-            <label>نص الوصف والبيانات بالكامل:</label>
-            <textarea id="itemText" placeholder="اكتب تفاصيل المحتوى هنا بكل حرية..."></textarea>
-        </div>
-        
-        <label>مكان النشر المخصص (القسم أو المجلد الأب):</label> 
-        <select id="parentSelect"><option value="root">الواجهة الرئيسية للموقع</option><option value="mn1781960395864">📁 عن المخيم</option><option value="mn1781950777614">📁 فعاليات المخيم</option><option value="mn1781950908933">    📁 قهوة</option><option value="mn1781950898333">    📁 سوبر ماركت</option><option value="mn1781950887853">    📁 اتصالات</option><option value="mn1781950792117">    📁 صيدليات</option><option value="mn1781976867594">📁 معلومات عامة</option><option value="mn1781977102449">    📁 صحة</option><option value="mn1781978211570">    📁 تكنولوجيا</option><option value="mn1781977669961">📁 المطبخ الفلسطيني</option></select>
-        
-        <button class="btn btn-green" style="width:100%; margin-top:15px; font-size:1.1rem;" onclick="saveEntry()">💾 حفظ وتثبيت في ذاكرة المتصفح الصلبة</button>
-        <button class="btn btn-red" style="width:100%; margin-top:5px;" onclick="closeAdder()">إلغاء التغييرات</button>
-    </div>
-</div>
-
-<div class="container">
-    <div id="pathNav" style="display: block; margin-bottom: 15px;">
-        <button onclick="goBack()" style="background:#000; color:#fff; border:none; padding:8px 15px; border-radius:8px;">← عودة للمجلد السابق</button>
-        <span id="currentPath" style="font-weight:bold; margin-right:10px; color:var(--p-green)">فعاليات المخيم</span>
-    </div>
-    <div id="directArea"></div>
-    <div id="gridArea" class="grid"><div class="card card-folder">قهوة</div><div class="card card-folder">سوبر ماركت</div><div class="card card-folder">اتصالات</div><div class="card card-folder">صيدليات</div></div>
-</div>
-
-<div class="footer">
-    <div class="news-bar">
-        <div class="clock" id="liveClock">17:42</div>
-        <div class="ticker-wrapper">
-            <div class="ticker-move" id="tickerBox" style="animation-duration: 25s;">
-                <div id="tickerContent" style="display: flex;"><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span></div>
-                <div id="tickerContentDup" style="display: flex;"><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span><span class="ticker-item">اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية </span><span class="ticker-item">★</span></div>
+            <div class="fg"><label class="fl">السرعة</label>
+              <select class="fsel" id="a-tkspd">
+                <option value="30">بطيء جداً</option>
+                <option value="60">بطيء</option>
+                <option value="120" selected="">متوسط</option>
+                <option value="200">سريع</option>
+                <option value="400">سريع جداً</option>
+              </select>
             </div>
+          </div>
+          <button class="btn-p" onclick="saveTk()">💾 حفظ</button>
         </div>
+        <div class="acard">
+          <h3>📝 أخبار الشريط</h3>
+          <div id="tklist"><div class="tkrow"><input type="text" class="fi" value="أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية" onchange="D.ticker[0]=this.value;save()" style="flex:1"><button class="btn-d" onclick="D.ticker.splice(0,1);save();renderTkList()">🗑</button></div><div class="tkrow"><input type="text" class="fi" value="تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية" onchange="D.ticker[1]=this.value;save()" style="flex:1"><button class="btn-d" onclick="D.ticker.splice(1,1);save();renderTkList()">🗑</button></div><div class="tkrow"><input type="text" class="fi" value="اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية" onchange="D.ticker[2]=this.value;save()" style="flex:1"><button class="btn-d" onclick="D.ticker.splice(2,1);save();renderTkList()">🗑</button></div></div>
+          <div style="display:flex;gap:6px;margin-top:8px"><input type="text" class="fi" id="a-ntk" placeholder="أضف خبراً..."><button class="btn-p" onclick="addTk()">➕</button></div>
+        </div>
+      </div>
+
     </div>
-    <div class="copyright">تصميم محمد ابراهيم مقبل - جميع الحقوق محفوظة 2026 ©</div>
+  </div>
 </div>
 
-<div id="viewModal" class="modal" style="z-index: 5000; display: none;">
-    <div class="modal-box">
-        <div style="background:#000; color:#fff; padding:10px; display:flex; justify-content:space-between;"><span id="viewT">تجربة</span><span onclick="closeViewModal()" style="cursor:pointer; font-size:1.5rem; padding:0 5px;">×</span></div>
-        <div id="viewSlider"></div>
-        <div id="viewB" style="padding:15px; text-align:right; line-height:1.7; white-space: pre-wrap;">تجربة</div>
-    </div>
-</div>
+<!-- EDIT MODAL -->
+<div id="mod" class=""><div id="mbox">
+  <div class="mhdr"><span class="mtit" id="mtit">تعديل: فوائد الليمون والكمون على الريق</span><button class="mcl" onclick="document.getElementById('mod').classList.remove('open')">✕</button></div>
+  <div class="mbdy" id="mbdy"><div class="g2"><div class="fg"><label class="fl">العنوان</label><input type="text" class="fi" id="ep-tit" value="فوائد الليمون والكمون على الريق"></div><div class="fg"><label class="fl">النوع</label><select class="fsel" id="ep-type"><option value="popup" selected="">بوب اب</option><option value="full">منشور كامل</option></select></div></div><div class="fg"><label class="fl">الموضع</label><select class="fsel" id="ep-pos"><option value="below">تحت البطاقات</option><option value="above" selected="">فوق البطاقات</option></select></div><div class="fg"><label class="fl">رابط الصورة</label><input type="url" class="fi" id="ep-img" value="https://modo3.com/thumbs/fit630x300/103540/1460546122/%D9%81%D9%88%D8%A7%D8%A6%D8%AF_%D8%A7%D9%84%D9%84%D9%8A%D9%85%D9%88%D9%86_%D9%88%D8%A7%D9%84%D9%83%D9%85%D9%88%D9%86_%D8%B9%D9%84%D9%89_%D8%A7%D9%84%D8%B1%D9%8A%D9%82.jpg"></div><div class="fg"><label class="fl">المحتوى</label><textarea class="fta" id="ep-cont" rows="4">يعتبر خليط الليمون والكمون من أفضل الوصفات الطبيعية التي يُقبل على تناولها واستخدامها فئة كبيرة من الأشخاص، نظراً لفوائده الكبيرة في العديد من المجالات، سواء الغذائية أو الصحية أو العلاجية، وذلك بفضل التركيبة الطبيعية الفريدة للكمون، والذي يسمى علمياً باسم Cuminum cyminum. إلى جانب فوائد الليمون الطبيعيّ والذي يحتوي على مجموعة مذهلة من الفيتامينات الأساسية التي يحتاجها الجسم بشكل يومي وبكميات معتدلة، وبالتالي فإن المزج بين هذه المركبات يجعل من هذا الخليط مفيداً جداً، وفيما يأتي سنستعرض أبرز الفوائد التي تعود على الجسم منه. فوائد الليمون والكمون على الريق يُساهم في تخفيف الوزن يُعدّ مزيج الكمون مع الليمون من أفضل العناصر الطبيعية المستخدمة على نطاق واسع جداً في التخلص من مشكلة السمنة والوزن الزائد، إذ يُساهم في زيادة معدل حرق الدهون خاصة إذ تم تناوله يوميًا، ولتحضيره ننصحك باتباع الخطوات الآتية: اخلط ملعقة صغيرة من بذور الكمون مع نصف حبة ليمون. قم بغلي كوب من الماء ثم ضع الكمون والليمون عليه. اتركه ينقع لمدة 8 ساعات ثم اشربه يوميًا. يُساعد على تخفيف الاضطرابات الهضمية يُعدّ خليط الكمون والليمون من أفضل الوصفات التي يُساهم شربها على الريق في التخفيف من بعض الاضطرابات الهضمية كالإمساك والنفخة. يعزز مناعة الجسم يُساهم خليط الليمون والكمون في تعزيز صحة الجهاز المناعي ويزيد من قدرته على مكافحة العدوى والأمراض المختلفة وذلك بفضل محتواه من فيتامين ج. يُعزز صحة البشرة يُعزز شاي الليمون والكمون صحة الجلد والبشرة ويعطيها مظهر جمالي وإشراقه ونضارة طبيعية. يمد الجسم بالطاقة يمدّ مشروب الكمون والليمون الجسم بالطاقة والحيوية اللازمة له، وذلك لدوره في تنشيط الدورة الدموية، واحتوائه على مجموعة من الفيتامينات الأساسية التي يحتاجها الجسم على رأسها فيتامين ج أو C.</textarea></div><div class="fg"><label class="fl">معرض الصور</label><div id="ep-gal"><div class="grow"><input type="url" class="fi" placeholder="https://..." style="flex:1"><button class="btn-d" onclick="this.parentElement.remove()">🗑</button></div></div><button class="btn-e" style="margin-top:4px" onclick="addEpG()">➕ صورة</button></div><button class="btn-p" onclick="saveEP('x17823065257597or5')">💾 حفظ</button></div>
+</div></div>
 
-<script id="siteData">
-    var INITIAL_TREE = [{"id":"mn1781960395864","title":"عن المخيم","type":"folder","mode":"direct","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781960470559","title":"تاريخ مخيم العائدين باللاذقية","type":"direct","mode":"direct","imgs":["https://i.postimg.cc/QxTm5kFX/1756472535-68b1a4d7f0f82.webp","https://mokhayyam.com/storage/article/224/1756472541_68b1a4dd01469.jpeg","https://lahlah.space/wp-content/uploads/2026/01/%D8%A7%D9%84%D8%B1%D9%85%D9%84-%D8%A7%D9%84%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%D9%8A%D9%A4.jpeg","https://actionpal.org.uk/wp-content/uploads/post//1/1430212928.jpg","",""],"content":"تاريخ مخيم العائدين باللاذقية\nمخيم اللاذقية أحد مخيمات اللاجئين الفلسطينيين وهو مخيم غير رسمي يقع ضمن حدود مدينة اللاذقية، سوريا على ساحل البحر الأبيض المتوسط. يُسمى أيضًا مخيم الرمل أو مخيم القدس، وقد تم تأسيس المخيم بين عامي 1955-1956 فوق مساحة من الأرض تبلغ 0,22 كيلومتر مربع. ومعظم اللاجئين في المخيم أصولهم من قضاء يافا وقضاء حيفا والجليل. في عام 2011 تعرض لهجوم واسع من الجيش السوري في حكم بشار الأسد أسفر عن ترحيل الآلاف. وينحدرون من قرى وبلدات إجزم وعين غزال وجبع والصرفند وعتليت وكفر لام وطيرة والطنطورة والزيب وترشيحا البروة وياجور وأم الفرج والفريديس والسنديانة وعمقا والنهر والفراضية ودبورية وإكسال وغيرها.\nالتعليم بالمخيم\nيتوفر المخيم على عدد من المدارس التي تتبع وزارة التربية السورية ووكالة الأونروا، مما يساهم في توفير التعليم للسكان. ومنذ السبعينيات، ركز سكان المخيم على التعليم الثانوي والجامعي.\nأهم المؤسسات التعليمية بالمخيم\nمدارس تتبع وزارة التربية السورية\nمدرسة الشهيد يوسف نداف (ثانوية)\nمدرسة الرمل الجنوبي المحدثة (للتعليم الأساسي)\nمدارس تديرها وكالة الأونروا\nمدرسة جبع (للتعليم الأساسي، حلقة أولى، ذكور)\nمدرسة عتليت (للتعليم الأساسي، حلقة أولى، إناث)\nمدرسة الخيرية (ابتدائية وإعدادية)\nمدرسة مجد الكروم (ابتدائية وإعدادية)\n","children":[]}]},{"id":"mn1781950777614","title":"فعاليات المخيم","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781950908933","title":"قهوة","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951286893","title":"ايهاب","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي \nمقابل صيدلية تيسير","children":[]},{"id":"mn1781951258613","title":"الشاويش","type":"direct","mode":"popup","imgs":["https://i.postimg.cc/jqwYK1qc/928c2e3a-a357-4522-99d5-b037d4f9dab5.jpg","https://i.postimg.cc/qMvB8wp4/572b3e8c-12ad-4281-985b-0f538cc4cbf1.jpg","https://i.postimg.cc/ZYV4KNpH/d0806a52-f194-468d-abbe-4f924f6aa9e2.jpg","https://i.postimg.cc/43S2SJ9j/dbc8ea2d-e053-4a41-a2cb-13214ad90bc5.jpg","",""],"content":"قهوة الشاويش في خدمتكم 24/24\nجميع المشروبات الساخنه\nوالبارده  \nجميع انواع الدخان متوفر لدينا   \nالعنوان : شارع المخيم الرئيسي ـ جانب مفرق الفرن الآلي","children":[]}]},{"id":"mn1781950898333","title":"سوبر ماركت","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951220966","title":"سوبر ماركت بيتي","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي جانب رامي للاتصالات","children":[]},{"id":"mn1781951025317","title":"سوبر ماركت القدس","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"سوبر ماركت القدس \nالشارع الرئيسي مقابل مفرق الفرن","children":[]}]},{"id":"mn1781950887853","title":"اتصالات","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951081582","title":"مركز MLM","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"مركز MLM للاتصالات \nالشارع الرئيسي مقابل صيدلية تيسير","children":[]},{"id":"mn1781952545499","title":"رامي للاتصالات","type":"direct","mode":"popup","imgs":["https://i.postimg.cc/hPcGzBGH/e8c25943-bf78-4912-bf7d-fbb622a74cc7.jpg","https://i.postimg.cc/26NDsQbG/Whats-App-Image-2026-06-20-at-1-40-54-PM.jpg","https://i.postimg.cc/x8RnyXdw/Whats-App-Image-2026-06-20-at-1-43-58-PM.jpg","","",""],"content":"رامي لخدمات الاتصالات والانترنت\nمركز معتمد سيريتل مصغر\nتسديد فواتير الهاتف الارضي والانترنت والمياه والكهرباء\nمركز دفع إلكتروني حكومي لجميع المعاملات\nتجارة جميع انواع اجهزة الموبايل والاكسسوار وملحقاتها\nتركيب انترنت فضائي وهوائي خدمة ممتازة\nاللاذقية - الرمل الجنوبي - شارع المخيم الرئيسي\nمقابل صيدلية عمار\nواتس اب 0935640800","children":[]},{"id":"mn1782076605426","title":"مركز القمة","type":"direct","children":[],"mode":"popup","imgs":["https://i.postimg.cc/5t12Bh7H/4d9032e4-7a38-4bba-8417-dc9c234bdd04.jpg","https://i.postimg.cc/rzXk847q/9181bacd-1189-45e8-8356-3d770971e3e5.jpg","https://i.postimg.cc/0rRs8Shs/9c654173-e704-4439-8b80-e2b49cc6ef26.jpg","https://i.postimg.cc/gc5cSXtc/c06ccf66-0f46-4809-973b-9bbd1e362efb.jpg","https://i.postimg.cc/YjKHpFTr/cefb918f-f3f5-409e-9681-65102607fd6c.jpg","https://i.postimg.cc/CdTgF890/e9963a87-a298-40a4-8567-ecf7cdcaae74.jpg"],"content":"✨ كل ما تحتاجه في مكان واحد ✨\n📱 اكسسوارات الموبايلات بمختلف الأنواع. 🔧 صيانة الموبايلات وحل المشاكل البرمجية. 💻 تنزيل البرامج والتطبيقات وتحديث الأجهزة. 🎮 شحن الألعاب والبطاقات الإلكترونية. 📚 روايات متنوعة وحديثة. 📖 خدمة تأجير الروايات. 🎁 هدايا مميزة لمختلف المناسبات. 🧩 ألعاب تعليمية وترفيهية للأطفال. 🎒 لوازم مدرسية متكاملة. ✏️ قرطاسية كاملة ومستلزمات مكتبية متنوعة. 🖨️ طباعة وتصوير المستندات والملفات. 🎀 تصميم وطباعة كروت التوزيعات للمناسبات. 💼 تصميم وطباعة كروت المحلات وكروت الأعمال باحترافية. 📄 خدمات طلابية وطباعة الأبحاث والتقارير. 🛒 خردوات ومنتجات متنوعة.\n📍 العنوان: الرمل الجنوبي – مقابل مدخل  جامع فلسطين.مقابل قهوة الشاويش \n🌟 نسعد بزيارتكم ونعدكم بخدمة مميزة، جودة عالية، وأسعار مناسبة.\nمركز القمة للاتصالات والخدمات والطباعة و القمة في الخدمة... والثقة عنواننا.\nالارقام 0935008209\n0995097810"}]},{"id":"mn1781950792117","title":"صيدليات","type":"folder","mode":"popup","imgs":["","","","","",""],"content":"","children":[{"id":"mn1781951185869","title":"صيدلية العفاف","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"الشارع الرئيسي \n","children":[]},{"id":"mn1781951138981","title":"صيدلية تيسير","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"صيدلية تيسير \nالشارع الرئيسي مقابل مدرسة جبع أونروا","children":[]},{"id":"mn1781950850349","title":"صيدلية عمار","type":"direct","mode":"popup","imgs":["","","","","",""],"content":"عمار صلاح عمر \nالشارع الرئيسي مقابل رامي للاتصالات","children":[]}]}]},{"id":"mn1781976867594","title":"معلومات عامة","type":"folder","children":[{"id":"mn1781977102449","title":"صحة","type":"folder","children":[{"id":"mn1781977136978","title":"الماء والليمون على الريق","type":"direct","children":[],"mode":"popup","imgs":["https://modo3.com/thumbs/fit630x300/76552/1594800557/%D8%A7%D9%84%D9%85%D8%A7%D8%A1_%D9%88%D8%A7%D9%84%D9%84%D9%8A%D9%85%D9%88%D9%86_%D8%B9%D9%84%D9%89_%D8%A7%D9%84%D8%B1%D9%8A%D9%82.jpg","","","","",""],"content":"يعتبر مزيج الماء والليمون، من المشروبات التي يتناولها الكثيرون لفوائدها الكثيرة، فهو يحتوي على الكثير من الفيتامينات والمعادن ومنها: فيتامين ج، وفيتامين ب1، وفيتامين ب2، وفيتامين ب3، وفيتامين ب5، فيتامين ب6، وفيتامين ب9، والكالسيوم، والمغنيسيوم، والفسفور، والبوتاسيوم، والزنك، بالإضافة للسكريات الطبيعية، والألياف الذائبة، والكربوهيدرات، خصوصاً إن تم تناوله على معدة فارغة، بحيث يتم خلط ملعقتين من عصير الليمون مع كأس ماء دافئ، وتناوله فور الاستيقاظ من النوم. يوصي خبراء التغذية بتناول الماء والليمون أيضاً قبل النوم، ويعتبر شرب الماء على معدة فارغة عادةً رائعة، تعود على الجسم بكثيرٍ من الفوائد. يجب الالتزام بتناول مزيج الليمون مع الماء فور الاستيقاظ من النوم، للحصول على الفوائد الكاملة، ويفضل أن يكون الماء دافئاً وليس بارداً، ليعزز كفاءته في العمل، وتحقيق الفائدة المرجوة من تناوله على أكمل وجه. فوائد تناول الماء والليمون يساعد في خسارة الوزن الزائد من الجسم بشكلٍ سريعٍ وفعال. يقي من أمراض القلب والشرايين، لاحتوائه على كميات كبيرة من عنصر البوتاسيوم، الذي يخفض ضغط الدم المرتفع. يقلل الشعور بالغثيان الصباحي، ويساعد في الحفاظ على توازن الجسم. يقلل من الشعور بالتعب الناتج عن التركيز الذهني، ويخفف إجهاد العقل، ويزيد من يقظته. يقلل الشعور بالاكتئاب والإحباط، ويطرد مشاعر القلق والتوتر. يساعد في تقوية عملية التنفس، ويخفف من أعراض مرض الربو التحسسي، ويعزز تدفق الأكسجين في الدم. يدر البول. يساعد في التخلص من نزلات البرد والإنفلونزا والزكام وارتفاع درجة الحرارة. يزيد من كفاءة الغدد العرقية، ويحفز عملية التعرق. يزيد كفاءة عمل الجهاز الهضمي، ويزيل عسر الهضم، وينشط إفراز إنزيمات المعدة. يساعد في التخلص من رائحة الفم الكريهة، والتمتع بأنفاس طيبة ومنعشة. يمنح الترطيب اللازم للجلد، ويمنعه من الجفاف والتقشر، ويزيد من مرونته. يعزز عمل الغدد الليمفاوية في الجسم، وعمل الغدة الدرقية، والغدة الكظرية. يزيد من كفاءة عمل الأمعاء، ويعزز وظائف المعدة، ويخلص الكبد من السموم. ينقي لون البشرة، ويمنحها النضارة، ويصفيها من السموم والبقع الداكنة واللون الشاحب، ويوحد لونها."},{"id":"mn1781977229755","title":"فوائد العسل مع الليمون","type":"direct","children":[],"mode":"popup","imgs":["https://modo3.com/thumbs/fit630x300/94933/1476024478/%D9%81%D9%88%D8%A7%D8%A6%D8%AF_%D8%A7%D9%84%D8%B9%D8%B3%D9%84_%D9%85%D8%B9_%D8%A7%D9%84%D9%84%D9%8A%D9%85%D9%88%D9%86.jpg","","","","",""],"content":"شراب العسل مع الليمون ذو الطعم اللذيذ يحتوي على الكثير من القيم الغذائية والفوائد، فلهذا الشراب القدرة على تهدئة الأعصاب والتقليل من الكثير من الأمراض التي يتعرض لها الإنسان، إذ يُساعد على رفع مناعة الجسم، وتقليل احتمالية إصابتهِ بأمراض البرد والزكام، وذلك لاحتوائهِ على العديد من الفيتامينات، والمعادن، ومضادات الاكسدة. فوائد العسل مع الليمون هناك فوائد عديدة للعسل مع الليمون ومنها ما يأتي: تخفيف نزلات البرد يساعد استخدام مشروب الليمون والعسل على تقليل المخاط ومنع الجفاف، ويمكن تناول ذلك المشروب لعدة مرات يومياً حسب الحاجة عن طريق إضافة ملعقة من العسل لكوب ماء مع عصير نصف ليمونة، ويمكن زيادة كمية العسل لزيادة حلاوة طعم المشروب حسب الرغبة. توفير الطاقة يعتبر العسل من الأغذية التي تسهم برفع نسبة السكر في الدم بدرجة بسيطة، كما أنه يحافظ على ذلك المستوى لمدة تقارب الساعتين، وعلى هذه الخاصية أجريت الكثير من الدراسات تُشير إحداها إلى أنّ تناول العسل بمقدار ملعقة إلى ملعقتين يومياً لعدة مرات في الأسبوع يسهم إيجابياً في رفع وتعزيز طاقة الجسم وخاصةً عند مزج العسل مع الماء المضاف له عصير الليمون. تطهير وتنقية الجسم يعتبر الليمون من الثمار التي تقوم بتطهير وتنقية الجسم من الفضلات، وعند مزج مشروب الليمون مع العسل، فإن ذلك يعزز من خاصية التنقية والتطهير، كما أنه يساعد على تقليل شدة الإمساك، ويعمل على تقليل الكوليسترول في الدم وقد يُخفض من مستوى ضغط الدم، كما أنه يسهم في علاج السعال وتهدئة الجسم بشكل عام. التخفيف من الامساك شرب الليمون بالعسل يعتبر من الطرق التي تُساعد على التخفيف من مشكلة الإمساك، فهو شراب محفز لحركة الأمعاء وزيادة إنتاج المادة المخاطية فيها، كما أنه يمد البراز بكميات مناسبه من الماء ويرطب القولون، بشكل عام فشراب الليمون والعسل يسهل الحركة المعوية للتخلص من الإمساك. فقدان الوزن يعتبر شراب الليمون والعسل ذا الخواص المطهرة والتي تسهم بجعل الحركة المعوية أسهل، وأيضاً يحتوي على ألياف البكتين الموجودة في الليمون التي تزيد من الشعور بالشبع بسرعة، كما أن تحضير الشراب باستعمال الماء الدافئ يزيد من قلوية المعدة، وذلك قد يسرع من عملية فقدان الوزن. تنقية البشرة عرف كل من العسل والليمون منذ القدم بالفوائد العديدة للبشرة، فشراب الليمون بالعسل يساعد على تنقية الدم بسبب خواصه المطهرة، ووجود الماء والعسل اللذين يتميزان بأنهما مضادان للجراثيم، كما أن لهما قدرة على تعزيز الكولاجين الذي ينتج في البشرة، فتناول شراب الليمون والعسل طريقة مثالية للمساعدة في الحصول على بشرة نقية وجميلة.\n"},{"id":"mn1781977300682","title":"فوائد الليمون والكمون على الريق","type":"direct","children":[],"mode":"popup","imgs":["https://modo3.com/thumbs/fit630x300/103540/1460546122/%D9%81%D9%88%D8%A7%D8%A6%D8%AF_%D8%A7%D9%84%D9%84%D9%8A%D9%85%D9%88%D9%86_%D9%88%D8%A7%D9%84%D9%83%D9%85%D9%88%D9%86_%D8%B9%D9%84%D9%89_%D8%A7%D9%84%D8%B1%D9%8A%D9%82.jpg","","","","",""],"content":"يعتبر خليط الليمون والكمون من أفضل الوصفات الطبيعية التي يُقبل على تناولها واستخدامها فئة كبيرة من الأشخاص، نظراً لفوائده الكبيرة في العديد من المجالات، سواء الغذائية أو الصحية أو العلاجية، وذلك بفضل التركيبة الطبيعية الفريدة للكمون، والذي يسمى علمياً باسم Cuminum cyminum. إلى جانب فوائد الليمون الطبيعيّ والذي يحتوي على مجموعة مذهلة من الفيتامينات الأساسية التي يحتاجها الجسم بشكل يومي وبكميات معتدلة، وبالتالي فإن المزج بين هذه المركبات يجعل من هذا الخليط مفيداً جداً، وفيما يأتي سنستعرض أبرز الفوائد التي تعود على الجسم منه. فوائد الليمون والكمون على الريق يُساهم في تخفيف الوزن يُعدّ مزيج الكمون مع الليمون من أفضل العناصر الطبيعية المستخدمة على نطاق واسع جداً في التخلص من مشكلة السمنة والوزن الزائد، إذ يُساهم في زيادة معدل حرق الدهون خاصة إذ تم تناوله يوميًا، ولتحضيره ننصحك باتباع الخطوات الآتية: اخلط ملعقة صغيرة من بذور الكمون مع نصف حبة ليمون. قم بغلي كوب من الماء ثم ضع الكمون والليمون عليه. اتركه ينقع لمدة 8 ساعات ثم اشربه يوميًا. يُساعد على تخفيف الاضطرابات الهضمية يُعدّ خليط الكمون والليمون من أفضل الوصفات التي يُساهم شربها على الريق في التخفيف من بعض الاضطرابات الهضمية كالإمساك والنفخة. يعزز مناعة الجسم يُساهم خليط الليمون والكمون في تعزيز صحة الجهاز المناعي ويزيد من قدرته على مكافحة العدوى والأمراض المختلفة وذلك بفضل محتواه من فيتامين ج. يُعزز صحة البشرة يُعزز شاي الليمون والكمون صحة الجلد والبشرة ويعطيها مظهر جمالي وإشراقه ونضارة طبيعية. يمد الجسم بالطاقة يمدّ مشروب الكمون والليمون الجسم بالطاقة والحيوية اللازمة له، وذلك لدوره في تنشيط الدورة الدموية، واحتوائه على مجموعة من الفيتامينات الأساسية التي يحتاجها الجسم على رأسها فيتامين ج أو C."}],"mode":"direct","imgs":["","","","","",""]},{"id":"mn1781978211570","title":"تكنولوجيا","type":"folder","children":[{"id":"mn1781978259961","title":"من مؤسس جوجل","type":"direct","children":[],"mode":"popup","imgs":["https://modo3.com/thumbs/fit630x300/4933/1384324268/%D9%85%D9%86_%D9%85%D8%A4%D8%B3%D8%B3_%D8%AC%D9%88%D8%AC%D9%84.jpg","","","","",""],"content":"يعود الفضل في تأسيس شركة جوجل إلى لاري بايج وسيرجي برين طُلاب الدراسات العليا لعلم الحاسوب في جامعة ستانفورد الأمريكية؛[١] حيث التقى كلّ منهما بالآخر في صيف عام 1995م، إذ كان لاري موجوداً في أحد البرامج الترحيبية بالطلاب الجُدد في كلية الدراسات العليا في جامعة ستانفورد بصفته أحد أولئك الطلاب، وقد كان البرنامج الترحيبي جولةً سياحيةً في مدينة سان فرانسيسكو، ثمّ انضم لاري في رحلته إلى مجموعة كان مُرشدها سيرجي الذي كان آنذاك طالب في السنة الثانية.[٢] بدأت قصة تأسيس جوجل بعد لقاء لاري وسيرجي بعام واحد، حيث أنشأ الاثنان تقنية بحث جديدة عبر شبكة الإنترنت،[٣] نتج عنها إطلاق محرّك بحث قائم على استخدام الروابط لتحديد أهمية ظهور صفحة معينة موجودة على شبكة الإنترنت العالمية في نتائج البحث، وتمّ تسمية محرك البحث الجديد باسم (Backrub) الذي تم تغييره لاحقاً لاسم Google،[٤] وتمّ تسجيل جوجل كشركة رسمية في الرابع من شهر أيلول للعام 1998م.[١] سيرجي برين وُلِد سيرجي برين في الحادي والعشرين من شهر آب للعام 1973م في العاصمة الروسية موسكو،[٥] وكان والده يعمل آنذاك كخبير اقتصادي في إحدى الوكالات الحكومية التابعة للاتحاد السوفياتي، وعند بلوغه سن السادسة انتقلت عائلته من موسكو للعيش في الولايات المُتحدة الأمريكية وتحديداً في ولاية ماريلاند.[٦] درس سيرجي في إحدى المدارس التي تتبع منهج مونتيسوري في التعليم الأمر الذي عزّز من إبداعه، وعقب التحاقه بجامعة ماريلاند نال سيرجي درجة البكالوريس في الرياضيات وعلم الحاسوب، ثمّ التحق بجامعة ستانفورد ليُكمل دراساته العليا في تخصّص علم الحاسوب، حيث التقى بزميله لاري بايج ليُصبح الاثنان زملاء دراسة وأصدقاء مُقرّبين يجمعهم الاهتمام الكبير بعلوم الحاسوب.[٦] لاري بايج وُلِد لاري بايج في السادس والعشرين من شهر آذار للعام 1973م في ولاية ميشيغان الأمريكية،[٧] ونشأ في أُسرة علمية ذات خبرة في مجال الحاسوب؛[٨] حيث كان والده بروفسوراً في علم الحاسوب والذكاء الاصطناعي في جامعة ميشيغان الأمريكية،[٩] وكان واحداً من رواد هذه المجالات، بينما عملت والدته في مجال تدريس برمجة الحاسوب.[٨] التحق لاري بمدرسة تعتمد منهج مونتيسوري خلال الصفوف الابتدائية ثمّ أكمل تعليمه الثانوي بمدرسة إيست لانسنغ الثانوية، وتلقّى لاري دراسته الجامعية في جامعة ميشيغان الأمريكية لينال منها درجة البكالوريس بمرتبة الشرف في تخصص هندسة الحاسوب، وبعد تخرّجه بدأ لاري دراساته العليا في جامعة ستانفورد.[٩]\n\n"}],"mode":"direct","imgs":["","","","","",""]}],"mode":"direct","imgs":["","","","","",""]},{"id":"mn1781977669961","title":"المطبخ الفلسطيني","type":"folder","children":[{"id":"mn1781977731514","title":"المسخن بالدجاج والسماق","type":"direct","children":[],"mode":"popup","imgs":["https://kitchen.sayidaty.net/uploads/small/3d/3dcab413f4eb4bb99f42151eea064806_w750_h500.JPG","","","","",""],"content":"مقادير المسخن بالدجاج والسماق\n- للبصل :\nالبصل : 6 حبات (مقطع شرائح كبيرة)\nزيت الزيتون : كوب\nملح : ملعقة صغيرة\nالكمون : ملعقة صغيرة\nسماق : 2 ملعقة كبيرة\n- للخبز :\nالدقيق الأبيض : 3 اكواب\nدقيق : كوب ونصف (أسمر)\nسكر : ملعقة صغيرة\nخميرة : ملعقة صغيرة ونصف\nملح : ملعقة كبيرة\nبيكنج بودر : ملعقة صغيرة\nماء دافئ : كوب ونصف\nزيت الزيتون : 3 ملاعق كبيرة\nصنوبر : حسب الرغبة (محمص / للتزيين)\n- الدجاج : دجاجة (مغسولة ومقطعة)\n- البصل : 1 حبة (مفروم ناعم)\n- عصير الليمون : ربع كوب\n- ملح : ملعقة كبيرة ونصف\n- سماق : ملعقة كبيرة ونصف\n- فلفل أسود : نصف ملعقة صغيرة\n- بهارات مشكلة : ملعقة صغيرة\n- زيت الزيتون : ربع كوب\n- الماء : حسب الحاجة (لسلق الدجاج)\nطريقة تحضير المسخن بالدجاج والسماق\nفي وعاء عميق اخلطي البصل المفروم مع عصير الليمون، الملح، السماق، الفلفل الأسود، البهارات المشكلة، ثم تبّلي الدجاج بالخليط لمدة لا تقل عن ساعة، ويفضل تركه ليلة كاملة في الثلاجة.\nفي قدر عميق على نار متوسطة، سخّني زيت الزيتون، ثم أضيفي الدجاج مع التتبيلة وشوّحيه لمدة خمس دقائق.\nأضيفي الماء المغلي، ثم خففي النار، واتركيه لمدة ساعة تقريباً حتى ينضج الدجاج ويصبح طرياً.\nفي مقلاة كبيرة، ضعي زيت الزيتون ثم أضيفي البصل، وأضيفي الملح والكمون والسماق، وقلّبي المكونات على نار متوسطة حتى يذبل البصل ويتشرب النكهات.\nلتحضير الخبز: في وعاء كبير اخلطي الدقيق الأبيض مع الدقيق الأسمر، وأضيفي السكر، الخميرة، الملح، والبيكنج باودر، وصُبي الماء الدافئ تدريجياً مع العجن.\nأضيفي زيت الزيتون واستمري في العجن حتى تحصلي على عجينة ناعمة.\nقسّمي العجينة إلى كرات وافرديها على شكل أقراص، وغطّيها واتركيها لتختمر لمدة 30 دقيقة.\nابدئي بفرد كل كرة باستخدام الشوبك، ثم ضعيها على صاج ساخن، وكرري العملية مع باقي كمية العجينة.\nلتحضير المسخّن: أضيفي القليل من مرق الدجاج إلى خليط البصل بالسماق، ثم شرّبي الخبز بهذا الخليط جيداً، وكرري العملية مع باقي الخبز.\nافردي الخبز في صينية مسطحة، ثم ضعي فوقه الدجاج المطبوخ وخليط البصل بالسماق.\nأدخلي الصينية إلى فرن ساخن على درجة حرارة 200 مئوية لمدة 10 دقائق حتى يتحمر الخبز والدجاج ويصبح لونه ذهبياً.\nزيّني الصينية بالصنوبر ورشة من السماق وقدمي المسخن ساخناً."},{"id":"mn1781977822298","title":"المسخن الفلسطيني","type":"direct","children":[],"mode":"popup","imgs":["https://kitchen.sayidaty.net/uploads/node/1508757818_node.jpg","","","","",""],"content":"مقادير المسخن الفلسطيني\n- البصل : 1 كيلو (ناشف / مفروم)\n- الدجاج : دجاجة (مقطع)\n- زيت الزيتون : كوبان\n- مرق دجاج : كوب\n- سماق : كوب\n- ملح : حسب الرغبة\n- الكمون : ملعقة صغيرة\n- مكسرات محمصة : حسب الرغبة (لوز / صنوبر)\n- خبز طابون : 10 أرغفة (أو خبز تنور)\nطريقة تحضير المسخن الفلسطيني\n1. تنظف الدجاجة وتقطع وتسلق مع حب  القرنفل والهيل وبصل وعود قرفة ولومي ويترك لينضج.\n\n2. في قدر يقطع البصل شرائح ويضاف له زيت الزيتون وعلى نار متوسطة حتى ينضج البصل ثم يضاف السماق والكمون ومرق الدجاج والملح ويترك جانباً.\n\n3. في صينيه يفرد الخبز ويمسح بقليل من مرق الدجاج ثم يضاف من البصل بالسماق، وقليل من المكسرات المحمصة (ممكن إضافة رشة من السماق الناشف) ثم يفرد فوقها.\n\n4.  إخبزي الصينية، ثم كرري العملية السابقة حتى الانتهاء ويصف الدجاج فوق الخبز والبصل والسماق، ويدخل الفرن لمدة 15 دقيقة، ويقدم ساخناً بجانب اللبن الزبادي. "},{"id":"mn1781977917643","title":"مقلوبة باللحم والباذنجان","type":"direct","children":[],"mode":"popup","imgs":["https://kitchen.sayidaty.net/uploads/node/1767010920_node.jpg","","","","",""],"content":"مقادير مقلوبة باللحم والباذنجان\n- للأرز :\nالأرز : 2 كوب (مغسول ومنقوع لمدة 20 دقيقة)\nبهارات مشكلة : ملعقة صغيرة\nالكركم : ملعقة صغيرة\nملح : حسب الرغبة\nمرق اللحم : حسب الحاجة\n- اللحم : 500 غراماً (مع العظم أو بدون)\n- الباذنجان : 2 حبة (كبير الحجم ومقطع شرائح)\n- البصل : 1 حبة (مقطع أرباع)\n- ورق غار : 1 ورقة\n- هيل : 5 حبات\n- القرفة : عود\n- ملح : رشّة\nطريقة تحضير مقلوبة باللحم والباذنجان\nضعي اللحم في قدر عميق مع البصل والهيل وورق الغار والقرفة، واغمري المكونات بالماء.\nضعي القدر على نار عالية، وأزيلي الرغوة عند ظهورها على السطح.\nاتركي اللحم حتى ينضج تماماً، واحتفظي بمرق اللحم لتسوية الأرز لاحقاً.\nتبّلي شرائح الباذنجان بالملح، واتركيها جانباً لحوالي 10 دقائق.\nاقلي الباذنجان حتى يتحمر، أو اشويه في الفرن ليكون صحّي أكثر.\nفي قدر عميق، رتّبي شرائح الباذنجان في القاع، ثم وزعي قطع اللحم فوق الباذنجان.\nأضيفي الأرز بعد تصفيته من الماء، ونكّهي بالبهارات والملح والكركم.\nصبّي مرق اللحم الساخن فوق الأرز حتى يغمره بمقدار 1 سم فقط.\nضعي القدر على نار عالية حتى يبدأ بالغليان.\nهدّئي النار وغطي القدر، واتركي المقلوبة تطهى لحوالي 30-35 دقيقة حتى ينضج الأرز تماماً.\nإرفعي قدر المقلوبة عن النار، واتركيها لحوالي 10 دقائق حتى تهدأ.\nضعي طبق التقديم أو صينية واسعة فوق القدر، ثم اقلبيه بحذر، وارفعي القدر ببطء لتحصلي على شكل المقلوبة الجميل المتماسك.\nقدّمي مقلوبة اللحم بالباذنجان ساخنة إلى جانب السلطة الخضراء أو الزبادي."},{"id":"mn1781978001849","title":"المفتول على الطريقة الفلسطينية","type":"direct","children":[],"mode":"popup","imgs":["https://kitchen.sayidaty.net/uploads/small/1c/1c3effdefb6f6245206156bbb2939ca7_w750_h500.jpg","","","","",""],"content":"يعتبر المفتول من أشهر الأطباق الفلسطينية التقليدية المعروفة بلذتها وطعمها الرائع، ويحضر بكثرة في المناسبات العائلية والعزومات، ويتميز بمذاقه اللذيذ وقيمته الغذائية العالية.\nمقادير المفتول على الطريقة الفلسطينية\n- المفتول : 2 كوب (جافّ)\n- الدجاج : دجاجة (مقطعة)\n- القرع : 1 حبة (مقطع مكعبات مختلفة الحجم)\n- البطاطس : 1 حبة (مقطعة)\n- الجزر : 1 حبة (مقطع دوائر)\n- البصل : 1 حبة ونصف (مفروم فرماً خشناً)\n- طماطم : 3 حبات (ناضجة ومفرومة ناعم)\n- معجون الطماطم : 3 ملاعق كبيرة\n- حمص : كوب (مسلوق)\n- مشمش مجفّف : حسب الرغبة\n- زبيب : حسب الرغبة\n- كرز : حسب الرغبة (مجفف)\n- مرق دجاج : 1 مكعب\n- زيت الزيتون : نصف كوب\n- السمن البلدي : ملعقة كبيرة\n- بهارات مشكلة : ملعقة صغيرة\n- الكركم : ملعقة صغيرة\n- القرفة : ملعقة صغيرة\n- الكمون : ملعقة صغيرة\n- هيل : نصف ملعقة صغيرة\n- ملح : ملعقة كبيرة\n- الكراوية : ملعقة كبيرة (حبّ)\n- حبوب عين جرادة : حسب الرغبة\n- الشبت : حسب الرغبة\nطريقة تحضير المفتول على الطريقة الفلسطينية\nفي مقلاة على النار، حمّي زيت الزيتون، وقلبي البصل حتى يتحمر ويصبح ذهبي اللون.\nنكهي بالبهارات المشكلة، الكركم، القرفة، الكمون، الهيل، الملح، الكراوية، وبهار عين جرادة.\nأضيفي الدجاج، ثم اتركيه حتى يتحمر وزيدي الجزر، البطاطس والقرع.\nأضيفي الطماطم المفرومة ومعجون الطماطم.\nاغمري المكونات بالماء، ثم أضيفي المرق، واتركي الخليط يغلي على نار متوسطة لمدة 30 دقيقة.\nثبتي مصفاة فوق القدر، وضعي داخلها المفتول لينضج على بخار الصلصة.\nاسكبي المفتول في طبق ذو حواف، ثم صفّي الخضار والدجاج على الوجه.\nصبي المرق على المكونات وزيني بالفواكة المجففة، وقدميه."},{"id":"mn1781996024058","title":"تجربة","type":"direct","children":[],"mode":"popup","imgs":["","","","","",""],"content":"تجربة"}],"mode":"direct","imgs":["","","","","",""]}];
-var INITIAL_NEWS = "اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية ";
-var INITIAL_HEAD = "https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png";
-var INITIAL_URGENT_DEST = "";
-var INITIAL_TICKER_SPEED = "25";
-var INITIAL_URGENT_TEXT = "نسخة تجريبية.";
-</script>
+<!-- EXPORT -->
+<div id="exmod"><div class="exbox">
+  <div class="exhdr"><h3>⬇ تصدير HTML جاهز</h3><button class="mcl" onclick="document.getElementById('exmod').classList.remove('open')" style="background:rgba(201,168,76,.2)">✕</button></div>
+  <div class="exacts">
+    <button class="btn-p" onclick="cpEx()">📋 نسخ</button>
+    <button class="btn-exp" onclick="dlEx()">⬇ تحميل</button>
+    <span class="exnote">الكود يحتوي على كل بياناتك — ارفعه مباشرة</span>
+  </div>
+  <pre id="excode">جاري التحضير...</pre>
+</div></div>
+
+<div id="toast" class="">تم الحفظ ✓</div>
 
 <script>
-    let tree = localStorage.getItem("site_tree") ? JSON.parse(localStorage.getItem("site_tree")) : INITIAL_TREE;
-    let urgentDestinationId = localStorage.getItem("site_urg_dest") !== null ? localStorage.getItem("site_urg_dest") : INITIAL_URGENT_DEST;
-    let tickerSpeed = localStorage.getItem("site_speed") ? localStorage.getItem("site_speed") : INITIAL_TICKER_SPEED;
-    let currentNews = localStorage.getItem("site_news") ? localStorage.getItem("site_news") : INITIAL_NEWS;
-    let currentHead = localStorage.getItem("site_head") ? localStorage.getItem("site_head") : INITIAL_HEAD;
-    let currentUrgentText = localStorage.getItem("site_urg_text") ? localStorage.getItem("site_urg_text") : INITIAL_URGENT_TEXT;
+// ================================================================
+// DATA
+// ================================================================
+var DKEY='mndata', PKEY='mnpass';
+var D = {"headerImg":"https://i.postimg.cc/rFNkjcrP/file-00000000deec71f5b16228d79c7647b1.png","breakingNews":{"text":"يمكنكم اضافة اعلاناتكم بمراسلتنا على صفحة مخيم الرمل الفلسطيني باللاذقية","label":"نسخة تجريبية","url":"","link":""},"ticker":["أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية","تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية","اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية"],"tickerDir":"ltr","tickerSpd":120,"sections":[{"id":"x17823053080854jtl","title":"عن المخيم","icon":"🕯️","desc":"مخيمنا","posts":[{"id":"x17823053730875eyi","title":"تاريخ مخيم العائدين باللاذقية","type":"full","pos":"above","content":"تاريخ مخيم العائدين باللاذقية\nمخيم اللاذقية أحد مخيمات اللاجئين الفلسطينيين وهو مخيم غير رسمي يقع ضمن حدود مدينة اللاذقية، سوريا على ساحل البحر الأبيض المتوسط. يُسمى أيضًا مخيم الرمل أو مخيم القدس، وقد تم تأسيس المخيم بين عامي 1955-1956 فوق مساحة من الأرض تبلغ 0,22 كيلومتر مربع. ومعظم اللاجئين في المخيم أصولهم من قضاء يافا وقضاء حيفا والجليل. في عام 2011 تعرض لهجوم واسع من الجيش السوري في حكم بشار الأسد أسفر عن ترحيل الآلاف. وينحدرون من قرى وبلدات إجزم وعين غزال وجبع والصرفند وعتليت وكفر لام وطيرة والطنطورة والزيب وترشيحا البروة وياجور وأم الفرج والفريديس والسنديانة وعمقا والنهر والفراضية ودبورية وإكسال وغيرها.\nالتعليم بالمخيم\nيتوفر المخيم على عدد من المدارس التي تتبع وزارة التربية السورية ووكالة الأونروا، مما يساهم في توفير التعليم للسكان. ومنذ السبعينيات، ركز سكان المخيم على التعليم الثانوي والجامعي.\nأهم المؤسسات التعليمية بالمخيم\nمدارس تتبع وزارة التربية السورية\nمدرسة الشهيد يوسف نداف (ثانوية)\nمدرسة الرمل الجنوبي المحدثة (للتعليم الأساسي)\nمدارس تديرها وكالة الأونروا\nمدرسة جبع (للتعليم الأساسي، حلقة أولى، ذكور)\nمدرسة عتليت (للتعليم الأساسي، حلقة أولى، إناث)\nمدرسة الخيرية (ابتدائية وإعدادية)\nمدرسة مجد الكروم (ابتدائية وإعدادية)\n","img":"https://i.postimg.cc/QxTm5kFX/1756472535-68b1a4d7f0f82.webp","gallery":["https://i.postimg.cc/QxTm5kFX/1756472535-68b1a4d7f0f82.webp"],"date":"٢٤‏/٦‏/٢٠٢٦"}],"imgs":[],"children":[]},{"id":"x17823055592707ucg","title":"دليل المخيم","icon":"🤝","desc":"كافة  المحلات و المهن بالمخيم و ما حوله","posts":[],"imgs":[],"children":[{"id":"x17823055767979qdi","title":"اتصالات","icon":"🌍","desc":"","posts":[{"id":"x1782305883782y3k9","title":"رامي للاتصالات","type":"popup","pos":"above","content":"رامي لخدمات الاتصالات والانترنت\nمركز معتمد سيريتل مصغر\nتسديد فواتير الهاتف الارضي والانترنت والمياه والكهرباء\nمركز دفع إلكتروني حكومي لجميع المعاملات\nتجارة جميع انواع اجهزة الموبايل والاكسسوار وملحقاتها\nتركيب انترنت فضائي وهوائي خدمة ممتازة\nاللاذقية - الرمل الجنوبي - شارع المخيم الرئيسي\nمقابل صيدلية عمار\nواتس اب 0935640800","img":"https://i.postimg.cc/hPcGzBGH/e8c25943-bf78-4912-bf7d-fbb622a74cc7.jpg","gallery":["https://i.postimg.cc/26NDsQbG/Whats-App-Image-2026-06-20-at-1-40-54-PM.jpg","https://i.postimg.cc/x8RnyXdw/Whats-App-Image-2026-06-20-at-1-43-58-PM.jpg"],"date":"٢٤‏/٦‏/٢٠٢٦"},{"id":"x1782305994175ep54","title":"مركز القمة","type":"popup","pos":"above","content":"✨ كل ما تحتاجه في مكان واحد ✨\n📱 اكسسوارات الموبايلات بمختلف الأنواع. 🔧 صيانة الموبايلات وحل المشاكل البرمجية. 💻 تنزيل البرامج والتطبيقات وتحديث الأجهزة. 🎮 شحن الألعاب والبطاقات الإلكترونية. 📚 روايات متنوعة وحديثة. 📖 خدمة تأجير الروايات. 🎁 هدايا مميزة لمختلف المناسبات. 🧩 ألعاب تعليمية وترفيهية للأطفال. 🎒 لوازم مدرسية متكاملة. ✏️ قرطاسية كاملة ومستلزمات مكتبية متنوعة. 🖨️ طباعة وتصوير المستندات والملفات. 🎀 تصميم وطباعة كروت التوزيعات للمناسبات. 💼 تصميم وطباعة كروت المحلات وكروت الأعمال باحترافية. 📄 خدمات طلابية وطباعة الأبحاث والتقارير. 🛒 خردوات ومنتجات متنوعة.\n📍 العنوان: الرمل الجنوبي – مقابل مدخل  جامع فلسطين.مقابل قهوة الشاويش \n🌟 نسعد بزيارتكم ونعدكم بخدمة مميزة، جودة عالية، وأسعار مناسبة.\nمركز القمة للاتصالات والخدمات والطباعة و القمة في الخدمة... والثقة عنواننا.\nالارقام 0935008209\n0995097810","img":"https://i.postimg.cc/5t12Bh7H/4d9032e4-7a38-4bba-8417-dc9c234bdd04.jpg","gallery":["https://i.postimg.cc/rzXk847q/9181bacd-1189-45e8-8356-3d770971e3e5.jpg","https://i.postimg.cc/0rRs8Shs/9c654173-e704-4439-8b80-e2b49cc6ef26.jpg","https://i.postimg.cc/gc5cSXtc/c06ccf66-0f46-4809-973b-9bbd1e362efb.jpg","https://i.postimg.cc/YjKHpFTr/cefb918f-f3f5-409e-9681-65102607fd6c.jpg","https://i.postimg.cc/CdTgF890/e9963a87-a298-40a4-8567-ecf7cdcaae74.jpg"],"date":"٢٤‏/٦‏/٢٠٢٦"}],"imgs":[],"children":[]},{"id":"x1782305589229g99o","title":"قهوة","icon":"🇵🇸","desc":"","posts":[{"id":"x1782305737126byoz","title":"الشاويش","type":"popup","pos":"above","content":"قهوة الشاويش في خدمتكم 24/24 جميع المشروبات الساخنه والبارده   جميع انواع الدخان متوفر لدينا    العنوان : شارع المخيم الرئيسي ـ جانب مفرق الفرن الآلي","img":"https://i.postimg.cc/jqwYK1qc/928c2e3a-a357-4522-99d5-b037d4f9dab5.jpg","gallery":["https://i.postimg.cc/qMvB8wp4/572b3e8c-12ad-4281-985b-0f538cc4cbf1.jpg","https://i.postimg.cc/ZYV4KNpH/d0806a52-f194-468d-abbe-4f924f6aa9e2.jpg","https://i.postimg.cc/43S2SJ9j/dbc8ea2d-e053-4a41-a2cb-13214ad90bc5.jpg"],"date":"٢٤‏/٦‏/٢٠٢٦"}],"imgs":[],"children":[]}]},{"id":"x1782306164247ug5z","title":"المطبخ الفلسطيني","icon":"🇵🇸","desc":"اشهى المأكولات الفلسطينية","posts":[{"id":"x1782306209559qyqq","title":"المسخن بالدجاج والسماق","type":"popup","pos":"above","content":"مقادير المسخن بالدجاج والسماق\n- للبصل :\nالبصل : 6 حبات (مقطع شرائح كبيرة)\nزيت الزيتون : كوب\nملح : ملعقة صغيرة\nالكمون : ملعقة صغيرة\nسماق : 2 ملعقة كبيرة\n- للخبز :\nالدقيق الأبيض : 3 اكواب\nدقيق : كوب ونصف (أسمر)\nسكر : ملعقة صغيرة\nخميرة : ملعقة صغيرة ونصف\nملح : ملعقة كبيرة\nبيكنج بودر : ملعقة صغيرة\nماء دافئ : كوب ونصف\nزيت الزيتون : 3 ملاعق كبيرة\nصنوبر : حسب الرغبة (محمص / للتزيين)\n- الدجاج : دجاجة (مغسولة ومقطعة)\n- البصل : 1 حبة (مفروم ناعم)\n- عصير الليمون : ربع كوب\n- ملح : ملعقة كبيرة ونصف\n- سماق : ملعقة كبيرة ونصف\n- فلفل أسود : نصف ملعقة صغيرة\n- بهارات مشكلة : ملعقة صغيرة\n- زيت الزيتون : ربع كوب\n- الماء : حسب الحاجة (لسلق الدجاج)\nطريقة تحضير المسخن بالدجاج والسماق\nفي وعاء عميق اخلطي البصل المفروم مع عصير الليمون، الملح، السماق، الفلفل الأسود، البهارات المشكلة، ثم تبّلي الدجاج بالخليط لمدة لا تقل عن ساعة، ويفضل تركه ليلة كاملة في الثلاجة.\nفي قدر عميق على نار متوسطة، سخّني زيت الزيتون، ثم أضيفي الدجاج مع التتبيلة وشوّحيه لمدة خمس دقائق.\nأضيفي الماء المغلي، ثم خففي النار، واتركيه لمدة ساعة تقريباً حتى ينضج الدجاج ويصبح طرياً.\nفي مقلاة كبيرة، ضعي زيت الزيتون ثم أضيفي البصل، وأضيفي الملح والكمون والسماق، وقلّبي المكونات على نار متوسطة حتى يذبل البصل ويتشرب النكهات.\nلتحضير الخبز: في وعاء كبير اخلطي الدقيق الأبيض مع الدقيق الأسمر، وأضيفي السكر، الخميرة، الملح، والبيكنج باودر، وصُبي الماء الدافئ تدريجياً مع العجن.\nأضيفي زيت الزيتون واستمري في العجن حتى تحصلي على عجينة ناعمة.\nقسّمي العجينة إلى كرات وافرديها على شكل أقراص، وغطّيها واتركيها لتختمر لمدة 30 دقيقة.\nابدئي بفرد كل كرة باستخدام الشوبك، ثم ضعيها على صاج ساخن، وكرري العملية مع باقي كمية العجينة.\nلتحضير المسخّن: أضيفي القليل من مرق الدجاج إلى خليط البصل بالسماق، ثم شرّبي الخبز بهذا الخليط جيداً، وكرري العملية مع باقي الخبز.\nافردي الخبز في صينية مسطحة، ثم ضعي فوقه الدجاج المطبوخ وخليط البصل بالسماق.\nأدخلي الصينية إلى فرن ساخن على درجة حرارة 200 مئوية لمدة 10 دقائق حتى يتحمر الخبز والدجاج ويصبح لونه ذهبياً.\nزيّني الصينية بالصنوبر ورشة من السماق وقدمي المسخن ساخناً.","img":"https://kitchen.sayidaty.net/uploads/small/3d/3dcab413f4eb4bb99f42151eea064806_w750_h500.JPG","gallery":[],"date":"٢٤‏/٦‏/٢٠٢٦"},{"id":"x17823062635918dp6","title":"مقلوبة باللحم والباذنجان","type":"popup","pos":"above","content":"مقادير مقلوبة باللحم والباذنجان\n- للأرز :\nالأرز : 2 كوب (مغسول ومنقوع لمدة 20 دقيقة)\nبهارات مشكلة : ملعقة صغيرة\nالكركم : ملعقة صغيرة\nملح : حسب الرغبة\nمرق اللحم : حسب الحاجة\n- اللحم : 500 غراماً (مع العظم أو بدون)\n- الباذنجان : 2 حبة (كبير الحجم ومقطع شرائح)\n- البصل : 1 حبة (مقطع أرباع)\n- ورق غار : 1 ورقة\n- هيل : 5 حبات\n- القرفة : عود\n- ملح : رشّة\nطريقة تحضير مقلوبة باللحم والباذنجان\nضعي اللحم في قدر عميق مع البصل والهيل وورق الغار والقرفة، واغمري المكونات بالماء.\nضعي القدر على نار عالية، وأزيلي الرغوة عند ظهورها على السطح.\nاتركي اللحم حتى ينضج تماماً، واحتفظي بمرق اللحم لتسوية الأرز لاحقاً.\nتبّلي شرائح الباذنجان بالملح، واتركيها جانباً لحوالي 10 دقائق.\nاقلي الباذنجان حتى يتحمر، أو اشويه في الفرن ليكون صحّي أكثر.\nفي قدر عميق، رتّبي شرائح الباذنجان في القاع، ثم وزعي قطع اللحم فوق الباذنجان.\nأضيفي الأرز بعد تصفيته من الماء، ونكّهي بالبهارات والملح والكركم.\nصبّي مرق اللحم الساخن فوق الأرز حتى يغمره بمقدار 1 سم فقط.\nضعي القدر على نار عالية حتى يبدأ بالغليان.\nهدّئي النار وغطي القدر، واتركي المقلوبة تطهى لحوالي 30-35 دقيقة حتى ينضج الأرز تماماً.\nإرفعي قدر المقلوبة عن النار، واتركيها لحوالي 10 دقائق حتى تهدأ.\nضعي طبق التقديم أو صينية واسعة فوق القدر، ثم اقلبيه بحذر، وارفعي القدر ببطء لتحصلي على شكل المقلوبة الجميل المتماسك.\nقدّمي مقلوبة اللحم بالباذنجان ساخنة إلى جانب السلطة الخضراء أو الزبادي.","img":"https://kitchen.sayidaty.net/uploads/node/1767010920_node.jpg","gallery":[],"date":"٢٤‏/٦‏/٢٠٢٦"},{"id":"x1782306303374ovz7","title":"المفتول على الطريقة الفلسطينية","type":"popup","pos":"above","content":"يعتبر المفتول من أشهر الأطباق الفلسطينية التقليدية المعروفة بلذتها وطعمها الرائع، ويحضر بكثرة في المناسبات العائلية والعزومات، ويتميز بمذاقه اللذيذ وقيمته الغذائية العالية.\nمقادير المفتول على الطريقة الفلسطينية\n- المفتول : 2 كوب (جافّ)\n- الدجاج : دجاجة (مقطعة)\n- القرع : 1 حبة (مقطع مكعبات مختلفة الحجم)\n- البطاطس : 1 حبة (مقطعة)\n- الجزر : 1 حبة (مقطع دوائر)\n- البصل : 1 حبة ونصف (مفروم فرماً خشناً)\n- طماطم : 3 حبات (ناضجة ومفرومة ناعم)\n- معجون الطماطم : 3 ملاعق كبيرة\n- حمص : كوب (مسلوق)\n- مشمش مجفّف : حسب الرغبة\n- زبيب : حسب الرغبة\n- كرز : حسب الرغبة (مجفف)\n- مرق دجاج : 1 مكعب\n- زيت الزيتون : نصف كوب\n- السمن البلدي : ملعقة كبيرة\n- بهارات مشكلة : ملعقة صغيرة\n- الكركم : ملعقة صغيرة\n- القرفة : ملعقة صغيرة\n- الكمون : ملعقة صغيرة\n- هيل : نصف ملعقة صغيرة\n- ملح : ملعقة كبيرة\n- الكراوية : ملعقة كبيرة (حبّ)\n- حبوب عين جرادة : حسب الرغبة\n- الشبت : حسب الرغبة\nطريقة تحضير المفتول على الطريقة الفلسطينية\nفي مقلاة على النار، حمّي زيت الزيتون، وقلبي البصل حتى يتحمر ويصبح ذهبي اللون.\nنكهي بالبهارات المشكلة، الكركم، القرفة، الكمون، الهيل، الملح، الكراوية، وبهار عين جرادة.\nأضيفي الدجاج، ثم اتركيه حتى يتحمر وزيدي الجزر، البطاطس والقرع.\nأضيفي الطماطم المفرومة ومعجون الطماطم.\nاغمري المكونات بالماء، ثم أضيفي المرق، واتركي الخليط يغلي على نار متوسطة لمدة 30 دقيقة.\nثبتي مصفاة فوق القدر، وضعي داخلها المفتول لينضج على بخار الصلصة.\nاسكبي المفتول في طبق ذو حواف، ثم صفّي الخضار والدجاج على الوجه.\nصبي المرق على المكونات وزيني بالفواكة المجففة، وقدميه.","img":"https://kitchen.sayidaty.net/uploads/small/1c/1c3effdefb6f6245206156bbb2939ca7_w750_h500.jpg","gallery":[],"date":"٢٤‏/٦‏/٢٠٢٦"}],"imgs":[],"children":[]},{"id":"x178230643668745mx","title":"معلومات عامة","icon":"🗺️","desc":"","posts":[{"id":"x1782306474639bjqz","title":"فوائد العسل مع الليمون","type":"popup","pos":"above","content":"شراب العسل مع الليمون ذو الطعم اللذيذ يحتوي على الكثير من القيم الغذائية والفوائد، فلهذا الشراب القدرة على تهدئة الأعصاب والتقليل من الكثير من الأمراض التي يتعرض لها الإنسان، إذ يُساعد على رفع مناعة الجسم، وتقليل احتمالية إصابتهِ بأمراض البرد والزكام، وذلك لاحتوائهِ على العديد من الفيتامينات، والمعادن، ومضادات الاكسدة. فوائد العسل مع الليمون هناك فوائد عديدة للعسل مع الليمون ومنها ما يأتي: تخفيف نزلات البرد يساعد استخدام مشروب الليمون والعسل على تقليل المخاط ومنع الجفاف، ويمكن تناول ذلك المشروب لعدة مرات يومياً حسب الحاجة عن طريق إضافة ملعقة من العسل لكوب ماء مع عصير نصف ليمونة، ويمكن زيادة كمية العسل لزيادة حلاوة طعم المشروب حسب الرغبة. توفير الطاقة يعتبر العسل من الأغذية التي تسهم برفع نسبة السكر في الدم بدرجة بسيطة، كما أنه يحافظ على ذلك المستوى لمدة تقارب الساعتين، وعلى هذه الخاصية أجريت الكثير من الدراسات تُشير إحداها إلى أنّ تناول العسل بمقدار ملعقة إلى ملعقتين يومياً لعدة مرات في الأسبوع يسهم إيجابياً في رفع وتعزيز طاقة الجسم وخاصةً عند مزج العسل مع الماء المضاف له عصير الليمون. تطهير وتنقية الجسم يعتبر الليمون من الثمار التي تقوم بتطهير وتنقية الجسم من الفضلات، وعند مزج مشروب الليمون مع العسل، فإن ذلك يعزز من خاصية التنقية والتطهير، كما أنه يساعد على تقليل شدة الإمساك، ويعمل على تقليل الكوليسترول في الدم وقد يُخفض من مستوى ضغط الدم، كما أنه يسهم في علاج السعال وتهدئة الجسم بشكل عام. التخفيف من الامساك شرب الليمون بالعسل يعتبر من الطرق التي تُساعد على التخفيف من مشكلة الإمساك، فهو شراب محفز لحركة الأمعاء وزيادة إنتاج المادة المخاطية فيها، كما أنه يمد البراز بكميات مناسبه من الماء ويرطب القولون، بشكل عام فشراب الليمون والعسل يسهل الحركة المعوية للتخلص من الإمساك. فقدان الوزن يعتبر شراب الليمون والعسل ذا الخواص المطهرة والتي تسهم بجعل الحركة المعوية أسهل، وأيضاً يحتوي على ألياف البكتين الموجودة في الليمون التي تزيد من الشعور بالشبع بسرعة، كما أن تحضير الشراب باستعمال الماء الدافئ يزيد من قلوية المعدة، وذلك قد يسرع من عملية فقدان الوزن. تنقية البشرة عرف كل من العسل والليمون منذ القدم بالفوائد العديدة للبشرة، فشراب الليمون بالعسل يساعد على تنقية الدم بسبب خواصه المطهرة، ووجود الماء والعسل اللذين يتميزان بأنهما مضادان للجراثيم، كما أن لهما قدرة على تعزيز الكولاجين الذي ينتج في البشرة، فتناول شراب الليمون والعسل طريقة مثالية للمساعدة في الحصول على بشرة نقية وجميلة.\n","img":"https://modo3.com/thumbs/fit630x300/94933/1476024478/%D9%81%D9%88%D8%A7%D8%A6%D8%AF_%D8%A7%D9%84%D8%B9%D8%B3%D9%84_%D9%85%D8%B9_%D8%A7%D9%84%D9%84%D9%8A%D9%85%D9%88%D9%86.jpg","gallery":[],"date":"٢٤‏/٦‏/٢٠٢٦"},{"id":"x17823065257597or5","title":"فوائد الليمون والكمون على الريق","type":"popup","pos":"above","content":"يعتبر خليط الليمون والكمون من أفضل الوصفات الطبيعية التي يُقبل على تناولها واستخدامها فئة كبيرة من الأشخاص، نظراً لفوائده الكبيرة في العديد من المجالات، سواء الغذائية أو الصحية أو العلاجية، وذلك بفضل التركيبة الطبيعية الفريدة للكمون، والذي يسمى علمياً باسم Cuminum cyminum. إلى جانب فوائد الليمون الطبيعيّ والذي يحتوي على مجموعة مذهلة من الفيتامينات الأساسية التي يحتاجها الجسم بشكل يومي وبكميات معتدلة، وبالتالي فإن المزج بين هذه المركبات يجعل من هذا الخليط مفيداً جداً، وفيما يأتي سنستعرض أبرز الفوائد التي تعود على الجسم منه. فوائد الليمون والكمون على الريق يُساهم في تخفيف الوزن يُعدّ مزيج الكمون مع الليمون من أفضل العناصر الطبيعية المستخدمة على نطاق واسع جداً في التخلص من مشكلة السمنة والوزن الزائد، إذ يُساهم في زيادة معدل حرق الدهون خاصة إذ تم تناوله يوميًا، ولتحضيره ننصحك باتباع الخطوات الآتية: اخلط ملعقة صغيرة من بذور الكمون مع نصف حبة ليمون. قم بغلي كوب من الماء ثم ضع الكمون والليمون عليه. اتركه ينقع لمدة 8 ساعات ثم اشربه يوميًا. يُساعد على تخفيف الاضطرابات الهضمية يُعدّ خليط الكمون والليمون من أفضل الوصفات التي يُساهم شربها على الريق في التخفيف من بعض الاضطرابات الهضمية كالإمساك والنفخة. يعزز مناعة الجسم يُساهم خليط الليمون والكمون في تعزيز صحة الجهاز المناعي ويزيد من قدرته على مكافحة العدوى والأمراض المختلفة وذلك بفضل محتواه من فيتامين ج. يُعزز صحة البشرة يُعزز شاي الليمون والكمون صحة الجلد والبشرة ويعطيها مظهر جمالي وإشراقه ونضارة طبيعية. يمد الجسم بالطاقة يمدّ مشروب الكمون والليمون الجسم بالطاقة والحيوية اللازمة له، وذلك لدوره في تنشيط الدورة الدموية، واحتوائه على مجموعة من الفيتامينات الأساسية التي يحتاجها الجسم على رأسها فيتامين ج أو C.","img":"https://modo3.com/thumbs/fit630x300/103540/1460546122/%D9%81%D9%88%D8%A7%D8%A6%D8%AF_%D8%A7%D9%84%D9%84%D9%8A%D9%85%D9%88%D9%86_%D9%88%D8%A7%D9%84%D9%83%D9%85%D9%88%D9%86_%D8%B9%D9%84%D9%89_%D8%A7%D9%84%D8%B1%D9%8A%D9%82.jpg","gallery":[],"date":"٢٤‏/٦‏/٢٠٢٦"}],"imgs":[],"children":[]}],"homePosts":[],"homeImgs":[],"featured":{"p1":"x1782305883782y3k9","p2":"x17823062635918dp6"}};
+function GP(){return localStorage.getItem(PKEY)||'1234';}
+function save(){localStorage.setItem(DKEY,JSON.stringify(D));toast('تم الحفظ ✓');refreshSite();}
+function gid(){return 'x'+Date.now()+Math.random().toString(36).substr(2,4);}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2000);}
 
-    let currentFolderId = null; 
-    let navigationHistory = []; 
-    let addingType = 'folder';
-    let clickCount = 0; let lastClickTime = 0;
+// ================================================================
+// CLOCK
+// ================================================================
+function startClock(){
+  function tick(){
+    var n=new Date();
+    var el=document.getElementById('clk');
+    if(el) el.textContent=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
+  }
+  function pad(x){return String(x).padStart(2,'0');}
+  tick();
+  setInterval(tick,1000);
+}
 
-    window.onload = () => { 
-        document.getElementById("adminPanel").style.display = 'none'; 
-        document.getElementById("headInp").value = currentHead;
-        document.getElementById("siteHeader").style.backgroundImage = `url('${currentHead}')`;
-        document.getElementById("urgInp").value = currentUrgentText;
-        document.getElementById("urgentText").innerText = currentUrgentText;
-        document.getElementById("newsInp").value = currentNews;
-        document.getElementById("newsSpeedInp").value = tickerSpeed;
-        
-        // [تعديل جوهري] تعبئة وتثبيت خيار القائمة المنسدلة فور تحميل الصفحة لضمان مطابقتها للذاكرة
-        populateUrgentDestSelect();
-        
-        setupTicker(currentNews);
-        applyTickerSpeed(tickerSpeed);
-        tick(); 
-        renderUI(); 
-        toggleUrgentBtnVisibility(urgentDestinationId);
-        setInterval(tick, 60000); 
-    };
+// ================================================================
+// TICKER
+// ================================================================
+var tRAF=null;
+function startTicker(){
+  if(tRAF){cancelAnimationFrame(tRAF);tRAF=null;}
+  var dir=D.tickerDir||'rtl';
+  var spd=Number(D.tickerSpd)||120;
+  var base=D.ticker||[];
+  if(!base.length) return;
 
-    function handleAdminClick() {
-        const currentTime = new Date().getTime();
-        if (currentTime - lastClickTime > 2000) { clickCount = 0; }
-        clickCount++; lastClickTime = currentTime;
-        if (clickCount === 5) {
-            let pass = prompt("الرجاء إدخل كلمة سر لوحة التحكم:");
-            if(pass === "1234") { openAdmin(); } else { alert("كلمة السر خاطئة!"); }
-            clickCount = 0;
-        }
+  var sep='<span style="display:inline-block;width:60px"></span>'
+        +'<span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span>'
+        +'<span style="display:inline-block;width:60px"></span>';
+
+  var one=base.map(function(t){
+    return'<span class="ti"><span class="td"></span>'+t+'</span>'+sep;
+  }).join('');
+
+  var tt=document.getElementById('tt');
+  // نضع نسخة واحدة مؤقتاً لقياس عرضها
+  tt.style.animation='none';
+  tt.style.transform='none';
+  tt.style.width='auto';
+  tt.innerHTML=one;
+  // قياس فوري بدون تأخير
+  var w=tt.scrollWidth;
+  if(!w||w<50) w=2000;
+  // الآن نضع نسختين وعرض صريح = 2×w
+  tt.innerHTML=one+one;
+  tt.style.width=(w*2)+'px';
+  void tt.offsetWidth;
+  var dur=Math.round(w/spd);
+  if(dur<5) dur=20;
+  var anim=dir==='ltr'?'tkgo-ltr':'tkgo-rtl';
+  tt.style.animation=anim+' '+dur+'s linear infinite';
+}
+
+// ================================================================
+// SITE REFRESH
+// ================================================================
+function refreshSite(){
+  // Header
+  var hi=document.getElementById('hdr-img'), hp=document.getElementById('hph');
+  if(D.headerImg){hi.src=D.headerImg;hi.style.display='block';hp.style.display='none';}
+  else{hi.style.display='none';hp.style.display='flex';}
+  // Date
+  document.getElementById('bdt').textContent=new Date().toLocaleDateString('ar-SY',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  // Breaking
+  var brk=document.getElementById('brk'), bt=document.getElementById('brk-txt'), bl=document.getElementById('brk-lbl');
+  if(D.breakingNews&&D.breakingNews.text){
+    bt.textContent=D.breakingNews.text;
+    bl.textContent=D.breakingNews.label||'عاجل';
+    brk.classList.add('on');
+    bt.onclick=null; bt.style.textDecoration='none';
+    if(D.breakingNews.url){bt.onclick=function(){window.open(D.breakingNews.url,'_blank');};bt.style.textDecoration='underline';}
+    else if(D.breakingNews.link){bt.onclick=function(){openById(D.breakingNews.link);};bt.style.textDecoration='underline';}
+  } else brk.classList.remove('on');
+  // Ticker
+  startTicker();
+  // View
+  renderView();
+}
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+var path=[];
+var ICONS=['🕌','📰','🏡','📸','🎬','📚','👨‍👩‍👧','⚽','🎨','🌿','🕯️','🤝','📢','🗺️','💬','📁','🏛','⭐','🔔','📌','🌍','✊','🇵🇸','🫒','🌾'];
+
+function goHome(){path=[];renderView();}
+function gotoSec(sid){path=[sid];renderView();}
+function drill(id){path.push(id);renderView();}
+function gotoDepth(d){path=path.slice(0,d+1);renderView();}
+
+function getNode(p){
+  if(!p||!p.length) return null;
+  var n=(D.sections||[]).find(function(s){return s.id===p[0];});
+  if(!n) return null;
+  for(var i=1;i<p.length;i++){
+    var f=(n.children||[]).find(function(c){return c.id===p[i];});
+    if(!f) return null;
+    n=f;
+  }
+  return n;
+}
+
+function findNode(id,arr){
+  for(var i=0;i<arr.length;i++){
+    if(arr[i].id===id) return arr[i];
+    var r=findNode(id,arr[i].children||[]);
+    if(r) return r;
+  }
+  return null;
+}
+
+// ================================================================
+// RENDER VIEW
+// ================================================================
+function renderView(){
+  var va=document.getElementById('va');
+  updateBC();
+
+  if(!path.length){
+    // HOME
+    var html='';
+    // Preview strip
+    var fp=getFeatured();
+    if(fp.length){
+      html+='<div class="sec-lbl">⭐ أبرز المواضيع</div><div class="prev-strip">';
+      fp.forEach(function(item){
+        var p=item.post;
+        html+='<div class="pv-card" onclick="openByPathAndId(\''+encodeURIComponent(item.pstr)+'\',\''+p.id+'\')">'+
+          '<div class="pv-img">'+(p.img?'<img src="'+p.img+'" style="width:100%;height:120px;object-fit:cover">':'📰')+'</div>'+
+          '<div class="pv-body"><span class="pv-badge">'+item.loc+'</span>'+
+          '<div class="pv-ttl">'+p.title+'</div>'+
+          '<div class="pv-more">مزيد من التفاصيل ←</div></div></div>';
+      });
+      html+='</div>';
     }
-
-    function openAdmin() { 
-        document.getElementById("adminPanel").style.display = 'block'; 
-        buildAdminTree(); 
+    // Home posts above
+    var hpa=(D.homePosts||[]).filter(function(p){return p.pos==='above';});
+    if(hpa.length){
+      html+='<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">';
+      hpa.forEach(function(p){html+=homePostCard(p);});
+      html+='</div>';
     }
-    function closeAdmin() { document.getElementById("adminPanel").style.display = 'none'; }
-
-    function tick() {
-        const now = new Date();
-        let hours = now.getHours(); let minutes = now.getMinutes();
-        hours = hours < 10 ? '0' + hours : hours; minutes = minutes < 10 ? '0' + minutes : minutes;
-        document.getElementById('liveClock').innerText = `${hours}:${minutes}`;
+    // Home images
+    if((D.homeImgs||[]).length){
+      html+='<div class="sec-lbl" style="margin-top:4px">🖼 صور</div><div class="cg">';
+      (D.homeImgs||[]).forEach(function(img){
+        html+='<div class="imgcard" onclick="openLb(\''+img.url+'\')">'+
+          '<img src="'+img.url+'" alt="'+(img.cap||'')+'">'+
+          (img.cap?'<div class="ic-cap">'+img.cap+'</div>':'')+
+          '</div>';
+      });
+      html+='</div>';
     }
-
-    function setupTicker(text) {
-        const content1 = document.getElementById("tickerContent");
-        const content2 = document.getElementById("tickerContentDup");
-        let itemHtml = `<span class="ticker-item">${text}</span><span class="ticker-item">★</span>`;
-        content1.innerHTML = itemHtml + itemHtml; 
-        content2.innerHTML = itemHtml + itemHtml;
+    // Section cards
+    if((D.sections||[]).length){
+      html+='<div class="sec-lbl">📁 الأقسام</div><div class="cg">';
+      D.sections.forEach(function(s,i){
+        var cnt=cntDeep(s);
+        html+='<div class="sc" onclick="gotoSec(\''+s.id+'\')">'+
+          '<div class="sc-ico">'+(s.icon||ICONS[i%ICONS.length])+'</div>'+
+          '<div class="sc-body"><div class="sc-ttl">'+s.title+'</div>'+
+          '<div class="sc-dsc">'+(s.desc||'')+'</div>'+
+          '<span class="sc-cnt">'+cnt+' عنصر</span></div></div>';
+      });
+      html+='</div>';
+    } else {
+      html+='<div class="es"><div class="ei">🇵🇸</div><p>لا توجد أقسام بعد — أضفها من لوحة التحكم</p></div>';
     }
-
-    function applyTickerSpeed(speed) {
-        document.getElementById("tickerBox").style.animationDuration = speed + "s";
+    // Home posts below
+    var hpb=(D.homePosts||[]).filter(function(p){return p.pos!=='above';});
+    if(hpb.length){
+      html+='<div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">';
+      hpb.forEach(function(p){html+=homePostCard(p);});
+      html+='</div>';
     }
+    va.innerHTML=html;
+    return;
+  }
 
-    function toggleUrgentBtnVisibility(val) {
-        const btn = document.getElementById("urgentMoreBtn");
-        btn.style.display = (!val || val.trim() === "") ? "none" : "block";
-    }
+  // SECTION/SUBSECTION
+  var node=getNode(path);
+  if(!node){va.innerHTML='<div class="es"><div class="ei">⚠️</div><p>القسم غير موجود</p></div>';return;}
+  var html='';
+  var postsAbove=(node.posts||[]).filter(function(p){return p.pos==='above';});
+  var postsBelow=(node.posts||[]).filter(function(p){return p.pos!=='above';});
 
-    function renderUI() {
-        const gridArea = document.getElementById("gridArea");
-        const directArea = document.getElementById("directArea");
-        const pathNav = document.getElementById("pathNav");
-        const currentPath = document.getElementById("currentPath");
-
-        gridArea.innerHTML = ""; directArea.innerHTML = "";
-
-        let currentItems = (currentFolderId === null) ? tree : (findItemById(tree, currentFolderId)?.children || []);
-        if (currentFolderId === null) {
-            pathNav.style.display = "none";
-        } else {
-            pathNav.style.display = "block";
-            currentPath.innerText = findItemById(tree, currentFolderId)?.title || "";
-        }
-
-        currentItems.forEach(item => {
-            if (item.type === 'folder') {
-                let card = document.createElement("div"); card.className = "card card-folder"; card.innerText = item.title;
-                card.onclick = () => { navigateTo(item.id); }; gridArea.appendChild(card);
-            } else if (item.type === 'direct') {
-                if (item.mode === 'direct') {
-                    let block = document.createElement("div"); block.className = "content-block";
-                    let title = document.createElement("div"); title.className = "content-title"; title.innerText = item.title;
-                    block.appendChild(title);
-
-                    if(item.imgs && item.imgs[0]) {
-                        let img = document.createElement("img"); img.src = item.imgs[0];
-                        img.style.width = "100%"; img.style.maxHeight = "300px"; img.style.objectFit = "cover";
-                        block.appendChild(img);
-                    }
-                    let text = document.createElement("div"); text.className = "content-text"; text.innerText = item.content;
-                    block.appendChild(text); directArea.appendChild(block);
-                } else {
-                    let card = document.createElement("div"); card.className = "card card-popup"; card.innerText = item.title;
-                    card.onclick = () => { showPopup(item); }; gridArea.appendChild(card);
-                }
-            }
-        });
-    }
-
-    function handleUrgentMore() {
-        if (!urgentDestinationId || urgentDestinationId === "") return;
-        let item = findItemById(tree, urgentDestinationId);
-        if (!item) return;
-        if (item.type === 'folder') { navigateTo(item.id); } 
-        else {
-            if (item.mode === 'popup') { showPopup(item); } 
-            else { let parent = findParentFolder(tree, item.id); navigateTo(parent ? parent.id : null); }
-        }
-    }
-
-    function navigateTo(folderId) { navigationHistory.push(currentFolderId); currentFolderId = folderId; renderUI(); }
-    function goBack() { if (navigationHistory.length > 0) { currentFolderId = navigationHistory.pop(); renderUI(); } }
-
-    function findItemById(items, id) {
-        for (let item of items) {
-            if (item.id === id) return item;
-            if (item.children) { let found = findItemById(item.children, id); if (found) return found; }
-        }
-        return null;
-    }
-
-    function findParentFolder(items, childId, parent = null) {
-        for (let item of items) {
-            if (item.id === childId) return parent;
-            if (item.children) { let found = findParentFolder(item.children, childId, item); if (found) return found; }
-        }
-        return null;
-    }
-
-    function showPopup(item) {
-        document.getElementById("viewT").innerText = item.title;
-        document.getElementById("viewB").innerText = item.content;
-        const sliderArea = document.getElementById("viewSlider"); sliderArea.innerHTML = "";
-        let validImgs = item.imgs ? item.imgs.filter(img => img && img.trim() !== "") : [];
-
-        if (validImgs.length > 0) {
-            let wrapper = document.createElement("div"); wrapper.className = "slider-wrapper"; wrapper.id = "slider_pop";
-            validImgs.forEach((imgUrl, idx) => {
-                let img = document.createElement("img"); img.src = imgUrl;
-                img.className = "slider-img" + (idx === 0 ? " active" : ""); img.id = `img_pop_${idx}`;
-                wrapper.appendChild(img);
-            });
-            if (validImgs.length > 1) {
-                let prevBtn = document.createElement("button"); prevBtn.className = "slide-btn btn-prev"; prevBtn.innerText = "▶";
-                prevBtn.onclick = () => { changeSlide('pop', -1, validImgs.length); };
-                let nextBtn = document.createElement("button"); nextBtn.className = "slide-btn btn-next"; nextBtn.innerText = "◀";
-                nextBtn.onclick = () => { changeSlide('pop', 1, validImgs.length); };
-                let counter = document.createElement("div"); counter.className = "slide-count";
-                counter.innerHTML = `<span id="count_pop">1</span> / ${validImgs.length}`;
-                wrapper.appendChild(prevBtn); wrapper.appendChild(nextBtn); wrapper.appendChild(counter);
-            }
-            sliderArea.appendChild(wrapper);
-        }
-        document.getElementById("viewModal").style.display = "flex";
-    }
-
-    function closeViewModal() { document.getElementById("viewModal").style.display = "none"; }
-
-    function changeSlide(sliderId, direction, totalSlides) {
-        let countSpan = document.getElementById(`count_${sliderId}`);
-        let current = parseInt(countSpan.innerText) + direction;
-        if(current > totalSlides) current = 1; if(current < 1) current = totalSlides;
-        countSpan.innerText = current;
-        for(let i=0; i<totalSlides; i++) { document.getElementById(`img_${sliderId}_${i}`).classList.remove('active'); }
-        document.getElementById(`img_${sliderId}_${current-1}`).classList.add('active');
-    }
-
-    function buildAdminTree() {
-        const adminTree = document.getElementById("adminTree"); adminTree.innerHTML = "<h4>قائمة التعديل الشامل للهيكلية:</h4>";
-        function traverse(items, depth = "") {
-            items.forEach(item => {
-                let div = document.createElement("div"); div.className = "admin-item";
-                div.style.borderRightColor = item.type === 'folder' ? 'var(--p-blue)' : 'var(--p-green)';
-                let info = document.createElement("div"); info.className = "admin-item-info";
-                info.innerHTML = `${depth} ${item.title} <span style="font-size:0.75rem; color:#666; font-weight:normal;">(${item.type === 'folder' ? 'قسم' : (item.mode === 'popup' ? 'بوب اب' : 'منشور مباشر')})</span>`;
-                
-                let actions = document.createElement("div"); actions.className = "admin-actions";
-                let editBtn = document.createElement("button"); editBtn.className = "btn btn-sm btn-orange"; editBtn.innerText = "تعديل ✏️";
-                editBtn.onclick = () => { openEditor(item.id); };
-                let delBtn = document.createElement("button"); delBtn.className = "btn btn-sm btn-red"; delBtn.innerText = "حذف ❌";
-                delBtn.onclick = () => { deleteItem(item.id); };
-                
-                actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(info); div.appendChild(actions);
-                adminTree.appendChild(div); if(item.children) traverse(item.children, depth + "—");
-            });
-        }
-        traverse(tree);
-    }
-
-    function populateUrgentDestSelect() {
-        const select = document.getElementById("urgentDestSelect");
-        select.innerHTML = '<option value="">⚠️ لا تربطه بأي مكان (تعطيل وإخفاء الزر)</option>';
-        function traverse(items, depth = "") {
-            items.forEach(item => {
-                let option = document.createElement("option"); option.value = item.id;
-                option.innerText = `${depth} ${item.type === 'folder' ? '📁 قسم:' : '✍️ محتوى:'} ${item.title}`;
-                select.appendChild(option); if (item.children) traverse(item.children, depth + "    ");
-            });
-        }
-        traverse(tree); 
-        select.value = urgentDestinationId; // تثبيت القيمة بدقة من الذاكرة الصلبة
-    }
-
-    function buildParentSelect(currentId = null) {
-        const select = document.getElementById("parentSelect");
-        select.innerHTML = '<option value="root">الواجهة الرئيسية للموقع</option>';
-        function populateSelect(items, depth = "") {
-            items.forEach(item => {
-                if (item.type === 'folder' && item.id !== currentId) {
-                    let option = document.createElement("option"); option.value = item.id; option.innerText = depth + "📁 " + item.title;
-                    select.appendChild(option); if (item.children) populateSelect(item.children, depth + "    ");
-                }
-            });
-        }
-        populateSelect(tree);
-    }
-
-    function openAdder(type) {
-        addingType = type; document.getElementById("editItemId").value = "";
-        document.getElementById("itemTitle").value = ""; 
-        for(let i=1; i<=6; i++) { document.getElementById(`itemImg${i}`).value = ""; }
-        document.getElementById("itemText").value = "";
-
-        buildParentSelect();
-        document.getElementById("parentSelect").value = (currentFolderId === null) ? "root" : currentFolderId;
-        document.getElementById("extraFields").style.display = (type === 'folder') ? "none" : "block";
-        document.getElementById("modalTitle").innerText = (type === 'folder') ? '📁 إضافة قسم جديد' : '✍️ إضافة محتوى جديد';
-        document.getElementById("adderModal").style.display = "flex";
-    }
-
-    function openEditor(id) {
-        let item = findItemById(tree, id); if(!item) return;
-        document.getElementById("editItemId").value = item.id;
-        document.getElementById("itemTitle").value = item.title;
-        addingType = item.type;
-        buildParentSelect(item.id);
-        document.getElementById("parentSelect").value = findParentFolder(tree, item.id)?.id || "root";
-        
-        const extraFields = document.getElementById("extraFields");
-        if(item.type === 'folder') {
-            document.getElementById("modalTitle").innerText = '✏️ تعديل بيانات القسم'; extraFields.style.display = "none";
-        } else {
-            document.getElementById("modalTitle").innerText = '✏️ تعديل محتويات المنشور'; extraFields.style.display = "block";
-            document.getElementById("itemDisplayMode").value = item.mode || "direct";
-            for(let i=1; i<=6; i++) {
-                document.getElementById(`itemImg${i}`).value = item.imgs ? (item.imgs[i-1] || "") : "";
-            }
-            document.getElementById("itemText").value = item.content || "";
-        }
-        document.getElementById("adderModal").style.display = "flex";
-    }
-
-    function closeAdder() { document.getElementById("adderModal").style.display = "none"; }
-
-    function saveEntry() {
-        const title = document.getElementById("itemTitle").value.trim(); 
-        const parentId = document.getElementById("parentSelect").value;
-        const editId = document.getElementById("editItemId").value;
-        if (!title) { alert("الرجاء إدخال عنوان أولاً!"); return; }
-
-        let targetItem; let isEdit = editId !== "";
-        if (isEdit) {
-            targetItem = findItemById(tree, editId); removeItemFromTree(tree, editId); targetItem.title = title;
-        } else {
-            targetItem = { id: "mn" + new Date().getTime(), title: title, type: addingType, children: [] };
-        }
-
-        if (addingType === 'direct') {
-            targetItem.mode = document.getElementById("itemDisplayMode").value;
-            targetItem.imgs = [];
-            for(let i=1; i<=6; i++) { targetItem.imgs.push(document.getElementById(`itemImg${i}`).value.trim()); }
-            targetItem.content = document.getElementById("itemText").value;
-        } else {
-            targetItem.mode = "direct"; if(!isEdit) targetItem.imgs = ["","","","","",""];
-        }
-
-        if (parentId === "root") { tree.push(targetItem); } 
-        else { let p = findItemById(tree, parentId); if (p) { if (!p.children) p.children = []; p.children.push(targetItem); } }
-
-        localStorage.setItem("site_tree", JSON.stringify(tree));
-
-        alert("تم الحفظ والتثبيت التام في الذاكرة."); 
-        closeAdder(); buildAdminTree(); populateUrgentDestSelect(); renderUI();
-    }
-
-    function deleteItem(id) {
-        if(confirm("هل تريد حذف هذا العنصر وكل محتوياته؟")) {
-            removeItemFromTree(tree, id); if(currentFolderId === id) currentFolderId = null;
-            if(urgentDestinationId === id) { urgentDestinationId = ""; toggleUrgentBtnVisibility(""); }
-            localStorage.setItem("site_tree", JSON.stringify(tree));
-            buildAdminTree(); populateUrgentDestSelect(); renderUI();
-        }
-    }
-
-    function removeItemFromTree(items, id) {
-        for(let i=0; i<items.length; i++) {
-            if(items[i].id === id) { items.splice(i, 1); return true; }
-            if(items[i].children) { let res = removeItemFromTree(items[i].children, id); if(res) return true; }
-        } return false;
-    }
-
-    /* محرك الحفظ التلقائي الصامت والفوري الفولاذي */
-    function autoSaveGlobal() {
-        currentNews = document.getElementById("newsInp").value;
-        currentUrgentText = document.getElementById("urgInp").value;
-        currentHead = document.getElementById("headInp").value;
-        urgentDestinationId = document.getElementById("urgentDestSelect").value;
-        tickerSpeed = document.getElementById("newsSpeedInp").value || "25";
-        
-        // تحديث مرئي فوري
-        setupTicker(currentNews);
-        document.getElementById("urgentText").innerText = currentUrgentText;
-        document.getElementById("siteHeader").style.backgroundImage = `url('${currentHead}')`;
-        toggleUrgentBtnVisibility(urgentDestinationId);
-        applyTickerSpeed(tickerSpeed);
-        
-        // القفل الفوري داخل التخزين المحلي
-        localStorage.setItem("site_news", currentNews);
-        localStorage.setItem("site_urg_text", currentUrgentText);
-        localStorage.setItem("site_head", currentHead);
-        localStorage.setItem("site_urg_dest", urgentDestinationId);
-        localStorage.setItem("site_speed", tickerSpeed);
-    }
-
-    function clearCache() {
-        if(confirm("هل تريد مسح التعديلات المؤقتة والعودة للنسخة البرمجية الأصلية؟")) {
-            localStorage.clear();
-            location.reload();
-        }
-    }
-
-    function exportSite() {
-        let dataScript = `\nvar INITIAL_TREE = ${JSON.stringify(tree)};\nvar INITIAL_NEWS = "${currentNews.replace(/"/g, '\\"')}";\nvar INITIAL_HEAD = "${currentHead}";\nvar INITIAL_URGENT_DEST = "${urgentDestinationId}";\nvar INITIAL_TICKER_SPEED = "${tickerSpeed}";\nvar INITIAL_URGENT_TEXT = "${currentUrgentText.replace(/"/g, '\\"')}";\n`;
-        let fullHtml = document.documentElement.outerHTML;
-        let regex = /var INITIAL_TREE =[\s\S]*?var INITIAL_URGENT_TEXT = ".*?";/;
-        fullHtml = fullHtml.replace(regex, dataScript.trim());
-        
-        let blob = new Blob([`<!DOCTYPE html>\n` + fullHtml], {type: "text/html"});
-        let a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "index.html"; a.click();
-    }
-// ==========================================
-// كود تفعيل زر الرجوع الخاص بالجوال (اضفه في الأسفل)
-// ==========================================
-document.addEventListener("DOMContentLoaded", function() {
-    // إضافة حالة وهمية في تاريخ المتصفح عند تشغيل الموقع لمنع الخروج المفاجئ
-    history.pushState(null, null, window.location.href);
-
-    window.addEventListener("popstate", function(event) {
-        let viewModal = document.getElementById("viewModal");
-        let adderModal = document.getElementById("adderModal");
-        let adminPanel = document.getElementById("adminPanel");
-
-        // 1. إذا كانت نافذة عرض المنشور (Popup) مفتوحة، قم بإغلاقها أولاً
-        if (viewModal && viewModal.style.display === "flex") {
-            closeViewModal();
-            history.pushState(null, null, window.location.href); // الحفاظ على حالة زر الرجوع للضغطة القادمة
-            return;
-        }
-        
-        // 2. إذا كانت نافذة إضافة/تعديل المحتوى مفتوحة، قم بإغلاقها
-        if (adderModal && adderModal.style.display === "flex") {
-            closeAdder();
-            history.pushState(null, null, window.location.href);
-            return;
-        }
-        
-        // 3. إذا كانت لوحة التحكم الكاملة مفتوحة، قم بإغلاقها
-        if (adminPanel && adminPanel.style.display === "block") {
-            closeAdmin();
-            history.pushState(null, null, window.location.href);
-            return;
-        }
-
-        // 4. إذا كان المستخدم يتصفح قسماً داخلياً (وليس في الصفحة الرئيسية)
-        if (typeof currentFolderId !== "undefined" && currentFolderId !== null) {
-            if (typeof goBack === "function") {
-                goBack(); // استدعاء دالة العودة المجلد السابق المبنية بالكود
-                history.pushState(null, null, window.location.href); // تجديد الحالة
-            }
-        } else {
-            // إذا كان المستخدم في الواجهة الرئيسية تماماً، اتركه يخرج من الموقع بشكل طبيعي
-            history.back();
-        }
+  var pstr=encodeURIComponent(path.join('||'));
+  function postCards(posts){
+    var h='<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">';
+    posts.forEach(function(p){
+      h+='<div class="pc" onclick="openByPathAndId(\''+pstr+'\',\''+p.id+'\')">'+
+        '<div class="pc-thumb">'+(p.img?'<img src="'+p.img+'" alt="">':'📰')+'</div>'+
+        '<div class="pc-body">'+
+        '<span class="pc-type '+(p.type==='popup'?'popup':'full')+'">'+(p.type==='popup'?'بوب اب':'منشور')+'</span>'+
+        (p.title?'<div class="pc-ttl">'+p.title+'</div>':'')+
+        '<div class="pc-date">'+(p.date||'')+'</div></div></div>';
     });
+    return h+'</div>';
+  }
 
-    // ربط تلقائي عند الانتقال بين المجلدات لتحديث تتبع زر الجوال
-    const originalNavigateTo = window.navigateTo;
-    if (typeof originalNavigateTo === "function") {
-        window.navigateTo = function(id) {
-            originalNavigateTo(id);
-            history.pushState(null, null, window.location.href);
-        };
+  if(postsAbove.length) html+=postCards(postsAbove);
+
+  // Section images
+  if((node.imgs||[]).length){
+    html+='<div class="sec-lbl">🖼 صور</div><div class="cg">';
+    (node.imgs||[]).forEach(function(img){
+      html+='<div class="imgcard" onclick="openLb(\''+img.url+'\')">'+
+        '<img src="'+img.url+'" alt="">'+
+        (img.cap?'<div class="ic-cap">'+img.cap+'</div>':'')+
+        '</div>';
+    });
+    html+='</div>';
+  }
+
+  // Children
+  if((node.children||[]).length){
+    html+='<div class="cg">';
+    node.children.forEach(function(c){
+      var cnt=cntDeep(c);
+      html+='<div class="sc" onclick="drill(\''+c.id+'\')">'+
+        '<div class="sc-ico">'+(c.icon||'📁')+'</div>'+
+        '<div class="sc-body"><div class="sc-ttl">'+c.title+'</div>'+
+        '<div class="sc-dsc">'+(c.desc||'')+'</div>'+
+        '<span class="sc-cnt">'+cnt+' عنصر</span></div></div>';
+    });
+    html+='</div>';
+  }
+
+  if(postsBelow.length) html+=postCards(postsBelow);
+
+  if(!postsAbove.length&&!(node.imgs||[]).length&&!(node.children||[]).length&&!postsBelow.length){
+    html='<div class="es"><div class="ei">📋</div><p>لا يوجد محتوى بعد</p></div>';
+  }
+  va.innerHTML=html;
+}
+
+function homePostCard(p){
+  return'<div class="pc" onclick="openHomePost(\''+p.id+'\')">'+
+    '<div class="pc-thumb">'+(p.img?'<img src="'+p.img+'" alt="">':'📌')+'</div>'+
+    '<div class="pc-body">'+
+    '<span class="pc-type '+(p.type==='popup'?'popup':'full')+'">'+(p.type==='popup'?'بوب اب':'منشور')+'</span>'+
+    '<div class="pc-ttl">'+p.title+'</div></div></div>';
+}
+
+function cntDeep(n){
+  var c=(n.posts||[]).length+(n.imgs||[]).length+(n.children||[]).length;
+  (n.children||[]).forEach(function(ch){c+=cntDeep(ch);});
+  return c;
+}
+
+// ================================================================
+// BREADCRUMB
+// ================================================================
+function updateBC(){
+  var bc=document.getElementById('bc');
+  if(!path.length){bc.classList.remove('show');return;}
+  bc.classList.add('show');
+  var items=['<span class="bc-i" onclick="goHome()">🏠 الرئيسية</span>'];
+  for(var i=0;i<path.length;i++){
+    var n=getNode(path.slice(0,i+1));
+    var lbl=n?n.title:path[i];
+    var d=i;
+    items.push('<span class="bc-sep">›</span>');
+    items.push('<span class="bc-i'+(i===path.length-1?' cur':'')+'" onclick="gotoDepth('+d+')">'+lbl+'</span>');
+  }
+  bc.innerHTML=items.join('');
+}
+
+// ================================================================
+// POPUP
+// ================================================================
+function showPopup(title,content,gallery){
+  document.getElementById('pop-t').textContent=title;
+  var html=content||'';
+  if(gallery&&gallery.length){
+    html+='<div class="gallery">'+gallery.filter(Boolean).map(function(u){
+      return'<img src="'+u+'" onclick="openLb(\''+u+'\')" alt="">';
+    }).join('')+'</div>';
+  }
+  document.getElementById('pop-b').innerHTML=html;
+  document.getElementById('pov').classList.add('open');
+}
+
+function openFullPage(title,content,gallery){
+  document.getElementById('fp-title').textContent=title;
+  var html=content||'';
+  if(gallery&&gallery.length){
+    html+='<div class="gallery">'+gallery.filter(Boolean).map(function(u){
+      return'<img src="'+u+'" onclick="openLb(\''+u+'\')" alt="">';
+    }).join('')+'</div>';
+  }
+  document.getElementById('fp-body').innerHTML=html;
+  var fp=document.getElementById('full-page');
+  fp.style.display='flex';fp.scrollTop=0;
+}
+
+function closeFullPage(){
+  document.getElementById('full-page').style.display='none';
+}
+
+function openPost(p,pid){
+  var node=p.length?getNode(p):null;
+  var post=node?(node.posts||[]).find(function(x){return x.id===pid;}):null;
+  if(!post) return;
+  if(post.type==='full') openFullPage(post.title,post.content,post.gallery);
+  else showPopup(post.title,post.content,post.gallery);
+}
+
+function closePop(e){if(!e||e.target===document.getElementById('pov'))document.getElementById('pov').classList.remove('open');}
+function openLb(url){document.getElementById('lb-img').src=url;document.getElementById('lb').classList.add('open');}
+
+function openByPathAndId(pstr,pid){
+  // pstr قد يكون مشفراً
+  var decoded=pstr?decodeURIComponent(pstr):'';
+  var p=decoded?decoded.split('||'):[];
+  var node=p.length?getNode(p):null;
+  // إذا لم يجد بالمسار، ابحث في كل المنشورات
+  if(!node){
+    var all=getAllPosts(D.sections,'');
+    var item=all.find(function(x){return x.post.id===pid;});
+    if(item){
+      var post=item.post;
+      if(post.type==='full') openFullPage(post.title,post.content,post.gallery);
+      else showPopup(post.title,post.content,post.gallery);
     }
+    return;
+  }
+  var post=(node.posts||[]).find(function(x){return x.id===pid;});
+  if(!post) return;
+  if(post.type==='full') openFullPage(post.title,post.content,post.gallery);
+  else showPopup(post.title,post.content,post.gallery);
+}
+
+function openHomePost(pid){
+  var p=(D.homePosts||[]).find(function(x){return x.id===pid;});
+  if(!p) return;
+  if(p.type==='full') openFullPage(p.title,p.content,[]);
+  else showPopup(p.title,p.content,[]);
+}
+
+function openById(pid){
+  var all=getAllPosts(D.sections,'');
+  var item=all.find(function(x){return x.post.id===pid;});
+  if(!item) return;
+  var p=item.post;
+  if(p.type==='full') openFullPage(p.title,p.content,p.gallery);
+  else showPopup(p.title,p.content,p.gallery);
+}
+
+// ================================================================
+// FEATURED
+// ================================================================
+function getFeatured(){
+  var all=getAllPosts(D.sections,'');
+  if(!all.length) return [];
+  var f=D.featured||{};
+  var r=[];
+  var a=f.p1?all.find(function(x){return x.post.id===f.p1;}):null;
+  var b=f.p2?all.find(function(x){return x.post.id===f.p2;}):null;
+  if(!a&&!b){
+    var rev=all.slice().reverse();
+    if(rev[0]) r.push(rev[0]);
+    if(rev[1]) r.push(rev[1]);
+    return r;
+  }
+  if(a) r.push(a);
+  if(b) r.push(b);
+  return r;
+}
+
+function getAllPosts(arr,pfx,pArr){
+  var res=[]; pArr=pArr||[];
+  arr.forEach(function(n){
+    var loc=pfx?pfx+' › '+n.title:n.title;
+    var np=pArr.concat([n.id]);
+    (n.posts||[]).forEach(function(p){res.push({post:p,loc:loc,pstr:np.join('||')});});
+    res=res.concat(getAllPosts(n.children||[],loc,np));
+  });
+  return res;
+}
+
+// ================================================================
+// 5 CLICKS SECRET
+// ================================================================
+var cc=0,ct,dc=0,dt2;
+document.addEventListener('DOMContentLoaded',function(){
+  // مخيم نت 5 نقرات = لوحة التحكم
+  var snc=document.getElementById('snc');
+  if(snc) snc.addEventListener('click',function(){
+    cc++;clearTimeout(ct);ct=setTimeout(function(){cc=0;},2000);
+    if(cc>=5){
+      cc=0;
+      var al=document.getElementById('adm-login');
+      al.classList.add('open');
+      var lp=document.getElementById('lpin');
+      lp.value='';
+      document.getElementById('lerr').style.display='none';
+      setTimeout(function(){lp.focus();},80);
+    }
+  });
+  // التاريخ 5 نقرات = تصدير HTML مباشرة
+  var bdt=document.getElementById('bdt');
+  if(bdt) bdt.addEventListener('click',function(){
+    dc++;clearTimeout(dt2);dt2=setTimeout(function(){dc=0;},2000);
+    if(dc>=5){
+      dc=0;
+      dlEx();
+      toast('جاري تصدير الملف...');
+    }
+  });
+  var lp=document.getElementById('lpin');
+  if(lp) lp.addEventListener('keydown',function(e){if(e.key==='Enter') doLogin();});
+});
+
+// ================================================================
+// ADMIN LOGIN
+// ================================================================
+function doLogin(){
+  var v=document.getElementById('lpin').value;
+  if(v===GP()){
+    document.getElementById('adm-login').classList.remove('open');
+    document.getElementById('adm').classList.add('open');
+    initAdm();
+  } else {
+    document.getElementById('lerr').style.display='block';
+    document.getElementById('lpin').value='';
+  }
+}
+
+function showTab(id,el){
+  document.querySelectorAll('.atab').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.asi').forEach(function(s){s.classList.remove('active');});
+  el.classList.add('active');
+  if(id==='tpost'){buildPPath();renderSecImgList();}
+  if(id==='tposts'){renderAllPosts();}
+  if(id==='thome'){popFeatSels();renderHomeImgList();renderHomePostList();}
+  if(id==='tbrk'){popBrkLink();}
+  if(id==='ttk'){renderTkList();}
+}
+
+// ================================================================
+// INIT ADMIN
+// ================================================================
+function initAdm(){
+  document.getElementById('a-hd').value=D.headerImg||'';
+  document.getElementById('a-tkdir').value=D.tickerDir||'rtl';
+  document.getElementById('a-tkspd').value=String(D.tickerSpd||120);
+  document.getElementById('a-brktxt').value=D.breakingNews.text||'';
+  document.getElementById('a-brklbl').value=D.breakingNews.label||'عاجل';
+  document.getElementById('a-brkurl').value=D.breakingNews.url||'';
+  document.getElementById('a-sipick').innerHTML=ICONS.map(function(ic){
+    return'<div class="ibtn'+(ic==='📁'?' sel':'')+'" onclick="selIco(this,\''+ic+'\',\'a-nsico\')">'+ic+'</div>';
+  }).join('');
+  renderSecList();
+  buildPPath();
+  initGal();
+  renderTkList();
+}
+
+function selIco(el,ic,inp){
+  el.closest('.igrid').querySelectorAll('.ibtn').forEach(function(b){b.classList.remove('sel');});
+  el.classList.add('sel');
+  document.getElementById(inp).value=ic;
+}
+
+// ================================================================
+// SECTIONS ADMIN
+// ================================================================
+function addSec(){
+  var t=document.getElementById('a-nst').value.trim();
+  if(!t){toast('أدخل الاسم');return;}
+  D.sections.push({id:gid(),title:t,icon:document.getElementById('a-nsico').value,desc:document.getElementById('a-nsd').value.trim(),posts:[],imgs:[],children:[]});
+  document.getElementById('a-nst').value='';document.getElementById('a-nsd').value='';
+  save();renderSecList();buildPPath();
+}
+
+function renderSecList(){
+  var l=document.getElementById('seclist');
+  if(!D.sections.length){l.innerHTML='<div style="text-align:center;padding:14px;color:rgba(255,255,255,.26)">لا توجد أقسام</div>';return;}
+  l.innerHTML=D.sections.map(function(s,i){
+    return'<div class="sitem" draggable="true" ondragstart="ds(event,'+i+')" ondragover="dov(event)" ondrop="ddrop(event,'+i+')" ondragleave="dlv(event)">'+
+      '<span class="dh">⠿</span><span style="font-size:18px">'+s.icon+'</span>'+
+      '<div class="si-inf"><div class="si-tit">'+s.title+'</div><div class="si-meta">'+cntDeep(s)+' عنصر</div></div>'+
+      '<div class="si-acts"><button class="btn-e" onclick="editSecMod(\''+s.id+'\')">✏️</button><button class="btn-d" onclick="delSec(\''+s.id+'\')">🗑</button></div>'+
+      '</div>';
+  }).join('');
+}
+
+function delSec(id){
+  if(!confirm('حذف هذا القسم وكل محتوياته؟'))return;
+  D.sections=D.sections.filter(function(s){return s.id!==id;});
+  save();renderSecList();buildPPath();
+}
+
+var dsi=null;
+function ds(e,i){dsi=i;e.currentTarget.classList.add('dragging');}
+function dov(e){e.preventDefault();e.currentTarget.classList.add('dragov');}
+function dlv(e){e.currentTarget.classList.remove('dragov');}
+function ddrop(e,ti){
+  e.preventDefault();e.currentTarget.classList.remove('dragov');
+  if(dsi===null||dsi===ti)return;
+  var m=D.sections.splice(dsi,1)[0];D.sections.splice(ti,0,m);dsi=null;
+  save();renderSecList();
+}
+
+function editSecMod(id){
+  var n=findNode(id,D.sections);if(!n)return;
+  document.getElementById('mtit').textContent='تعديل: '+n.title;
+  var chH=(n.children||[]).map(function(c){
+    return'<div class="sitem" style="margin-bottom:4px">'+
+      '<span>'+(c.icon||'📁')+'</span>'+
+      '<span style="flex:1;font-family:Cairo,sans-serif;font-weight:600;font-size:12px;padding:0 7px">'+c.title+'</span>'+
+      '<button class="btn-e" style="margin-left:4px" onclick="editSecMod(\''+c.id+'\')">✏️</button>'+
+      '<button class="btn-d" onclick="delChild(\''+id+'\',\''+c.id+'\')">🗑</button>'+
+      '</div>';
+  }).join('');
+  document.getElementById('mbdy').innerHTML=
+    '<div class="fg"><label class="fl">الاسم</label><input type="text" class="fi" id="e-st" value="'+n.title+'"></div>'+
+    '<div class="fg"><label class="fl">الوصف</label><input type="text" class="fi" id="e-sd" value="'+(n.desc||'')+'"></div>'+
+    '<div class="fg"><label class="fl">الأيقونة</label><div class="igrid" id="e-ipick">'+
+    ICONS.map(function(ic){return'<div class="ibtn'+(ic===n.icon?' sel':'')+'" onclick="selIco(this,\''+ic+'\',\'e-ico\')">'+ic+'</div>';}).join('')+
+    '</div><input type="hidden" id="e-ico" value="'+(n.icon||'📁')+'"></div>'+
+    '<button class="btn-p" onclick="saveSecEdit(\''+id+'\')">💾 حفظ</button>'+
+    '<hr style="border-color:var(--bd);margin:12px 0">'+
+    '<h3 style="font-family:Cairo,sans-serif;font-size:12px;font-weight:700;margin-bottom:9px">📂 أقسام فرعية</h3>'+
+    '<div id="e-chlist">'+(chH||'<div style="color:rgba(255,255,255,.26);font-size:11px;margin-bottom:8px">لا توجد أقسام فرعية</div>')+'</div>'+
+    '<div style="display:flex;gap:6px;margin-top:7px">'+
+    '<input type="text" class="fi" id="e-nsub" placeholder="اسم الفرعي" style="flex:1">'+
+    '<input type="text" class="fi" id="e-nsubico" placeholder="📁" style="width:52px">'+
+    '<button class="btn-p" onclick="addChild(\''+id+'\')">➕</button></div>';
+  document.getElementById('mod').classList.add('open');
+}
+
+function saveSecEdit(id){
+  var n=findNode(id,D.sections);if(!n)return;
+  n.title=document.getElementById('e-st').value.trim()||n.title;
+  n.desc=document.getElementById('e-sd').value.trim();
+  n.icon=document.getElementById('e-ico').value;
+  save();renderSecList();buildPPath();
+}
+
+function addChild(pid){
+  var n=findNode(pid,D.sections);if(!n)return;
+  var t=document.getElementById('e-nsub').value.trim();if(!t){toast('أدخل الاسم');return;}
+  var ic=document.getElementById('e-nsubico').value.trim()||'📁';
+  if(!n.children)n.children=[];
+  n.children.push({id:gid(),title:t,icon:ic,desc:'',posts:[],imgs:[],children:[]});
+  save();editSecMod(pid);buildPPath();
+}
+
+function delChild(pid,cid){
+  var n=findNode(pid,D.sections);if(!n)return;
+  if(!confirm('حذف؟'))return;
+  n.children=(n.children||[]).filter(function(c){return c.id!==cid;});
+  save();editSecMod(pid);buildPPath();
+}
+
+// ================================================================
+// POST PATH SELECTOR
+// ================================================================
+var pPath=[];
+function buildPPath(){
+  pPath=[];
+  var sel=document.getElementById('a-psec');
+  sel.innerHTML='<option value="">— اختر قسماً —</option>'+
+    (D.sections||[]).map(function(s){return'<option value="'+s.id+'">'+s.icon+' '+s.title+'</option>';}).join('');
+  sel.onchange=function(){onPSecChange();};
+  document.getElementById('a-ppath').innerHTML='';
+  document.getElementById('a-pprev').textContent='';
+}
+
+function onPSecChange(){
+  var sid=document.getElementById('a-psec').value;
+  document.getElementById('a-ppath').innerHTML='';
+  if(!sid){pPath=[];updPPrev();return;}
+  pPath=[sid];
+  addSubSel(1);updPPrev();
+}
+
+function onSubChange(depth,sel){
+  pPath=pPath.slice(0,depth);
+  var area=document.getElementById('a-ppath');
+  var sels=area.querySelectorAll('.sub-sel');
+  for(var i=depth-1;i<sels.length;i++) sels[i].remove();
+  if(sel.value){pPath.push(sel.value);addSubSel(depth+1);}
+  updPPrev();
+}
+
+function addSubSel(depth){
+  var n=getNode(pPath);
+  if(!n||(n.children||[]).length===0) return;
+  var area=document.getElementById('a-ppath');
+  var w=document.createElement('div');w.className='fg sub-sel';
+  var lbl=document.createElement('label');lbl.className='fl';lbl.textContent='قسم فرعي (مستوى '+depth+')';
+  var s=document.createElement('select');s.className='fsel';
+  s.innerHTML='<option value="">— هنا مباشرة —</option>'+
+    (n.children||[]).map(function(c){return'<option value="'+c.id+'">'+(c.icon||'📁')+' '+c.title+'</option>';}).join('');
+  s.addEventListener('change',function(){onSubChange(depth,s);});
+  w.appendChild(lbl);w.appendChild(s);area.appendChild(w);
+}
+
+function updPPrev(){
+  var el=document.getElementById('a-pprev');
+  if(!pPath.length){el.textContent='';return;}
+  var labels=[];
+  for(var i=0;i<pPath.length;i++){
+    var n=getNode(pPath.slice(0,i+1));
+    labels.push(n?n.title:pPath[i]);
+  }
+  el.textContent='📍 '+labels.join(' › ');
+}
+
+// ================================================================
+// SECTION IMAGES
+// ================================================================
+function addSecImg(){
+  var url=document.getElementById('a-simg').value.trim();
+  if(!url){toast('أدخل رابط الصورة');return;}
+  if(!pPath.length){toast('اختر القسم أولاً');return;}
+  var n=getNode(pPath);if(!n){toast('القسم غير موجود');return;}
+  if(!n.imgs)n.imgs=[];
+  n.imgs.push({id:gid(),url:url,cap:document.getElementById('a-simgcap').value.trim()});
+  document.getElementById('a-simg').value='';
+  document.getElementById('a-simgcap').value='';
+  save();toast('تمت إضافة الصورة للقسم ✓');
+}
+
+function renderSecImgList(){}// placeholder
+
+// ================================================================
+// GALLERY
+// ================================================================
+function initGal(){document.getElementById('a-gal').innerHTML='';addGrow();}
+function addGrow(){
+  var c=document.getElementById('a-gal');
+  if(c.children.length>=10){toast('الحد الأقصى 10');return;}
+  var r=document.createElement('div');r.className='grow';
+  r.innerHTML='<input type="url" class="fi" placeholder="https://..." style="flex:1"><button class="btn-d" onclick="this.parentElement.remove()">🗑</button>';
+  c.appendChild(r);
+}
+function getGal(){return[...document.querySelectorAll('#a-gal .fi')].map(function(i){return i.value.trim();}).filter(Boolean);}
+
+// ================================================================
+// ADD POST
+// ================================================================
+function addPost(){
+  var title=document.getElementById('a-ptit').value.trim();
+  if(!pPath.length){toast('اختر القسم');return;}
+  var n=getNode(pPath);if(!n){toast('القسم غير موجود');return;}
+  var post={id:gid(),title:title,type:document.getElementById('a-ptype').value,
+    pos:document.getElementById('a-ppos').value,
+    content:document.getElementById('a-pcont').value,
+    img:document.getElementById('a-pimg').value.trim(),
+    gallery:getGal(),date:new Date().toLocaleDateString('ar-SY')};
+  if(!n.posts)n.posts=[];
+  n.posts.push(post);
+  document.getElementById('a-ptit').value='';document.getElementById('a-pcont').value='';document.getElementById('a-pimg').value='';
+  initGal();save();popBrkLink();renderAllPosts();toast('تم النشر ✓');
+}
+
+// ================================================================
+// ALL POSTS - EDIT/DELETE
+// ================================================================
+function renderAllPosts(){
+  var all=getAllPosts(D.sections,'');
+  var el=document.getElementById('a-allposts');
+  if(!el) return;
+  if(!all.length){el.innerHTML='<div style="text-align:center;padding:12px;color:rgba(255,255,255,.26);font-size:12px">لا توجد منشورات</div>';return;}
+  el.innerHTML=all.map(function(item){
+    var p=item.post;
+    var pb=p.pos==='above'?'<span style="font-size:9px;background:rgba(201,168,76,.18);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:1px 6px">فوق</span>':
+      '<span style="font-size:9px;background:rgba(0,98,51,.18);color:#4caf80;border:1px solid rgba(0,98,51,.28);border-radius:8px;padding:1px 6px">تحت</span>';
+    return'<div class="pmitem">'+
+      '<div style="flex:1"><div class="pm-ttl">'+p.title+'</div>'+
+      '<div class="pm-loc" style="display:flex;gap:4px;align-items:center;margin-top:2px">'+item.loc+' '+pb+'</div></div>'+
+      '<button class="btn-e" style="margin-left:5px" onclick="openEditPost(\''+p.id+'\')">✏️</button>'+
+      '<button class="btn-d" onclick="delPost(\''+p.id+'\')">🗑</button></div>';
+  }).join('');
+}
+
+function openEditPost(pid){
+  var all=getAllPosts(D.sections,'');
+  var item=all.find(function(x){return x.post.id===pid;});
+  if(!item)return;
+  var p=item.post;
+  document.getElementById('mtit').textContent='تعديل: '+p.title;
+  var galH=(p.gallery||[]).map(function(u,i){
+    return'<div class="grow"><input type="url" class="fi" value="'+u+'" style="flex:1"><button class="btn-d" onclick="this.parentElement.remove()">🗑</button></div>';
+  }).join('');
+  document.getElementById('mbdy').innerHTML=
+    '<div class="g2"><div class="fg"><label class="fl">العنوان</label><input type="text" class="fi" id="ep-tit" value="'+p.title+'"></div>'+
+    '<div class="fg"><label class="fl">النوع</label><select class="fsel" id="ep-type">'+
+      '<option value="popup"'+(p.type==='popup'?' selected':'')+'>بوب اب</option>'+
+      '<option value="full"'+(p.type==='full'?' selected':'')+'>منشور كامل</option></select></div></div>'+
+    '<div class="fg"><label class="fl">الموضع</label><select class="fsel" id="ep-pos">'+
+      '<option value="below"'+(p.pos!=='above'?' selected':'')+'>تحت البطاقات</option>'+
+      '<option value="above"'+(p.pos==='above'?' selected':'')+'>فوق البطاقات</option></select></div>'+
+    '<div class="fg"><label class="fl">رابط الصورة</label><input type="url" class="fi" id="ep-img" value="'+(p.img||'')+'"></div>'+
+    '<div class="fg"><label class="fl">المحتوى</label><textarea class="fta" id="ep-cont" rows="4">'+(p.content||'')+'</textarea></div>'+
+    '<div class="fg"><label class="fl">معرض الصور</label><div id="ep-gal">'+galH+'</div>'+
+    '<button class="btn-e" style="margin-top:4px" onclick="addEpG()">➕ صورة</button></div>'+
+    '<button class="btn-p" onclick="saveEP(\''+pid+'\')">💾 حفظ</button>';
+  document.getElementById('mod').classList.add('open');
+}
+
+function addEpG(){
+  var c=document.getElementById('ep-gal');
+  if(c.children.length>=10)return;
+  var r=document.createElement('div');r.className='grow';
+  r.innerHTML='<input type="url" class="fi" placeholder="https://..." style="flex:1"><button class="btn-d" onclick="this.parentElement.remove()">🗑</button>';
+  c.appendChild(r);
+}
+
+function saveEP(pid){
+  var all=getAllPosts(D.sections,'');
+  var item=all.find(function(x){return x.post.id===pid;});
+  if(!item)return;
+  var p=item.post;
+  p.title=document.getElementById('ep-tit').value.trim()||p.title;
+  p.type=document.getElementById('ep-type').value;
+  p.pos=document.getElementById('ep-pos').value;
+  p.img=document.getElementById('ep-img').value.trim();
+  p.content=document.getElementById('ep-cont').value;
+  p.gallery=[...document.querySelectorAll('#ep-gal .fi')].map(function(i){return i.value.trim();}).filter(Boolean);
+  save();document.getElementById('mod').classList.remove('open');renderAllPosts();toast('تم الحفظ ✓');
+}
+
+function delPost(pid){
+  if(!confirm('حذف هذا المنشور؟'))return;
+  function rem(n){n.posts=(n.posts||[]).filter(function(p){return p.id!==pid;});(n.children||[]).forEach(rem);}
+  D.sections.forEach(rem);
+  save();renderAllPosts();popBrkLink();
+}
+
+// ================================================================
+// HOME MANAGEMENT
+// ================================================================
+function popFeatSels(){
+  var all=getAllPosts(D.sections,'');
+  var opts='<option value="">— تلقائي —</option>'+all.map(function(x){return'<option value="'+x.post.id+'">'+x.loc+' / '+x.post.title+'</option>';}).join('');
+  var s1=document.getElementById('a-fv1'),s2=document.getElementById('a-fv2');
+  if(s1){s1.innerHTML=opts;s1.value=(D.featured&&D.featured.p1)||'';}
+  if(s2){s2.innerHTML=opts;s2.value=(D.featured&&D.featured.p2)||'';}
+}
+
+function saveFeatured(){
+  if(!D.featured)D.featured={};
+  D.featured.p1=document.getElementById('a-fv1').value;
+  D.featured.p2=document.getElementById('a-fv2').value;
+  save();toast('تم حفظ البريفيو ✓');
+}
+
+function addHomeImg(){
+  var url=document.getElementById('a-himg').value.trim();
+  if(!url){toast('أدخل رابط الصورة');return;}
+  if(!D.homeImgs)D.homeImgs=[];
+  D.homeImgs.push({id:gid(),url:url,cap:document.getElementById('a-himgcap').value.trim()});
+  document.getElementById('a-himg').value='';document.getElementById('a-himgcap').value='';
+  save();renderHomeImgList();toast('تمت إضافة الصورة ✓');
+}
+
+function renderHomeImgList(){
+  var el=document.getElementById('a-himglist');
+  if(!el)return;
+  if(!(D.homeImgs||[]).length){el.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.26);text-align:center;padding:8px">لا توجد صور</div>';return;}
+  el.innerHTML=(D.homeImgs||[]).map(function(img){
+    return'<div class="pmitem">'+
+      '<img src="'+img.url+'" style="width:40px;height:30px;object-fit:cover;border-radius:4px;margin-left:8px">'+
+      '<span style="flex:1;font-size:12px">'+(img.cap||img.url.substr(0,30)+'...')+'</span>'+
+      '<button class="btn-d" onclick="delHomeImg(\''+img.id+'\')">🗑</button></div>';
+  }).join('');
+}
+
+function delHomeImg(id){
+  D.homeImgs=(D.homeImgs||[]).filter(function(x){return x.id!==id;});
+  save();renderHomeImgList();
+}
+
+function addHomePost(){
+  var t=document.getElementById('a-hptit').value.trim();
+  if(!t){toast('أدخل العنوان');return;}
+  if(!D.homePosts)D.homePosts=[];
+  D.homePosts.push({id:gid(),title:t,type:document.getElementById('a-hptype').value,
+    pos:document.getElementById('a-hppos').value,
+    content:document.getElementById('a-hpcont').value,
+    img:document.getElementById('a-hpimg').value.trim(),
+    date:new Date().toLocaleDateString('ar-SY')});
+  document.getElementById('a-hptit').value='';document.getElementById('a-hpcont').value='';document.getElementById('a-hpimg').value='';
+  save();renderHomePostList();
+}
+
+function renderHomePostList(){
+  var el=document.getElementById('a-hplist');if(!el)return;
+  if(!(D.homePosts||[]).length){el.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.26);text-align:center;padding:8px">لا توجد منشورات</div>';return;}
+  el.innerHTML=(D.homePosts||[]).map(function(p){
+    return'<div class="pmitem">'+
+      '<span style="flex:1;font-size:12px;font-family:Cairo,sans-serif;font-weight:600">'+p.title+'</span>'+
+      '<button class="btn-d" onclick="delHomePost(\''+p.id+'\')">🗑</button></div>';
+  }).join('');
+}
+
+function delHomePost(pid){
+  D.homePosts=(D.homePosts||[]).filter(function(p){return p.id!==pid;});
+  save();renderHomePostList();
+}
+
+// ================================================================
+// BREAKING
+// ================================================================
+function popBrkLink(){
+  var all=getAllPosts(D.sections,'');
+  var opts='<option value="">— بدون رابط —</option>'+all.map(function(x){return'<option value="'+x.post.id+'">'+x.loc+' / '+x.post.title+'</option>';}).join('');
+  var el=document.getElementById('a-brklink');
+  if(el){el.innerHTML=opts;if(D.breakingNews.link)el.value=D.breakingNews.link;}
+}
+function saveBrk(){
+  D.breakingNews.text=document.getElementById('a-brktxt').value.trim();
+  D.breakingNews.label=document.getElementById('a-brklbl').value.trim()||'عاجل';
+  D.breakingNews.url=document.getElementById('a-brkurl').value.trim();
+  D.breakingNews.link=document.getElementById('a-brklink').value;
+  save();
+}
+function clrBrk(){
+  D.breakingNews={text:'',label:'عاجل',url:'',link:''};
+  document.getElementById('a-brktxt').value='';
+  document.getElementById('a-brklbl').value='';
+  document.getElementById('a-brkurl').value='';
+  save();
+}
+
+// ================================================================
+// GENERAL
+// ================================================================
+function saveHdr(){D.headerImg=document.getElementById('a-hd').value.trim();save();}
+function chgPass(){
+  var np=document.getElementById('a-np').value.trim();
+  if(!np){toast('أدخل كلمة السر');return;}
+  localStorage.setItem(PKEY,np);document.getElementById('a-np').value='';toast('تم التغيير ✓');
+}
+function saveTk(){
+  D.tickerDir=document.getElementById('a-tkdir').value;
+  D.tickerSpd=Number(document.getElementById('a-tkspd').value)||120;
+  save();
+}
+function renderTkList(){
+  var el=document.getElementById('tklist');if(!el)return;
+  el.innerHTML=(D.ticker||[]).map(function(t,i){
+    return'<div class="tkrow"><input type="text" class="fi" value="'+t+'" onchange="D.ticker['+i+']=this.value;save()" style="flex:1"><button class="btn-d" onclick="D.ticker.splice('+i+',1);save();renderTkList()">🗑</button></div>';
+  }).join('');
+}
+function addTk(){
+  var v=document.getElementById('a-ntk').value.trim();if(!v)return;
+  D.ticker.push(v);document.getElementById('a-ntk').value='';save();renderTkList();
+}
+
+// ================================================================
+// EXPORT
+// ================================================================
+function buildHtml(){
+  var h=document.documentElement.outerHTML;
+  h=h.replace(/var D = JSON\.parse[\s\S]*?\}\)\);/,'var D = '+JSON.stringify(D)+';');
+  return h;
+}
+function openEx(){
+  document.getElementById('exmod').classList.add('open');
+  document.getElementById('excode').textContent='جاري التحضير...';
+  setTimeout(function(){document.getElementById('excode').textContent=buildHtml();},150);
+}
+function cpEx(){
+  var html=buildHtml();
+  navigator.clipboard.writeText(html).then(function(){toast('تم النسخ ✓');});
+}
+function dlEx(){
+  var html=buildHtml();
+  var b=new Blob([html],{type:'text/html;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='mukhayyam-net.html';
+  a.click();
+  toast('تم التحميل ✓');
+}
+
+// ================================================================
+// START
+// ================================================================
+document.addEventListener('DOMContentLoaded',function(){
+  startClock();
+  refreshSite();
 });
 </script>
-
 
 
 </body></html>
