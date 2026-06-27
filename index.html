@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مخيم نت</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&amp;family=Cairo:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --pg:#006233;--pgl:#008a47;--pr:#ce1126;--gold:#c9a84c;
@@ -827,53 +827,84 @@ function openById(pid){
 // SLIDER
 // ================================================================
 var lbImages=[], lbIdx=0;
-
-function buildSlider(gallery){
-  if(!gallery||!gallery.length) return '';
-  var imgs=gallery.filter(Boolean);
-  if(!imgs.length) return '';
-  var ij=JSON.stringify(imgs);
-  var slides=imgs.map(function(u,i){return'<img src="'+u+'" onclick="openLbSet('+ij+','+i+')">';}).join('');
-  var dots=imgs.length>1?'<div class="slider-dots" id="sl-dots">'+imgs.map(function(_,i){return'<span class="slider-dot'+(i===0?' active':'')+'" onclick="slGoTo('+i+')"></span>';}).join('')+'</div>':'';
-  var arrows=imgs.length>1?'<button class="slider-btn prev" onclick="slNav(-1)">›</button><button class="slider-btn next" onclick="slNav(1)">‹</button>':'';
-  return'<div class="slider-wrap"><div class="slider-track" id="sl-track">'+slides+'</div>'+arrows+dots+'</div>';
+function buildSlider(gallery) {
+  if (!gallery || !gallery.length) return '';
+  var imgs = gallery.filter(Boolean);
+  if (!imgs.length) return '';
+  
+  var ij = JSON.stringify(imgs).replace(/"/g, '&quot;');
+  
+  var slides = imgs.map(function(u, i) {
+    return '<img src="' + u + '" onclick="openLbSet(' + ij + ',' + i + ')" style="width:100%; flex-shrink:0; object-fit:contain; cursor:zoom-in;">';
+  }).join('');
+  
+  var dots = imgs.length > 1 ? '<div class="slider-dots" id="sl-dots">' + imgs.map(function(_, i) {
+    return '<span class="slider-dot' + (i === 0 ? ' active' : '') + '" onclick="slGoTo(' + i + ')"></span>';
+  }).join('') + '</div>' : '';
+  
+  var arrows = imgs.length > 1 ? '<button class="slider-btn prev" onclick="slNav(-1)">›</button><button class="slider-btn next" onclick="slNav(1)">‹</button>' : '';
+  
+  window.slCur = 0;
+  return '<div class="slider-wrap"><div class="slider-track" id="sl-track" style="display:flex; transition:transform 0.3s ease; width:100%;">' + slides + '</div>' + arrows + dots + '</div>';
 }
 
-var slCur=0;
-function slNav(d){
-  var track=document.getElementById('sl-track');
-  if(!track) return;
-  var total=track.querySelectorAll('img').length;
-  slCur=(slCur+d+total)%total;
-  slGoTo(slCur);
+function slNav(d) {
+  var track = document.getElementById('sl-track');
+  if (!track) return;
+  var total = track.querySelectorAll('img').length;
+  if (total <= 1) return;
+  if (typeof window.slCur === 'undefined') window.slCur = 0;
+  window.slCur = (window.slCur + d + total) % total;
+  slGoTo(window.slCur);
 }
-function slGoTo(i){
-  var track=document.getElementById('sl-track');
-  if(!track) return;
-  slCur=i;
-  track.style.transform='translateX(-'+(i*100)+'%)';
-  document.querySelectorAll('#sl-dots .slider-dot').forEach(function(d,j){
-    d.classList.toggle('active',j===i);
+
+function slGoTo(i) {
+  var track = document.getElementById('sl-track');
+  if (!track) return;
+  window.slCur = i;
+  
+  // الاتجاه الصحيح للتحريك البرمجي لمنع الاختفاء والتجميد
+  track.style.transform = 'translateX(' + (i * 100) + '%)';
+  
+  var dots = document.querySelectorAll('#sl-dots .slider-dot');
+  dots.forEach(function(d, j) {
+    if (j === i) d.classList.add('active');
+    else d.classList.remove('active');
   });
 }
 
-function openLbSet(imgs,idx){
-  lbImages=imgs; lbIdx=idx;
-  document.getElementById('lb-img').src=imgs[idx];
-  var pp=document.getElementById('lb-prev');
-  var np=document.getElementById('lb-next');
-  if(pp) pp.style.display=imgs.length>1?'flex':'none';
-  if(np) np.style.display=imgs.length>1?'flex':'none';
-  document.getElementById('lb').classList.add('open');
-  pushNav({type:'lightbox'});
+function openLbSet(imgs, idx) {
+  if (!imgs || !imgs.length) return;
+  window.lbImages = imgs; 
+  window.lbIdx = idx;
+  
+  var imgEl = document.getElementById('lb-img');
+  if (imgEl) imgEl.src = imgs[idx];
+  
+  var pp = document.getElementById('lb-prev');
+  var np = document.getElementById('lb-next');
+  if (pp) pp.style.display = imgs.length > 1 ? 'flex' : 'none';
+  if (np) np.style.display = imgs.length > 1 ? 'flex' : 'none';
+  
+  var lbBox = document.getElementById('lb');
+  if (lbBox) lbBox.classList.add('open');
+  
+  if (typeof pushNav === 'function') pushNav({type: 'lightbox'});
 }
-function lbNav(d){
-  if(!lbImages.length) return;
-  lbIdx=(lbIdx+d+lbImages.length)%lbImages.length;
-  document.getElementById('lb-img').src=lbImages[lbIdx];
+
+function lbNav(d) {
+  if (!window.lbImages || !window.lbImages.length) return;
+  window.lbIdx = (window.lbIdx + d + window.lbImages.length) % window.lbImages.length;
+  var imgEl = document.getElementById('lb-img');
+  if (imgEl) imgEl.src = window.lbImages[window.lbIdx];
 }
-function closeLb(){document.getElementById('lb').classList.remove('open');}
-function openLb(url){openLbSet([url],0);}
+
+function closeLb() { 
+  var lbBox = document.getElementById('lb');
+  if (lbBox) lbBox.classList.remove('open'); 
+}
+
+function openLb(url) { openLbSet([url], 0); }
 
 // ================================================================
 // HISTORY API - زر الرجوع
