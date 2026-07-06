@@ -146,15 +146,6 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--pw);min-h
 .es{text-align:center;padding:44px 18px;color:rgba(255,255,255,.26);}
 .es .ei{font-size:46px;margin-bottom:11px;}
 
-
-
-/* تحويل النزول لسطر جديد تلقائياً في المنشورات والصفحات */
-.pop-b, #fp-body {
-    white-space: pre-line;
-}
-
-
-
 /* ============ ADMIN ============ */
 #adm-login{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:9000;align-items:center;justify-content:center;}
 #adm-login.open{display:flex;}
@@ -254,32 +245,17 @@ h2.ah{font-family:'Cairo',sans-serif;font-size:18px;font-weight:700;margin-botto
 <div id="brk" class="on"><span class="brk-lbl" id="brk-lbl">نسخة تجريبية</span><span id="brk-txt" style="text-decoration: underline;">اضغط هنا للتفاصيل</span></div>
 
 <div id="gbn">
-  <span class="sname" id="snc" style="display: flex; align-items: center;">مخيم <em>نت</em><input type="text" id="user-search" placeholder="🔍 ابحث في العناوين..." style="padding: 6px 12px; background: rgba(0, 0, 0, 0.3); color: rgb(255, 255, 255); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; font-family: Cairo, sans-serif; font-size: 0.85rem; outline: none; max-width: 140px; margin-right: auto; margin-left: 10px;"></span>
-  <span class="bdate" id="bdt">الثلاثاء، ٧ تموز ٢٠٢٦</span>
+  <span class="sname" id="snc">مخيم <em>نت</em></span>
+  <span class="bdate" id="bdt">الاثنين، ٦ تموز ٢٠٢٦</span>
 </div>
 
-<div id="bc" class=""><span class="bc-i" onclick="goHome()">🏠 الرئيسية</span><span class="bc-sep">›</span><span class="bc-i" onclick="gotoDepth(0)">دليل المخيم</span><span class="bc-sep">›</span><span class="bc-i cur" onclick="gotoDepth(1)">خدمات و مهن مختلفة</span></div>
+<div id="bc" class=""><span class="bc-i" onclick="goHome()">🏠 الرئيسية</span><span class="bc-sep">›</span><span class="bc-i" onclick="gotoDepth(0)">اخبار</span><span class="bc-sep">›</span><span class="bc-i cur" onclick="gotoDepth(1)">اخبار المخيم</span></div>
 <main id="mc"><div id="va"><div class="sec-lbl">⭐ أبرز المواضيع</div><div class="prev-strip"><div class="pv-card" onclick="openByPathAndId('x1782601025811qbin%7C%7Cx1782601061653ifj3','x1783289670213k54p')"><div class="pv-img"><img src="https://media.gemini.media/img/large/2026/2/20/2026_2_20_14_20_13_863.webp" style="width:100%;height:120px;object-fit:cover"></div><div class="pv-body"><span class="pv-badge">اخبار › اخبار محلية و دولية</span><div class="pv-ttl">بعد إطلاق الميزة رسميا.. خطوات حجز اسم مستخدم في واتساب</div><div class="pv-more">مزيد من التفاصيل ←</div></div></div><div class="pv-card" onclick="openByPathAndId('x1782601025811qbin%7C%7Cx1782601061653ifj3','x1783344734779qbpu')"><div class="pv-img"><img src="https://alomah.net/wp-content/uploads/2024/05/%D8%A7%D9%84%D8%A7%D9%88%D9%86%D8%B1%D9%88%D8%A7-1.jpg" style="width:100%;height:120px;object-fit:cover"></div><div class="pv-body"><span class="pv-badge">اخبار › اخبار محلية و دولية</span><div class="pv-ttl">مساعدات الاونروا</div><div class="pv-more">مزيد من التفاصيل ←</div></div></div></div><div style="margin-bottom:8px"><div class="pc" onclick="openHomePost('x1782339577092pdjj')"><div class="pc-thumb">📌</div><div class="pc-body"><span class="pc-type full">منشور</span><div class="pc-ttl">ستبقى القدس عاصمة فلسطين الأبدية</div></div></div></div><div class="sec-lbl">📁 الأقسام</div><div class="cg"><div class="sc" onclick="gotoSec('x17823055592707ucg')"><div class="sc-ico">👨‍👩‍👧</div><div class="sc-body"><div class="sc-ttl">دليل المخيم</div><div class="sc-dsc">كافة  المحلات و المهن بالمخيم و ما حوله</div><span class="sc-cnt">16 عنصر</span></div></div><div class="sc" onclick="gotoSec('x17823053080854jtl')"><div class="sc-ico">🕯️</div><div class="sc-body"><div class="sc-ttl">عن المخيم</div><div class="sc-dsc">مخيمنا</div><span class="sc-cnt">1 عنصر</span></div></div><div class="sc" onclick="gotoSec('x1782306164247ug5z')"><div class="sc-ico">🇵🇸</div><div class="sc-body"><div class="sc-ttl">المطبخ الفلسطيني</div><div class="sc-dsc">اشهى المأكولات الفلسطينية</div><span class="sc-cnt">3 عنصر</span></div></div><div class="sc" onclick="gotoSec('x178230643668745mx')"><div class="sc-ico">🗺️</div><div class="sc-body"><div class="sc-ttl">معلومات عامة</div><div class="sc-dsc"></div><span class="sc-cnt">2 عنصر</span></div></div><div class="sc" onclick="gotoSec('x1782601025811qbin')"><div class="sc-ico">🗺️</div><div class="sc-body"><div class="sc-ttl">اخبار</div><div class="sc-dsc">اخبار دولية و اخبار المخيم</div><span class="sc-cnt">7 عنصر</span></div></div><div class="sc" onclick="gotoSec('x1782601975637tiq9')"><div class="sc-ico">⭐</div><div class="sc-body"><div class="sc-ttl">حول التطبيق</div><div class="sc-dsc"></div><span class="sc-cnt">1 عنصر</span></div></div></div></div></main>
 
 <div id="pov" onclick="closePop(event)" class="">
   <div id="pob">
-    <div class="pop-h"><span class="pop-t" id="pop-t">بين غربتكم ووطنكم... نحن صلة الوصل القانونية.</span><button class="pop-cl" onclick="closePop()">✕</button></div>
-    <div class="pop-b" id="pop-b"><div class="slider-wrap"><div class="slider-track" id="sl-track" style="display: flex; transition: transform 0.3s; width: 100%; transform: translateX(0px);"><img src="https://i.postimg.cc/RhBR961g/726576201-1003670812638913-2037753228788202927-n.jpg" onclick="openLbSet([&quot;https://i.postimg.cc/RhBR961g/726576201-1003670812638913-2037753228788202927-n.jpg&quot;],0)" style="width:100%; flex-shrink:0; object-fit:contain; cursor:zoom-in;"></div></div>بين غربتكم ووطنكم... نحن صلة الوصل القانونية.
-هل أنتم من المغتربين السوريين الذين يسعون لتوثيق معاملاتهم الرسمية في سوريا دون عناء السفر أو تعقيدات الإجراءات؟
-نحن ندرك أن المسافات قد تكون بعيدة، ولكن حقوقكم القانونية يجب أن تبقى قريبة ومضمونة.
-في مكتبنا، نقدم لكم خدمة متكاملة تشمل:
-✅ توثيق عقود الزواج والطلاق وفق الأصول الشرعية والقانونية.
-✅ حصر الإرث الشرعي والقانوني وتوزيعه بدقة وفق أحكام الشريعة والقوانين السورية.
-✅ تثبيت الولادات الخارجية لأطفالكم المولودين خارج سوريا.
-✅ استخراج كافة الأوراق الرسمية من دائرة النفوس (قيود فردية، عائلات، إخلاءات سبق، وغيرها).
-✅ التصديق القنصلي والترجمة المعتمدة لكافة الوثائق لاستخدامها داخل سوريا أو في الخارج.
-ما يميزنا؟
-🔹 السرعة في الإنجاز.
-🔹 الاحترافية والدقة في التعامل.
-🔹 المصداقية والشفافية في كل خطوة.
-🔹 متابعة شخصية حتى استلام معاملتك بيدك.
-📌 تواصلوا معنا الآن عبر رقم الهاتف ٠٩٣٤٣٣٧٨٨٤
- ودعونا نكون جسركم القانوني الموثوق بينكم وبين وطنكم. </div>
+    <div class="pop-h"><span class="pop-t" id="pop-t">إعلان</span><button class="pop-cl" onclick="closePop()">✕</button></div>
+    <div class="pop-b" id="pop-b"><div class="slider-wrap"><div class="slider-track" id="sl-track" style="display: flex; transition: transform 0.3s; width: 100%; transform: translateX(0px);"><img src="https://i.postimg.cc/SsJssDdP/726576201-1003670812638913-2037753228788202927-n.jpg" onclick="openLbSet([&quot;https://i.postimg.cc/SsJssDdP/726576201-1003670812638913-2037753228788202927-n.jpg&quot;],0)" style="width:100%; flex-shrink:0; object-fit:contain; cursor:zoom-in;"></div></div></div>
   </div>
 </div>
 <!-- FULL POST PAGE -->
@@ -325,10 +301,10 @@ h2.ah{font-family:'Cairo',sans-serif;font-size:18px;font-weight:700;margin-botto
 <div id="lb" class="">
   <button id="lbc" onclick="closeLb()">✕</button>
   <button id="lb-prev" onclick="lbNav(-1)" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; color: rgb(255, 255, 255); width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; z-index: 1; display: none;">›</button>
-  <img id="lb-img" src="https://media.gemini.media/img/large/2026/2/20/2026_2_20_14_20_13_863.webp" alt="" style="max-width:92vw;max-height:92vh;border-radius:9px;object-fit:contain;">
+  <img id="lb-img" src="https://i.postimg.cc/SsJssDdP/726576201-1003670812638913-2037753228788202927-n.jpg" alt="" style="max-width:92vw;max-height:92vh;border-radius:9px;object-fit:contain;">
   <button id="lb-next" onclick="lbNav(1)" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; color: rgb(255, 255, 255); width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; z-index: 1; display: none;">‹</button>
 </div>
-<div id="fbar"><div id="clk">02:27:21</div><div id="tw"><div id="tt" style="animation: 20s linear 0s infinite normal none running tkgo-ltr; transform: none; width: 4780px;"><span class="ti"><span class="td"></span>أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>يمكنكم التواصل معنا ايضا عبر الواتساب على الرقم 982578016⁩0 ارسل رسالة تحتوي على موضوع الفعالية او المحل او الاعلان مع صور بشكل عرضي و ارسلها وسيتم اضافتها فورا</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>يمكنكم التواصل معنا ايضا عبر الواتساب على الرقم 982578016⁩0 ارسل رسالة تحتوي على موضوع الفعالية او المحل او الاعلان مع صور بشكل عرضي و ارسلها وسيتم اضافتها فورا</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span></div></div></div>
+<div id="fbar"><div id="clk">00:00:02</div><div id="tw"><div id="tt" style="animation: 24s linear 0s infinite normal none running tkgo-ltr; transform: none; width: 5678px;"><span class="ti"><span class="td"></span>أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>يمكنكم التواصل معنا ايضا عبر الواتساب على الرقم 982578016⁩0 ارسل رسالة تحتوي على موضوع الفعالية او المحل او الاعلان مع صور بشكل عرضي و ارسلها وسيتم اضافتها فورا</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>أهلاً بكم في مخيم نت — صوت مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>تابعونا على فيسبوك: مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>اهلا بكم في تطبيق مخيم نت يمكنكم اضافة اعلاناتكم و فعالياتكم التجارية على التطبيق بمراسلتنا عبر صفحة مخيم الرمل الفلسطيني باللاذقية</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span><span class="ti"><span class="td"></span>يمكنكم التواصل معنا ايضا عبر الواتساب على الرقم 982578016⁩0 ارسل رسالة تحتوي على موضوع الفعالية او المحل او الاعلان مع صور بشكل عرضي و ارسلها وسيتم اضافتها فورا</span><span style="display:inline-block;width:60px"></span><span style="color:#006233;opacity:.7;font-size:12px;line-height:1">❋</span><span style="display:inline-block;width:60px"></span></div></div></div>
 <div id="site-credit">برمجة وتصميم: محمد إبراهيم مقبل</div>
 
 <!-- ADMIN LOGIN -->
@@ -1612,26 +1588,7 @@ document.addEventListener('DOMContentLoaded',function(){
   startClock();
   refreshSite();
 });
-// إضافة حقل البحث بجانب كلمة "مخيم نت" تلقائياً عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", function() {
-  var gbnContainer = document.getElementById('gbn');
-  if (gbnContainer && !document.getElementById('user-search')) {
-    var searchInput = document.createElement('input');
-    searchInput.type = "text";
-    searchInput.id = "user-search";
-    searchInput.oninput = searchPostsByTitle;
-    searchInput.placeholder = "🔍 ابحث في العناوين...";
-    searchInput.style.cssText = "padding: 6px 12px; background: rgba(0,0,0,0.3); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; font-family: 'Cairo', sans-serif; font-size: 0.85rem; outline: none; max-width: 150px; margin-right: auto; margin-left: 10px;";
-    
-    var snameElement = document.getElementById('snc');
-    if (snameElement) {
-      snameElement.style.display = "flex";
-      snameElement.style.alignItems = "center";
-      snameElement.style.gap = "10px";
-      snameElement.appendChild(searchInput);
-    }
-  }
-});
+
 // 1. حقن حقل البحث وتنسيقه بجانب كلمة مخيم نت في الهيدر
 document.addEventListener("DOMContentLoaded", function() {
   var snameElement = document.getElementById('snc');
@@ -1651,22 +1608,36 @@ document.addEventListener("DOMContentLoaded", function() {
     searchPopup.id = "search-popup-window";
     searchPopup.style.cssText = "position: fixed; top: 15%; left: 5%; right: 5%; background: #1c1c1c; border: 2px solid var(--pg, #006233); border-radius: 12px; z-index: 10000; padding: 15px; max-height: 70vh; overflow-y: auto; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.7);";
     document.body.appendChild(searchPopup);
+    
+    console.log("✅ تم تجهيز حقل وبوب آب البحث بنجاح.");
   }
 });
 
-// دالة مساعدة للبحث العشوائي والعميق داخل الكائنات والمصفوفات
+// دالة لتنظيف وتوحيد الحروف العربية لضمان المطابقة الكاملة
+function cleanArabicText(text) {
+  if (!text) return "";
+  return text.toString().toLowerCase().trim()
+    .replace(/[أإآأ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/[-_]/g, " ");
+}
+
+// دالة الفحص العميقة والذكية داخل كائن البيانات D
 function findItemsByTitle(obj, query, resultsList) {
   if (!obj || typeof obj !== 'object') return;
 
-  // إذا كان الكائن الحالي يحتوي على حقل عنوان ويطابق نص البحث
-  if (obj.title && typeof obj.title === 'string' && obj.title.toLowerCase().includes(query)) {
-    // التأكد من أن الكائن يمثل منشوراً أو عنصراً قابلاً للفتح وليس قسماً رئيسياً كبيراً
-    if (obj.desc || obj.content || obj.url || obj.img || obj.id) {
-      resultsList.push(obj);
+  var cleanQuery = cleanArabicText(query);
+
+  if (obj.title && typeof obj.title === 'string') {
+    var cleanTitle = cleanArabicText(obj.title);
+    if (cleanTitle.includes(cleanQuery)) {
+      if (obj.desc || obj.content || obj.url || obj.img || obj.id || obj.text) {
+        resultsList.push(obj);
+      }
     }
   }
 
-  // تكرار الفحص على بقية العناصر الفرعية والمفاتيح داخل الكائن أو المصفوفة
   for (var key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
       if (typeof obj[key] === 'object' && obj[key] !== null) {
@@ -1676,51 +1647,60 @@ function findItemsByTitle(obj, query, resultsList) {
   }
 }
 
-// 2. دالة البحث العميقة الفعالة
+// 2. دالة البحث الرئيسية المتوافقة مع سيرفر GitHub
 function globalDeepSearch() {
-  var query = document.getElementById('user-search').value.toLowerCase().trim();
+  var query = document.getElementById('user-search').value.trim();
   var popup = document.getElementById('search-popup-window');
-  if (!popup || typeof D === 'undefined') return;
+  if (!popup) return;
 
-  // إذا كان الحقل يحتوي على أقل من حرفين، نغلق النافذة المنبثقة
   if (query.length < 2) {
     popup.style.display = "none";
     return;
   }
 
+  // محاولة جلب المتغير D بأي شكل (محلي أو عام)
+  var dataSource = typeof D !== 'undefined' ? D : (window.D ? window.D : null);
+  
+  // تتبع حالة البيانات بـ Console للتأكد من شحنها على جيت هاب
+  console.log("🔍 جاري البحث عن كلمة:", query);
+  console.log("📦 حالة قاعدة البيانات D الحالية:", dataSource);
+
   var matches = [];
   
-  // تشغيل دالة الفحص العميقة على كامل المتغير D
-  findItemsByTitle(D, query, matches);
+  if (dataSource) {
+    findItemsByTitle(dataSource, query, matches);
+  } else {
+    console.log("❌ خطأ: المتغير D غير معرّف حالياً على السيرفر!");
+  }
 
-  // بناء واجهة عرض النتائج
-  var html = '<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:12px;">';
+  // بناء واجهة عرض النتائج داخل البوب آب
+  var html = '<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:12px; direction:rtl;">';
   html += '  <span style="font-weight:bold; color:var(--gold, #c9a84c); font-size:14px;">🔍 نتائج البحث (' + matches.length + ')</span>';
-  html += '  <span onclick="document.getElementById(\'search-popup-window\').style.display=\'none\'; document.getElementById(\'user-search\').value=\'\';" style="cursor:pointer; color:#aaa; font-weight:bold; font-size:14px; margin-right:auto;">✕ إغلاق</span>';
+  html += '  <span onclick="document.getElementById(\'search-popup-window\').style.display=\'none\'; document.getElementById(\'user-search\').value=\'\';" style="cursor:pointer; color:#aaa; font-weight:bold; font-size:14px;">✕ إغلاق</span>';
   html += '</div>';
 
   if (matches.length === 0) {
-    html += '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px;">📭 لم نجد أي منشور بهذا الاسم</div>';
+    html += '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px; direction:rtl;">📭 لم نجد أي منشور يطابق هذا الاسم</div>';
   } else {
-    html += '<div style="display:flex; flex-direction:column; gap:8px;">';
+    html += '<div style="display:flex; flex-direction:column; gap:8px; direction:rtl; text-align:right;">';
     
-    // إزالة أي كروت متكررة بالكامل بناءً على العنوان
     var uniqueMatches = matches.filter(function(v, i, a) {
       return a.findIndex(function(t) { return t.title === v.title; }) === i;
     });
 
     uniqueMatches.forEach(function(item) {
-      // تحديد دالة الفتح المتوفرة بالتطبيق
       var clickAction = "";
       if (typeof openItemView === 'function') {
         clickAction = "openItemView(" + JSON.stringify(item).replace(/"/g, '&quot;') + ")";
       } else if (typeof showPopup === 'function') {
         clickAction = "showPopup('" + (item.title || '') + "', '" + (item.desc || item.content || '').replace(/\n/g, '<br>') + "')";
+      } else if (typeof openItm === 'function' && item.id) {
+        clickAction = "openItm('', '" + item.id + "')";
       } else {
         clickAction = "alert('" + (item.title) + "\\n\\n" + (item.desc || item.content || '') + "')";
       }
 
-      html += '<div onclick="' + clickAction + '; document.getElementById(\'search-popup-window\').style.display=\'none\';" style="background:rgba(255,255,255,0.03); padding:10px; border-radius:6px; cursor:pointer; border-right:3px solid var(--pg, #006233);" onmouseover="this.style.background=\'rgba(255,255,255,0.08)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.03)\'">';
+      html += '<div onclick="' + clickAction + '; document.getElementById(\'search-popup-window\').style.display=\'none\';" style="background:rgba(255,255,255,0.03); padding:10px; border-radius:6px; cursor:pointer; border-right:3px solid var(--pg, #006233); transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.08)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.03)\'">';
       html += '  <div style="font-size:13px; font-weight:bold; color:#fff;">' + item.title + '</div>';
       if (item.desc || item.content) {
         var shortDesc = (item.desc || item.content).substring(0, 60) + '...';
@@ -1740,7 +1720,4 @@ function globalDeepSearch() {
 
 
 
-
-<div id="search-popup-window" style="position: fixed; top: 15%; left: 5%; right: 5%; background: rgb(28, 28, 28); border: 2px solid var(--pg, #006233); border-radius: 12px; z-index: 10000; padding: 15px; max-height: 70vh; overflow-y: auto; display: none; box-shadow: rgba(0, 0, 0, 0.7) 0px 10px 30px;"><div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:12px;">  <span style="font-weight:bold; color:var(--gold, #c9a84c); font-size:14px;">🔍 نتائج البحث (2)</span>  <span onclick="document.getElementById('search-popup-window').style.display='none'; document.getElementById('user-search').value='';" style="cursor:pointer; color:#aaa; font-weight:bold; font-size:14px; margin-right:auto;">✕ إغلاق</span></div><div style="display:flex; flex-direction:column; gap:8px;"><div onclick="showPopup('رامي للاتصالات', 'رامي لخدمات الاتصالات والانترنت&lt;br&gt;مركز معتمد سيريتل مصغر&lt;br&gt;تسديد فواتير الهاتف الارضي والانترنت والمياه والكهرباء&lt;br&gt;مركز دفع إلكتروني حكومي لجميع المعاملات&lt;br&gt;تجارة جميع انواع اجهزة الموبايل والاكسسوار وملحقاتها&lt;br&gt;تركيب انترنت فضائي وهوائي خدمة ممتازة&lt;br&gt;اللاذقية - الرمل الجنوبي - شارع المخيم الرئيسي&lt;br&gt;مقابل صيدلية عمار&lt;br&gt;واتس اب 0935640800'); document.getElementById('search-popup-window').style.display='none';" style="background:rgba(255,255,255,0.03); padding:10px; border-radius:6px; cursor:pointer; border-right:3px solid var(--pg, #006233);" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">  <div style="font-size:13px; font-weight:bold; color:#fff;">رامي للاتصالات</div>  <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:4px;">رامي لخدمات الاتصالات والانترنت
-مركز معتمد سيريتل مصغر
-تسديد...</div></div><div onclick="showPopup('أصدرت وزارة الطاقة السورية قراراً يقضي بتخفيض أسعار المحروقات، بناء على توصيات اللجنة الدائمة لتحديد أسعار المواد البترولية والثروات المعدنية في الوزارة.', 'وأوضحت الوزارة في بيان مساء أمس السبت، أن وزير الطاقة " أقرّ="" توصيات="" اللجنة="" الصادرة="" عن="" اجتماعها="" الاستثنائي،="" وذلك="" بعد="" دراسة="" المعطيات="" الفنية="" والاقتصادية="" المرتبطة="" بواقع="" سوق="" المواد="" البترولية".<br="">وأرفق البيان نشرة أسعار جديدة -بالليرة السورية الجديدة، مشيراً إلى أن النشرة "دخلت حيّز التنفيذ اعتباراً من تاريخ صدور القرار"، وتضمنت ما يلي:<br><br>بنزين أوكتان (95): خُفِّض بنسبة 20.39 بالمئة، ليصبح سعر الليتر 130 ليرة سورية جديدة.<br>بنزين أوكتان (90): خُفِّض بنسبة 19.97 بالمئة، ليصبح سعر الليتر 125 ليرة سورية جديدة.<br>الديزل: خُفِّض بنسبة 14.37 بالمئة، ليصبح سعر الليتر 107 ليرات سورية جديدة.<br>أسطوانة الغاز المنزلية: خُفِّض سعرها بنسبة 15.49 بالمئة، لتصبح 1,500 ليرة سورية جديدة.<br>أسطوانة الغاز الصناعية: خُفِّض سعرها بنسبة 15.49 بالمئة، لتصبح 2,400 ليرة سورية جديدة.<br>وأوضحت الوزارة في ختام بيانها، أن قرار التخفيض يأتي في إطار المراجعة الدورية للأسعار، استناداً إلى توصيات اللجنة، وبما ينسجم مع المتغيرات الاقتصادية، ويعزز استقرار السوق، ويضمن استدامة توافر المواد البترولية بما يخدم مصلحة المواطنين والاقتصاد الوطني.'); document.getElementById('search-popup-window').style.display='none';" style="background:rgba(255,255,255,0.03); padding:10px; border-radius:6px; cursor:pointer; border-right:3px solid var(--pg, #006233);" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'"&gt;  <div style="font-size:13px; font-weight:bold; color:#fff;">أصدرت وزارة الطاقة السورية قراراً يقضي بتخفيض أسعار المحروقات، بناء على توصيات اللجنة الدائمة لتحديد أسعار المواد البترولية والثروات المعدنية في الوزارة.</div>  <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:4px;">وأوضحت الوزارة في بيان مساء أمس السبت، أن وزير الطاقة "أقرّ ...</div></div></div></div></body></html>
+</body></html>
