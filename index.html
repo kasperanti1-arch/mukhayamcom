@@ -1589,9 +1589,19 @@ document.addEventListener('DOMContentLoaded',function(){
   refreshSite();
 });
 
-// 1. حقن حقل البحث وتنسيقه بجانب كلمة مخيم نت في الهيدر
-document.addEventListener("DOMContentLoaded", function() {
+// ==========================================
+// ==========================================
+// ==========================================
+// ==========================================
+// ==========================================
+// نظام البحث الشامل والذاتي لتطبيق مخيم نت
+// ==========================================
+
+// دالة فحص ذكية ومستمرة لحقن حقل البحث بمجرد ظهور الهيدر على السيرفر
+function tryInjectSearch() {
   var snameElement = document.getElementById('snc');
+  
+  // إذا وجدنا العنصر ولم نقم بحقن الحقل بعد
   if (snameElement && !document.getElementById('user-search')) {
     var searchInput = document.createElement('input');
     searchInput.type = "text";
@@ -1604,16 +1614,28 @@ document.addEventListener("DOMContentLoaded", function() {
     snameElement.style.alignItems = "center";
     snameElement.appendChild(searchInput);
 
+    // نافذة نتائج البحث
     var searchPopup = document.createElement('div');
     searchPopup.id = "search-popup-window";
-    searchPopup.style.cssText = "position: fixed; top: 15%; left: 5%; right: 5%; background: #1c1c1c; border: 2px solid var(--pg, #006233); border-radius: 12px; z-index: 10000; padding: 15px; max-height: 70vh; overflow-y: auto; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.7);";
+    searchPopup.style.cssText = "position: fixed; top: 12%; left: 5%; right: 5%; background: #1c1c1c; border: 2px solid var(--pg, #006233); border-radius: 12px; z-index: 10000; padding: 15px; max-height: 75vh; overflow-y: auto; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.7);";
     document.body.appendChild(searchPopup);
-    
-    console.log("✅ تم تجهيز حقل وبوب آب البحث بنجاح.");
-  }
-});
 
-// دالة لتنظيف وتوحيد الحروف العربية لضمان المطابقة الكاملة
+    // نافذة عرض تفاصيل المنشور الكاملة مع الصور
+    var detailPopup = document.createElement('div');
+    detailPopup.id = "search-detail-popup";
+    detailPopup.style.cssText = "position: fixed; top: 10%; left: 5%; right: 5%; background: #171717; border: 2px solid var(--gold, #c9a84c); border-radius: 12px; z-index: 10001; padding: 20px; max-height: 80vh; overflow-y: auto; display: none; box-shadow: 0 12px 40px rgba(0,0,0,0.85); direction: rtl; text-align: right;";
+    document.body.appendChild(detailPopup);
+    
+    // إيقاف دالة الفحص بمجرد النجاح
+    clearInterval(window.searchInjectionTimer);
+  }
+}
+
+// تشغيل الفحص فوراً وتكراره كل 300 مللي ثانية لضمان الحقن حتى لو تأخر السيرفر
+window.searchInjectionTimer = setInterval(tryInjectSearch, 300);
+document.addEventListener("DOMContentLoaded", tryInjectSearch);
+
+// دالة توحيد الحروف العربية للمطابقة المرنة
 function cleanArabicText(text) {
   if (!text) return "";
   return text.toString().toLowerCase().trim()
@@ -1623,7 +1645,7 @@ function cleanArabicText(text) {
     .replace(/[-_]/g, " ");
 }
 
-// دالة الفحص العميقة والذكية داخل كائن البيانات D
+// دالة الفحص العميقة داخل البيانات D
 function findItemsByTitle(obj, query, resultsList) {
   if (!obj || typeof obj !== 'object') return;
 
@@ -1632,7 +1654,7 @@ function findItemsByTitle(obj, query, resultsList) {
   if (obj.title && typeof obj.title === 'string') {
     var cleanTitle = cleanArabicText(obj.title);
     if (cleanTitle.includes(cleanQuery)) {
-      if (obj.desc || obj.content || obj.url || obj.img || obj.id || obj.text) {
+      if (obj.desc || obj.content || obj.url || obj.img || obj.image || obj.id || obj.text) {
         resultsList.push(obj);
       }
     }
@@ -1647,7 +1669,44 @@ function findItemsByTitle(obj, query, resultsList) {
   }
 }
 
-// 2. دالة البحث الرئيسية المتوافقة مع سيرفر GitHub
+// دالة الفتح الشاملة والمستقلة لعرض المنشور كاملاً مع الصورة والنصوص المنسقة
+function finalOpenItem(itemIndex) {
+  document.getElementById('search-popup-window').style.display = 'none';
+  document.getElementById('user-search').value = '';
+  
+  if (window._currentSearchMatches && window._currentSearchMatches[itemIndex]) {
+    var item = window._currentSearchMatches[itemIndex];
+    var detailPopup = document.getElementById('search-detail-popup');
+    if (!detailPopup) return;
+
+    var imageUrl = item.img || item.image || item.thumb || '';
+    var contentText = item.desc || item.content || item.text || 'لا يوجد تفاصيل إضافية متاح عرضها حالياً.';
+    
+    var html = '<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:12px; margin-bottom:15px;">';
+    html += '  <h2 style="font-size:16px; margin:0; font-weight:bold; color:var(--gold, #c9a84c); line-height:1.4;">' + item.title + '</h2>';
+    html += '  <span onclick="document.getElementById(\'search-detail-popup\').style.display=\'none\';" style="cursor:pointer; color:#aaa; font-weight:bold; font-size:15px; padding:2px 8px; background:rgba(255,255,255,0.05); border-radius:4px;">✕ إغلاق</span>';
+    html += '</div>';
+
+    if (imageUrl) {
+      html += '<div style="text-align:center; margin-bottom:15px;">';
+      html += '  <img src="' + imageUrl + '" style="max-width:100%; max-height:250px; object-fit:contain; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">';
+      html += '</div>';
+    }
+
+    html += '<div style="font-size:13px; color:#e0e0e0; line-height:1.7; font-family:\'Cairo\', sans-serif; white-space:pre-line; background:rgba(0,0,0,0.2); padding:12px; border-radius:8px; border-right:3px solid var(--pg, #006233); word-wrap:break-word;">';
+    html += contentText;
+    html += '</div>';
+
+    html += '<div style="text-align:center; margin-top:15px;">';
+    html += '  <button onclick="document.getElementById(\'search-detail-popup\').style.display=\'none\';" style="background:var(--pg, #006233); color:#fff; border:none; padding:8px 20px; border-radius:6px; font-family:\'Cairo\', sans-serif; font-size:12px; font-weight:bold; cursor:pointer;">تمت القراءة</button>';
+    html += '</div>';
+
+    detailPopup.innerHTML = html;
+    detailPopup.style.display = 'block';
+  }
+}
+
+// 2. دالة البحث الفوري الكبرى المتوافقة تماماً مع كل البيئات
 function globalDeepSearch() {
   var query = document.getElementById('user-search').value.trim();
   var popup = document.getElementById('search-popup-window');
@@ -1658,54 +1717,48 @@ function globalDeepSearch() {
     return;
   }
 
-  // محاولة جلب المتغير D بأي شكل (محلي أو عام)
   var dataSource = typeof D !== 'undefined' ? D : (window.D ? window.D : null);
-  
-  // تتبع حالة البيانات بـ Console للتأكد من شحنها على جيت هاب
-  console.log("🔍 جاري البحث عن كلمة:", query);
-  console.log("📦 حالة قاعدة البيانات D الحالية:", dataSource);
-
   var matches = [];
   
   if (dataSource) {
     findItemsByTitle(dataSource, query, matches);
-  } else {
-    console.log("❌ خطأ: المتغير D غير معرّف حالياً على السيرفر!");
   }
 
-  // بناء واجهة عرض النتائج داخل البوب آب
+  var uniqueMatches = matches.filter(function(v, i, a) {
+    return a.findIndex(function(t) { return t.title === v.title; }) === i;
+  });
+
+  window._currentSearchMatches = uniqueMatches;
+
   var html = '<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:12px; direction:rtl;">';
-  html += '  <span style="font-weight:bold; color:var(--gold, #c9a84c); font-size:14px;">🔍 نتائج البحث (' + matches.length + ')</span>';
+  html += '  <span style="font-weight:bold; color:var(--gold, #c9a84c); font-size:14px;">🔍 نتائج البحث (' + uniqueMatches.length + ')</span>';
   html += '  <span onclick="document.getElementById(\'search-popup-window\').style.display=\'none\'; document.getElementById(\'user-search\').value=\'\';" style="cursor:pointer; color:#aaa; font-weight:bold; font-size:14px;">✕ إغلاق</span>';
   html += '</div>';
 
-  if (matches.length === 0) {
-    html += '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px; direction:rtl;">📭 لم نجد أي منشور يطابق هذا الاسم</div>';
+  if (uniqueMatches.length === 0) {
+    html += '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px; direction:rtl;">📭 لم نجد أي منشور بهذا الاسم</div>';
   } else {
-    html += '<div style="display:flex; flex-direction:column; gap:8px; direction:rtl; text-align:right;">';
-    
-    var uniqueMatches = matches.filter(function(v, i, a) {
-      return a.findIndex(function(t) { return t.title === v.title; }) === i;
-    });
+    html += '<div style="display:flex; flex-direction:column; gap:10px; direction:rtl; text-align:right;">';
 
-    uniqueMatches.forEach(function(item) {
-      var clickAction = "";
-      if (typeof openItemView === 'function') {
-        clickAction = "openItemView(" + JSON.stringify(item).replace(/"/g, '&quot;') + ")";
-      } else if (typeof showPopup === 'function') {
-        clickAction = "showPopup('" + (item.title || '') + "', '" + (item.desc || item.content || '').replace(/\n/g, '<br>') + "')";
-      } else if (typeof openItm === 'function' && item.id) {
-        clickAction = "openItm('', '" + item.id + "')";
+    uniqueMatches.forEach(function(item, index) {
+      var imageUrl = item.img || item.image || item.thumb || '';
+      var imgHtml = '';
+      
+      if (imageUrl) {
+        imgHtml = '<img src="' + imageUrl + '" style="width:55px; height:55px; object-fit:cover; border-radius:6px; background:#222; display:block;" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'55\\\' height=\\\'55\\\'><rect width=\\\'55\\\' height=\\\'55\\\' fill=\\\'%23333\\\'/><text x=\\\'50%\\\' y=\\\'50%\\\' dominant-baseline=\\\'middle\\\' text-anchor=\\\'middle\\\' fill=\\\'%23666\\\' font-size=\\\'20\\\'>📄</text></svg>\'">';
       } else {
-        clickAction = "alert('" + (item.title) + "\\n\\n" + (item.desc || item.content || '') + "')";
+        imgHtml = '<div style="width:55px; height:55px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:20px; color:rgba(255,255,255,0.3);">📄</div>';
       }
 
-      html += '<div onclick="' + clickAction + '; document.getElementById(\'search-popup-window\').style.display=\'none\';" style="background:rgba(255,255,255,0.03); padding:10px; border-radius:6px; cursor:pointer; border-right:3px solid var(--pg, #006233); transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.08)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.03)\'">';
-      html += '  <div style="font-size:13px; font-weight:bold; color:#fff;">' + item.title + '</div>';
-      if (item.desc || item.content) {
-        var shortDesc = (item.desc || item.content).substring(0, 60) + '...';
-        html += '  <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:4px;">' + shortDesc + '</div>';
+      html += '<div onclick="finalOpenItem(' + index + ')" style="background:#222; padding:10px; border-radius:8px; cursor:pointer; border-right:4px solid var(--pg, #006233); display:flex; align-items:center; gap:12px; transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'#222\'">';
+      html += '  <div style="flex-shrink:0;">' + imgHtml + '</div>';
+      html += '  <div style="flex:1; min-width:0;">';
+      html += '    <div style="font-size:13px; font-weight:bold; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + item.title + '</div>';
+      if (item.desc || item.content || item.date) {
+        var subText = item.date || (item.desc || item.content || "").substring(0, 50) + "...";
+        html += '    <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + subText + '</div>';
       }
+      html += '  </div>';
       html += '</div>';
     });
     html += '</div>';
